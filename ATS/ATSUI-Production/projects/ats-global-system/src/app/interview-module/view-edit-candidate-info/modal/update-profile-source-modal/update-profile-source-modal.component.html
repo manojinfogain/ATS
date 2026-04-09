@@ -1,0 +1,124 @@
+<div class="ats-modal-header modern-header">
+    <div class="header-content">
+        <div class="header-icon">
+            <i class="fa fa-edit"></i>
+        </div>
+        <div class="header-text">
+            <h1>Update DOB/Source</h1>
+            <p class="candidate-name">{{data?.Name}}</p>
+        </div>
+    </div>
+    <button class="btn-m-close modern-close" (click)="onNoClick()">
+        <i class="fa fa-times"></i>
+    </button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content class="modern-modal-content">
+    <div class="ats-modal-body">
+        <div class="profile-update-wrapper">
+            <form [formGroup]="updateProfileSourceForm"
+                (ngSubmit)="updateProfileSourceHandler(updateProfileSourceForm)">
+
+                <!-- Scrollable Content Area -->
+                <div class="form-content-area">
+                    <!-- Information Card -->
+                    <!-- <div class="info-card">
+                        <div class="info-header">
+                            <i class="fa fa-info-circle"></i>
+                            <span>Update Instructions</span>
+                        </div>
+                        <div class="info-content">
+                            <p>You can update either <strong>Profile Source</strong>, <strong>Date of Birth</strong>, or both fields. At least one field must be modified to proceed.</p>
+                        </div>
+                    </div> -->
+
+                    <!-- Form Fields Container -->
+                    <div class="form-container">
+                        <div class="form-grid">
+                            
+                            <!-- Profile Source Section -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <h3><i class="fa fa-user-tag"></i> Profile Source</h3>
+                                    <!-- <span class="optional-badge">Optional</span> -->
+                                </div>
+                                <div class="field-container">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <!-- <mat-label>Select Profile Source</mat-label> -->
+                                        <mat-select formControlName="profileSource">
+                                            <mat-option *ngFor="let profile of profileNameData" [value]="profile?.id">
+                                                {{profile?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon matSuffix>assignment_ind</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <!-- Date of Birth Section -->
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <h3><i class="fa fa-calendar"></i> Date of Birth</h3>
+                                    <!-- <span class="optional-badge">Optional</span> -->
+                                </div>
+                                <div class="field-container">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <!-- <mat-label>Select Date of Birth</mat-label> -->
+                                        <input matInput readonly [matDatepicker]="dobPicker" formControlName="DOB" [max]="maxDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dobPicker">
+                                            <mat-icon matDatepickerToggleIcon>event</mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #dobPicker></mat-datepicker>
+                                         <mat-hint align="start">MM/dd/yyyy</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Remarks Section -->
+                        <div class="remarks-section">
+                            <div class="section-header">
+                                <h3> Remarks</h3>
+                                <!-- <span class="optional-badge">Optional</span> -->
+                            </div>
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Reason for change (optional)</mat-label>
+                                <textarea matInput 
+                                    placeholder="Enter the reason for this update..." 
+                                    formControlName="Remarks"
+                                    rows="3"
+                                    maxlength="500"></textarea>
+                                <mat-icon matSuffix>note_add</mat-icon>
+                                <mat-hint align="end">{{getControl('Remarks')?.value?.length || 0}}/500</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-container">
+                    <div class="button-group">
+                        <button type="button" 
+                                class="btn btn-cancel" 
+                                (click)="closeModal()" 
+                                [disabled]="isloader">
+                            <i class="fa fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="btn btn-primary" 
+                                [disabled]="isloader">
+                            <i class="fa fa-spinner fa-spin" *ngIf="isloader"></i>
+                            <i class="fa fa-save" *ngIf="!isloader"></i>
+                            <span *ngIf="!isloader">Update</span>
+                            <span *ngIf="isloader">Updating...</span>
+                        </button>
+                    </div>
+                  
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

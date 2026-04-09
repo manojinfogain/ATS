@@ -1,0 +1,71 @@
+.h-t{
+    text-transform: none !important;
+}
+.calender-wrapper-in{
+    .profile-list-wrapper .header-s{
+        border-bottom: solid 1px #ddd;
+        margin-top: -15px;
+        p{
+            margin: 0;
+        }
+    }
+}
+.ats-modal-footer{
+    // display: flex;
+    // align-items: center;
+}
+.color-int{
+    ul{
+        list-style-type: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        li{
+            display: flex;
+            align-items: center;
+            margin-right: 9px;
+            .bxc{
+                height: 12px;
+                width: 12px;
+                background: #cfcfcf;
+                border-radius: 1px;
+                margin-right: 4px;
+                &.tentative{
+                    background: #c3c3c3; 
+                }
+                &.busy{
+                    background: #6851d8; 
+                }
+                &.free{
+                    background: green; 
+                }
+                &.out{
+                    background: #ff5555; 
+                }
+                &.wrk{
+                    background: #aabb04; 
+                }
+            }
+           
+        }
+    }
+}
+
+::ng-deep .calender-overlay +.cdk-global-overlay-wrapper{
+    padding: 4px 0px !important;
+    align-items: normal !important;
+}
+::ng-deep .ats-model-cl{
+    .mat-dialog-container .mat-dialog-content {
+        max-height: 84vh;
+        min-height: 84vh;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.n-sch{
+    text-align: center;
+    padding: 20px 5px 14px 5px;
+    color: #b3a1a1;
+}

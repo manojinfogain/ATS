@@ -1,0 +1,23 @@
+// .warn{
+//     background-color: red !important;
+// }
+
+
+.text-center {
+    text-align: left!important;
+}
+
+.table-data-scroll-pop2 {
+    overflow: auto;
+    height: calc(70vh - 33px);
+}
+
+.filter-at-wrapper {
+    justify-content: end !important;
+}
+
+.card-header {
+    padding: 8px 1.25rem !important;
+     background-color: unset !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}

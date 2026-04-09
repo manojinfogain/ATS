@@ -1,0 +1,313 @@
+<form [formGroup]="manualPipelineForm" (ngSubmit)="submitManualPipelineForm(manualPipelineForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}}</h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="manual-pipeline-wrap">
+                
+                <!-- Step 1: Filter Criteria -->
+                <div class="step-section" [class.collapsed]="!isStep1Expanded">
+                    <div class="step-header" (click)="toggleStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Select Filter Criteria</div>
+                        <div class="step-summary" *ngIf="!isStep1Expanded && getControl('confirmJoinDate').value">
+                            <span class="summary-text">
+                                {{getControl('confirmJoinDate').value | date:'dd MMM yyyy'}} 
+                                <span *ngIf="getControl('LocationId').value"> | {{getLocationName(getControl('LocationId').value)}}</span>
+                            </span>
+                        </div>
+                        <i class="fa toggle-icon" [class.fa-chevron-up]="isStep1Expanded" [class.fa-chevron-down]="!isStep1Expanded"></i>
+                    </div>
+                    
+                    <div class="step-content" [@expandCollapse]="isStep1Expanded ? 'expanded' : 'collapsed'">
+                        <div class="form-fields-section">
+                            <div class="form-row">
+                                <div class="form-field">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Joining Date</mat-label>
+                                        <input matInput [matDatepicker]="picker2" 
+                                            formControlName="confirmJoinDate" readonly (dateInput)="onDateChange($event)">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                                            <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                        <mat-error
+                                            *ngIf="getControl('confirmJoinDate').touched && getControl('confirmJoinDate').invalid">
+                                            Joining Date is required.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="form-field">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Location</mat-label>
+                                        <mat-select formControlName="LocationId" [required]="true"
+                                            (selectionChange)="onLocationChange($event)">
+                                            <mat-option *ngFor="let list of locationList" [value]="list?.LocID">
+                                                {{list?.LocName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="getControl('LocationId').touched && getControl('LocationId').invalid">
+                                            Location is required.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Select Candidates -->
+                <div class="step-section" *ngIf="dataSource?.data?.length > 0" [class.collapsed]="!isStep2Expanded">
+                    <div class="step-header" (click)="toggleStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Select Candidates</div>
+                        <div class="step-info">
+                            <span class="selected-count">
+                                <span *ngIf="isStep2Expanded">{{selection.selected.length}} Selected</span>
+                                <span *ngIf="!isStep2Expanded">{{selection.selected.length}} of {{dataSource.data.length}} Selected</span>
+                            </span>
+                        </div>
+                        <i class="fa toggle-icon" [class.fa-chevron-up]="isStep2Expanded" [class.fa-chevron-down]="!isStep2Expanded"></i>
+                    </div>
+                    
+                    <div class="step-content" [@expandCollapse]="isStep2Expanded ? 'expanded' : 'collapsed'">
+                        <div class="table-section">
+                            <div class="table-container">
+                                <table mat-table [dataSource]="dataSource" class="table-mat-info">
+                                <!-- Checkbox Column -->
+                                <ng-container matColumnDef="select">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="masterToggle()" [checked]="isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                        </mat-checkbox>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleSelection(row)"
+                                            [checked]="selection.isSelected(row)">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <!-- S.No -->
+                                <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef> S.No </th>
+                                    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+                                </ng-container>
+                                <!-- Candidate ID -->
+                                <ng-container matColumnDef="CandidateId">
+                                    <th mat-header-cell *matHeaderCellDef> Candidate Id </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.CandidateID }} </td> 
+                                </ng-container>
+
+                                <!-- Talent ID -->
+                                <ng-container matColumnDef="TalentId">
+                                    <th mat-header-cell *matHeaderCellDef> Talent Id </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.TalentId || '-' }} </td>
+                                </ng-container>
+
+                                <!-- Name -->
+                                <ng-container matColumnDef="CandidateName">
+                                    <th mat-header-cell *matHeaderCellDef> Name of the Candidate </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.CandidateName }} </td>
+                                </ng-container>
+
+                                <!-- Offer No -->
+                                <ng-container matColumnDef="OfferNumber">
+                                    <th mat-header-cell *matHeaderCellDef> Offer No </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.OfferNumber }} </td>
+                                </ng-container>
+
+                                <!-- Joining Location -->
+                                <ng-container matColumnDef="JoiningLocation">
+                                    <th mat-header-cell *matHeaderCellDef> Candidate Joining Location </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.JoiningLocation }} </td>
+                                </ng-container>
+
+                                <!-- Rehire -->
+                                <ng-container matColumnDef="Rehire">
+                                    <th mat-header-cell *matHeaderCellDef> Re-Hire </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Rehire }} </td>
+                                </ng-container>
+
+                                <!-- Email ID Creation -->
+                                <ng-container matColumnDef="EmailCration">
+                                    <th mat-header-cell *matHeaderCellDef> Email ID Creation </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.EmailCration }} </td>
+                                </ng-container>
+
+                                <!-- Total Experience -->
+                                <ng-container matColumnDef="TotalExperience">
+                                    <th mat-header-cell *matHeaderCellDef> Total Exp (in yrs.) </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.TotalExperience }} </td>
+                                </ng-container>
+
+                                <!-- Education -->
+                                <ng-container matColumnDef="EduQualification">
+                                    <th mat-header-cell *matHeaderCellDef> Education </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.EduQualification }} </td>
+                                </ng-container>
+
+                                <!-- Practice -->
+                                <ng-container matColumnDef="Practice">
+                                    <th mat-header-cell *matHeaderCellDef> Practice </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Practice }} </td>
+                                </ng-container>
+
+                                <!-- Delivery Unit -->
+                                <ng-container matColumnDef="DeliveryUnit">
+                                    <th mat-header-cell *matHeaderCellDef> Delivery Unit Name </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.DeliveryUnit }} </td>
+                                </ng-container>
+
+                                <!-- Primary Skill -->
+                                <ng-container matColumnDef="Skill">
+                                    <th mat-header-cell *matHeaderCellDef> Primary Skill </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Skill || '-' }} </td>
+                                </ng-container>
+
+                                <!-- Designation -->
+                                <ng-container matColumnDef="Designation">
+                                    <th mat-header-cell *matHeaderCellDef> Designation </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Designation }} </td>
+                                </ng-container>
+
+                                <!-- Grade -->
+                                <ng-container matColumnDef="Grade">
+                                    <th mat-header-cell *matHeaderCellDef> Grade </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Grade }} </td>
+                                </ng-container>
+
+                                <!-- Current Employer -->
+                                <ng-container matColumnDef="CurrentEmployer">
+                                    <th mat-header-cell *matHeaderCellDef> Current Employer </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.CurrentEmployer }} </td>
+                                </ng-container>
+
+                                <!-- Account -->
+                                <ng-container matColumnDef="Account">
+                                    <th mat-header-cell *matHeaderCellDef> Account </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Account }} </td>
+                                </ng-container>
+
+                                <!-- Reporting Manager -->
+                                <ng-container matColumnDef="CandidateRM">
+                                    <th mat-header-cell *matHeaderCellDef> Reporting Manager </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.CandidateRM || '-' }} </td>
+                                </ng-container>
+
+                                <!-- Division -->
+                                <ng-container matColumnDef="Division">
+                                    <th mat-header-cell *matHeaderCellDef> Division </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Division }} </td>
+                                </ng-container>
+
+                                <!-- Onboarding Type -->
+                                <ng-container matColumnDef="iOnboardingType">
+                                    <th mat-header-cell *matHeaderCellDef> Onboarding Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.iOnboardingType }} </td>
+                                </ng-container>
+
+                                <!-- Contact Number -->
+                                <ng-container matColumnDef="ContactNumber">
+                                    <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.phone || '-' }} </td>
+                                </ng-container>
+
+                                <!-- Candidate Personal Email ID -->
+                                <ng-container matColumnDef="PersonalEmail">
+                                    <th mat-header-cell *matHeaderCellDef> Candidate Personal Email ID </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.email || '-' }} </td>
+                                </ng-container>
+
+                                <!-- Current Address -->
+                                <ng-container matColumnDef="CurrentAddress">
+                                    <th mat-header-cell *matHeaderCellDef> Current Address </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element?.Address || '-' }} </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+                            <app-no-result-found *ngIf="dataSource?.data?.length === 0">
+                            </app-no-result-found>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Upload Document (Only when candidates selected) -->
+                <div class="step-section" *ngIf="selection.selected.length > 0" [class.collapsed]="!isStep3Expanded">
+                    <div class="step-header" (click)="toggleStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Upload Approval Document</div>
+                        <div class="step-badge">Required</div>
+                        <div class="step-summary" *ngIf="!isStep3Expanded && uploadedFile">
+                            <i class="fa fa-check-circle check-icon-success"></i>
+                            <span class="summary-text">{{uploadedFileName}}</span>
+                        </div>
+                        <i class="fa toggle-icon" [class.fa-chevron-up]="isStep3Expanded" [class.fa-chevron-down]="!isStep3Expanded"></i>
+                    </div>
+                    
+                    <div class="step-content" [@expandCollapse]="isStep3Expanded ? 'expanded' : 'collapsed'">
+                        <div class="file-upload-section">
+                            <div class="file-upload-container">
+                            <div class="file-input-wrapper">
+                                <input type="file" #fileInput (change)="onFileSelected($event)"
+                                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" id="fileInput" hidden>
+
+                                <button type="button" class="btn-choose-file" (click)="fileInput.click()"
+                                    [disabled]="uploadedFile">
+                                    <i class="fa fa-upload"></i>
+                                    <span>Choose File</span>
+                                </button>
+
+                                <div class="file-info" *ngIf="uploadedFile">
+                                    <div class="file-details">
+                                        <i class="fa fa-file-alt file-icon"></i>
+                                        <span class="file-text">{{uploadedFileName}}</span>
+                                    </div>
+                                    <button type="button" class="btn-remove" (click)="removeFile()"
+                                        matTooltip="Remove file">
+                                        <i class="fa fa-times-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="file-hint">
+                                <i class="fa fa-info-circle"></i>
+                                Accepted: PDF, DOC, DOCX, JPG, PNG (Max 5MB)
+                            </div>
+
+                            <div class="file-error"
+                                *ngIf="getControl('approvalDocument').touched && getControl('approvalDocument').invalid">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <span class="error-text">Approval document is required to send email.</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Info Message when no candidates -->
+                <div class="info-message" *ngIf="dataSource?.data?.length === 0 && (getControl('confirmJoinDate').value || getControl('LocationId').value)">
+                    <i class="fa fa-info-circle"></i>
+                    <span>No candidates found for the selected criteria. Please adjust your filters.</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            <i class="fa fa-paper-plane"></i> Send Pipeline Email
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Cancel
+        </button>
+    </div>
+</form>

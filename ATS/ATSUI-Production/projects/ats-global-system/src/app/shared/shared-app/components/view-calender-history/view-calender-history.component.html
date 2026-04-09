@@ -1,0 +1,113 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h1 class="h-t">Interviewer Calendar</h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body calender-wrapper-in">
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av">
+                    <p><span>Date: </span> {{selectedDate | date: 'dd MMM YYYY'}}</p>
+                </div>
+                <div class="search-bars">
+                    <div class="form-slv">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Date</mat-label>
+                            <input matInput [matDatepicker]="picker" (dateInput)="changeDate('input', $event)"
+                                [formControl]="dateControl">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <section class="calender-wrapper">
+                <div class="calender-grid-bx-main">
+                    <!-- <p *ngIf="calenderList.length === 0">No Record Found</p> -->
+                    <!-- <div class="calender-grid-bx" *ngFor="let item of calenderList">
+                        <h4>{{item?.subject}}</h4>
+                        <p>Time: {{item?.start?.dateTime+'Z' | date:'h:mm a'}} -
+                            {{item?.end?.dateTime+'Z' | date:'h:mm a'}}
+                        </p>
+                        <p>Organizer: {{item?.organizer?.emailAddress?.name}}</p>
+                    </div> -->
+
+                    <div class="calender-grid-bx" *ngFor="let item of calenderListInt ">
+                        <div class="calender-grid-bx-h">
+                            <h4>{{ getEmpIdAndName(item?.scheduleId).fullName}}
+                                ({{ getEmpIdAndName(item?.scheduleId).empnewid}})
+                                <!-- {{item?.scheduleId}} -->
+                            </h4>
+                        </div>
+                        <div class="calender-grid-bx-b">
+                            <p *ngIf="item.scheduleItems?.length === 0" class="n-sch">
+                                No Shceduled Meeting
+                            </p>
+                            <mat-list *ngIf="item.scheduleItems?.length != 0">
+                                <mat-list-item *ngFor="let list of item.scheduleItems"
+                                >
+                                <span mat-list-icon class="bxc" [ngClass]="list?.status == 'tentative'? 'tentative' : '' ||
+                                list?.status == 'busy'? 'busy' : '' ||
+                                list?.status == 'working elsewhere'? 'working-elsewhere' : '' ||
+                                list?.status == ' out of office'? 'out-of-office' : '' ||
+                                list?.status == 'free'? 'free' : ''"
+                                [matTooltip]="list?.status == 'tentative'? 'Tentative' : '' ||
+                                list?.status == 'busy'? 'Busy' : '' ||
+                                list?.status == 'working elsewhere'? 'Working Elsewhere' : '' ||
+                                list?.status == ' out of office'? 'Out Of Office' : '' ||
+                                list?.status == 'free'? 'Free' : ''"></span>
+                                    <mat-icon mat-list-icon>punch_clock</mat-icon>
+                                    <div mat-line>{{list?.start?.dateTime?(list?.start?.dateTime+'Z' | date:'h:mm
+                                        a'):''}} -
+                                        {{list?.end?.dateTime?(list?.end?.dateTime+'Z' | date:'h:mm a'):''}}</div>
+                                    
+                                </mat-list-item>
+                            </mat-list>
+                            <!-- <P *ngFor="let list of item.scheduleItems">
+                                Time: {{list?.start?.dateTime?(list?.start?.dateTime+'Z' | date:'h:mm a'):''}} -
+                                {{list?.end?.dateTime?(list?.end?.dateTime+'Z' | date:'h:mm a'):''}}
+    
+                                {{list?.status}}
+                                {{list?.key}}
+                            </P> -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="ats-modal-footer">
+    <div class="color-int">
+        <ul>
+            <li>
+                <span class="bxc free"></span>
+                <span class="bxc1">Free</span>
+            </li>
+            <li>
+                <span class="bxc tentative"></span>
+                <span class="bxc1">Tentative</span>
+            </li>
+            <li>
+                <span class="bxc busy"></span>
+                <span class="bxc1">Busy</span>
+            </li>
+            <li>
+                <span class="bxc out"></span>
+                <span class="bxc1"> Out Of Office</span>
+            </li>
+            <li>
+                <span class="bxc wrk"></span>
+                <span class="bxc1">Working Elsewhere</span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,791 @@
+<div class="ats-modal-header">
+    <h1>{{'Employee ID Creation Form'}} </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="empIdCreationForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header">
+                    <h4>Employee Details</h4>
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col mat-radio-ats mat-radio-btn-ats at-ct-inline">
+                            <div class="of-title">
+                                <label class="lb-title">Action Type <sup>*</sup> </label>
+                            </div>
+                            <div>
+                                <mat-radio-group aria-label="Select an option" formControlName="actionType">
+                                    <mat-radio-button value="N" [disabled]="this.candidateDefaultDetails?.IsConversionCase == 1">New Employee </mat-radio-button>
+                                    <mat-radio-button value="C" [disabled]="this.candidateDefaultDetails?.IsConversionCase != 1">Conversion Employee </mat-radio-button>
+                                    <!-- <mat-radio-button value="false">Re-Employee</mat-radio-button> -->
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s at-ct-inline nw-mb-20">
+                            <div class="of-title">
+                                <label class="lb-title">Create Type <sup>*</sup> </label>
+                            </div>
+                            <div>
+                                <mat-radio-group aria-label="Select an option" formControlName="createType"
+                                    (change)="getCreateType($event.value)">
+                                    <mat-radio-button value="E" checked>Employee
+                                    </mat-radio-button>
+                                    <mat-radio-button value="C">Contractor</mat-radio-button>
+                                    <mat-radio-button value="T">Trainee
+                                    </mat-radio-button>
+                                    <mat-radio-button value="F">Fixed Term Contractor</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <!-- <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s at-ct-inline nw-mb-20" *ngIf="isContractor">
+                            <div class="of-title">
+                                <label class="lb-title">Freelancer </label>
+                            </div>
+                            <div>
+                                <mat-radio-group aria-label="Select an option" formControlName="freelancer" >
+                                    <mat-radio-button value="Y" >Yes
+                                    </mat-radio-button>
+                                    <mat-radio-button value="N" checked>No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div> -->
+                        <div class="ats-form-col">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Division</mat-label>
+                                <mat-select formControlName="DivisionID"
+                                    (selectionChange)="divisionChanged($event.value)" required>
+                                    <mat-option *ngFor="let data of divisionList" [value]="data?.EmployeerValue">
+                                        {{data?.EmployeerName}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Employee Category</mat-label>
+                                <mat-select formControlName="empCateg" required>
+                                    <mat-option *ngFor="let data of empCategList" [value]="data.EmpCategoryValue">
+                                        {{data?.EmpCategory}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s" *ngIf="divisionID == 'N'">
+                            <div class="of-title">
+                                <label class="lb-title">PEP Applicable</label>
+                            </div>
+                            <div>
+                                <mat-radio-group aria-label="Select an option" formControlName="isPepApplicable">
+                                    <mat-radio-button value="Y" checked>Yes
+                                    </mat-radio-button>
+                                    <mat-radio-button value="N">No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Location</mat-label>
+                                <mat-select formControlName="LocationID" (selectionChange)="locChanged($event.value)"
+                                    required>
+                                    <mat-option *ngFor="let data of locationList" [value]="data.LOCATION_ID">
+                                        {{data?.LOCATION_NAME}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Sub Location</mat-label>
+                                <mat-select formControlName="subLocationID">
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlSubLocation" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of subLocationList | subLocationFilter:searchInputSubLocation" [value]="data.BaseLocationID">
+                                        {{data?.BaseLocation}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Nationality</mat-label>
+                                <mat-select required formControlName="Nationality">
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlNationality"
+                                            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                            [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let data of nationalityList | nationalityFilter:searchInputNationality"
+                                        [value]="data.COUNTRY_CODE">
+                                        {{data?.COUNTRY_NAME}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Legal Entity</mat-label>
+                                <mat-select required formControlName="legalEntity">
+                                    <mat-option *ngFor="let data of legalEntityList" [value]="data.ID">
+                                        {{data?.Entity}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <!-- <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>US Employee Category</mat-label>
+                                <mat-select [disableOptionCentering]="true" required formControlName="USEmpCateg"
+                                    (selectionChange)="locChanged($event.value)">
+                                    <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                        {{data?.LocName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <!-- end col -->
+                        <!-- <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>US Employee Category Effective From</mat-label>
+                                <input matInput [matDatepicker]="picker2" [min]="minDate" required
+                                    formControlName="USEmpCategEffFrom" (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                
+                            </mat-form-field>
+                        </div> -->
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Employee Unit</mat-label>
+                                <mat-select required formControlName="EmployeeUnit"
+                                    (selectionChange)="selectEmpUnit($event.value)">
+                                    <mat-option *ngFor="let data of empUnitList" [value]="data.ID">
+                                        {{data?.ClassificationName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Delivery / Department</mat-label>
+                                <mat-select required formControlName="DepartmentId">
+                                    <mat-option *ngIf="getControl('EmployeeUnit')?.value != 1">
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlDepartment" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of deliveryDepartList | departmentFilter:searchInputDepartment" [value]="data.SBUId">
+                                        {{data?.SBUName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>First Name</mat-label>
+
+                                <input matInput placeholder="First Name" disableInitialSpace onlyAlphabets appCapitalizeWords
+                                    formControlName="FirstName" required>
+                                <!-- validate -->
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Middle Name</mat-label>
+
+                                <input matInput placeholder="Middle Name" disableInitialSpace onlyAlphabets appCapitalizeWords
+                                    formControlName="MiddleName">
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Last Name</mat-label>
+
+                                <input matInput placeholder="Last Name" disableInitialSpace onlyAlphabets appCapitalizeWords
+                                    formControlName="LastName">
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Gender</mat-label>
+                                <mat-select required formControlName="Gender">
+                                    <mat-option *ngFor="let data of genderType" [value]="data.Value">
+                                        {{data?.Name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Date of Birth</mat-label>
+                                <input matInput [matDatepicker]="picker3" required formControlName="Dob"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Email Id</mat-label>
+
+                                <input matInput placeholder="Email Id" disableInitialSpace formControlName="EmailId"
+                                    required readonly>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Domain ID</mat-label>
+
+                                <input matInput placeholder="Domain ID" disableInitialSpace formControlName="DomainId"
+                                    required readonly>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="divisionID == 'A' && getControl('EmployeeUnit')?.value == 1">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Team Name ( Absolutdata )</mat-label>
+                                <mat-select formControlName="teamNameADT">
+                                    <mat-option *ngFor="let data of teamPracticeList" [value]="data.Id">
+                                        {{data?.TeamName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="divisionID == 'A' && getControl('EmployeeUnit')?.value == 1">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Team Effective From</mat-label>
+                                <input matInput [matDatepicker]="picker10" formControlName="teamEffectiveFrom"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker10">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker10></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Emergency Contact No.</mat-label>
+
+                                <input matInput placeholder="Emergency Contact No." disableInitialSpace
+                                    formControlName="Em_Contact" mobNumber maxlength="10">
+
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Contact Person Name</mat-label>
+
+                                <input matInput placeholder="Conact Person Name" disableInitialSpace appCapitalizeWords
+                                    formControlName="EM_ContName" onlyAlphabets>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Relation</mat-label>
+                                <mat-select formControlName="Relation">
+                                    <mat-option *ngFor="let data of relationshipList" [value]="data.REL_ID">
+                                        {{data?.REL_NAME}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+
+
+                    </div>
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-header">
+                                <h4>Other Details</h4>
+                            </div>
+                            <div class="box-v-body">
+                                <div
+                                    class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s"
+                                        *ngIf="isTrainee">
+                                        <div class="of-title">
+                                            <label class="lb-title">BootCamp Joinee</label>
+                                        </div>
+                                        <div>
+                                            <mat-radio-group aria-label="Select an option"
+                                                formControlName="isBootCampJoinee"
+                                                (change)="getIsBootCampJoinee($event.value)">
+                                                <mat-radio-button value="Y" checked>Yes
+                                                </mat-radio-button>
+                                                <mat-radio-button value="N">No</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+
+                                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s" [ngClass]="{'at-ct-inline nw-mb-20':getControl('isBootCampJoinee')?.value == 'N'}"
+                                        *ngIf="isTrainee">
+                                        <div class="of-title">
+                                            <label class="lb-title">Trainee Type</label>
+                                        </div>
+                                        <div>
+                                            <mat-radio-group aria-label="Select an option"
+                                                formControlName="traineeType">
+                                                <mat-radio-button value="SB" checked
+                                                    *ngIf="getControl('isBootCampJoinee')?.value == 'Y'">Stipend &
+                                                    BootCamp
+                                                </mat-radio-button>
+                                                <mat-radio-button value="SL"
+                                                    *ngIf="getControl('isBootCampJoinee')?.value == 'N'" checked>Stipend
+                                                    & Lateral</mat-radio-button>
+                                                <mat-radio-button value="NL"
+                                                    *ngIf="getControl('isBootCampJoinee')?.value == 'N'">Non Stipend &
+                                                    Lateral</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+
+                                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats other-off-s at-ct-inline nw-mb-20"
+                                        *ngIf="isContractor">
+                                        <div class="of-title">
+                                            <label class="lb-title">Contractor Payroll Type </label>
+                                        </div>
+                                        <div>
+                                            <mat-radio-group aria-label="Select an option"
+                                                formControlName="contractorPayrollType" disabled>
+                                                <mat-radio-button value="On">On Role
+                                                </mat-radio-button>
+                                                <mat-radio-button value="Of" checked>Off Role</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="ats-form-col" *ngIf="isContractor">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Vendor Name From ATS ( For Reference )</mat-label>
+            
+                                            <input matInput formControlName="vendorNameATS" placeholder="Vendor Name From ATS" disabled readonly>
+                                        </mat-form-field>
+            
+                                    </div> -->
+                                    <!-- end col -->
+                                    <div class="ats-form-col" *ngIf="isContractor">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Vendor Name From ATS ( For Reference )</label>
+                                                <p >
+                                                    {{candidateDefaultDetails?.VenderName || '-'}} </p>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div class="ats-form-col" *ngIf="isContractor">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Vendor</mat-label>
+                                            <mat-select formControlName="vendorId">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlVendor" [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of vendorList | vendorFilter:searchInputVendor" [value]="data.VendorID">
+                                                    {{data?.VendorName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Employment Status</mat-label>
+                                            <mat-select formControlName="EmploymentStatus" required (selectionChange)="selectEmplStatus($event.value)">
+                                                <mat-option *ngFor="let data of employmentStatusList"
+                                                    [value]="data.FLAG">
+                                                    {{data?.STATUS}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Designation</mat-label>
+                                            <mat-select formControlName="Designation"
+                                                (selectionChange)="getDesignationId($event.value)" required>
+
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlEmpCreationDesign"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of designationsList | empCreationDesignFilter:searchInputDesignation" [value]="data.Id">
+                                                    {{data?.Designation}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Grade</mat-label>
+                                            <mat-select formControlName="Grade" required
+                                                (selectionChange)="changeGrade($event.value)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlGrade" [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of desigWiseGradeList | gradeFilter:searchInputGrade"
+                                                    [value]="data.GRADE_ID">
+                                                    {{data?.GRADE_NAME}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Total Exp. ( Years )</mat-label>
+
+                                            <input matInput placeholder="Total Exp. ( Years )" disableInitialSpace
+                                                formControlName="totalExpInYear" maxlength="2" (change)="lastEmployerValidation()">
+
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Total Exp. ( Months )</mat-label>
+
+                                            <input matInput placeholder="Total Exp. ( Months )." disableInitialSpace
+                                                formControlName="totalExpInMonth" maxlength="2" (change)="lastEmployerValidation()">
+
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    
+                                    <div class="ats-form-col">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Last Employer From ATS ( For Reference )</label>
+                                                <p >
+                                                    {{candidateDefaultDetails?.LastEmployeer || '-'}} </p>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <!-- <div class="ats-form-col">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Last Employer Name From ATS ( For Reference )</mat-label>
+            
+                                            <input matInput formControlName="LastEmployerATS" placeholder="Last Employer Name From ATS" disabled readonly>
+                                        </mat-form-field>
+            
+                                    </div> -->
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Last Employer</mat-label>
+                                            <mat-select formControlName="LastEmployer" >
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlLastEmployer" [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of prevEmployerList | lastEmployerFilter:searchInputLastEmployer"
+                                                    [value]="data.empr_id">
+                                                    {{data?.Employer_name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Applicable Leave Policy</mat-label>
+                                            <mat-select formControlName="LeavePolicy" required>
+                                                <mat-option *ngFor="let data of locationList"
+                                                    [value]="data.LOCATION_ID">
+                                                    {{data?.LOCATION_NAME}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Job Title</mat-label>
+                                            <mat-select formControlName="JobTitle" required>
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlJobTitle" [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of jobTitleList | jobTitleFilter:searchInputJobTitle"
+                                                    [value]="data.DESIGNATION_CODE">
+                                                    {{data?.DESIGNATION_NAME}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col" *ngIf="!isContractor">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Job Title Effective From</mat-label>
+                                            <input matInput [matDatepicker]="picker4" [required]="!isContractor"
+                                                formControlName="JobTitleEffFrom"
+                                                (dateInput)="changeDate('input', $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Date of Joining</mat-label>
+                                            <input matInput [matDatepicker]="picker6" [min]="minDate" required
+                                                formControlName="DateOfJoining"
+                                                (dateInput)="changeDate('input', $event);getDOJ($event?.value)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker6">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker6></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Notice Period ( In Days )</mat-label>
+                                            <mat-select formControlName="NoticePeriod" required>
+                                                <mat-option *ngFor="let data of noticePeriod" [value]="data.ID">
+                                                    {{data?.Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col" *ngIf="isContractor">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Contract End Date</mat-label>
+                                            <input matInput [matDatepicker]="picker7" [min]="minDate" [required]="isContractor"
+                                                formControlName="contractEndDate"
+                                                (dateInput)="changeDate('input', $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker7">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker7></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col" *ngIf="getControl('isBootCampJoinee')?.value == 'Y'">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Regularization From</mat-label>
+                                            <input matInput [matDatepicker]="picker9" [required]="getControl('isBootCampJoinee')?.value == 'Y'"
+                                                formControlName="regularizationFromDate"
+                                                (dateInput)="changeDate('input', $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker9">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker9></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ats-form-col"
+                                        *ngIf="getControl('isBootCampJoinee')?.value != 'N' && getControl('EmploymentStatus')?.value != 'C' && getControl('EmploymentStatus')?.value != 'O'">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Confirmation Due Date</mat-label>
+                                            <input matInput [matDatepicker]="picker5" [min]="minDate"
+                                                formControlName="ConfirmDueDate"
+                                                (dateInput)="changeDate('input', $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker5">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker5></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div class="ats-form-col" *ngIf="getControl('createType')?.value == 'T' && getControl('isBootCampJoinee')?.value == 'N'">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Training End Date</mat-label>
+                                            <input matInput [matDatepicker]="picker8" [min]="minDate"
+                                                formControlName="trainingEndDate"
+                                                (dateInput)="changeDate('input', $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker8">
+                                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker8></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="ats-form-col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Reporting Manager</mat-label>
+                                            <mat-select formControlName="ReportingManager" required>
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlReportingMngr" [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of gradeWiseRMList | reportingMngrFilter:searchInputReportingMngr"
+                                                    [value]="data.EMP_STAFFID">
+                                                    {{data?.Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form" >
+                            <div class="box-v-header">
+                                <h4>Preview Profile Picture</h4>
+                            </div>
+                            <div class="box-v-body">
+                                <div
+                                    class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                    <div class="ats-form-col">
+                                        <div
+                                            class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                            <!-- <div class="upload-file-input">
+                                                <label>Upload Photo
+                                                    <sup>*</sup>
+                                                </label>
+                                                <input type="file" (change)="imageUpload($event)" formControlName="uploadImage" required>
+                                            </div> -->
+                                            <div class="all-profile-pic" >
+                                                <div class="profile-pic-grid passport-pic-b" >
+                                                    <figure>
+                                                        <div class="no-pic" *ngIf="!profilePicSrc">
+                                                            <img src="../../../../assets/images/no-profile-male.png" alt="">
+                                                         </div>
+                                                        <div class="no-pic" *ngIf="profilePicSrc">
+                                                           <img [src]="profilePicSrc | safeUrl" alt="" class="img-b">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+
+        </div>
+
+    </div>
+
+
+    <div class="ats-modal-footer text-center">
+        <!-- <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'S')"
+            [disabled]="approverLength === 0">
+            Save
+        </button> -->
+        <button type="button" class="btn btn-infocon" (click)="empIdCreationFormSubmit(empIdCreationForm)">
+            Submit
+
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

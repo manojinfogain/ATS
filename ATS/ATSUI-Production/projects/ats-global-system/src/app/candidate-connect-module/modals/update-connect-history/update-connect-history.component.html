@@ -1,0 +1,266 @@
+<form [formGroup]="updateConnectForm" (ngSubmit)="updateCandiConnectHandler(updateConnectForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <!-- <div class="box-v-header">
+                    <h4>Candidate Details</h4>
+                </div> -->
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{offerAprDt?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Offered On:</h4>
+                            <p>{{(offerAprDt?.OfferedDate | date ) || '-'}}</p>
+                            <!-- <p>{{offerAprDt?.OfferedDate || 'ar'}}</p> -->
+                        </div>
+
+                        <!-- end -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Tentative Joining Date:</h4>
+                            <p>{{(offerAprDt?.tentativeJoiningDate | date) || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                    </div>
+                    <!-- table start-->
+
+
+
+                </div>
+
+            </div>
+            <div class="box-v-ats ats-connect-bx">
+                <div class="box-v-header">
+                    <h4>Connect  Status</h4>
+                </div>
+                <div class="box-v-body table-body">
+                    <div class="apr-list aprover-dt-list connect-calls-details-sec mx-h-200">
+                        <table mat-table [dataSource]="candidateCallsDetailsList" class="table-mat-info">
+                            <ng-container matColumnDef="test">
+                                <th mat-header-cell *matHeaderCellDef>test</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.IsConnected}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="coonnectSequn">
+                                <th mat-header-cell *matHeaderCellDef class="width-seque-action">Connect Sequence</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.ConnectedSequnce || '-'}}</td>
+                                <!-- <td mat-cell *matCellDef="let element"> 1 </td>  -->
+                            </ng-container>
+                            <ng-container matColumnDef="connecEvent">
+                                <th mat-header-cell *matHeaderCellDef>Connect Event</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.StatusName || '-'}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="ActionTaken">
+                                <th mat-header-cell *matHeaderCellDef>Status Updated</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <!-- {{element?.ActionTaken || '-'}} -->
+
+                                    <div [ngSwitch]="element?.IsConnected" class="connct-status">
+                                        <div *ngSwitchCase="1" class="connect-wrap ">
+                                            <!-- <p class="bg-clor1 wid-wrp">Connected</p> -->
+                                            <span class="material-icons-outlined connected-grn">
+                                                check_circle
+                                            </span>
+                                        </div>
+
+                                        <div *ngSwitchCase="0" class="connect-wrap  wid-wrp">
+                                            <p class="bg-clor2 wid-wrp">Pending</p>
+                                        </div>
+                                        <!-- <div *ngSwitchDefault>
+                                        NA
+                                    </div> -->
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+
+
+                            <!-- ends -->
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Action</h4>
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark ats-form-normal-font">
+                        <div class="ats-form-col error-outside-control">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Connect Event</mat-label>
+                                <mat-select class="slt-ar" formControlName="CandidateStatus" required
+                                    (selectionChange)="changeCandidateStatus($event)">
+                                    <mat-option *ngFor="let data of status" [value]="data?.STATUS_ID">
+                                        {{data?.CANDIDATE_STATUS_NAME}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error
+                                *ngIf="getControl('CandidateStatus').touched && getControl('CandidateStatus').invalid">
+                                <div *ngIf="getControl('CandidateStatus').errors.required">
+                                    Candidate Status is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col error-outside-control">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Connected Person</mat-label>
+                                <mat-select formControlName="ConnectPerson" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrl" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of connectPeople | panelFilter:searchInput"
+                                        [value]="data?.empnewid">
+
+                                        {{data?.fullName}} ({{data?.empnewid}})
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error
+                                *ngIf="getControl('ConnectPerson').touched && getControl('ConnectPerson').invalid">
+                                <div *ngIf="getControl('ConnectPerson').errors.required">
+                                    Connected Person is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col error-outside-control" *ngIf="hideShow">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Reschedule Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="RescheduleDate"
+                                    [required]="hideShow ? true : false" [max]="maxDateResche" [min]="minDateResche">
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error
+                                *ngIf="getControl('RescheduleDate').touched && getControl('RescheduleDate').invalid">
+                                <div *ngIf="getControl('RescheduleDate').errors.required">
+                                    Reschedule Date is required.
+                                </div>
+                            </mat-error>
+                        </div>
+
+                        <!-- <div class="ats-form-col error-outside-control" *ngIf="isReschedule">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Reschedule Reason</mat-label>
+                                <textarea matInput placeholder="Reschedule Reason" disableInitialSpace maxlength="40"
+                                    [required]="isReschedule ? true : false"
+                                    formControlName="RescheduleReason"></textarea>
+                            </mat-form-field>
+                        
+                            <mat-error
+                                *ngIf="getControl('RescheduleReason').touched && getControl('RescheduleReason').invalid">
+                                <div *ngIf="getControl('RescheduleReason').errors.required">
+                                    Reschedule reason is required.
+                                </div>
+                            </mat-error>
+                        </div> -->
+                        <!-- end -->
+                        <div class="ats-form-col error-outside-control" *ngIf="hideShowConnectDate">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Connected Date</mat-label>
+                                <input matInput [matDatepicker]="picker3" formControlName="ConnectDate"
+                                    [required]="hideShowConnectDate ? true : false" [max]="maxDate" [min]="minDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error *ngIf="getControl('ConnectDate').touched && getControl('ConnectDate').invalid">
+                                <div *ngIf="getControl('ConnectDate').errors.required">
+                                    Connected Date is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- end -->
+                        <!-- end -->
+                        <div class="ats-form-col error-outside-control" *ngIf="hideShowStatus">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Status</mat-label>
+                                <mat-select class="slt-ar" formControlName="StatusCondi" required
+                                    (selectionChange)="changeStatus($event)">
+                                    <mat-option *ngFor="let data of statusApplic" [value]="data?.flag">
+                                        {{data?.typeName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error *ngIf="getControl('StatusCondi').touched && getControl('StatusCondi').invalid">
+                                <div *ngIf="getControl('StatusCondi').errors.required">
+                                    This field is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- //reason -->
+                        <div class="ats-form-col error-outside-control" *ngIf="isStatusYes">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label appRemoveAriaOwns > Reason</mat-label>
+                                <mat-select class="slt-ar" formControlName="RescheduleReason" required>
+                                    <mat-option *ngFor="let data of candidateReason" [value]="data?.Id">
+                                        {{data?.Reason}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- error check -->
+                            <mat-error
+                                *ngIf="getControl('RescheduleReason').touched && getControl('RescheduleReason').invalid">
+                                <div *ngIf="getControl('RescheduleReason').errors.required">
+                                    Reason is required.
+                                </div>
+                            </mat-error>
+                        </div>
+
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- end -->
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+                <mat-label>Remarks</mat-label>
+
+            </mat-form-field> -->
+            <!-- end1 -->
+
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

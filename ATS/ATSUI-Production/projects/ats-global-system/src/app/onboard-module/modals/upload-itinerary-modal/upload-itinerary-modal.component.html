@@ -1,0 +1,79 @@
+<form [formGroup]="uploadItineraryForm" (ngSubmit)="submitUploadItineraryForm(uploadItineraryForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title ? data?.title : 'Upload Itinerary Document'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                                     
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Division</mat-label>
+                            <mat-select formControlName="divisionId" [required]="true" (selectionChange)="divisionChanged($event)">
+                                <mat-option *ngFor="let list of divisionList" [value]="list?.ID">
+                                    {{list?.Name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <!-- <mat-error *ngIf="getControl('divisionId')?.touched && getControl('divisionId')?.invalid">
+                            <div *ngIf="getControl('divisionId')?.errors.required">
+                                Division is required.
+                            </div>
+                        </mat-error> -->
+                        <!-- validate ends-->
+
+                    </div>
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Location</mat-label>
+                            <mat-select formControlName="locationId" [required]="true">
+                                <mat-option *ngFor="let list of locationList" [value]="list?.LocID">
+                                    {{list?.LocName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <!-- <mat-error *ngIf="getControl('locationId')?.touched && getControl('locationId')?.invalid">
+                            <div *ngIf="getControl('locationId')?.errors.required">
+                                Location is required.
+                            </div>
+                        </mat-error> -->
+                        <!-- validate ends-->
+
+                    </div>         
+                    <div class="ats-form-col">
+                        <div class="l-al-r">
+                            <button type="button" class="btn btn-add" (click)="viewItineraryDoc(uploadItineraryForm)">View Itinerary Document
+                                &nbsp;<i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                    </div>                             
+                </div>
+                <div class="form-on-ats form-fill-ats">
+
+                    <div class="form-on-col upload-file-onb width-480"
+                        [ngClass]="getControl('fileControl').touched && getControl('fileControl').invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file-input">
+                            <label>Please Upload Itinerary Document
+                                <sup>*</sup>
+                            </label>
+                            <input type="file" formControlName="fileControl" (change)="fileUpload($event)"
+                                required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!uploadItineraryForm.valid">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

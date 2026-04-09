@@ -1,0 +1,40 @@
+
+<div class="ats-modal-header">
+    <h1>Job Description ({{TalentData?.talent_id}})</h1>
+  
+    <button class="btn-m-close" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+         <div class="talent-id-wrapper">
+          <div class="cand-info">
+            <div class="row row-eq-height">
+             
+  
+              <div class="col-sm-12" *ngIf="viewdatajobdes">
+                <div class="cand-box">
+                  <h4>
+                    <span>Job Description:</span>
+                    <!-- <label [innerHTML]="TalentData.job_description"></label> -->
+                    <!-- <textarea  #tdFl  [innerHTML]="TalentData.job_description"></textarea> -->
+                    <ul  class="ul-list-dsc">
+                      <!-- <ng-container  *ngFor="let Data of tdFl.value.split('\n')" >
+                      <li *ngIf="Data">{{Data}}</li>
+                    </ng-container> -->
+                    <ng-container  *ngFor="let Data of viewdatajobdes" >
+                      <li *ngIf="Data" [innerHTML]="Data"></li>
+                    </ng-container>
+                    </ul>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+            </div>
+          </div>
+         </div>
+    </div>
+  </div>
+  
+  

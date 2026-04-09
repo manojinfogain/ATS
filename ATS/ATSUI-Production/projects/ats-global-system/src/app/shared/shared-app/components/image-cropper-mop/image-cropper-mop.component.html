@@ -1,0 +1,67 @@
+<div class="ats-modal-header">
+  <h1>{{modalTitle || 'add'}}</h1>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="img-crop-container">
+      <div class="upload-input-sec">
+        <div class="upload-file-input upload-file-input-lg">
+          <label>Choose another file
+          </label>
+          <input type="file" [accept]="acceptedFile" (change)="fileChangeEvent($event)">
+        </div>
+      </div>
+      <!-- <div class="upload-input-sec">
+        <button type="button" mat-button color="upload">
+          <i class="svg cloud-icon"></i> <span class="up-text">Choose another file</span>
+          <input type="file" name="certificate" id="certificate" [accept]="acceptedFile"
+            (change)="fileChangeEvent($event)">
+        </button>
+      </div> -->
+      <div class="image-crop-wrapper" *ngIf="data?.isCropImg">
+        <image-cropper [imageBase64]="selectedImage" [maintainAspectRatio]="true" [aspectRatio]="aspectRatio"
+          format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+          (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()" [autoCrop]="false"
+          [imageQuality]="imageQuality" [cropperMinWidth]="cropperMinWidth" [cropperMinHeight]="cropperMinHeight"
+          [onlyScaleDown]="true" [alignImage]="'center'" [canvasRotation]="canvasRotation"
+          [roundCropper]="roundCropper"></image-cropper>
+      </div>
+      <div class="img-ptrview-up" *ngIf="!data?.isCropImg">
+        <img [src]="selectedImage" alt=""/>
+      </div>
+      <div class="info-sec-crop-img">
+        <h3 class="img-name">{{displayName}}</h3>
+        <!-- <div class="img-d">
+         <h3 class="img-name">H: <span>{{imageDetails?.transformed?.size?.height}}</span></h3>
+         <h3 class="img-name">W: <span>{{imageDetails?.transformed?.size?.width}} </span></h3>
+       </div> -->
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+  <ng-container *ngIf="data?.isCropImg">
+    <button mat-stroked-button color="primary" class="btn-crop"
+  (click)="submit()">Save Image</button>
+  <button mat-stroked-button color="primary" class="btn-crop btn-crop-ic"
+  (click)="crop()" matTooltip="Preview">
+    <mat-icon>visibility</mat-icon>
+  </button>
+  <button mat-stroked-button color="primary" class="btn-crop btn-crop-ic"
+  (click)="rotateLeft()" matTooltip="Rotate">
+    <mat-icon>loop</mat-icon>
+  </button>
+  <button mat-stroked-button color="primary" class="btn-crop"
+  (click)="resetImage()">Reset</button>
+  </ng-container>
+  <ng-container *ngIf="!data?.isCropImg">
+    <button type="button" class="btn btn-infocon"  (click)="submit()">
+      OK
+    </button>
+  </ng-container>
+  
+</div>

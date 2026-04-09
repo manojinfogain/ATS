@@ -1,0 +1,54 @@
+<form [formGroup]="addAccountForm" (ngSubmit)="addAccountHandler(addAccountForm)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <input type="hidden">
+            <div class="ats-forms ats-forms-horz">
+                <div class="ats-form-col">
+                    <mat-form-field>
+                        <mat-label appRemoveAriaOwns>Account Name</mat-label>
+                        <mat-select formControlName="newAccount" required>
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                    [formControl]="FilterCtrlCandiStatus" [noEntriesFoundLabel]="'No record Found'"
+                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of accountList | accountNameFilter:searchInput" [value]="data?.accountId">
+                                {{data?.accountName}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="getControl('newAccount').touched && getControl('newAccount').invalid">
+                            <div *ngIf="getControl('newAccount').errors.required">
+                                Please select an account.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col search-input">
+                    <mat-form-field class="place-from-control">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput placeholder="Add Remarks" disableInitialSpace maxlength="100" minlength="4"
+                            formControlName="remarks" disableInitialSpace required>
+
+                    </mat-form-field>
+
+                </div>
+                <!-- end col -->
+
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Add Account
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

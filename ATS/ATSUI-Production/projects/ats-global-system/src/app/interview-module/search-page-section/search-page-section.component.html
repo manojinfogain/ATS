@@ -1,0 +1,93 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+               <div class="search-candidate-page">
+                   <div class="search-filter-wrapper">
+                        <div class="search-main-wrap">
+                            <div class="search-filter-header">
+                                <div class="search-title">
+                                    <h3>Filters</h3>
+                                </div>
+                                <div class="search-action-wrap">
+                                    <button class="clear-btn" type="button">Clear All</button>
+                                </div>
+                            </div>
+                            <div class="search-filter-body">
+                                <div class="search-filter-form">
+                                    <div class="search-form-box">
+                                        <h4>Candidate Status</h4>
+                                        <div class="search-box-input">
+                                            <mat-form-field appearance="outline" class="ats-from-control">
+                                                <!-- <mat-label>Candidate Status</mat-label> -->
+                                                <mat-select>
+                                                  <mat-option value="all">All</mat-option>
+                                                  <mat-option *ngFor="let list of statusList" [value]="list?.statusId">{{list?.statusName}}</mat-option>
+                                                  </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- end box -->
+
+                                    <div class="search-form-box">
+                                        <h4>Search By Email</h4>
+                                        <div class="search-box-input">
+                                            <mat-form-field appearance="outline" class="ats-from-control">
+                                                <!-- <mat-label>Candidate Status</mat-label> -->
+                                                <input matInput  placeholder="Search By Email">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- end box -->
+
+                                    <div class="search-form-box">
+                                        <h4>Interview Type</h4>
+                                        <div class="search-box-input">
+                                            <mat-form-field appearance="outline" class="ats-from-control">
+                                                <!-- <mat-label>Candidate Status</mat-label> -->
+                                                <mat-select>
+                                                  <mat-option value="all">All</mat-option>
+                                                  <mat-option *ngFor="let list of statusList" [value]="list?.statusId">{{list?.statusName}}</mat-option>
+                                                  </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- end box -->
+
+                                    <div class="search-form-box">
+                                        <h4>Search By Account</h4>
+                                        <div class="search-box-input">
+                                            <mat-form-field appearance="outline" class="ats-from-control">
+                                                <!-- <mat-label>Candidate Status</mat-label> -->
+                                                <input matInput  placeholder="Search By Email">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- end box -->
+                                </div>
+                                <!-- end form -->
+                            </div>
+                        </div>
+                   </div>
+                   <!-- end search sec -->
+                   <div class="search-result-wrapper"></div>
+               </div>
+            </div>
+            <!-- end content body -->
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

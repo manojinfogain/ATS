@@ -1,0 +1,413 @@
+<div class="info-connect-right">
+    <div class="dashboard-ats">
+        <div class="dashboard-ats-header">
+            <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <!-- end header -->
+        <div class="dashboard-ats-body">
+            <section class="ats-dash-report-sec">
+                <div class="ats-dash-report-sec-h">
+                    <div class="left-h-d filter-date-text">
+                        <!-- <h3>DU Overall Report {{isTableView?'':'- '+accountName}} <span> (From {{(selectedDate?.startDate| date:'dd MMM yyyy') || (defaultFromDate| date:'dd MMM yyyy')}} 
+                            To {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}})</span>
+                        </h3> -->
+                    </div>
+                    <div class="right-h-d">
+                        <div class="dash-action-s">
+                            <ul>
+                                <!-- <li class="s-d-b">
+                                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                        [placeHolder]="'Search By DU'">
+                                    </app-search-filter>
+                                </li>                                 -->
+                                <li>
+                                    <div class="form-slv">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Year</mat-label>
+                                            <mat-select [formControl]="formControlYear"
+                                                (selectionChange)="MonthYear($event)">
+                                                <mat-option *ngFor="let data of yearList" [value]="data?.Value">
+                                                    {{data?.FinicialYear}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" (click)="exportAsXLSX()">
+                                        <span class="material-icons-outlined" matTooltip="Download Report">
+                                            download
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="dash-header-icon">
+                                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                        (getSortFormData)="getSortData($event)" [deliveryUnits]="true" [duMulti]="true">
+                                    </app-filter-sort>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-dash-report-sec-b">
+                    <!-- <app-no-result-found  *ngIf="reportList?.length === 0"></app-no-result-found> -->
+                    <!-- *ngIf="reportList.length !=0 && isTableView" -->
+                    <div class="ats-dash-table du-reports">
+                        <table mat-table [dataSource]="duOverallSourceTypeList"
+                            class="table-mat-info" id="exportTable">
+                            <ng-container matColumnDef="duHiringTot">
+                                <th mat-header-cell *matHeaderCellDef class="unit">
+                                    <!-- Delivery Unit -->
+                                   Source Type
+                                </th>
+                                <td mat-cell *matCellDef="let element;" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-total2': element?.Type=='S','ft-ytd': element?.Type=='YTD'}">
+                                    {{element?.Type == 'S' ? totalQ : element?.MonthName }}
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="ft-total"> Total (Q1-Q2-Q3) </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="cskills">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['cskills']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.CSkill_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- <ng-container matColumnDef="conversion">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['conversion']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.joiningw1}} 
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td>
+                            </ng-container> -->
+                            <!-- ends -->
+                            <ng-container matColumnDef="empReferral">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['empReferral']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.EmpReferral_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="socialMedia">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['socialMedia']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.SocialMedia_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD' ">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="vendor">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['vendor']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Vender_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="staffingAgency">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['staffingAgency']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.StaffingAgency_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="webPortal">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['webPortal']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.WebPortal_Joined}} 
+                                        <span *ngIf="element?.Type == 'YTD' ">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                          
+                          
+                            <!-- ends -->
+                            <ng-container matColumnDef="total">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center" [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'MR')">
+                                        {{element?.Total_Joined}}
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joininTotal')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="joiningPercent">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    {{sourceTypeLabel['JoiningPercent']}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center" [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'CL')">
+                                        <!-- {{element?.Per_Joined}} -->
+                                        {{element?.Per_Joined ? element?.Per_Joined : element?.Type=='Q' ||
+                                        element?.Type == 'S' || element?.Type=='M' ? 0 : '' }}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    <!-- {{sumTotal(DummyDuOverAllHiringList,'joiningPercent')}} -->
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- w1 decline sec starts -->
+                            <ng-container matColumnDef="cskillsDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['cskills']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.CSkill_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD' ">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- <ng-container matColumnDef="conversionDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['conversion']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.joiningw1}} 
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td>
+                            </ng-container> -->
+                            <!-- ends -->
+                            <ng-container matColumnDef="empReferralDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['empReferral']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.EmpReferral_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD' ">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="socialMediaDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['socialMedia']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.SocialMedia_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="vendorDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['vendor']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Vender_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD' ">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="staffingAgencyDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['staffingAgency']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.StaffingAgency_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="webPortalDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['webPortal']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center " [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.WebPortal_Decline}} 
+                                        <span *ngIf="element?.Type == 'YTD'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg" >
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                          
+                          
+                            <!-- ends -->
+                            <ng-container matColumnDef="totalDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="sourceTypeLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center" [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'MR')">
+                                        {{element?.Total_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joininTotal')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="PercentDecline">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    {{sourceTypeLabel['JoiningPercent']}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center" [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'CL')">
+                                        <!-- {{element?.Per_Decline}} -->
+                                        {{element?.Per_Decline ? element?.Per_Decline : element?.Type=='Q' ||
+                                        element?.Type == 'S' || element?.Type=='M' ? 0 : '' }}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    <!-- {{sumTotal(DummyDuOverAllHiringList,'joiningPercent')}} -->
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- ends -->
+                            <!-- decline sec ends -->
+                            <!-- grand total  -->
+                            <ng-container matColumnDef="grandTotal">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <!-- Grand Total -->
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center" [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.GrandTotal}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'grandTotal')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- Header row first group -->
+                            <ng-container *ngFor="let group of headGroup; let i = index">
+                                <ng-container [matColumnDef]="group">
+                                    <ng-container class="grand-tot-wrap">
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            class="grand-total" [attr.colspan]="clacRowSpan(i)?.num"
+                                            [ngClass]="clacRowSpan(i)?.class">
+                                            {{clacRowSpan(i)?.title}}
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            [attr.colspan]="clacRowSpan(i)?.num">
+                                        </th>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tr-fx">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr> -->
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,2512 @@
+<form [formGroup]="interviewStatus" (ngSubmit)="submitFeedbackFrom(interviewStatus)">
+  <div class="ats-modal-header">
+    <h1>
+      <ng-container [ngSwitch]="data?.statusid">
+        <ng-container *ngSwitchCase="7">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="10">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="15">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="240">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="260">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="6">
+
+          {{candidteRoundDetails?.interviewType?.Type == '4'? 'Update Status':'Interview Schedule'}}
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+          Update Details
+        </ng-container>
+        <ng-container *ngSwitchCase="5">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          Interview Schedule
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          Interview Feedback Form
+          <!-- {{candidteRoundDetails?.interviewType.Name}} -->
+        </ng-container>
+
+      </ng-container>
+    </h1>
+
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+      <div class="list-record-interview">
+        <!-- <img  [src]="image |safeUrl"> -->
+        <!-- <img src="assets/images/no-profile-male.png" alt=""> -->
+        <ul>
+          <li>
+            <label><span>Name:</span>
+              <span class="sp-highl">{{candidateData?.Name || '-'}}</span></label>
+          </li>
+          <li>
+            <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+          </li>
+          <li>
+            <label><span>Education Qualification :</span>{{candidateData?.Qualification || '-'}}</label>
+          </li>
+          <li>
+            <label><span>Current Organisation :</span>{{candidateData?.CurrentOrg || '-'}}</label>
+          </li>
+          <li>
+            <label><span>Total Experience:</span>
+              {{candidateData?.TotalExp +' Year' || '-'}}
+              {{candidateData?.TotalExpMonth == '' || candidateData?.TotalExpMonth == null ?
+              '0':candidateData?.TotalExpMonth +''}} Month
+
+            </label>
+          </li>
+          <li>
+            <label><span>Relevant Experience:</span>
+              {{candidateData?.releventExp +' Year' || '-'}}
+              {{candidateData?.releventExpMonth == '' || candidateData?.releventExpMonth == null ?
+              '0':candidateData?.releventExpMonth +''}} Month
+            </label>
+          </li>
+          <li>
+            <label><span>Talent ID:</span>
+              {{candidateData?.THID || '-'}}</label>
+          </li>
+          <li>
+            <label><span>Grade:</span>
+              {{candidateOtherDetails?.gradeName || '-'}}</label>
+          </li>
+
+          <li>
+            <label><span>Scheduled Round:</span>
+              {{candidteRoundDetails?.sequenceId || '-'}}</label>
+          </li>
+
+          <li>
+            <label><span>Candidate Current Status:</span>
+              <!-- <span class="sp-highl"> {{(candidteRoundDetails?.InterViewStatus?.Status  + ' / ' + candidteRoundDetails?.PrevStatus?.Status )|| '-'}}</span>--></label>
+            <!-- status -->
+            <div class="status-wrap" [ngSwitch]="candidteRoundDetails?.InterViewStatus?.Id">
+              <!-- new -->
+              <ng-container class="sp-highl" *ngSwitchCase="240">
+                <span class="sp-highl">
+                  <!-- {{(candidteRoundDetails?.PrevStatus?.Status + ' / ' +  candidteRoundDetails?.InterViewStatus?.Status)}} -->
+                  {{candidteRoundDetails?.PrevStatus?.Status ? candidteRoundDetails?.PrevStatus?.Status + ' / ': 'NA/'}}
+                  {{candidteRoundDetails?.InterViewStatus?.Status}}
+                </span>
+              </ng-container>
+              <ng-container class="sp-highl" *ngSwitchCase="260">
+                <span class="sp-highl">
+                  <!-- {{(candidteRoundDetails?.PrevStatus?.Status + ' / ' +  candidteRoundDetails?.InterViewStatus?.Status)}} -->
+                  {{candidteRoundDetails?.PrevStatus?.Status ? candidteRoundDetails?.PrevStatus?.Status + ' / ' :
+                  'NA/'}}
+                  {{candidteRoundDetails?.InterViewStatus?.Status}}
+                </span>
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+                <span class="sp-highl">
+                  <!--{{candidteRoundDetails?.InterViewStatus?.Status || '-'}}-->
+
+                  {{getInterviewStatus(candidteRoundDetails?.InterViewStatus?.Id,candidteRoundDetails?.InterViewStatus?.Status,
+                  data?.IsExceptionVideo, data?.fileNameVideo)}}
+                </span>
+              </ng-container>
+
+            </div>
+            <!-- status end-->
+          </li>
+          <li>
+            <label><span> {{data?.statusid == '7' || data?.statusid == '10'|| data?.statusid == '6' &&
+                candidteRoundDetails?.interviewType?.Type != '4'?'Previous':''}} Interview Type:</span>
+              <span class="sp-highl">{{candidteRoundDetails?.interviewType?.Type || '-'}}</span></label>
+          </li>
+          <li>
+            <label><span>{{data?.statusid == '7' || data?.statusid == '10'?'Previous':''}} Interview By:</span>
+              <ng-container [ngSwitch]="candidteRoundDetails?.interviewBy">
+                <ng-container *ngSwitchCase="'M'">
+                  {{interviewByLabel.mettl}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'C'">
+                  {{interviewByLabel.Coderbyte}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'G'">
+                  {{interviewByLabel.Glider}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'E'">
+                  {{interviewByLabel.externalAgency}} / {{candidteRoundDetails?.ExternalAgency?.name}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'I'">
+                  {{interviewByLabel.internalPanel}}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{interviewByLabel.internalPanel}}
+                </ng-container>
+              </ng-container>
+            </label>
+          </li>
+          <li>
+            <label><span>{{data?.statusid == '7' || data?.statusid == '10'?'Previous':''}} Interview Date:</span>
+              {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}</label>
+          </li>
+          <li *ngIf="data?.requirementTypeId !=6">
+            <label><span>Location:</span>
+              <ng-container *ngIf="candidateData?._country?.Name">
+                {{candidateData?._city?.Name|| '-'}}( {{candidateData?._country?.Name|| '-'}} )
+              </ng-container>
+              <ng-container *ngIf="candidateData?._state?.Name">
+                {{candidateData?._city?.Name|| '-'}}( {{candidateData?._state?.Name|| '-'}} )
+              </ng-container>
+            </label>
+          </li>
+          <li>
+            <label><span>{{data?.statusid == '7' || data?.statusid == '10'?'Previous':''}} Primary Interviewer:</span>
+              {{candidteRoundDetails?.interviewer?.Name|| '-'}}</label>
+          </li>
+          <li>
+            <label><span>Additional Interviewers:</span>
+              {{candidteRoundDetails?.AdditionalInterviewer?.length === 0? '-':''}}
+              <ng-container *ngFor="let int of candidteRoundDetails?.AdditionalInterviewer;let isLast=last">
+                {{int?.Name}}{{isLast ? '' : ', '}}
+              </ng-container>
+            </label>
+          </li>
+          <!--assesment details section start-->
+          <ng-container
+            *ngIf="isCoderByteActive || (isInternalActive && candidteRoundDetails?.AssessmentStatus =='S') ">
+            <li>
+              <label><span> Assessment:</span>
+                <ng-container>
+
+                  {{candidteRoundDetails?.coderByteDisplayName || 'NA'}}
+                </ng-container>
+              </label>
+            </li>
+            <li>
+              <label><span> Qualifying Score (%):</span>
+                <ng-container>
+                  {{candidteRoundDetails?.Qualifying_Score|| 'NA'}}
+                </ng-container>
+              </label>
+            </li>
+            <li *ngIf="isInternalActive">
+              <label><span> Final Score (%):</span>
+                <ng-container>
+                  {{(candidteRoundDetails?.Final_Score ? candidteRoundDetails?.Final_Score +'%' : 'NA')}}
+                </ng-container>
+              </label>
+            </li>
+            <li *ngIf="isInternalActive">
+
+              <div *ngIf="isCoderByteActive" class=" report-link">
+                <a [href]="candidateOtherDetails?.coderByteReportUrl" target="_blank">View Report</a>
+
+              </div>
+            </li>
+            <li>
+              <label><span class="cheating-label"> Cheating Detected:</span>
+                <ng-container *ngIf="candidteRoundDetails.cheating_flag ; else recordNa">
+
+                  <!--  -->
+                  <ng-container
+                    *ngIf="candidteRoundDetails.cheating_flag =='Likely' || candidteRoundDetails.cheating_flag =='Detected'; else cheatingNo">
+                    <button class="btn-status-dg rejects" type="button">
+                      Yes
+                    </button>
+                  </ng-container>
+                  <ng-template #cheatingNo>
+                    <button class="btn-status-dg selecteds" type="button">
+                      No
+                    </button>
+                  </ng-template>
+                </ng-container>
+                <ng-template #recordNa>
+                  <span class="sp-highl">NA</span>
+                </ng-template>
+              </label>
+            </li>
+          </ng-container>
+          <!--assesment details section end-->
+          <!-- note -->
+          <li *ngIf="isTechnicalFeedback || 
+          isHrFeedback || 
+          isHrFeedbackFinal" class="note-sline">
+            <label>
+              <span class="note">Note:</span>
+              <ng-container>
+                <div>
+                  <p class="note-msg">To see all feedback details (Doc,Pics etc) go to action menu and click on
+                    "View all feedback" icon. </p>
+                </div>
+              </ng-container>
+            </label>
+          </li>
+          <!-- show prof pic /////////-->
+          <!-- <li>
+            <label><span>Candidate Picture: (Previous Round)</span></label>
+            <div class="btn-action btn-action-centers">
+              <div class="btn-act">
+                <button mat-button type="button" class="btn-ey-v" matTooltip="View Candidate Picture "
+                  (click)="openfeedbackInfoModal(candidateList)">
+                  
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+          </li> -->
+
+          <!-- /// -->
+          <!-- <li>
+            <label><span>Candidate Picture: (Previous Round)</span></label>
+            <div class="btn-action btn-action-centers">
+              <div class="btn-act">
+                <button mat-button type="button" class="btn-ey-v" matTooltip="View Candidate Picture "
+                  (click)="viewCandidatePictureModal()">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+          </li> -->
+          <!-- show prof pic ends-->
+        </ul>
+      </div>
+      <div class="ats-panel-wrap-feed">
+        <div class="ats-forms ats-forms-horz ats-forms-horz3">
+          <div class="ats-form-col">
+            <mat-form-field>
+              <mat-select [placeholder]="candidateStatusPlaceholder" formControlName="candidateStatuslog"
+                (selectionChange)="getCandStatus($event)" required>
+                <mat-option *ngFor="let list of statusList" [value]="list?.statusId">{{list?.statusName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isRejectReason">
+            <mat-form-field>
+              <mat-label appRemoveAriaOwns>Screen Reject Reason </mat-label>
+              <mat-select placeholder="Screen Reject Reason" formControlName="screenRejectId"
+                [required]="isRejectReason">
+                <mat-option *ngFor="let data of screenRejectReason" [value]="data?.id">
+                  {{data?.Name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- alert error -->
+            <!-- <mat-error *ngIf="screenRejectIdCtrl?.touched && screenRejectIdCtrl?.invalid">
+                <div>
+                    <span *ngIf="screenRejectIdCtrl.errors.required">
+                        Please select a reason.
+                    </span>
+                </div>
+            </mat-error> -->
+
+          </div>
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule">
+            <mat-form-field>
+              <mat-select placeholder="Type of Interview" formControlName="interviewType" [required]="isRequiredInt"
+                (selectionChange)="getSelectedIntTypeId($event)">
+                <mat-option *ngFor="let list of InterviewTypeData" [value]="list?.id">{{list?.interviewType}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule">
+            <div class="pr-nxt-action">
+              <div class="nxt-rnds">
+                <label class="radio-gruop-label">Next Schedule Round</label>
+
+                <input type="hidden" formControlName="RoundDetails">
+                <mat-checkbox [checked]="true" [disabled]="true">
+                  <!-- {{formVal?.round}} -->
+                  <div [ngSwitch]="candidateData?.RCount +1">
+                    <span *ngSwitchCase="0">1st Round</span>
+                    <span *ngSwitchCase="1">1st Round</span>
+                    <span *ngSwitchCase="2">2nd Round</span>
+                    <span *ngSwitchCase="3">3rd Round</span>
+                    <span *ngSwitchCase="4">4th Round</span>
+                    <span *ngSwitchCase="5">5th Round</span>
+                    <span *ngSwitchCase="6">6th Round</span>
+                    <span *ngSwitchCase="7">7th Round</span>
+                    <span *ngSwitchCase="8">8th Round</span>
+                    <span *ngSwitchCase="9">9th Round</span>
+                    <span *ngSwitchCase="10">10th Round</span>
+                    <span *ngSwitchCase="11">11th Round</span>
+                    <span *ngSwitchCase="12">12th Round</span>
+                    <span *ngSwitchCase="13">13th Round</span>
+                    <span *ngSwitchCase="14">14th Round</span>
+                    <span *ngSwitchCase="15">15th Round</span>
+                  </div>
+                </mat-checkbox>
+              </div>
+
+              <div class="action-view-nms" *ngIf="locationData.isLocationIndia(null)">
+
+                <button mat-button type="button" class="btn-ey-vst" (click)="openSlotListModal()">View Panel
+                  Slot</button>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col" *ngIf="isIdProof">
+            <mat-form-field>
+              <mat-select placeholder="Government photo ID proof Type" formControlName="idType" [required]="idProofReq"
+                (selectionChange)="getSelectedIdType($event?.value)">
+                <mat-option *ngFor="let list of idTypeData" [value]="list?.id">{{list?.identity_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isIdProof">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Government photo ID proof No." formControlName="idNumber"
+                [required]="idProofReq" disableInitialSpace maxlength="22">
+              <mat-error *ngIf="idNumberControl.touched && idNumberControl.invalid">
+                <div *ngIf="idNumberControl.errors.pattern">
+                  Please enter valid {{idTypeName}}.
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="ats-form-col hint-int" *ngIf="isUploadIdShow"
+            [ngClass]="UploadCandId.touched && UploadCandId.invalid ? 'error-file-input':'suc'">
+            <div class="upload-file">
+              <label>Upload Government photo ID proof Doc. <sup
+                  *ngIf="isUploadIdShow  && flagScreeningIdPicVidMandat &&isNotC2h">*</sup> </label>
+              <input type="file" formControlName="UploadCandId" (change)="fileUpCandId($event)">
+              <!-- <mat-hint>Note: Only jpg/jpeg/png/pdf formats allowed.</mat-hint> -->
+            </div>
+            <!-- validate -->
+
+            <!-- validate ends-->
+          </div>
+          <!-- end -->
+
+          <!-- end col Interview By-->
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isInterviewByVisible">
+            <mat-form-field>
+              <mat-select placeholder="Interview By" formControlName="interviewBy"
+                (selectionChange)="interviewByType($event)">
+                <mat-option *ngFor="let list of interviewByTypeList" [value]="list?.id">{{list?.interviewByName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- showing this dropdwon when choose external agnecy option -->
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isExternalAgency">
+            <mat-form-field>
+              <mat-select placeholder="External Agency" formControlName="externalAgency">
+                <mat-option *ngFor="let list of externalAgencyList" [value]="list?.id">{{list?.name
+                  }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isTechInternal">
+            <mat-form-field>
+              <mat-label appRemoveAriaOwns>Reason (For Not Opting Online Assessment) </mat-label>
+              <mat-select formControlName="techInternalPanel">
+                <mat-option *ngFor="let data of reasonOptingNotOptingList" [value]="data?.id">
+                  {{data?.Name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isTechExternal">
+            <mat-form-field>
+              <mat-label appRemoveAriaOwns>
+                Reason (For Not Opting Online Assessment And Internal Panel)
+              </mat-label>
+              <mat-select formControlName="techExternalPanel">
+                <mat-option *ngFor="let data of externalReasonOptingNotOptingList" [value]="data?.id">
+                  {{data?.Name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isApprovalAttachment"
+            [ngClass]="approvalFileUpCtrl?.touched && approvalFileUpCtrl?.invalid ? 'error-file-input':'suc'">
+            <div class="upload-file">
+              <label>Approval Attachment
+                <sup *ngIf="isApprovalAttachment">*</sup>
+              </label>
+              <input type="file" formControlName="approvalFile" (change)="approvalFileUp($event)">
+            </div>
+          </div>
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && locationData.isLocationUS(null)">
+            <mat-form-field>
+              <mat-label>Entity</mat-label>
+              <mat-select formControlName="EntityId" [(ngModel)]="EntityId"
+                [required]="locationData.isLocationUS(null)">
+                <mat-option *ngFor="let data of entityList" [value]="data.ID">
+                  {{data?.Entity}}
+                </mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col int-panel-selection int-cal-col" *ngIf="isInterviewSchedule && !isMettleFeedback">
+            <app-timezone-list-control [IdControl]="interviewDateTimeZoneCtrl"
+              [required]="isRequiredInt && !isMettleFeedback" [title]="'Select Timezone'"></app-timezone-list-control>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col date-ats-sc hint-int" *ngIf="isInterviewSchedule && !isMettleFeedback">
+            <mat-form-field>
+              <input matInput [matDatepicker]="datepickerInfo" placeholder="Interview Date"
+                formControlName="interviewDate" readonly [required]="isRequiredInt && isMettleFeedbackReq === false"
+                [min]="minDate">
+              <mat-datepicker-toggle matSuffix [for]="datepickerInfo">
+                <mat-icon matDatepickerToggleIcon class="form-icon">
+                  <i class="far fa-calendar-alt"></i>
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #datepickerInfo></mat-datepicker>
+              <mat-hint>Please select your local date and time.</mat-hint>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col date-ats-sc" *ngIf="isTechnicalMettlFeedback">
+            <mat-form-field>
+              <input matInput [matDatepicker]="datepickerInfo5" [placeholder]="'Assessment Date'"
+                formControlName="AssessmentDate" readonly [required]="isTechnicalMettlFeedback && selectedStatus != 15"
+                [min]="minDateMettle" [max]="minDate">
+              <mat-datepicker-toggle matSuffix [for]="datepickerInfo5">
+                <mat-icon matDatepickerToggleIcon class="form-icon">
+                  <i class="far fa-calendar-alt"></i>
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #datepickerInfo5></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && !isMettleFeedback">
+            <div class="time-pick-ats">
+              <div class="time-pick-call">
+                <mat-form-field>
+                  <!-- <input matInput (keyup)="timeValid($event)" type="text" placeholder="HH" maxlength="2" formControlName="interviewTimeHours" required> -->
+                  <mat-select placeholder="HH" formControlName="interviewTimeHours"
+                    [required]="isRequiredInt && !isMettleFeedbackReq" (selectionChange)="hoursValid($event)">
+                    <mat-option value="00">00</mat-option>
+                    <mat-option value="1">01</mat-option>
+                    <mat-option value="2">02</mat-option>
+                    <mat-option value="3">03</mat-option>
+                    <mat-option value="4">04</mat-option>
+                    <mat-option value="5">05</mat-option>
+                    <mat-option value="6">06</mat-option>
+                    <mat-option value="7">07</mat-option>
+                    <mat-option value="8">08</mat-option>
+                    <mat-option value="9">09</mat-option>
+                    <mat-option value="10">10</mat-option>
+                    <mat-option value="11">11</mat-option>
+                    <mat-option value="12">12</mat-option>
+                    <mat-option value="13">13</mat-option>
+                    <mat-option value="14">14</mat-option>
+                    <mat-option value="15">15</mat-option>
+                    <mat-option value="16">16</mat-option>
+                    <mat-option value="17">17</mat-option>
+                    <mat-option value="18">18</mat-option>
+                    <mat-option value="19">19</mat-option>
+                    <mat-option value="20">20</mat-option>
+                    <mat-option value="21">21</mat-option>
+                    <mat-option value="22">22</mat-option>
+                    <mat-option value="23">23</mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>
+                    <i class="far fa-clock"></i>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="time-pick-call">
+                <mat-form-field>
+                  <!-- <input matInput type="text" (keyup)="timeValid($event)" placeholder="MM" maxlength="2" formControlName="interviewTimeMint" required> -->
+                  <mat-select placeholder="MM" formControlName="interviewTimeMint"
+                    [required]="isRequiredInt && !isMettleFeedbackReq">
+                    <mat-option value="00" [ngStyle]="{'display': isTimeZero == true ? 'block' : 'none' }"
+                      *ngIf="isTimeZero">00</mat-option>
+                    <mat-option value="5">05</mat-option>
+                    <mat-option value="10">10</mat-option>
+                    <mat-option value="15">15</mat-option>
+                    <mat-option value="20">20</mat-option>
+                    <mat-option value="25">25</mat-option>
+                    <mat-option value="30">30</mat-option>
+                    <mat-option value="35">35</mat-option>
+                    <mat-option value="40">40</mat-option>
+                    <mat-option value="45">45</mat-option>
+                    <mat-option value="50">50</mat-option>
+                    <mat-option value="55">55</mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>
+                    <i class="far fa-clock"></i>
+                  </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule  && !isMettleFeedback">
+            <mat-form-field>
+              <mat-select placeholder="Mode of Interview" formControlName="IntModeType"
+                [required]="isRequiredInt && !isMettleFeedbackReq" (selectionChange)="onSelectModeInt($event)">
+                <mat-option *ngFor="let int of intModeData" [value]="int?.id">{{int?.mode}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewLocVisible">
+            <mat-form-field>
+              <mat-select placeholder="Interview Location" formControlName="InterviewLocationId"
+                (selectionChange)="onSelectInterviewLoc($event)">
+                <mat-option *ngFor="let data of intLocationList" [value]="data?.LocID">{{data?.LocName}}</mat-option>
+                <mat-option [value]="0">Others</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+
+          <div class="ats-form-col"
+            *ngIf="(isInterviewSchedule && !isMettleFeedback && !isInterviewLocVisible) || IsLinkVisible">
+            <mat-form-field>
+              <input matInput type="text" [placeholder]="isMettleFeedback?'Link':'Venue / Link'" formControlName="Venue"
+                maxlength="500" disableInitialSpace
+                [readOnly]="this.getLocInfo.isLocationIndia(null) && IntModeType?.value == '2' && InterviewLocationId?.value != '0'">
+            </mat-form-field>
+          </div>
+          <!-- end col JAYAVARDHAN -->
+
+          <div class="ats-form-col"
+            *ngIf="(isInterviewSchedule && !isMettleFeedback && isInterviewLocVisible)">
+            <mat-form-field class="ats-mat-form-field">
+              <textarea matInput formControlName="Venue"
+                [readonly]="this.getLocInfo.isLocationIndia(null) && IntModeType?.value == '2' && InterviewLocationId?.value != '0'"
+                [placeholder]="isMettleFeedback?'Link':'Venue'"></textarea>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && !isMettleFeedback">
+            <mat-form-field>
+              <mat-select placeholder="Interview Duration" formControlName="interviewDuration"
+                [required]="isRequiredInt  && !isMettleFeedbackReq">
+                <mat-option *ngFor="let duration of durationData" [value]="duration?.value">{{duration?.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isCoderByteAssessment">
+            <mat-form-field>
+              <mat-label appRemoveAriaOwns>Assessments </mat-label>
+              <mat-select formControlName="coderBytesAssesments" (selectionChange)="getCoderByteAssesmentID($event)">
+                <mat-option>
+                  <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlCoderBytAssesment"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let data of coderByteAssessmentList| coderBytePipe:searchInputCoderBytAssesment"
+                  [value]="data?.test_id">
+                  {{data?.display_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="ats-form-col" *ngIf="isInterviewSchedule && isChangeDropdownAsses">
+            <mat-form-field>
+              <mat-label appRemoveAriaOwns>Reason To Change Interview By </mat-label>
+              <mat-select formControlName="requirementChangeReason">
+                <mat-option *ngFor="let data of changeTypeReason" [value]="data?.Id">
+                  {{data?.Reason}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="ats-form-col int-panel-selection int-cal-col" *ngIf="isInterviewSchedule">
+            <app-employee-list [panelIdControl]="panelControl" [required]="isRequiredInt" [isEmpListServerSide]="true"
+              [title]="'Primary Interviewer'" [fromDate]="interviewStatus.get('interviewDate')" [isEmpListAll]="true"
+              [getAllEmp]="EmpListData"></app-employee-list>
+            <a href="javascript:void(0)" (click)="viewCalender()">View Interviewer Calender</a>
+          </div>
+          <!-- end col -->
+
+
+          <div class="ats-form-col int-panel-selection" *ngIf="isInterviewSchedule">
+            <app-employee-list [panelIdControl]="adpanelControl" [title]="'Additional Interviewers'" [isMultiple]="true"
+              (getEmpList)="getEmpList($event)"></app-employee-list>
+
+          </div>
+          <!-- end col -->
+
+
+          <!-- end col -->
+          <div class="ats-form-col" [ngClass]="candidteRoundDetails.interviewBy == 'C'? 'score-wrapp':''"
+            *ngIf="iSCurrentStatusHr && isHrFeedbackFinal ==false || isTechnicalMettlFeedback">
+
+            <div class="score-link">
+              <mat-form-field>
+                <input matInput type="text" [placeholder]="mettlScoreLabel" formControlName="score" maxlength="5"
+                  disableInitialSpace onlyNumber>
+
+              </mat-form-field>
+            </div>
+            <div *ngIf="isCoderByteActive" class=" report-link">
+              <a [href]="candidateOtherDetails?.coderByteReportUrl" target="_blank">View Report</a>
+
+
+            </div>
+          </div>
+          <!-- end col -->
+          <!-- *ngIf="iSCurrentStatusHr && isHrFeedbackFinal ==false || isHrFeedback || isManagementRound === true|| isTechnicalFeedback === true"> -->
+          <ng-container *ngIf="data?.requirementTypeId !=6">
+            <div class="ats-form-col"
+              *ngIf="(!isInterviewSchedule && !isCoderByteActive) || isTechnicalExternalFeedback"
+              [ngClass]="fileUpload.touched && fileUpload.invalid ? 'error-file-input':'suc'">
+              <div class="upload-file">
+                <!-- <label *ngIf="iSCurrentStatusHr && isHrFeedbackFinal ==false">Upload Document (if applicable)</label> -->
+                <label>{{uploadDocLabel}}
+                  <label *ngIf="isTechnicalMettlFeedback && selectedStatus != 15 ||isTechnicalExternalFeedback">
+
+                    <sup *ngIf="!isCoderByteType">*</sup> </label>
+                </label>
+                <input type="file" formControlName="fileUpload" (change)="fileUp($event)">
+              </div>
+            </div>
+          </ng-container>
+          <!-- end col -->
+          <div class="ats-form-col" *ngIf="isHRDocVisible"
+            [ngClass]="fileUploadHRCtrl?.touched && fileUploadHRCtrl?.invalid ? 'error-file-input':'suc'">
+            <div class="upload-file">
+              <label>{{uploadDocLabelHR}}
+                <sup *ngIf="HRDocReq">*</sup>
+              </label>
+              <input type="file" formControlName="fileUploadHR" (change)="fileUpHR($event)" [required]="HRDocReq"
+                multiple>
+            </div>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col" *ngIf="isSchedRemarkShow">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Remarks" formControlName="remarks" maxlength="500"
+                disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="isHRDocVisible">
+            <mat-form-field>
+              <mat-select placeholder="Offer In Hand" formControlName="isOfferInHand"
+                (selectionChange)="getOfferId($event)">
+                <mat-option value="Y">
+                  Yes
+                </mat-option>
+                <mat-option value="N">
+                  No
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="IsDocOption">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Offer in Hand (Annual CTC)" formControlName="OfferInHandAmount"
+                disableInitialSpace onlyNumber maxlength="9">
+             <mat-error *ngIf="OfferInHandAmountCtrl?.touched && OfferInHandAmountCtrl?.invalid">
+                  <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.required">
+                     Offer in Hand (Annual CTC) is required.
+                  </ng-container>
+                  <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.min">
+                    Please enter min
+                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                      <ng-container *ngSwitchCase="1">
+                        {{(this.salRange.inrMin |
+                        customCurrency:1)}}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                        {{(this.salRange.usdMin |
+                        customCurrency:2)}}
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{(this.salRange.inrMin)}}
+                      </ng-container>
+
+                    </ng-container>
+                    <!-- {{(this.salRange.inrMin |
+                    customCurrency:1)}} -->
+                  </ng-container>
+                  <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.max">
+                    You can not enter greater than
+                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                      <ng-container *ngSwitchCase="1">
+                        {{(this.salRange.inrMax |
+                        customCurrency:1)}}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                        {{(this.salRange.usdMax |
+                        customCurrency:2)}}
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{(this.salRange.inrMax)}}
+                      </ng-container>
+
+                    </ng-container>
+                    <!-- {{(this.salRange.inrMax |
+                    customCurrency:1)}} -->
+                  </ng-container>
+                </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="ats-form-col" *ngIf="IsDocOption">
+            <mat-form-field>
+              <mat-select placeholder="Document Available" formControlName="docOpt"
+                (selectionChange)="getDocumentVailabel($event)">
+                <mat-option value="Y">
+                  Yes
+                </mat-option>
+                <mat-option value="N">
+                  No
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="IsDocOfferVis"
+            [ngClass]="fileUploadOfferCtrl?.touched && fileUploadOfferCtrl?.invalid ? 'error-file-input':'suc'">
+            <div class="upload-file">
+              <label>Upload Documents (Offer)
+                <sup *ngIf="HRDocOfferReq">*</sup>
+              </label>
+              <input type="file" formControlName="fileUploadHR" (change)="fileUpHROffer($event)"
+                [required]="HRDocOfferReq">
+            </div>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="IsDocOption">
+            <app-company-master-control [formControlOpt]="offerCompnayCtrl" [title]="'Company Name'" [isOther]="true">
+            </app-company-master-control>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col full-width" *ngIf="IsConsentVis">
+            <div class="checkbox-wrapper">
+              <mat-checkbox [ngClass]="offerConsnetCtrl.touched  && offerConsnetCtrl.invalid ? 'consent-error':'suc'"
+                formControlName="offerConsnet" (change)="changeCheckHROffer($event)">
+                <ng-container>
+                  <span>
+                    I guarantee that candidate under discussion has offer in hand.
+                  </span>
+                </ng-container>
+                <sup class="dangr" *ngIf="isConsentSign">*</sup>
+              </mat-checkbox>
+            </div>
+          </div>
+
+
+          <div class="ats-form-col" *ngIf="isHrFeedbackFinal && !isHrFeedbackDiscussion">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Remarks" formControlName="hrFinal_Remarks" disableInitialSpace
+                maxlength="500" [required]="isHrFeedbackFinal && !isHrFeedbackDiscussion">
+            </mat-form-field>
+          </div>
+          <!-- end col upload profile picture -->
+          <ng-container *ngIf="data?.requirementTypeId !=6">
+            <div class="ats-form-col" *ngIf="(isTechnicalFeedback || 
+          isHrFeedback || 
+          isHrFeedbackFinal || isTechnicalMettlFeedback) && locationData.isLocationIndia(null)"
+              [ngClass]="UploadProfilePic.touched && UploadProfilePic.invalid ? 'error-file-input':'suc'">
+              <div class="upload-file">
+                <label>Upload Candidate Picture <span
+                    *ngIf="candidteRoundDetails.interviewType.Id == 2 && candidteRoundDetails.interviewBy == 'I' && candidateData?.HiringLocation !=3">
+                    with ID
+                    Proof </span> <sup
+                    *ngIf="(isTechnicalFeedback || (isHrFeedbackFinal && candidteRoundDetails?.InterViewStatus?.Id == 1)) && !isCientRound && !isTechnicalExternalFeedback && data?.IsExceptionVideo == 'N' && this.candidteRoundDetails?.IsPicturePresent != 'Y'">*</sup>
+                </label>
+                <input type="file" formControlName="UploadProfilePic" (change)="fileUpProfilePic($event)">
+              </div><!-- validate -->
+
+              <!-- validate ends-->
+            </div>
+          </ng-container>
+          <!-- end -->
+
+          <!-- <div class="ats-form-col hint-int" *ngIf="isUploadVideoShow"
+            [ngClass]="UploadVideo.touched && UploadVideo.invalid ? 'error-file-input':'suc'">
+            <div class="upload-file">
+              <label>Upload Candidate Video <sup
+                *ngIf="isUploadVideoShow  && flagScreeningIdPicVidMandat">*</sup> </label>
+              <input type="file" formControlName="UploadVideo" (change)="fileUpVideo($event)">
+              <mat-hint>Note: Only .mp4 format is supported and video duration should not be greater than 60 seconds.</mat-hint>
+            </div>
+          </div> -->
+          <!-- end -->
+
+          <div class="ats-form-col full-width" *ngIf="(isTechnicalFeedback || 
+          isHrFeedback || 
+          isHrFeedbackFinal || isTechnicalMettlFeedback) && locationData.isLocationIndia(null)">
+            <label>
+              <!-- Consent Sign off <sup class="dangr">*</sup>  -->
+            </label>
+            <div class="checkbox-wrapper" [ngClass]="{'consent-sched':isHrFeedback && isUploadVideoShow}">
+              <mat-checkbox [required]="isConsentSign"
+                [ngClass]="iConfirmedCheckBoxCtrl.touched  && iConfirmedCheckBoxCtrl.invalid ? 'consent-error':'suc'"
+                formControlName="iConfirmedCheckBox" (change)="changeCheck($event)">
+                <ng-container>
+                  <span>Uploading image
+                    <!-- <span *ngIf="isUploadVideoShow">& Video</span> -->
+                    of the candidate participating in the discussion.
+                  </span>
+                </ng-container>
+                <!-- <ng-template #canidatePict>
+                  <span>Candidate picture from the previous round of interview is aligned with the current one.</span>
+                </ng-template> -->
+                <sup class="dangr" *ngIf="isConsentSign">*</sup>
+              </mat-checkbox>
+              <div
+                *ngIf="interviewStatus?.controls?.iConfirmedCheckBox.invalid &&interviewStatus?.controls?.iConfirmedCheckBox.touched"
+                class="invalid-feedback">Accept Consent Sign Off </div>
+            </div>
+          </div>
+
+          <div class="ats-form-col full-width"
+            *ngIf="(isTechnicalFeedback || 
+            isHrFeedback || 
+            isHrFeedbackFinal || isTechnicalMettlFeedback) && (data?.IsExceptionVideo == 'Y' && isConsentSignVidExcep)">
+
+            <div class="checkbox-wrapper" [ngClass]="{'consent-sched':isHrFeedback && isUploadVideoShow}">
+              <mat-checkbox [required]="isConsentSignVidExcep"
+                [ngClass]="iConfirmedVidExcepCheckBoxCtrl.touched  && iConfirmedVidExcepCheckBoxCtrl.invalid ? 'consent-error':'suc'"
+                formControlName="iConfirmedVidExcepCheckBox">
+                <ng-container>
+                  <span>
+                    I have checked with the available video / pic and hereby declare that the candidate appeared in the
+                    previous and current round is same.
+                  </span>
+                </ng-container>
+                <sup class="dangr" *ngIf="isConsentSignVidExcep">*</sup>
+              </mat-checkbox>
+              <div
+                *ngIf="interviewStatus?.controls?.iConfirmedVidExcepCheckBoxCtrl?.invalid && interviewStatus?.controls?.iConfirmedVidExcepCheckBoxCtrl.touched"
+                class="invalid-feedback">Please provide Consent. </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ats-panel-wrap-feed" *ngIf="iSCurrentStatusTech" formGroupName="technicalForm">
+        <!-- detailed feedback -->
+        <div class="ats-forms ats-forms-horz ats-forms-horz3">
+
+          <!-- end col -->
+          <!-- hiding detailed feedback for external technical feedback-->
+          <!--
+           
+             <div class="ats-form-col detail-feedback-sec"
+            *ngIf="isDetailedFeedbackEnable && !isTechnicalExternalFeedback">
+            <div class="detail-feedback-wrapper" (click)="intQuesionnaireModal()">
+              <span class="detailed-feed-quesn"> Detailed feedback </span>
+              <div class="icon-wrap">
+                <mat-icon class="icon-edit" matSuffix>edit_note</mat-icon>
+              </div>
+
+            </div>
+            <div class="error-question" *ngIf="isDetailedFeedbackDraft">
+              <span>Fill the required detailed feeedback and save.</span>
+            </div>
+           
+          </div>
+        -->
+          <div class="ats-form-col ats-form-col-70  hint-int-l full-width"
+            *ngIf="isDetailedFeedbackEnableRemark && !isCientRound && !isTechnicalExternalFeedback">
+            <mat-form-field>
+              <textarea matInput type="text"
+                [placeholder]="data?.requirementTypeId !=6 ? 'Detailed feedback': 'Recommendation'" maxlength="1000"
+                formControlName="remarks"
+                [required]="isDetailedFeedbackEnableRemark && !isCientRound && !isTechnicalExternalFeedback"
+                disableInitialSpace #messageRmk></textarea>
+              <mat-error *ngIf="remarksTech?.touched && remarksTech?.invalid">
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId !=6 && locationData.isLocationIndia(null) && candidateData?.IsDetailedFeedbackDisableForAccount == 'N'">
+                  Please enter minimum {{this.IsRenuTeam?'300':'450'}} characters.
+                </div>
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId ==6 && locationData.isLocationIndia(null) && this.candidateData?.IsDetailedFeedbackDisableForAccount == 'N'">
+                  Please enter minimum {{'250'}} characters.
+                </div>
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId !=6 && locationData.isLocationIndia(null) && candidateData?.IsDetailedFeedbackDisableForAccount == 'Y'">
+                  Please enter minimum {{this.IsRenuTeam?'300':'200'}} characters.
+                </div>
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId ==6 && locationData.isLocationIndia(null) && this.candidateData?.IsDetailedFeedbackDisableForAccount == 'Y'">
+                  Please enter minimum {{'200'}} characters.
+                </div>
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId !=6 && this.locationData.isLocationUS(null)">
+                  Please enter minimum {{this.IsRenuTeam?'300':'200'}} characters.
+                </div>
+                <div
+                  *ngIf="remarksTech?.errors?.minlength && data?.requirementTypeId ==6 && this.locationData.isLocationUS(null)">
+                  Please enter minimum {{'200'}} characters.
+                </div>
+              </mat-error>
+            </mat-form-field>
+            <label class="mat-hint-lb">{{messageRmk.value.length}} / 1000</label>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col ats-form-col-70  hint-int-l full-width"
+            *ngIf="isDetailedFeedbackEnableRemark && (isCientRound || isTechnicalExternalFeedback)">
+            <mat-form-field>
+              <textarea matInput type="text"
+                placeholder="{{isCientRound || isTechnicalExternalFeedback  ? 'Remarks' : 'Detailed feedback'}}"
+                maxlength="1000" formControlName="remarks" [required]="isDetailedFeedbackEnableRemark && isCientRound"
+                disableInitialSpace #messageRmk></textarea>
+              <mat-error *ngIf="remarksTech?.touched && remarksTech?.invalid">
+                <!-- <div *ngIf="remarksTech?.errors?.minlength">
+                  Please enter minimum 450 characters.
+                </div>-->
+              </mat-error>
+            </mat-form-field>
+            <label class="mat-hint-lb">{{messageRmk.value.length}} / 1000</label>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col ats-form-col-70 hint-int-l"
+            *ngIf="isRequiredTechnical && intTypeId == 2 && !isTechnicalExternalFeedback">
+            <mat-form-field>
+              <textarea matInput type="text" placeholder="Remarks for next level evaluator" maxlength="1000"
+                formControlName="remarkNextLevel" disableInitialSpace #messageRmk></textarea>
+
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col " *ngIf="!isCientRound && !isTechnicalExternalFeedback && data?.requirementTypeId !=6
+            &&!techManagerialCtrl">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Strengths" maxlength="500" formControlName="strengths"
+                [required]="techManagerialCtrl === true? false:(isRequiredTechnical && !isCientRound && locationData.isLocationIndia(null))"
+                disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="!isCientRound && !isTechnicalExternalFeedback && data?.requirementTypeId !=6
+            &&!techManagerialCtrl">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Limitations" maxlength="500" formControlName="limitations"
+                [required]="techManagerialCtrl === true? false:(isRequiredTechnical && !isCientRound  && locationData.isLocationIndia(null))"
+                disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="!isCientRound && !isTechnicalExternalFeedback && data?.requirementTypeId !=6
+            &&!techManagerialCtrl">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Technical" maxlength="500" formControlName="technical"
+                [required]="techManagerialCtrl === true? false:(isRequiredTechnical && !isCientRound  && locationData.isLocationIndia(null))"
+                disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="!isCientRound && !isTechnicalExternalFeedback && data?.requirementTypeId !=6
+            &&!techManagerialCtrl">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Non Technical" maxlength="500" formControlName="nonTechnical"
+                [required]="techManagerialCtrl === true? false:(isRequiredTechnical && !isCientRound  && locationData.isLocationIndia(null))"
+                disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col" *ngIf="(candidteRoundDetails.interviewType.Id == 2 || candidteRoundDetails.interviewType.Id == 6) && (!isTechnicalExternalFeedback && data?.requirementTypeId !=6)
+            &&!techManagerialCtrl">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Evaluation" maxlength="500" formControlName="evaulation"
+                [required]="techManagerialCtrl === true? false:isRequiredTechnical" disableInitialSpace>
+            </mat-form-field>
+          </div>
+          <!-- end col -->
+
+          <div class="ats-form-col full-width hidden">
+            <div class="ats-t-int">
+              <h3>
+                For Groomable
+              </h3>
+            </div>
+            <div class="faq-grid faq-grid-ats">
+              <div class="grid-table">
+                <div class="faq-row">
+                  <div class="faq-row-text">
+                    <h5>Skills gap, if any (– yes / no. Mention basic or proficient level training need required):
+                    </h5>
+                  </div>
+                  <!-- end text -->
+                  <div class="faq-row-btn">
+                    <!-- <mat-radio-group formControlName="groomable" (change)="groomable($event)">
+                        <mat-radio-button value="Y">Yes</mat-radio-button>
+                        <mat-radio-button value="N" checked="true">No</mat-radio-button>
+                      </mat-radio-group> -->
+                  </div>
+                  <!-- end btn -->
+                </div>
+                <!-- end row -->
+              </div>
+              <!-- end grid table -->
+            </div>
+          </div>
+          <!-- end col -->
+          <div class="ats-form-col skill-req-wrp full-width" *ngIf="isGroomable">
+            <h4>Training(s) required, if any, on technology, other areas</h4>
+            <div class="skill-req">
+              <div class="sk-cl-rq">
+                <!-- <mat-form-field>
+                    <input matInput type="text" [placeholder]="1" maxlength="250" formControlName="GroomableArea1"
+                      disableInitialSpace [required]="isGroomRequired">
+                  </mat-form-field> -->
+                <app-skill-set [panelIdControl]="GroomableArea1" [required]="isGroomRequired" [title]="'1'">
+                </app-skill-set>
+              </div>
+              <div class="sk-cl-rq">
+                <!-- <mat-form-field>
+                    <input matInput type="text" [placeholder]="2" maxlength="250" formControlName="GroomableArea2"
+                      disableInitialSpace>
+                  </mat-form-field> -->
+                <app-skill-set [panelIdControl]="GroomableArea2" [title]="'2'"></app-skill-set>
+              </div>
+
+              <div class="sk-cl-rq">
+                <!-- <mat-form-field>
+                    <input matInput type="text" [placeholder]="3" maxlength="250" formControlName="GroomableArea3"
+                      disableInitialSpace>
+                  </mat-form-field> -->
+                <app-skill-set [panelIdControl]="GroomableArea3" [title]="'3'"></app-skill-set>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <!-- detailed feeback ends -->
+        <div class="ats-int-round-wrapper" *ngIf="!isCientRound && !isTechnicalExternalFeedback">
+          <div class="ats-t-int">
+            <h3>
+              Overall technical and soft skill assessment
+              <label>Rating: 1 -5 </label>
+            </h3>
+          </div>
+          <div class="rating-list-wrap">
+            <ul>
+              <li>
+                1: Below Average
+              </li>
+
+              <li>
+                2: Average
+              </li>
+
+              <li>
+                3: Good
+              </li>
+              <li>
+                4: Very Good
+              </li>
+
+              <li>
+                5: Exceptional
+              </li>
+            </ul>
+          </div>
+          <div class="dyn-control-wrap">
+            <div class="dyn-control-wrap-title">
+              <!-- <h4>
+                <label>Give ratings on at least 5 Subtopics of Skill area</label>
+              </h4> -->
+            </div>
+
+            <div class="dyn-control-wrap-body">
+              <div class="form-dyn-table">
+                <table class="table table-bordered table-hr-at">
+                  <!-- <thead>
+                    <tr>
+                      <th scope="col">
+                        Areas
+                        Project Specific Skills	
+                        </th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead> -->
+                  <tbody formGroupName="techRatingDetails" *ngIf="techRatingDetails.length != 0">
+                    <tr *ngFor="let  items of techRatingDetails.controls; let i=index" [formGroupName]="i" [ngClass]="{averages:techRatingCtrlControl[i]['controls'].rating?.value >0 && techRatingCtrlControl[i]['controls'].rating?.value <3,
+                      goods:techRatingCtrlControl[i]['controls'].rating?.value >2 && techRatingCtrlControl[i]['controls'].rating?.value <3,
+                      excellents:techRatingCtrlControl[i]['controls'].rating?.value >= 3}">
+                      <td class="fixed-inp-at">
+                        <div class="cont-fmn" [ngClass]="{errorField:isSubmitForm && items.get('Area').invalid}">
+                          <ng-container [ngSwitch]="true">
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Role Compatability' || techRatingCtrlControl[i]['controls'].Area?.value == 'Role Compatibility'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Communication'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Confidence'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Domain Knowledge'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Leadership Quality'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Technical Knowledge'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Aggregate Skill Rating'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].Area?.value == 'Overall Rating'">
+                              <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                class="form-controls" [required]="isRequiredTechnical" disableInitialSpace readonly>
+                            </ng-container>
+                            <ng-container
+                              *ngSwitchCase="techRatingCtrlControl[i]['controls'].tempVal?.value == this.candidateData?.primarySkill?.SkillName">
+                              <input type="text" [value]="'Skill 1 ('+(candidateData?.primarySkill?.SkillName) +') '"
+                                disableInitialSpace readonly>
+                              <input type="hidden" formControlName="Area" maxlength="500" class="form-controls"
+                                [required]="isRequiredTechnical" disableInitialSpace readonly>
+                              <input type="hidden" formControlName="tempVal" maxlength="500" />
+                            </ng-container>
+                            <ng-container *ngSwitchCase="techRatingCtrlControl[i]['controls'].type?.value == 'SD'">
+                              <input type="text"
+                                [value]="techRatingCtrlControl[i]['controls'].label?.value +' '+(techRatingCtrlControl[i]['controls'].Area?.value) +' '"
+                                disableInitialSpace readonly>
+                              <input type="hidden" formControlName="Area" maxlength="500" class="form-controls"
+                                [required]="isRequiredTechnical" disableInitialSpace readonly>
+
+                            </ng-container>
+
+                            <ng-container *ngSwitchDefault>
+                              <ng-container *ngIf="isAddSkillFrom == 'TRound'">
+                                <div class="int-panel-selectionf prm-sk">
+                                  <div class="prm-sk">
+                                    <app-skill-set [panelIdControl]="techRatingCtrlControl[i]['controls'].Area"
+                                      [required]="true" [title]="techRatingCtrlControl[i]['controls'].label?.value"
+                                      [getOnlyText]="true">
+                                    </app-skill-set>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="isAddSkillFrom != 'TRound'">
+                                <input type="text" formControlName="Area" placeholder="Area*" maxlength="500"
+                                  class="form-controls" [required]="isRequiredTechnical" disableInitialSpace>
+                              </ng-container>
+
+                            </ng-container>
+                          </ng-container>
+
+
+                        </div>
+                      </td>
+                      <td class="fixed-inp-at">
+                        <input type="hidden" #ratingsMpH formControlName="rating">
+                        <ng-container [ngSwitch]="techRatingCtrlControl[i]['controls'].Area?.value">
+                          <ng-container *ngSwitchCase="'Aggregate Skill Rating'">
+                            <div class="cont-fmn">
+                              <input type="text" formControlName="rating" placeholder="Rating" maxlength="500"
+                                class="form-controls" readonly #ratingsMpH>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'Overall Rating'">
+                            <div class="cont-fmn">
+                              <input type="text" formControlName="rating" placeholder="Rating" maxlength="500"
+                                class="form-controls" readonly #ratingsMpH>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <div class="ats-dmn-drop">
+                              <mat-form-field>
+                                <mat-select placeholder="Rating" formControlName="rating" #ratingsMpH
+                                  (selectionChange)="RatingChange($event,i)">
+                                  <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+
+
+                      </td>
+
+                      <td>
+                        <div class="btn-action btn-action-t  btn-single">
+                          <div class="btn-act">
+                            <ng-container [ngSwitch]="true">
+                              <ng-container
+                                *ngSwitchCase="techRatingDetails.controls[i]?.get('actionvisible')?.value == '0'">
+                                <button mat-button [disabled]="true" type="button" matTooltip="Delete"
+                                  (click)="remove(i)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </ng-container>
+                              <ng-container *ngSwitchDefault>
+                                <button mat-button type="button" matTooltip="Delete" (click)="remove(i)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+
+
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="add-action-btn-wrp  text-right">
+                <button mat-flat-button type="button" [disabled]="techRatingDetails.length === 10"
+                  class="btn btn-infocon" (click)="add()">
+                  <i class="fa fa-plus-square"></i> Add</button>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+        </div>
+        <!-- end tech interview -->
+      
+        <ng-container *ngIf="isAIQuestionFeedbackEnable">
+          <div class="ats-int-round-wrapper" *ngIf="(this.candidteRoundDetails.interviewType.Id == 2 && !IsRenuTeam)">
+            <div class="ats-t-int">
+              <h3>
+                <i>Gen AI Based Questions </i>
+                <!-- (Please indicate rating) -->
+                <label>Rating: 1 -5 </label>
+              </h3>
+            </div>
+            <div class="rating-list-wrap">
+              <ul>
+                <li>1: Below Average</li>
+
+                <li>2: Average</li>
+
+                <li>3: Good</li>
+                <li>4: Very Good</li>
+
+                <li>5: Exceptional</li>
+              </ul>
+            </div>
+            <div class="dyn-control-wrap">
+              <div class="dyn-control-wrap-title">
+                <h4>
+                  Please provide Ratings and your feedback against questions asked from candidate. <strong>
+                    Feedback on a min. of
+                  5 questions is required
+                  </strong>. You
+                  can also add your own questions using the <b>Add button below</b>
+
+                </h4>
+
+              </div>
+
+              <div class="dyn-control-wrap-body">
+                <div class="form-dyn-table">
+                  <table class="table table-bordered table-hr-at">
+                    <thead>
+                      <tr>
+                        <!-- <th scope="col">Questions</th>
+                        <th scope="col"> Rating</th>
+                        <th scope="col">
+                       
+                         Feedback on  Candidate's Response
+                          </th>
+                        <th scope="col">Action</th> -->
+                      </tr>
+                    </thead>
+                    <tbody formGroupName="autoQuestionDetails" *ngIf="autoQuestionDetailsCt?.length != 0">
+                      <tr *ngFor="let  items of autoQuestionDetailsCt?.controls; let i=index" [formGroupName]="i"
+                        [ngClass]="{averages:autoQuestionDetailsCtrl[i]['controls'].Rating?.value >0 && autoQuestionDetailsCtrl[i]['controls'].Rating?.value <3,
+          goods:autoQuestionDetailsCtrl[i]['controls'].Rating?.value >2 && autoQuestionDetailsCtrl[i]['controls'].Rating?.value <3,
+          excellents:autoQuestionDetailsCtrl[i]['controls'].Rating?.value >= 3}">
+                        <td class="fixed-inp-at">
+                          <input formControlName="type" class="form-controls" disableInitialSpace readonly #QuestionType
+                            type="hidden" />
+                          <ng-container *ngIf="QuestionType.value == 0">
+                            <div class="cont-fmn quest-ans"
+                              [ngClass]="{errorField:isSubmitForm && items.get('QuestionAuto').invalid}">
+                              <input formControlName="QuestionAuto" class="form-controls" disableInitialSpace readonly
+                                #QuestionAutoLabel type="hidden" />
+                              <p> {{QuestionAutoLabel.value}}</p>
+
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="QuestionType.value == 1">
+                            <div class="ats-form-col txtarea-ans txtarea-ans-add"
+                              [ngClass]="{errorField:isSubmitForm && items.get('QuestionAuto').invalid}">
+                              <textarea placeholder="Enter your Question" maxlength="1000" disableInitialSpace
+                                formControlName="QuestionAuto" class="txt-ani"> </textarea>
+                            </div>
+                          </ng-container>
+
+
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="width-200">
+                            <input type="hidden" #ratingsMpAuto formControlName="Rating" />
+                            <ng-container [ngSwitch]="autoQuestionDetailsCtrl[i]['controls'].QuestionAuto?.value">
+                              <ng-container *ngSwitchDefault>
+                                <div class="ats-dmn-drop">
+                                  <mat-form-field>
+                                    <mat-select placeholder="Rating" formControlName="Rating" #ratingsMpAuto
+                                      (selectionChange)="RatingChangeAutoFn($event, i)">
+                                      <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </td>
+
+                        <td>
+
+                          <div class="ats-form-col txtarea-ans"
+                            [ngClass]="{errorField:isSubmitForm && items.get('AutoQAns').invalid}">
+                            <mat-form-field>
+
+                              <textarea matInput type="text" placeholder="Feedback" maxlength="1000"
+                                formControlName="AutoQAns" disableInitialSpace #messagecmm></textarea>
+                              <mat-hint *ngIf="items.get('AutoQAns').invalid && messagecmm?.value?.length ==0 " class="hint-wrap hint-msg-a" align="start">
+                               <span >  Minimum 100 characters
+                                required </span>
+                              </mat-hint>
+                              <mat-hint align="start" class="error-mmmd error-form"
+                                *ngIf="items.get('AutoQAns').hasError('minLengthIfNotEmpty') ">
+                                Minimum <strong>100</strong> characters required.
+                              </mat-hint>
+                              <mat-hint align="end">{{messagecmm?.value?.length}}/1000 </mat-hint>
+                            </mat-form-field>
+                          </div>
+
+                        </td>
+                        <td>
+                          <div class="btn-action btn-single delete-btn-q">
+                            <div class="btn-act delete-questions">
+                              <ng-container [ngSwitch]="true">
+                                <ng-container *ngSwitchCase="QuestionType.value == 0">
+                                  <button mat-button [disabled]="true" type="button" matTooltip="Delete"
+                                    (click)="removeQuestion(i)">
+                                    <i class="fa fa-trash delete-btn" aria-hidden="true"></i>
+                                  </button>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                  <button mat-button type="button" matTooltip="Delete" (click)="removeQuestion(i)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+                          </div>
+
+
+
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="add-action-btn-wrp text-right">
+                  <button mat-flat-button type="button" class="btn btn-infocon" (click)="addQuestion()">
+                    <i class="fa fa-plus-square"></i> Add More Question</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!--  end auto question -->
+  <!--Questionnaire feeedback
+         
+          -->
+          <ng-container *ngIf="isDetailedFeedbackEnable && !isTechnicalExternalFeedback">
+            <div class="ats-int-round-wrapper questionnaire-technical-sec">
+              <div class="ats-t-int">
+                <h3>
+                  <!-- Questionnaire feeedback (Please indicate rating) -->
+                  <label> </label>
+                  Candidate Detailed Feedback
+                </h3>
+              </div>
+  
+              <div class="dyn-control-wrap">
+  
+                <div class="dyn-control-wrap-body">
+                  <div class="form-dyn-table">
+                    <div class="view-all-screen-dt">
+                      <!--   formGroupName="feedbackQuestionnaireForm"-->
+  
+                      <div class="ct-tab-screen  candidate-screen">
+                        <mat-accordion multi class="candidate-ats-hr-rec">
+                          <!-- end offer letter  -->
+                          <mat-expansion-panel [expanded]="true" (opened)="setStep(0)">
+                            <mat-expansion-panel-header [ngClass]="{hdEr:fundamentalKnowledgFormControl?.invalid}"
+                              class="hdEre">
+                              <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                  history_edu
+                                </span>
+                                <!-- Fundamental Knowledge -->
+                                {{newLabel2}}
+                              </mat-panel-title>
+                              <mat-panel-description>
+  
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                              <div class="offer-letter-section">
+                                <div class="letter-wrapper">
+                                  <div>
+                                    <div class="ats-modal-body">
+                                      <div class="box-v-ats" formGroupName="fundamentalKnowledgForm">
+                                        <!-- <div class="box-v-header">
+                                                       
+                                                      </div> -->
+  
+                                        <div class="form-appr">
+  
+                                          <div
+                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                            <div class="ats-form-col">
+  
+                                              <p class="ques-heading">
+                                                {{assessRoleKnowledgLabelNew}}
+  
+                                              </p>
+                                              <mat-form-field>
+                                                <textarea matInput type="text" placeholder="Your Answer"
+                                                  formControlName="assessRoleKnowledg" disableInitialSpace
+                                                  [maxlength]="maxTextLength" [minlength]="minTextLength"
+                                                  #assessRoleKnowledg></textarea>
+                                                <mat-hint class="hint-wrap hint-msg" align="start">Minimum 100 characters
+                                                  required</mat-hint>
+                                                <mat-hint class="hint-wrap"
+                                                  align="end">{{assessRoleKnowledg.value?countNonSpaceChars(assessRoleKnowledg.value):0}}/1000</mat-hint>
+                                              </mat-form-field>
+                                              <mat-error class="error-aprrove-Reject"
+                                                *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.touched && fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.invalid">
+                                                <div
+                                                  *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.errors?.required">
+                                                  Required Field.
+                                                </div>
+                                                <div
+                                                  *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.errors?.minLenNoWhitespace">
+                                                  {{minCharacError}}
+                                                </div>
+  
+                                              </mat-error>
+                                            </div>
+                                            <!-- end col -->
+  
+                                          </div>
+  
+                                        </div>
+                                        <!-- end -->
+                                      </div>
+                                      <!-- column for details -->
+  
+                                      <!-- end -->
+                                      <!-- column for details ends-->
+  
+                                    </div>
+  
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <div class="offer-letter-section">
+                                      <div class="letter-wrapper">
+                                          <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                      </div> 
+                                  </div> -->
+  
+                            </ng-template>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel [expanded]="true" (opened)="setStep(1)">
+                            <mat-expansion-panel-header [ngClass]="{hdEr:prblmSolvingSkillFormControl?.invalid}">
+                              <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                  history_edu
+                                </span>
+                                <!-- Problem Solving and Logical Thinking -->
+                                {{newLabel3}}
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                              <div class="offer-letter-section">
+                                <div class="letter-wrapper">
+                                  <div>
+                                    <div class="ats-modal-body">
+                                      <div class="box-v-ats" formGroupName="prblmSolvingSkillForm">
+                                        <!-- <div class="box-v-header">
+                                                          <h4>Update Offer Status</h4>
+                                                      </div> -->
+                                        <div class="form-appr">
+                                          <div
+                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                            <div class="ats-form-col">
+                                              <p class="quees-heading">
+                                                {{candidatePrblmSolvingApprochLabelNew}}
+                                              </p>
+                                              <mat-form-field class="place-from-control">
+                                                <!-- <mat-label>Answer</mat-label> -->
+                                                <textarea matInput type="text" placeholder="Your Answer"
+                                                  formControlName="candidatePrblmSolvingApproch" disableInitialSpace
+                                                  [maxlength]="maxTextLength" [minlength]="minTextLength"
+                                                  #prblmSolvingApprc></textarea>
+                                                <mat-hint class="hint-wrap hint-msg" align="start">Minimum 100 characters
+                                                  required</mat-hint>
+                                                <mat-hint class="hint-wrap"
+                                                  align="end">{{prblmSolvingApprc.value?countNonSpaceChars(prblmSolvingApprc.value):0}}/1000</mat-hint>
+                                              </mat-form-field>
+                                              <mat-error class="error-aprrove-Reject"
+                                                *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.touched 
+                                                                  && prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.invalid">
+                                                <div
+                                                  *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.errors?.required">
+                                                  Required Field.
+                                                </div>
+                                                <div
+                                                  *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.errors?.minLenNoWhitespace">
+                                                  {{minCharacError}}
+                                                </div>
+                                              </mat-error>
+  
+                                            </div>
+                                            <!-- <div class="ats-form-col">
+                                              <p class="ques-heading">
+                                                {{candidateApprochComplexPrblmLabel}}
+                                              </p>
+                                              <mat-form-field>
+                                                <textarea matInput type="text" placeholder="Your Answer"
+                                                  formControlName="candidateApprochComplexPrblm" disableInitialSpace
+                                                  [maxlength]="maxTextLength" [minlength]="minTextLength"
+                                                  #candidateApprochComplexPrblm></textarea>
+                                                <mat-hint class="hint-wrap hint-msg" align="start">Minimum 100 characters
+                                                  required</mat-hint>
+                                                <mat-hint class="hint-wrap"
+                                                  align="end">{{candidateApprochComplexPrblm.value?countNonSpaceChars(candidateApprochComplexPrblm.value):0}}/1000</mat-hint>
+  
+                                              </mat-form-field>
+                                              <mat-error class="error-aprrove-Reject"
+                                                *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.touched && prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.invalid">
+                                                <div
+                                                  *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.errors?.required">
+                                                  Required Field.
+                                                </div>
+                                                <div
+                                                  *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.errors?.minLenNoWhitespace">
+                                                  {{minCharacError}}
+                                                </div>
+                                              </mat-error>
+  
+                                            </div> -->
+                                            <!-- end col -->
+  
+                                          </div>
+                                        </div>
+                                        <!-- end -->
+                                      </div>
+                                    </div>
+  
+                                  </div>
+                                </div>
+                              </div>
+  
+                            </ng-template>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel [expanded]="true" (opened)="setStep(2)">
+                            <mat-expansion-panel-header [ngClass]="{hdEr:CulturatFitAdaptabilityFormControl?.invalid}">
+                              <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                  history_edu
+                                </span>
+                                <!-- Cultural Fit & Adaptability -->
+                                {{newlabel5}}
+                              </mat-panel-title>
+                              <mat-panel-description>
+  
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                              <div class="offer-letter-section">
+                                <div class="letter-wrapper">
+                                  <div>
+                                    <div class="ats-modal-body">
+                                      <div class="box-v-ats" formGroupName="CulturatFitAdaptabilityForm">
+                                        <!-- <div class="box-v-header">
+                                                          
+                                                      </div> -->
+  
+                                        <div class="form-appr">
+  
+                                          <div
+                                            class="ats-forms ats-forms-horz ats-form-ext-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                                            <div class="ats-form-col">
+  
+                                              <p class="ques-heading">
+                                                {{candidateFitForInfogainLabelNew}}
+                                              </p>
+                                              <mat-form-field>
+                                                <textarea matInput type="text" placeholder="Your Answer"
+                                                  formControlName="candidateFitForInfogain" disableInitialSpace
+                                                  [maxlength]="maxTextLength" [minlength]="minTextLength"
+                                                  #candidateFitForInfogain></textarea>
+                                                <mat-hint class="hint-wrap hint-msg" align="start">Minimum 100 characters
+                                                  required</mat-hint>
+                                                <mat-hint class="hint-wrap"
+                                                  align="end">{{candidateFitForInfogain?.value?countNonSpaceChars(candidateFitForInfogain?.value):0}}/1000</mat-hint>
+  
+                                              </mat-form-field>
+                                              <mat-error class="error-aprrove-Reject"
+                                                *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.touched 
+                                                                  && CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.invalid">
+                                                <div
+                                                  *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.errors?.required">
+                                                  Required Field.
+                                                </div>
+                                                <div
+                                                  *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.errors?.minLenNoWhitespace">
+                                                  {{minCharacError}}
+                                                </div>
+                                              </mat-error>
+                                            </div>
+                                            <!-- end col -->
+                                            <!-- <div class="ats-form-col">
+                                              <p class="quees-heading">
+                                                {{candidateAbilityToAdoptChangeWorkLabel}}
+                                              </p>
+                                              <mat-form-field class="place-from-control">
+                                                 <mat-label>Answer</mat-label>
+                                                <textarea matInput type="text" placeholder="Your Answer"
+                                                  formControlName="candidateAbilityToAdoptChangeWork" disableInitialSpace
+                                                  [maxlength]="maxTextLength" [minlength]="minTextLength"
+                                                  #abilityAdoptCandiate></textarea>
+                                                <mat-hint class="hint-wrap hint-msg" align="start">Minimum 100 characters
+                                                  required</mat-hint>
+                                                <mat-hint class="hint-wrap"
+                                                  align="end">{{abilityAdoptCandiate?.value?countNonSpaceChars(abilityAdoptCandiate?.value):0}}/1000</mat-hint>
+  
+                                              </mat-form-field>
+                                              <mat-error class="error-aprrove-Reject"
+                                                *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.touched 
+                                                              && CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.invalid">
+                                                <div
+                                                  *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.errors?.required">
+                                                  Required Field.
+                                                </div>
+                                                <div
+                                                  *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.errors?.minLenNoWhitespace">
+                                                  {{minCharacError}}
+                                                </div>
+                                              </mat-error>
+                                            </div> -->
+  
+  
+                                          </div>
+  
+                                        </div>
+                                        <!-- end -->
+                                      </div>
+                                    </div>
+  
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <div class="offer-letter-section">
+                                      <div class="letter-wrapper">
+                                          <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                      </div> 
+                                  </div> -->
+  
+                            </ng-template>
+                          </mat-expansion-panel>
+  
+                        </mat-accordion>
+                      </div>
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!--Questionnaire feeedback ends -->
+      </div>
+
+      <div class="ats-panel-wrap-feed" *ngIf="iSCurrentStatusHr ||isHrFeedbackFinal ||isHrFeedbackDiscussion">
+        <!-- start HR Feedback -->
+        <div class="ats-int-round-wrapper" formGroupName="hrForm">
+          <ng-container *ngIf="iSCurrentStatusHr">
+            <div class="ats-t-int">
+              <h3>
+                Rating for traits:
+              </h3>
+            </div>
+            <div class="rating-list-wrap">
+              <ul>
+                <li>
+                  1: Below Average
+                </li>
+
+                <li>
+                  2: Average
+                </li>
+
+                <li>
+                  3: Good
+                </li>
+                <li>
+                  4: Very Good
+                </li>
+
+                <li>
+                  5: Exceptional
+                </li>
+              </ul>
+            </div>
+            <div class="dyn-control-wrap" formGroupName="hrRatings">
+              <div class="dyn-control-wrap-body">
+                <div class="form-dyn-table">
+                  <table class="table table-bordered table-hr-at">
+                    <thead>
+                      <tr>
+                        <th scope="col">Traits</th>
+                        <th scope="col">Comments</th>
+                        <th scope="col">HR Rating</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr formGroupName="communication"
+                        [ngClass]="{averages:ratingsMp1.value == '2' || ratingsMp1.value == '1',excellents:ratingsMp1.value == '3',excellents:ratingsMp1.value >= '3'}">
+                        <td>
+                          <div class="cont-fmn-text">
+                            <h4>Communication </h4>
+                            <p>
+                              Clarity of thought and expression, skill and desire to share information, sentence
+                              framing,
+                              listening ability and respect exhibited
+                            </p>
+
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && hrRatingcommunication.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            formControlName="comments" [required]="isRequiredHr" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp1>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr formGroupName="personalityAndPresentability"
+                        [ngClass]="{averages:ratingsMp2.value == '2' || ratingsMp2.value == '1',excellents:ratingsMp2.value == '3',excellents:ratingsMp2.value >= '3'}">
+                        <td>
+                          <div class="cont-fmn-text">
+                            <h4>Personality and Presentability </h4>
+                            <p>
+                              Clarity of thought and expression, skill and desire to share information, sentence
+                              framing,
+                              listening ability and respect exhibited
+                            </p>
+                            <ul class="ulc-dd">
+                              <li>
+                                Smile/Comfort
+                              </li>
+                              <li>
+                                Voice — nervous / pleasant
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && personalityAndPresentability.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            formControlName="comments" [required]="isRequiredHr" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp2>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr formGroupName="learnAndGrowthPotential"
+                        [ngClass]="{averages:ratingsMp3.value == '2' || ratingsMp3.value == '1',excellents:ratingsMp3.value == '3',excellents:ratingsMp3.value >= '3'}">
+                        <td>
+                          <div class="cont-fmn-text">
+                            <h4>Ability to learn and Growth potential </h4>
+                            <p>
+                              Listens earnestly, takes feedback positively and attempts to implement them. Shows passion
+                              for role, has adequate vision & aspiration.
+                            </p>
+                            <ul class="ulc-dd">
+                              <li>
+                                What will you do to keep yourself updated with new developments in industry and
+                                technology?
+                              </li>
+                              <li>
+                                What have you done to improve your knowledge in the last year?
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && learnAndGrowthPotential.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            formControlName="comments" [required]="isRequiredHr" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp3>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr formGroupName="adaptability"
+                        [ngClass]="{averages:ratingsMp4.value == '2' || ratingsMp4.value == '1',excellents:ratingsMp4.value == '3',excellents:ratingsMp4.value >= '3'}">
+                        <td>
+                          <div class="cont-fmn-text">
+                            <h4>Adaptability </h4>
+                            <p>
+                              Willingness to accept changes and to adopt different roles.
+                            </p>
+                            <ul class="ulc-dd">
+                              <li>
+                                Are you comfortable working in shifts?
+                              </li>
+                              <li>
+                                Would you be willing to relocate if required?
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && adaptability.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            formControlName="comments" [required]="isRequiredHr" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp4>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr formGroupName="attitude"
+                        [ngClass]="{averages:ratingsMp5.value == '2' || ratingsMp5.value == '1',excellents:ratingsMp5.value == '3',excellents:ratingsMp5.value >= '3'}">
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn-text">
+                            <h4>Attitude </h4>
+                            <p>
+                              Is assertive, earnest, doesn’t give up easily, is positive and has a can-do attitude
+                            </p>
+                            <ul class="ulc-dd">
+                              <li>
+                                How do you ensure that you do your best?
+                              </li>
+                              <li>
+                                The most challenging event of your life?
+                              </li>
+                              <li>Hobbies? (check for depth of knowledge)</li>
+                              <li> Check the reaction when corrected</li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && attitude.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            [required]="isRequiredHr" formControlName="comments" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp5>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr formGroupName="stability"
+                        [ngClass]="{averages:ratingsMp6.value == '2' || ratingsMp6.value == '1',excellents:ratingsMp6.value == '3',excellents:ratingsMp6.value >= '3'}">
+                        <td>
+                          <div class="cont-fmn-text">
+                            <h4>Stability </h4>
+                            <p>
+                              How long would you expect to work for us if hired?</p>
+
+                          </div>
+                        </td>
+                        <td class="fixed-inp-at">
+                          <div class="cont-fmn"
+                            [ngClass]="{errorField:isSubmitForm && stability.get('comments').invalid}">
+                            <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            [required]="isRequiredHr" formControlName="comments" disableInitialSpace> -->
+                            <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                              [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="ats-dmn-drop width-120">
+                            <mat-form-field>
+                              <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                #ratingsMp6>
+                                <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <ng-container *ngIf="IsRenuTeam">
+                        <tr formGroupName="technicalS"
+                          [ngClass]="{averages:ratingsMp6.value == '2' || ratingsMp6.value == '1',excellents:ratingsMp6.value == '3',excellents:ratingsMp6.value >= '3'}">
+                          <td>
+                            <div class="cont-fmn-text">
+                              <h4>Technical </h4>
+                              <p>
+                                Knowlege of Primary and additional skills</p>
+
+                            </div>
+                          </td>
+                          <td class="fixed-inp-at">
+                            <div class="cont-fmn"
+                              [ngClass]="{errorField:isSubmitForm && stability.get('comments').invalid}">
+                              <!-- <input type="text" placeholder="Comments*" maxlength="250" class="form-controls"
+                            [required]="isRequiredHr" formControlName="comments" disableInitialSpace> -->
+                              <textarea placeholder="Comments*" maxlength="500" class="form-controls"
+                                [required]="isRequiredHr" formControlName="comments" disableInitialSpace>
+                          </textarea>
+                            </div>
+                          </td>
+
+                          <td>
+                            <div class="ats-dmn-drop width-120">
+                              <mat-form-field>
+                                <mat-select placeholder="Rating" formControlName="ratings" [required]="isRequiredHr"
+                                  #ratingsMp6>
+                                  <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="ats-int-round-wrapper" *ngIf="!IsRenuTeam">
+              <div class="ats-t-int">
+                <h3>
+                  Overall skills assessment (Please indicate rating)
+                  <label>Rating: 1 -5 </label>
+                </h3>
+              </div>
+              <div class="rating-list-wrap">
+                <ul>
+                  <li>
+                    1: Below Average
+                  </li>
+
+                  <li>
+                    2: Average
+                  </li>
+
+                  <li>
+                    3: Good
+                  </li>
+                  <li>
+                    4: Very Good
+                  </li>
+
+                  <li>
+                    5: Exceptional
+                  </li>
+                </ul>
+              </div>
+              <div class="dyn-control-wrap">
+                <!-- <div class="dyn-control-wrap-title">
+                  <h4>Project specific and overall skills
+                    <label>(Give ratings on at least 5 Subtopics of Skill area)</label>
+                  </h4>
+                </div> -->
+
+                <div class="dyn-control-wrap-body">
+                  <div class="form-dyn-table">
+                    <table class="table table-bordered table-hr-at">
+                      <thead>
+                        <tr>
+                          <th scope="col">Skills</th>
+                          <th scope="col">Candidate Self Rating</th>
+                          <th scope="col">Relevant Experience</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody formGroupName="skillsRatingDetails" *ngIf="skillsRatingDetails?.length != 0">
+                        <tr *ngFor="let  items of skillsRatingDetails?.controls; let i=index" [formGroupName]="i"
+                          [ngClass]="{averages:skillsRatingCtrlControl[i]['controls'].Rating?.value >0 && skillsRatingCtrlControl[i]['controls'].Rating?.value <3,
+                          goods:skillsRatingCtrlControl[i]['controls'].Rating?.value >2 && skillsRatingCtrlControl[i]['controls'].Rating?.value <3,
+                          excellents:skillsRatingCtrlControl[i]['controls'].Rating?.value >= 3}">
+                          <td class="fixed-inp-at">
+                            <div class="cont-fmn" [ngClass]="{errorField:isSubmitForm && items.get('Skill').invalid}">
+                              <ng-container [ngSwitch]="true">
+                                <ng-container
+                                  *ngSwitchCase="skillsRatingCtrlControl[i]['controls'].type?.value == 'SR'">
+                                  <input type="text"
+                                    [value]="skillsRatingCtrlControl[i]['controls'].label?.value +''+(skillsRatingCtrlControl[i]['controls'].SkillName?.value) +''"
+                                    disableInitialSpace readonly>
+                                  <input type="hidden" formControlName="Skill" maxlength="500" class="form-controls"
+                                    [required]="isRequiredHr" disableInitialSpace readonly>
+
+                                </ng-container>
+
+                                <ng-container *ngSwitchDefault>
+                                  <ng-container *ngIf="isAddSkillFrom == 'SRound'">
+                                    <div class="int-panel-selectionf prm-sk">
+                                      <div class="prm-sk"
+                                        [ngClass]="{errorField:skillsRatingCtrlControl[i]['controls'].Skill?.invalid}">
+                                        <app-skill-set [panelIdControl]="skillsRatingCtrlControl[i]['controls'].Skill"
+                                          [required]="true"
+                                          [title]="skillsRatingCtrlControl[i]['controls'].label?.value"
+                                          [getOnlyText]="false" (getSkillIdOutput)="getAndSelectedSkillDetails($event)">
+                                        </app-skill-set>
+                                      </div>
+                                    </div>
+                                  </ng-container>
+                                  <ng-container *ngIf="isAddSkillFrom != 'SRound'">
+                                    <input type="text" formControlName="Skill" placeholder="SkillName" maxlength="500"
+                                      class="form-controls" [required]="isRequiredHr" disableInitialSpace>
+                                  </ng-container>
+
+                                </ng-container>
+                              </ng-container>
+
+
+                            </div>
+                          </td>
+                          <td class="fixed-inp-at">
+                            <input type="hidden" #ratingsMpHS formControlName="Rating">
+                            <ng-container [ngSwitch]="skillsRatingCtrlControl[i]['controls'].Skill?.value">
+
+                              <ng-container *ngSwitchDefault>
+                                <div class="ats-dmn-drop">
+                                  <mat-form-field>
+                                    <mat-select placeholder="Rating" formControlName="Rating" #ratingsMpHS>
+                                      <mat-option *ngFor="let int of RatingList" [value]="int">{{int}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+
+
+                          </td>
+
+                          <td>
+                            <div class="ats-form-col float-left-47">
+                              <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Relevant Exp. (Years)</mat-label>
+                                <input matInput placeholder="Relevant Exp. (Years)" maxlength="2" disableInitialSpace
+                                  onlyNumber formControlName="expYear">
+                              </mat-form-field>
+                            </div>
+                            <div class="ats-form-col float-right-47">
+                              <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Relevant Exp. (Months)</mat-label>
+                                <input matInput placeholder="Relevant Exp. (Months)" maxlength="2" disableInitialSpace
+                                  onlyNumber formControlName="expMonth">
+                              </mat-form-field>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="btn-action btn-single">
+                              <div class="btn-act">
+                                <ng-container [ngSwitch]="true">
+                                  <ng-container
+                                    *ngSwitchCase="skillsRatingDetails.controls[i]?.get('actionvisible')?.value == '0'">
+                                    <button mat-button [disabled]="true" type="button" matTooltip="Delete"
+                                      (click)="remove(i)">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </ng-container>
+                                  <ng-container *ngSwitchDefault>
+                                    <button mat-button type="button" matTooltip="Delete" (click)="remove(i)">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </ng-container>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="add-action-btn-wrp text-right">
+                    <button mat-flat-button type="button" class="btn btn-infocon" (click)="add()">
+                      <i class="fa fa-plus-square"></i> Add</button>
+                  </div>
+                </div>
+
+
+              </div>
+
+
+
+            </div>
+            <!-- end tech interview -->
+          </ng-container>
+          <div class="ats-forms ats-forms-horz" *ngIf="isHrFeedbackFinal">
+            <div class="ats-form-col">
+              <!-- <mat-form-field>
+                <mat-select placeholder="Designation" formControlName="DesignationId" [required]="isRequiredHrFinal">
+                  <mat-option *ngFor="let list of designationListData" [value]="list?.DesignationId">{{list?.DesignationName}}</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <app-common-control-master [desgination]="true" [formControlOpt]="designationIdControl"
+                [required]="isRequiredHrFinal && !isHrFeedbackDiscussion"
+                [title]="'Designation'"></app-common-control-master>
+            </div>
+            <!-- end col -->
+
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text"
+                  placeholder="{{locationData.isLocationUS(null) ? 'Base Pay' : 'Final CTC Offer'}}"
+                  formControlName="CTC" [required]="isRequiredHrFinal &&  !isHrFeedbackDiscussion" disableInitialSpace
+                  onlyNumber maxlength="9" (blur)="addValidationMinMax()">
+                <mat-error *ngIf="CTCControl?.touched && CTCControl?.invalid">
+                  <ng-container *ngIf="CTCControl?.errors?.required">
+                    Final CTC is required.
+                  </ng-container>
+                  <ng-container *ngIf="CTCControl?.errors?.min">
+                    Please enter min
+                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                      <ng-container *ngSwitchCase="1">
+                        {{(this.salRange.inrMin |
+                        customCurrency:1)}}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                        {{(this.salRange.usdMin |
+                        customCurrency:2)}}
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{(this.salRange.inrMin)}}
+                      </ng-container>
+
+                    </ng-container>
+                    <!-- {{(this.salRange.inrMin |
+                    customCurrency:1)}} -->
+                  </ng-container>
+                  <ng-container *ngIf="CTCControl?.errors?.max">
+                    You can not enter greater than
+                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                      <ng-container *ngSwitchCase="1">
+                        {{(this.salRange.inrMax |
+                        customCurrency:1)}}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                        {{(this.salRange.usdMax |
+                        customCurrency:2)}}
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{(this.salRange.inrMax)}}
+                      </ng-container>
+
+                    </ng-container>
+                    <!-- {{(this.salRange.inrMax |
+                    customCurrency:1)}} -->
+                  </ng-container>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- end col -->
+
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Joining Bonus" formControlName="joiningBonus"
+                  disableInitialSpace onlyNumber maxlength="9">
+              </mat-form-field>
+            </div>
+            <div class="ats-form-col" *ngIf="locationData.isLocationUS(null)">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Annual Variable Pay" formControlName="annualVariablePay"
+                  disableInitialSpace onlyNumber maxlength="9" [required]="locationData.isLocationUS(null)">
+              </mat-form-field>
+            </div>
+            <div class="ats-form-col" *ngIf="locationData.isLocationIndia(null)">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Notice Buy Out" formControlName="NoticeBuyOut"
+                  disableInitialSpace onlyNumber maxlength="9">
+              </mat-form-field>
+            </div>
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Travel Expense" formControlName="TravelExp" disableInitialSpace
+                  onlyNumber maxlength="9">
+              </mat-form-field>
+            </div>
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text"
+                  placeholder="{{locationData.isLocationUS(null) ? 'Relocation Pay' : 'Relocation Expense'}}"
+                  formControlName="RelocationExp" disableInitialSpace onlyNumber maxlength="9">
+              </mat-form-field>
+            </div>
+
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Retention Bonus" formControlName="RetentionBonus"
+                  disableInitialSpace onlyNumber maxlength="9">
+              </mat-form-field>
+            </div>
+
+            <!-- end col -->
+            <!-- <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Initial Salary " formControlName="salary"
+                  [required]="isRequiredHrFinal" disableInitialSpace onlyNumber maxlength="9">
+              </mat-form-field>
+            </div> -->
+            <!-- end col -->
+
+            <div class="ats-form-col">
+              <!-- <mat-form-field>
+                <mat-select placeholder="Primary Skill"  [compareWith]="compareFn" formControlName="primarySkillId" [required]="isRequiredHrFinal">
+                  <mat-option *ngFor="let list of primarySkillDataList" [value]="list?.SkillId">{{list?.SKillName}}</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <app-skill-set [panelIdControl]="primarySkillIdControl"
+                [required]="isRequiredHrFinal && !isHrFeedbackDiscussion" [title]="'Skill'">
+              </app-skill-set>
+
+            </div>
+            <!-- end col -->
+            <div class="ats-form-col">
+              <!-- <mat-form-field>
+                <input matInput type="text" placeholder="Offer given by" 
+                  formControlName="offeredBy" [required]="isRequiredHrFinal && !isHrFeedbackDiscussion" disableInitialSpace>
+              </mat-form-field> -->
+              <app-employee-list [panelIdControl]="offeredByControl"
+                [required]="isRequiredHrFinal && !isHrFeedbackDiscussion" [placeholder]="'Search'"
+                [title]="'Offer given by'" [showSelectedValue]="showSelectedValueOfferBy" [isEmpListServerSide]="true"
+                [defaultValue]="SelectedValueOfferBy">
+              </app-employee-list>
+            </div>
+            <!-- end col -->
+            <div class="ats-form-col date-ats-sc">
+              <mat-form-field>
+                <input matInput [matDatepicker]="datepickerInfo1" placeholder="Offer given on"
+                  formControlName="offeredOn" readonly [required]="isRequiredHrFinal && !isHrFeedbackDiscussion"
+                  [min]="minDate">
+                <mat-datepicker-toggle matSuffix [for]="datepickerInfo1">
+                  <mat-icon matDatepickerToggleIcon class="form-icon">
+                    <i class="far fa-calendar-alt"></i>
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #datepickerInfo1></mat-datepicker>
+              </mat-form-field>
+              <!-- <mat-form-field>
+                <input matInput type="text" placeholder="Offer given on" 
+                  formControlName="offeredOn" [required]="isRequiredHrFinal" disableInitialSpace>
+              </mat-form-field> -->
+            </div>
+            <!-- end col -->
+            <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Recruiter Name" formControlName="recruiterId" readonly
+                  disableInitialSpace>
+              </mat-form-field>
+              <!-- <app-employee-list [panelIdControl]="recruiterIdControl" [required]="isRequiredHrFinal"
+                [placeholder]="'Search Recruiter'" [title]="'Recruiter Name'">
+              </app-employee-list> -->
+            </div>
+            <!-- end col -->
+            <!-- <div class="ats-form-col">
+              <mat-form-field>
+                <input matInput type="text" placeholder="Remarks (if any)" formControlName="hrFinal_Remarks"
+                  disableInitialSpace maxlength="500">
+              </mat-form-field>
+            </div> -->
+            <!-- end col -->
+            <!-- <div class="ats-form-col" >
+              <div class="radio-btn-ats" [ngClass]="{errorField:isSubmitForm && finalDecisionHr.invalid}">
+                <label class="radio-gruop-label">Final Decision <sup *ngIf="isRequiredHrFinal">*</sup></label>
+                <mat-radio-group [required]="isRequiredHrFinal" formControlName="finalDecision">
+                  <mat-radio-button value="S">Selected</mat-radio-button>
+                  <mat-radio-button value="R">Rejected</mat-radio-button>
+                  <mat-radio-button value="H">On Hold</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div> -->
+
+
+          </div>
+
+        </div>
+        <!-- end start HR Feedback -->
+        <div class="ats-forms ats-forms-horz" *ngIf="isHrFeedbackDiscussion">
+
+          <div class="ats-form-col ats-form-col-70  hint-int-l">
+
+            <mat-form-field>
+
+              <textarea matInput type="text" placeholder="Detailed feedback" maxlength="1000"
+                formControlName="hrFinal_Remarks" [required]="isHrFeedbackDiscussion " disableInitialSpace
+                #messageRmk1></textarea>
+
+              <mat-error *ngIf="hrFinal_RemarksControl?.touched && hrFinal_RemarksControl?.invalid">
+
+                <div *ngIf="hrFinal_RemarksControl?.errors?.minlength">
+
+                  Please enter minimum {{this.IsRenuTeam?'300':'450'}} characters.
+
+                </div>
+
+              </mat-error>
+
+            </mat-form-field>
+
+            <label class="mat-hint-lb">{{messageRmk1.value.length}} / 1000</label>
+
+          </div>
+
+          <!-- end col -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ats-modal-footer text-center">
+    <!--[disabled]="isDetailedFeedbackDraft && isDetailedFeedbackEnable && !isTechnicalExternalFeedback"-->
+    <button type="submit" class="btn btn-infocon">
+      {{isDraftFeedback ? 'Draft Feedback' : 'Submit'}}
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+  </div>
+
+</form>

@@ -1,0 +1,490 @@
+// Clean Light Theme - White, Gray, Light Blue
+
+// Modal Width Customization
+::ng-deep .mat-dialog-container {
+  max-width: 800px !important;
+  width: 90vw !important;
+  
+  @media (max-width: 768px) {
+    width: 95vw !important;
+  }
+}
+
+.modern-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #334155;
+  padding: 20px 24px;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  border-bottom: 2px solid #e2e8f0;
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
+    .header-icon {
+      background: #e0f2fe;
+      border: 1px solid #b3e5fc;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        font-size: 20px;
+        color: #0277bd;
+      }
+    }
+    
+    .header-text {
+      flex: 1;
+      
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #1e293b;
+        text-transform: capitalize;
+      }
+      
+      .candidate-name {
+        margin: 4px 0 0 0;
+        font-size: 14px;
+        color: #64748b;
+        font-weight: 400;
+      }
+    }
+  }
+  
+  .modern-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #e2e8f0;
+      color: #334155;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.modern-modal-content {
+  padding: 0;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  
+  .ats-modal-body {
+    padding: 24px;
+    background: #f8fafc;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.profile-update-wrapper {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+// Clean Info Card
+.info-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
+  .info-header {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    
+    i {
+      color: #0277bd;
+    }
+  }
+  
+  .info-content {
+    padding: 16px 20px;
+    
+    p {
+      margin: 0;
+      color: #475569;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Content area that scrolls
+.form-content-area {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+// Clean Form Container
+.form-container {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+      margin-bottom: 0px;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.form-section {
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    h3 {
+      margin: 0;
+      color: #1e293b;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      
+      i {
+        color: #0277bd;
+      }
+    }
+    
+    .optional-badge {
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .field-container {
+    .full-width {
+      width: 100%;
+    }
+    
+    .current-value {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      gap: 4px;
+      
+      .label {
+        font-weight: 500;
+      }
+      
+      .value {
+        color: #0277bd;
+        
+        &.not-set {
+          color: #64748b;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+.remarks-section {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 24px;
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    h3 {
+      margin: 0;
+      color: #1e293b;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      i {
+        color: #0277bd;
+      }
+    }
+    
+    .optional-badge {
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+}
+
+// Clean Action Container - Always visible at bottom
+.action-container {
+background: #ffffff;
+    border-radius: 8px;
+    padding: 5px 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    margin-top: auto;
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  
+  .button-group {
+      display: flex;
+    justify-content: flex-end;
+    gap: 3px;
+    margin-bottom: 0;
+    
+    .btn {
+        padding: 7px 10px;
+      border-radius: 6px;
+      border: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      font-size: 14px;
+      
+      &.btn-cancel {
+        background: #f8fafc;
+        color: #64748b;
+        border: 1px solid #cbd5e1;
+        
+        &:hover:not(:disabled) {
+          background: #f1f5f9;
+          border-color: #94a3b8;
+          color: #475569;
+        }
+      }
+      
+      &.btn-primary {
+        background: #0284c7;
+        color: white;
+        border: 1px solid #0284c7;
+        
+        &:hover:not(:disabled) {
+          background: #0369a1;
+          border-color: #0369a1;
+          transform: translateY(-1px);
+        }
+        
+        &:disabled {
+          background: #cbd5e1;
+          color: #94a3b8;
+          border-color: #cbd5e1;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+    }
+  }
+  
+  .help-text {
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    
+    i {
+      color: #0284c7;
+    }
+  }
+}
+
+// Material Form Field Customizations - Light Theme
+::ng-deep {
+  .mat-form-field-appearance-outline {
+    .mat-form-field-outline {
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+    
+    &.mat-focused .mat-form-field-outline-thick {
+      color: #0284c7;
+    }
+    
+    .mat-form-field-label {
+      color: #64748b;
+    }
+    
+    &.mat-focused .mat-form-field-label {
+      color: #0284c7;
+    }
+    
+    .mat-form-field-infix {
+      border-top: none;
+    }
+  }
+  
+  .mat-select-panel {
+    border-radius: 6px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+  }
+  
+  .mat-option {
+    color: #374151;
+    
+    &.mat-selected {
+      background: #f0f9ff;
+      color: #0369a1;
+    }
+    
+    &:hover {
+      background: #f8fafc;
+    }
+  }
+  
+  .mat-datepicker-popup {
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+  }
+  
+  .mat-icon {
+    color: #64748b;
+  }
+  
+  .mat-focused .mat-icon {
+    color: #0284c7;
+  }
+  
+  .mat-hint {
+    color: #64748b;
+    font-size: 11px;
+  }
+}
+
+// Progress Bar - Light Theme
+.res-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 0 0 8px 8px;
+  
+  ::ng-deep .mat-progress-bar-fill::after {
+    background-color: #0284c7;
+  }
+  
+  ::ng-deep .mat-progress-bar-buffer {
+    background: #e2e8f0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 600px) {
+  .modern-header {
+    padding: 16px 20px;
+    
+    .header-content {
+      .header-icon {
+        width: 40px;
+        height: 40px;
+        
+        i {
+          font-size: 16px;
+        }
+      }
+      
+      .header-text h1 {
+        font-size: 20px;
+      }
+    }
+  }
+  
+  .modern-modal-content .ats-modal-body {
+    padding: 16px;
+  }
+  
+  .form-container,
+  .action-container {
+    padding: 16px;
+  }
+  
+  .action-container .button-group {
+    flex-direction: column;
+    
+    .btn {
+      justify-content: center;
+    }
+  }
+}
+
+// Legacy form styles (if needed for compatibility)
+.ats-forms.ats-forms-horz3 .ats-form-col {
+    width: 42.3% !important;
+}

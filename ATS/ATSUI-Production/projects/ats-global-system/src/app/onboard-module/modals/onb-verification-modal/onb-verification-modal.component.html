@@ -1,0 +1,45 @@
+<form [formGroup]="verificationForm" (ngSubmit)="submitVerificationForm(verificationForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="onb-form-verf-modal">
+                <div
+            class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+            <div class="ats-form-col mat-radio-ats mat-radio-btn-ats full-width">
+                <mat-radio-group aria-label="Select an option" formControlName="status" required (change)="getValueOnStatusChange($event)">
+                    <mat-radio-button value="1">Verified</mat-radio-button>
+                    <mat-radio-button value="0">Verification Failed</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <!-- end col -->
+            <div class="ats-form-col full-width">
+                <mat-form-field appearance="outline" class="place-from-control">
+                    <mat-label>Remark
+                    </mat-label>
+                    <textarea matInput placeholder="Remark" maxlength="500" disableInitialSpace
+                    formControlName="remarks" > </textarea>
+                    <!-- <mat-error *ngIf="getControl('remark')?.touched && getControl('remark')?.invalid">
+                        <div *ngIf="getControl('remark')?.errors.required">
+                            <span class="remarText">Remark is required</span>
+                        </div>
+                    </mat-error> -->
+                </mat-form-field>
+
+            </div>
+            </div>
+            <!-- end form  -->
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit"  class="btn btn-infocon" >
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

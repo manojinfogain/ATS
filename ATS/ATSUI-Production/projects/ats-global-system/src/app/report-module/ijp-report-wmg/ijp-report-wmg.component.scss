@@ -1,0 +1,71 @@
+:host ::ng-deep.wht-break{
+    white-space: nowrap !important;
+
+}
+
+.width-colmn-fixed{
+    width: 100px;
+}
+
+:host ::ng-deep.flat-boxes-wrap{
+    display: flex;
+    align-items: center;
+    .search-input{
+        width:auto !important;
+    }
+
+}
+:host ::ng-deep.filter-boxes{
+    .mat-radio-container{
+        display: none;
+    }
+    
+    .mat-radio-label-content{
+        padding-left: 0px;
+    }
+    .mat-radio-button {
+        background: #1f6a9f;
+        margin-right: 7px;
+        color: #fff;
+        padding: 7px 9px;
+        border-radius: 2px;
+        font-size: 13px;
+        font-family: Arial, Helvetica, sans-serif !important;
+        transition: all 0.7s ease-in-out;
+        .count-v{
+            padding: 3px 4px;
+            background: #fff;
+            color: #0d3d5f;
+            border-radius: 5px;
+            font-size: 11px;
+            margin-right: 3px;
+        }
+        .mat-radio-outer-circle {
+            border-color: #cdff07;
+            background: #fff;
+        }
+
+      
+        &.pending-ap{
+            background: #fff38e;
+            color: #595004;
+        }
+        &.fullfil-ap{
+            background: #b9ffbc;
+            color: #097e0d;
+        }
+        &.open-ap{
+            background: #bbf7ff;
+            color: #077786;
+        }
+        &.mat-radio-checked {
+            background: #2594a3 !important;
+            color: #fff;
+            box-shadow: 0px 3px 4px 1px #2594a399;
+            transition: all 0.7s ease-in-out;
+        }
+        &:hover{
+            opacity: 0.8;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+p{
+    margin-bottom: 0 !important;
+}
+
+
+// #table1 {
+//     border-collapse: collapse;
+//   }
+
+.mat-radio-button {
+    margin: 0 14px !important;
+}
+
+// .quest-sec{
+//   margin-top:10px;
+// }
+
+table {
+    width: 100% !important;
+    // tr.bordered{
+    //     border: 1px solid 1px rgb(216, 16, 16) !important;
+    // }
+}
+:host ::ng-deep mat-checkbox .mat-checkbox-layout {
+    display: unset !important;
+    pointer-events: none;
+}
+.consent-txt{
+    // color: black;
+    font-size: smaller;
+}
+
+.mat-checkbox-layout{
+    white-space: normal !important;
+}
+:host::ng-deep .mat-checkbox-layout{
+   // display: block !important;
+    white-space: normal !important;
+  }
+
+  :host::ng-deep .consent-wxv{
+    .mat-checkbox-layout{
+       font-size: 12px !important;
+       }
+  }
+
+.checkbox-margin-top-20 {
+  margin-top: 20px;
+}
+
+.checkbox-margin-top-10 {
+  margin-top: 10px;
+}

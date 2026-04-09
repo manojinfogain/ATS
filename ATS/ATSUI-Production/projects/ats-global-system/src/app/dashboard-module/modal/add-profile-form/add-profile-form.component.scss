@@ -1,0 +1,26 @@
+.file-error{
+    color: red;
+    font-size: 11px;
+}
+
+.half-width {
+  width: 100%;
+}
+.skill-ref-btn {
+  margin-top: 0;
+}
+
+.skill-wrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.skill-col {
+  flex: 1 1 50%;
+}
+
+.skill-ref-col {
+  flex: 1 1 50%;
+  padding-left: 10px;
+  margin-left: 35px;
+}

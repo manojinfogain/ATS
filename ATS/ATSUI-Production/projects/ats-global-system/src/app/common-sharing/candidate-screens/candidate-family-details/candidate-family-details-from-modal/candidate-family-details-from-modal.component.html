@@ -1,0 +1,169 @@
+<form [formGroup]="updateFamilyDetailsForm" (ngSubmit)="submitForm(updateFamilyDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Relationship</mat-label>
+                            <mat-select formControlName="relationship" required>
+                                <mat-option value="option1">Father</mat-option>
+                                <mat-option value="option2">Mother</mat-option>
+                                <mat-option value="option3">Sister</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="relationshipControl?.touched && relationshipControl?.invalid">
+                                <div *ngIf="relationshipControl?.errors?.required">
+                                    Relationship is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label> Name</mat-label>
+                            <input matInput type="text" formControlName="familyMemberName" required>
+                            <mat-error *ngIf="familyMemberNameControl?.touched && familyMemberNameControl?.invalid">
+                                <div *ngIf="familyMemberNameControl?.errors?.required">
+                                    Member Name is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="memberDob" required>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="memberDobControl?.touched && memberDobControl?.invalid">
+                                <div *ngIf="memberDobControl?.errors?.required">
+                                    DOB is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Gender</mat-label>
+                            <mat-select formControlName="gender" required>
+                                <mat-option value="option1">Male</mat-option>
+                                <mat-option value="option2">Female</mat-option>
+                                <mat-option value="option2">Non-Binary</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="genderControl?.touched && genderControl?.invalid">
+                                <div *ngIf="genderControl?.errors?.required">
+                                    Gender is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Dependent</mat-label>
+                            <mat-select formControlName="dependent">
+                                <mat-option value="option1">yes</mat-option>
+                                <mat-option value="option2">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-form-field  [appearance]="appearance">
+                            <mat-label>Dependent</mat-label>
+                            <input matInput type="text">
+                        </mat-form-field> -->
+                        <!-- <div class="ats-radio-mat-flat">
+                            <label>Pick your favorite season</label>
+                            <mat-radio-group  aria-label="Select an option">
+                                <mat-radio-button value="1">Yes</mat-radio-button>
+                                <mat-radio-button value="2">No</mat-radio-button>
+                              </mat-radio-group>
+                        </div> -->
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label> Address</mat-label>
+                            <input matInput type="text" formControlName="address">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Minor</mat-label>
+                            <mat-select formControlName="minor">
+                                <mat-option value="option1">yes</mat-option>
+                                <mat-option value="option2">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <div class="ats-radio-mat-flat">
+                            <label>Minor</label>
+                            <mat-radio-group  aria-label="Select an option">
+                                <mat-radio-button value="1">Yes</mat-radio-button>
+                                <mat-radio-button value="2">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Guardian Name</mat-label>
+                            <input matInput type="text" formControlName="guardianName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Guardian Address</mat-label>
+                            <input matInput type="text" formControlName="guardianAddress">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Occupation</mat-label>
+                            <mat-select formControlName="occupation">
+                                <mat-option value="option1">Engineer</mat-option>
+                                <mat-option value="option2">Doctor</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name Of Organization</mat-label>
+                            <input matInput type="text" formControlName="organizatonName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Remarks</mat-label>
+                            <input matInput type="text" formControlName="remarks">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

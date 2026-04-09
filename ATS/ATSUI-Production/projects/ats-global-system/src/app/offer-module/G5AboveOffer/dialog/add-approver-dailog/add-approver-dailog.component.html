@@ -1,0 +1,25 @@
+<form [formGroup]="formAprrover">
+<div class="ats-modal-header">
+    <h2>Choose Number Of Approver</h2>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+      <div class="ats-d-approver">
+        <mat-selection-list formControlName="approvers">
+            <mat-list-option *ngFor="let list of ApproverList" [value]="list.id">
+              {{list?.name}}
+            </mat-list-option>
+          </mat-selection-list>
+      </div>
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+  <button type="button" class="btn btn-infocon" (click)="submitForm(formAprrover)">
+            Ok
+        </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+        Cancel
+    </button>
+</div>
+</form>

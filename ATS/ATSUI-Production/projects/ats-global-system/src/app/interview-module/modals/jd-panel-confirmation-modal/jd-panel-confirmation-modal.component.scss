@@ -1,0 +1,35 @@
+.box-v-ats {
+    //  padding: 11px !important;
+      padding-bottom: 0 !important;
+  }
+  .view-list-dt-appr .view-list-bx {
+      width: 32% !important;
+  }
+  
+  .ats-forms.ats-forms-horz3 .ats-form-col {
+  // width: 170px !important; 
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   border: solid 1px #db05051c;
+   padding: 13px 2px;
+   margin-bottom: -17px;
+   margin-right: 7px;
+  }
+  
+  .ats-forms.ats-forms-horz {
+      margin-bottom: 11px !important;
+  }
+  
+  .border-rigt{
+      border-right: solid black;
+  }
+
+  .ats-forms .ats-form-col.mat-radio-ats.mat-radio-btn-ats .mat-radio-button.mat-radio-checked {
+   // background: #2de00a !important;
+}
+
+.width-280 {
+    width: 280px;
+}
+

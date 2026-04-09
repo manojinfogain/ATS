@@ -1,0 +1,810 @@
+<div class="ats-modal-header">
+  <h1>{{data?.roundList?.interviewType?.Type}}</h1>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="fd-list-wrap">
+      <div class="top-dt-wrap profile-pic-wp-main">
+        <div class="profile-pic-wp">
+          <div class="no-pic" *ngIf="roundDataList?.IsPicturePresent=='N'">
+            <img src="assets/images/no-profile-male.png" alt="">
+          </div>
+          <ng-container *ngIf="roundDataList?.IsPicturePresent=='Y'">
+            <a href="javascript:void(0)" (click)="viewCandidatePictureModal()">
+              <app-view-profile-pics [roundId]="roundDataList?.RoundId" [cid]="this.candidateData?.cid"></app-view-profile-pics>
+            </a>
+
+            <!-- <img src="assets/images/no-profile-male.png" alt=""> -->
+          </ng-container>
+        </div>
+        <div class="list-record-interview">
+          <ul>
+            <li>
+              <label><span>Name:</span>
+                <span class="sp-highl">{{data?.candidateData?.Name || '-'}}</span></label>
+            </li>
+            <li>
+              <label><span>Email:</span>{{data?.candidateData?.Email || '-'}}</label>
+            </li>
+            <li>
+              <label><span>Talent ID:</span>
+                {{data?.roundList?.talentId || '-'}}</label>
+            </li>
+
+            <ng-container
+              *ngIf="roundDataList?.interviewBy =='C' || (roundDataList?.interviewBy =='I' && roundDataList?.AssessmentStatus =='C')">
+              <li *ngIf="roundDataList?.interviewType.Id === 2">
+                <label><span>Assessment:</span>{{roundDataList?.coderByteDisplayName || 'NA'}}</label>
+              </li>
+              <li *ngIf="roundDataList?.interviewType.Id === 2">
+                <label><span>Qualifying Score (%):</span>{{roundDataList?.Qualifying_Score || 'NA'}}</label>
+              </li>
+              <li *ngIf="roundDataList?.interviewType.Id === 2">
+                <label><span class="cheating-label"> Cheating Detected:</span>
+                  <ng-container *ngIf="roundDataList.cheating_flag ; else recordNa">
+                    <ng-container
+                      *ngIf="roundDataList.cheating_flag =='Likely' || roundDataList.cheating_flag =='Detected' ; else cheatingNo">
+                      <button class="btn-status-dg rejects" type="button">
+                        Yes
+                      </button>
+                    </ng-container>
+                    <ng-template #cheatingNo>
+                      <button class="btn-status-dg selecteds" type="button">
+                        No
+                      </button>
+                    </ng-template>
+                  </ng-container>
+                  <ng-template #recordNa>
+                    <span>NA</span>
+                  </ng-template>
+                </label>
+              </li>
+            </ng-container>
+            <li *ngIf="roundDataList?.interviewType.Id === 1 ||roundDataList?.interviewType.Id === 2 || roundDataList?.interviewBy == 'M' || roundDataList?.interviewBy == 'C' || roundDataList?.interviewBy == 'G'
+              ||(roundDataList?.interviewBy =='I' && roundDataList?.AssessmentStatus =='C')">
+              <div class="score-report-wrapper">
+                <label
+                  *ngIf="roundDataList?.interviewBy =='G' || roundDataList?.interviewBy =='M'"><span>Score:</span>{{(roundDataList?.testScore
+                  ? roundDataList?.testScore + '%': '-' )}}</label>
+                <label
+                  *ngIf="roundDataList?.interviewBy =='C' ||(roundDataList?.interviewBy =='I' && roundDataList?.AssessmentStatus =='C')">
+                  <span>Final Score:</span>{{(roundDataList?.Final_Score ? roundDataList?.Final_Score + '%': '-'
+                  )}}</label>
+                <div
+                  *ngIf="roundDataList?.interviewBy =='C' ||(roundDataList?.interviewBy =='I' && roundDataList?.AssessmentStatus =='C')"
+                  class="coderByte-report">
+                  <a [href]="roundDataList?.coderByteReportUrl" target="_blank">View Report
+                  </a>
+
+                  <!-- <div class="btn-action btn-action-center">
+                    <div class="btn-act">
+                      <button mat-button type="button" matTooltip="View Report" (click)="openReportModal(element)">
+                        <span class="material-icons">
+                          preview
+                        </span>
+                      </button>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+
+
+            </li>
+            <li
+              *ngIf="roundDataList?.interviewType.Id === 1 || roundDataList?.interviewBy == 'M' || roundDataList?.interviewBy == 'C'">
+              <label><span>Score:</span>{{roundDataList?.testScore || '-'}}</label>
+            </li>
+            <li
+              *ngIf="roundDataList?.interviewType.Id === 1 || roundDataList?.interviewType.Id === 3  || roundDataList?.interviewType.Id === 4 || roundDataList?.interviewType.Id === 5 || roundDataList?.interviewType.Id === 2 || roundDataList?.interviewType.Id === 6">
+              <label><span>
+                  <ng-container [ngSwitch]="roundDataList?.interviewType.Id">
+                    <ng-container *ngSwitchCase="1">
+                      <!-- Mettl score sheet -->
+                      File
+                    </ng-container>
+                    <ng-container *ngSwitchCase="3">
+                      File
+                    </ng-container>
+                    <ng-container *ngSwitchCase="5">
+                      File
+                    </ng-container>
+                    <ng-container *ngSwitchCase="2">
+                      <ng-container *ngIf="roundDataList?.interviewBy =='C'; else other">
+                        <!-- coderbyte approval attactment -->
+                        Approval Attachment
+                      </ng-container>
+                      <ng-template #other>
+                        File
+                      </ng-template>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      File
+                    </ng-container>
+
+                  </ng-container>
+                  :
+                </span>
+                <!-- {{roundDataList?.testAttachment || '-'}} -->
+                <div class="btn-action btn-single btn-action-center">
+                  <div class="btn-act">
+                    <button mat-button type="button" matTooltip="View" [disabled]="roundDataList?.testAttachment == ''"
+                      (click)="dwnloadFileSingle(roundDataList)">
+                      <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+ 
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </li>
+            <li
+              *ngIf="roundDataList?.interviewType.Id != 3 && roundDataList?.interviewBy != 'E' &&roundDataList?.remarks">
+              <label><span>Remarks:</span>{{roundDataList?.remarks || '-'}}</label>
+            </li>
+
+            <!-- view canidate picture -->
+            <!-- *ngIf="data?.roundList?.IsPicturePresent" -->
+            <!-- <li> -->
+            <!-- <label><span>Candidate Picture:</span></label>
+              <div class="btn-action btn-action-centers">
+                <div class="btn-act">
+                  <button [ngClass]="{'disble' : roundDataList?.IsPicturePresent=='N'}" mat-button type="button"
+                    class="btn-ey-v" matTooltip="View Candidate Picture " (click)="viewCandidatePictureModal()">
+                    <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div> -->
+
+            <!-- new test  -->
+            <!-- <ng-container *ngIf="roundDataList?.IsPicturePresent=='Y'; else canidatePict">
+                <div class="btn-action btn-action-centers">
+                  <div class="btn-act">
+                    <button  mat-button type="button"
+                      class="btn-ey-v" matTooltip="View Candidate Picture " (click)="viewCandidatePictureModal()">
+  
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #canidatePict>
+                <span class="no-pic-error-msg">No Picture Available!</span>
+              </ng-template> -->
+            <!-- </li> -->
+            <!-- ends -->
+            <!-- not showing fields for 2 technical - and 6 for Managerial
+              roundDataList?.interviewType.Id === 2 || 
+              roundDataList?.interviewType.Id === 6 -->
+            <li
+              *ngIf="((roundDataList?.interviewType.Id === 2 && (roundDataList?.interviewBy != 'M' || roundDataList?.interviewBy != 'C' || roundDataList?.interviewBy != 'G')))"
+              class="full-width">
+              <label><span>Remarks for evaluator:</span>{{roundDataList?.remarkNextLevel || '-'}}</label>
+            </li>
+            <li *ngIf="((roundDataList?.interviewType.Id === 5 && roundDataList?.interviewBy != 'M' && roundDataList?.interviewBy != 'E') && (data?.IsTechRoundVisible)) 
+            ">
+              <label><span>Strengths:</span>{{roundDataList?.strengths || '-'}}</label>
+            </li>
+            <li
+              *ngIf="((roundDataList?.interviewType.Id === 5 && roundDataList?.interviewBy != 'M' && roundDataList?.interviewBy != 'E') && (data?.IsTechRoundVisible))">
+              <label><span>Limitations:</span>{{roundDataList?.limitations || '-'}}</label>
+            </li>
+            <li
+              *ngIf="((roundDataList?.interviewType.Id === 5 && roundDataList?.interviewBy != 'M' && roundDataList?.interviewBy != 'E') && (data?.IsTechRoundVisible))">
+              <label><span>Technical:</span>{{roundDataList?.technical || '-'}}</label>
+            </li>
+            <li
+              *ngIf="((roundDataList?.interviewType.Id === 5&& roundDataList?.interviewBy != 'M' && roundDataList?.interviewBy != 'E') && (data?.IsTechRoundVisible))">
+              <label><span>Non Technical:</span>{{roundDataList?.nonTechnical || '-'}}</label>
+            </li>
+            <!-- <li *ngIf="roundDataList?.interviewType.Id === 2">
+              <label><span>Evaulation:</span>{{roundDataList?.evaluation || '-'}}</label>
+            </li> -->
+
+            <li *ngIf="isVideoVisibble(roundDataList) && isLocIndia">
+              <label><span>Candidate Video:</span></label>
+              <div class="btn-action btn-single btn-action-center">
+                <div class="btn-act hr-doc-btn">
+                  <button mat-button type="button" [matTooltip]="!profileVid?.fileName ? '' :'View'"
+                    [disabled]="!profileVid?.fileName" (click)="viewVideo(profileVid)">
+                    <!-- <i class="fas fa-download view-pic" aria-hidden="true"></i> -->
+                    <span class="material-icons-outlined">
+                      play_circle
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li *ngIf="(isLocIndia && profileVid?.FileNameTransScript) && userData?.RoleId == 5">
+              <label><span>Transcript File:</span></label>
+              <div class="btn-action btn-single btn-action-center">
+                <div class="btn-act hr-doc-btn">
+                  <button mat-button type="button" [matTooltip]="'Download'"
+                    [disabled]="!profileVid?.FileNameTransScript" (click)="DownloadTrans(profileVid)">
+                    <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                   
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li *ngIf="isVideoVisibble(roundDataList) && isLocIndia">
+              <label><span>Video Match Percent(%):</span>
+                <!-- {{roundDataList?.VideoMatchPercent}} % -->
+                {{videocompData?.VideoMatchPercent == null?'NA':videocompData?.VideoMatchPercent+' %'}}
+
+              </label>
+
+
+            </li>
+            <li *ngIf="isVideoVisibble(roundDataList) && isLocIndia">
+              <label><span>Video Match:</span>
+                <!-- {{roundDataList?.VideoMatch || '-'}} -->
+                <ng-container [ngSwitch]="videocompData?.VideoMatch">
+                  <ng-container *ngSwitchCase="'Y'">
+                    <span class="yes-t">Yes</span>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'N'">
+                    <span class="no-t">No</span>
+                  </ng-container>
+
+                  <ng-container *ngSwitchDefault>
+                    <span>NA</span>
+                  </ng-container>
+                </ng-container>
+              </label>
+
+
+            </li>
+            <li *ngIf="isVideoVisibble(roundDataList) && isLocIndia">
+              <label><span>Consent By Panel:</span>
+                <!-- {{roundDataList?.VideoMatchPercent}} % -->
+                <ng-container [ngSwitch]="roundDataList?.PanelConcent">
+                  <ng-container *ngSwitchCase="'Y'">
+                    <span class="yes-t">Yes</span>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'N'">
+                    <span class="no-t">No</span>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <span>NA</span>
+                  </ng-container>
+
+                </ng-container>
+                <!-- {{roundDataList?.PanelConcent == "" || roundDataList?.PanelConcent == null?'NA':roundDataList?.PanelConcent}} -->
+
+              </label>
+
+            </li>
+
+            <ng-container *ngIf="!isNewQuestionnaireFeedback">
+              <li *ngIf="((roundDataList?.interviewType.Id === 2 && roundDataList?.interviewBy != 'M') && (data?.IsTechRoundVisible)) ||
+               roundDataList?.interviewType.Id === 5 || 
+               roundDataList?.interviewType.Id === 3 || 
+               roundDataList?.interviewType.Id === 6" class="full-width">
+                <label><span>{{roundDataList?.interviewType.Id === 3 || roundDataList?.interviewBy == 'E' ? 'Remarks' :
+                    FeedbackTitle}}:</span>{{roundDataList?.techRemarks || '-'}}</label>
+              </li>
+            </ng-container>
+
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span>Designation:</span><span class="sp-highl">{{roundDataList?._designation?.desigName ||
+                  '-'}}</span></label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span>Final CTC Offer :</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.CTC | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.CTC?(roundDataList?.CTC |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.CTC | currency) || '-'}} -->
+                    {{((roundDataList?.CTC?(roundDataList?.CTC |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.CTC | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.CTC?(roundDataList?.CTC |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Joining Bonus:</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.joiningBonus | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.joiningBonus?(roundDataList?.joiningBonus |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.joiningBonus | currency) || '-'}} -->
+                    {{((roundDataList?.joiningBonus?(roundDataList?.joiningBonus |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.joiningBonus | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.joiningBonus?(roundDataList?.joiningBonus |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Notice Buy Out :</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.NoticeBuyOut | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.NoticeBuyOut?(roundDataList?.NoticeBuyOut |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.NoticeBuyOut | currency) || '-'}} -->
+                    {{((roundDataList?.NoticeBuyOut?(roundDataList?.NoticeBuyOut |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.NoticeBuyOut | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.NoticeBuyOut?(roundDataList?.NoticeBuyOut |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Relocation Expense :</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.RelocationExp | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.RelocationExp?(roundDataList?.RelocationExp |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.RelocationExp | currency) || '-'}} -->
+                    {{((roundDataList?.RelocationExp?(roundDataList?.RelocationExp |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.RelocationExp | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.RelocationExp?(roundDataList?.RelocationExp |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Retention Bonus :</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.RetentionBonus | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.RetentionBonus?(roundDataList?.RetentionBonus |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.RetentionBonus | currency) || '-'}} -->
+                    {{((roundDataList?.RetentionBonus?(roundDataList?.RetentionBonus |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.RetentionBonus | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.RetentionBonus?(roundDataList?.RetentionBonus |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Travel Expense:</span>
+                <span class="sp-f-l">
+                  <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                    <!-- {{(roundDataList?.TravelExp | currency: 'INR':true) || '-'}} -->
+                    {{((roundDataList?.TravelExp?(roundDataList?.TravelExp |
+                    currency:'INR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                    <!-- {{(roundDataList?.TravelExp | currency) || '-'}} -->
+                    {{((roundDataList?.TravelExp?(roundDataList?.TravelExp |
+                    currency): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                  <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                    <!-- {{(roundDataList?.TravelExp | currency: 'EUR':true) || '-'}} -->
+                    {{((roundDataList?.TravelExp?(roundDataList?.TravelExp |
+                    currency:'EUR':true): '-')|amountMask:candidateProfDetails?.offerStatusId)}}
+                  </ng-container>
+                </span>
+              </label>
+            </li>
+            <!-- <li *ngIf="roundDataList?.interviewType.Id === 4">
+              <label><span> Initial Salary:</span>
+                <ng-container *ngIf="candidateData?.currency?.Id == 1">
+                  {{(roundDataList?.salary | currency: 'INR':true) || '-'}}
+                </ng-container>
+                <ng-container *ngIf="candidateData?.currency?.Id == 2">
+                  {{(roundDataList?.salary | currency) || '-'}}
+                </ng-container>
+                <ng-container *ngIf="candidateData?.currency?.Id == 3">
+                  {{(roundDataList?.salary | currency: 'EUR':true) || '-'}}
+                </ng-container>
+                </label>
+            </li> -->
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Primary Skill:</span>{{roundDataList?.primarySkill?.SkillName || '-'}}</label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ">
+              <label><span> Offer given by:</span>{{roundDataList?.offeredby?.Name || '-'}}</label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4">
+              <label><span> Offer given on:</span>{{(roundDataList?.offeredOn| date:'dd-MM-yyyy') || '-'}}</label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4">
+              <label><span> Recruiter Name:</span>{{candidateData?.recruiter?.Name || '-'}}</label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4 ||
+            roundDataList?.interviewType.Id === 7">
+              <label><span> Remarks (HR Final):</span>{{roundDataList?.hrFinal_Remarks || '-'}}</label>
+            </li>
+            <li *ngIf="roundDataList?.interviewType.Id === 4">
+              <label><span> Final Decision:</span>
+                <span class="sp-high-select">{{roundDataList?.finalDecision|| '-'}}</span></label>
+            </li>
+
+
+            <li
+              *ngIf="roundDataList?.interviewType.Id === 4 && (roundDataList?.interviewer?.Id == userData?.EmpNewId  || roundDataList?.recruiter?.Id == userData?.EmpNewId  || userData?.RoleId == 5)">
+              <label><span>
+                  Salary Supporting Docs.
+                  : 
+                </span>
+              </label>
+              <div class="btn-action btn-single btn-action-center">
+                <div class="btn-act hr-doc-btn">
+                  <button mat-button type="button" matTooltip="Download Document" [disabled]="(roundDataList?.FinalAttachment == '' || roundDataList?.FinalAttachment == null) &&
+                      (roundDataList?.FinalAttachment1 == '' || roundDataList?.FinalAttachment1 == null) &&
+                      (roundDataList?.FinalAttachment2 == '' || roundDataList?.FinalAttachment2 == null)"
+                    (click)="downloadSalaryDocumentModal(roundDataList)">
+                    <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+
+            <li
+              *ngIf="(roundDataList?.interviewType.Id === 4 || (roundDataList?.interviewType?.Id === 1 && profileIds?.fileName)) && isLocIndia">
+              <label><span>Government ID Proof:</span></label>
+              <div class="btn-action btn-single btn-action-center">
+                <div class="btn-act hr-doc-btn">
+                  <button mat-button type="button" matTooltip="View/Download" [disabled]="!profileIds?.fileName"
+                    (click)="viewIDProof(profileIds)">
+                    <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <ng-container
+              *ngIf="roundDataList?.interviewType.Id === 4 && (roundDataList?.interviewer?.Id == userData?.EmpNewId  || roundDataList?.recruiter?.Id == userData?.EmpNewId  || userData?.RoleId == 5)">
+              <li>
+                <label><span>Offer In Hand:</span>
+                  {{roundDataList?.IsInHandOffer == 'Y'?'YES':''}}
+                  {{roundDataList?.IsInHandOffer == 'N'?'No':''}}
+                  {{roundDataList?.IsInHandOffer?'':'-'}}</label>
+                <!-- {{roundDataList?.IsInHandOffer?roundDataList?.IsInHandOffer == 'Y'?'Yes':'No':'-'}}</span></label> -->
+
+              </li>
+              <li>
+                <label><span>Offer In Hand Amount:</span>
+                  {{(roundDataList?.OfferInHandAmount | currency: 'INR':true) || '-'}}</label>
+              </li>
+              <li *ngIf="roundDataList?.HRConcent == 'Y'">
+                <label><span> Recruiter Consent(Offer In Hand ):</span>
+                  {{roundDataList?.HRConcent == 'Y'?'YES':''}}
+                  {{roundDataList?.HRConcent?'':'-'}}</label>
+              </li>
+
+              <li>
+                <label><span>
+                    Download Document (Offer)
+                    :
+                  </span>
+                </label>
+                <div class="btn-action btn-single btn-action-center">
+                  <div class="btn-act hr-doc-btn">
+                    <button mat-button type="button" [matTooltip="Download Document (Offer)"
+                      [disabled]="(roundDataList?.OfferLetterAtt == '')"
+                      (click)="dwnloadFileSingleOffer(roundDataList)">
+                      <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label><span> Company Name (Offer):</span>
+                  {{roundDataList?.OfferCompanyName|| '-'}}</label>
+              </li>
+            </ng-container>
+
+
+            <li *ngIf="((roundDataList?.InterViewStatus.Id ==10 && roundDataList?.interviewType.Id === 2 && roundDataList?.interviewBy != 'M') && (data?.IsTechRoundVisible)) ||
+               roundDataList?.interviewType.Id === 6">
+              <ng-container *ngIf="roundDataList?.GroomableArea1">
+                <label class="display-block"><span>For Groomable:</span>
+                  <ul class="vnm-list">
+                    <li>{{roundDataList?.GroomableArea1 || '-'}}</li>
+                    <li>{{roundDataList?.GroomableArea2 || '-'}}</li>
+                    <li>{{roundDataList?.GroomableArea3 || '-'}}</li>
+                  </ul>
+                </label>
+              </ng-container>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+      <div class="table-data-scroll-pop2">
+        <table mat-table [dataSource]="roundDataList?.hrTraits" class="table-mat-info table-mat-info-fdp"
+          *ngIf="roundDataList?.hrTraits.length !=0">
+          <ng-container matColumnDef="Traits">
+            <th mat-header-cell *matHeaderCellDef> Traits </th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.TraitName || '-'}}
+            </td>
+          </ng-container>
+
+          <!-- Email ID Column -->
+          <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef>Comments </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.Comments || '-'}}
+            </td>
+          </ng-container>
+          <!-- Phone No. Column -->
+          <ng-container matColumnDef="Rating">
+            <th mat-header-cell *matHeaderCellDef> Rating</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{element?.hrRating || '-'}}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+        </table>
+
+        <table class="margin-top-10" mat-table [dataSource]="roundDataList?.screenRoundAdditionalSkills"
+          class="table-mat-info table-mat-info-fdp" *ngIf="roundDataList?.screenRoundAdditionalSkills?.length !=0">
+          <ng-container matColumnDef="Skills">
+            <th mat-header-cell *matHeaderCellDef> Skills </th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.skill || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Proficiency">
+            <th mat-header-cell *matHeaderCellDef>Candidate Self Rating</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{element?.rating || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Exp">
+            <th mat-header-cell *matHeaderCellDef>Relevant Experience</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{element?.expYear != null && element?.expYear != 0 ? (element?.expYear+' years '+element?.expMonth+'
+              months') : '-'}}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="ExpMonth">
+            <th mat-header-cell *matHeaderCellDef>Relevant Experience (In Months)</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{element?.expMonth+' months' || '-'}}
+            </td>
+          </ng-container> -->
+
+          <tr mat-header-row *matHeaderRowDef="ScreeningdisplayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: ScreeningdisplayedColumns;let i = index"></tr>
+        </table>
+        <ng-container *ngIf="userData?.RoleId == 5 && isAssessmentCombineRating;else showTechAssesMent">
+          <div class="view-feedback-questionnaire-screen" *ngIf="GenAIResponsesListModel.length !=0 && data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id == 2 && this.userData?.RoleId == 5">
+            <div class="header-question-type-wrap">
+                <div class="ats-modal-fdvdrheader">
+                    <h4 class="header"> Assessment: Panel and AI Ratings</h4>
+                </div>
+            </div>
+            
+            <div class="question-section">
+            <!-- roundDataList?.areas -->
+            <table mat-table [dataSource]="GenAIResponsesListModel" class="table-mat-info table-mat-info-fdp"
+              *ngIf="data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id == 2 && this.userData?.RoleId == 5">
+              <ng-container matColumnDef="Areas">
+                <th mat-header-cell *matHeaderCellDef> Areas </th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.Area || '-'}}
+                </td>
+              </ng-container>
+    
+    
+              <ng-container matColumnDef="RatingPanel">
+                <th mat-header-cell *matHeaderCellDef> Rating By Panel</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  {{element?.RatingByPanel}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="RatingAI">
+                <th mat-header-cell *matHeaderCellDef>  Rating By AI</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  {{element?.RatingByAI }}
+                </td>
+              </ng-container>
+    
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsGenAI;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsGenAI;let i = index"></tr>
+            </table>
+            </div>
+          </div>
+          <!-- question auto view -->
+        </ng-container>
+
+        <!-- ony tech assesment by panel -->
+        <ng-template #showTechAssesMent>
+          <div class="heading-sec"
+          *ngIf="roundDataList?.areas.length !=0 && data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id != 3
+        ||roundDataList?.autoQuestionFeedback.length !=0 && data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id != 3">
+          <h3>Technical Assessment</h3>
+        </div>
+        <table mat-table [dataSource]="roundDataList?.areas" class="table-mat-info table-mat-info-fdp"
+          *ngIf="roundDataList?.areas.length !=0 && data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id != 3">
+          <ng-container matColumnDef="Areas">
+            <th mat-header-cell *matHeaderCellDef>
+              <!-- Areas  -->
+              Project Specific Skills
+            </th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.Area || '-'}}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="Rating">
+            <th mat-header-cell *matHeaderCellDef> Rating </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{element?.rating || '-'}}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns1;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns1;let i = index"></tr>
+        </table>
+        </ng-template>
+        <ng-container *ngIf="userData?.RoleId == 5 && isAifeedbackCombineRating ;else showTechAutoAI">
+          <div class="quest-auto-view">
+            <table mat-table [dataSource]="AIAutoQuestFeedbackData" class="table-mat-info table-mat-info-fdp"
+              *ngIf="AIAutoQuestFeedbackData.length !=0">
+              <ng-container matColumnDef="QuestionAuto">
+                <th mat-header-cell *matHeaderCellDef> <i>Gen AI Questions Asked</i></th>
+                <td mat-cell *matCellDef="let element;">
+                  <div class="q-auto">
+                    {{element?.Area || '-'}}
+                  </div>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="AutoQAns">
+                <th mat-header-cell *matHeaderCellDef>
+                  <!-- Comments - -->
+                  Panel's Feedback On Candidate's Response
+                </th>
+                <td mat-cell *matCellDef="let element;">
+                  <div class="q-ans-d">
+                    {{element?.Ans || 'NA'}}
+                  </div>
+                </td>
+              </ng-container>
+  
+  
+              <ng-container matColumnDef="Rating">
+                <th mat-header-cell *matHeaderCellDef class="rating-width"> Rating By Panel </th>
+                <td mat-cell *matCellDef="let element" class="text-center ">
+                  {{element?.RatingByPanel || 'NA'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="RatingAI">
+                <th mat-header-cell *matHeaderCellDef class="rating-width"> Rating By AI </th>
+                <td mat-cell *matCellDef="let element" class="text-center ">
+                  {{element?.RatingByAI}}
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns3;let i = index"
+                [ngClass]="{'highlightAuto':  row?.Type == 1}"></tr>
+            </table>
+          </div>
+        </ng-container>
+        <ng-template #showTechAutoAI>
+          <div class="quest-auto-view">
+            <table mat-table [dataSource]="roundDataList?.autoQuestionFeedback" class="table-mat-info table-mat-info-fdp"
+              *ngIf="roundDataList?.autoQuestionFeedback.length !=0 && data?.IsTechRoundVisible && roundDataList?.interviewBy != 'E' && roundDataList?.interviewType.Id != 3">
+              <ng-container matColumnDef="QuestionAuto">
+                <th mat-header-cell *matHeaderCellDef> <i>Gen AI Questions Asked </i></th>
+                <td mat-cell *matCellDef="let element;">
+                  <div class="q-auto">
+                    {{element?.QuestionAuto || '-'}}
+                  </div>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="AutoQAns">
+                <th mat-header-cell *matHeaderCellDef>
+                  <!-- Comments - -->
+                  Panel's Feedback On Candidate's Response
+                </th>
+                <td mat-cell *matCellDef="let element;">
+                  <div class="q-ans-d">
+                    {{element?.AutoQAns || 'NA'}}
+                  </div>
+                </td>
+              </ng-container>
+  
+  
+              <ng-container matColumnDef="Rating">
+                <th mat-header-cell *matHeaderCellDef class="rating-width"> Rating </th>
+                <td mat-cell *matCellDef="let element" class="text-center ">
+                  {{element?.rating || 'NA'}}
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns2;let i = index"
+                [ngClass]="{'highlightAuto':  row?.Type == 1}"></tr>
+            </table>
+          </div>
+        </ng-template>
+        <div class="imp-dt-vv" *ngIf="userData?.RoleId == 5 && (isAssessmentCombineRating ||isAifeedbackCombineRating)">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="list-record-interview">
+                <ul>
+                  <li class="full-width">
+                    <label><span>Sentimental Orientation (AI)::</span>
+                      <span class="sp-highl">{{roundDataList?.SentimentOrientation || 'NA'}}</span></label>
+                  </li>
+                </ul>
+            </div>
+            </div>
+            <div class="col-md-9">
+              <div class="list-record-interview">
+                <ul>
+                 
+                  <li class="full-width">
+                    <label><span>Recommendation (AI):</span>
+                      <span class="sp-highl">{{roundDataList?.Recommendation || 'NA'}}</span></label>
+                  </li>
+                </ul>
+            </div>
+            </div>
+          </div>
+          
+       
+        <!-- end -->
+       
+      </div>
+      <!-- int feedback quesionnaire component -->
+      <div *ngIf="isNewQuestionnaireFeedback">
+        <app-view-questionnaire-detailed-feedback [dataFromInterview]="feedbackDetails">
+        </app-view-questionnaire-detailed-feedback>
+
+      </div>
+    </div>
+  </div>
+</div>

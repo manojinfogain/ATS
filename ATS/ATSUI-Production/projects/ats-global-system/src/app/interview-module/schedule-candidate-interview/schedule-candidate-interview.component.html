@@ -1,0 +1,671 @@
+<div class="info-connect-right" >
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <!-- <h2 class="page-title"> Schedule Candidate Interview</h2> -->
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                  <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)"></app-auto-complete-talentid>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+
+                <div class="warning-alert" [ngStyle]="{'display': isExistAlert == 'true' ? 'block' : 'none' }">
+                    <button type="button" (click)="closeAlertWarn()" class="btn-Warn">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <ul id="errorList">
+                        <li *ngFor="let err of errorArray">
+                            {{err.msg}}
+                            <button [ngStyle]="{'display': err.forceId == '2' ? 'inline-block' : 'none' }"
+                                class="btn-force" placement="right" ngbTooltip="Click here to align new interview">Force
+                                Schedule
+                                <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="success-alert" [ngStyle]="{'display': isSuccessAlert == 'true' ? 'block' : 'none' }">
+                    <button type="button" (click)="closeAlertSuc()" class="btn-Warn">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <!-- <p>{{ successMsg}}</p> -->
+                    <ul id="sucessMsg"></ul>
+                </div>
+
+                <mat-card>
+
+                    <form [formGroup]="ScheduleFormGroup" (ngSubmit)="saveNewEmpFormFinal(ScheduleFormGroup)"
+                        enctype="multipart/form-data">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="top-header-panel pull-left" *ngIf="isPanelTop">
+                                    <ul>
+                                        <li>
+                                            <i class="fa fa-user" aria-hidden="true"></i> Primary Recruiter:
+                                            <label>{{panelData?.recruiter1 || '-'}}</label>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-laptop" aria-hidden="true"></i> Skill:
+                                            <label>{{panelData?.primary_skill || '-'}}</label>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-user-tag"></i> Panel:
+                                            <label>{{panelData?.interviewer || '-'}}</label>
+                                        </li>
+
+                                        <li>
+                                            <a href="javascript:void(0)" matTooltip="View Talent Id Info" (click)="viewTalentIdDetails(panelData)"><i class="fas fa-eye"></i></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="add-row-act float-right">
+                                    <button type="button" class="btn btn-add" (click)="addMoreRow()" placement="bottom"
+                                        ngbTooltip="Add Row">Add
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- end card header -->
+                            <div class="card-body">
+                                <div class="infoconnect-cont table-Forms table-infoconnect-responsive">
+                                    <table class="table  table-infoconnect" id="newEmpTable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Profile Source
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Candidate Name
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Total Experience
+                                                    <sup>*</sup>
+                                                    <br> (In Year / Month)
+                                                </th>
+                                                <th>Relevant Experience
+                                                    <sup>*</sup>
+                                                    <br>(In Year / Month)
+
+                                                </th>
+                                                <th> Skill
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Phone No.
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Email ID
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Current Company
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Current Location
+                                                    <sup>*</sup>
+                                                </th>
+
+                                                <th>Educational Qualification
+                                                    <sup>*</sup>
+                                                </th>
+                                                <!-- <th>Current Organisation
+                                                    <sup>*</sup>
+                                                </th> -->
+                                                <th>Employment Type
+                                                    <sup>*</sup>
+                                                </th>
+                                                <!-- <th>Unique ID Type
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Unique ID No.
+                                                    <sup>*</sup>
+                                                </th> -->
+                                                <th>Interview Scheduling
+                                                    <sup>*</sup>
+                                                </th>
+                                               <th>Mode Of Interview
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Interview Type
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th> Venue / Link
+                                                </th>
+                                                <th>Primary Interviewer
+                                                    <sup>*</sup>
+                                                </th>
+
+                                                <th>Additional Interviewers
+                                                    <!-- <sup>*</sup> -->
+                                                </th>
+
+                                                <th>Tentative DOJ
+                                                    <sup>*</sup>
+                                                </th>
+                                                
+                                                <th>Upload CV
+                                                    <sup>*</sup>
+                                                </th>
+                                               
+                                                <th>Currency Type
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Current Salary
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Expected Salary
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Other Offer
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>talent Id
+                                                    <sup>*</sup>
+                                                </th>
+                                                <th>Remarks</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  formGroupName="formSchRowGroup" *ngIf="formSchRowGroup.length != 0">
+                                            <tr *ngFor="let  items of formSchRowGroup.controls; let i=index" [formGroupName]="i" id="{{'id'+i}}">
+                                                <td>
+                                                    <select class="form-control width-120" id="ProfileID" 
+                                                        formControlName="profileName">
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let profile of profileNameData"
+                                                            [value]="profile?.id">{{profile?.Name}}</option>
+                                                    </select>
+                                                    <input type="hidden" formControlName="appliedid" id="appliedid"/>
+                                                    <input type="hidden" formControlName="addExist" id="addExist"/>
+                                                </td>
+                                                <td>
+
+                                                    <div class="valid-parent">
+                                                        <input type="text" 
+                                                            (keyup)="nameValidation($event)"
+                                                            placeholder="Candidate Name" class="form-control width-177"
+                                                            formControlName="candidateName" id="candidateName"
+                                                            disableInitialSpace required>
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="exp-section-control">
+                                                        <div class="exp-cols">
+                                                            <input type="text" 
+                                                            placeholder="Year" class="form-control"
+                                                            id="toexpNo"  formControlName="toexpNo" maxlength="2" disableInitialSpace onlyNumber expYear>
+                                                        </div>
+                                                        <div class="exp-cols">
+                                                            <input type="text" 
+                                                            placeholder="Month" class="form-control"
+                                                            id="toexpNoMonth"  formControlName="toexpNoMonth" maxlength="2"  disableInitialSpace onlyNumber expMonth>
+                                                        </div>
+                                                    </div>
+
+                                           
+                                                </td>
+                                                <td>
+
+                                                    <div class="exp-section-control">
+                                                        <div class="exp-cols">
+                                                            <input type="text" 
+                                                            placeholder="Year" class="form-control"
+                                                            id="totrelevantExpNo"  maxlength="2" formControlName="totrelevantExpNo" disableInitialSpace onlyNumber expYear>
+                                                        </div>
+                                                        <div class="exp-cols">
+                                                            <input type="text" 
+                                                            placeholder="Month" class="form-control"
+                                                            id="totrelevantExpNoMonth"  formControlName="totrelevantExpNoMonth" maxlength="2"  disableInitialSpace onlyNumber expMonth>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                    <!-- <div>
+                                                        <input type="text" 
+                                                            placeholder="Primary Skill" class="form-control"
+                                                            id="primarySkillNo" formControlName="primarySkillNo" disableInitialSpace>
+                                                        <span class="err-msg"></span>
+                                                    </div> -->
+
+                                                    <!-- <select class="form-control" id="primarySkillNo" formControlName="primarySkillNo">
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let list of primarySkillDataList" [value]="list?.SkillId">{{list?.SKillName}}</option>
+                                                    </select> -->
+                                                    <input type="hidden" [value]="formGroupControls[i]['controls'].primarySkillNo.value"  id="primarySkillNo" formControlName="primarySkillNo">
+                                                   
+                                                   <app-skill-set [panelIdControl]="formGroupControls[i]['controls'].primarySkillNo"  [title]="''"></app-skill-set>
+                                                </td>
+                                                <td>
+                                                    <div class="valid-parent">
+                                                        <input type="text" 
+                                                            (keyup)="phonenumber($event)" placeholder="Phone No"
+                                                            class="form-control with-75" formControlName="phone" id="phone"
+                                                            maxlength="10"  disableInitialSpace onlyNumber>
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="valid-parent">
+
+                                                        <input type="email" 
+                                                            (keyup)="validateEmail($event)" placeholder="Email ID"
+                                                            class="form-control with-165" formControlName="email" id="email"
+                                                            >
+                                                        <span class="err-msg"></span>
+
+                                                    </div>
+
+
+                                                </td>
+                                                <td>
+
+                                                    <div class="currCompany">
+                                                        <input type="text"
+                                                            placeholder="Current Company" class="form-control"
+                                                            id="currCompanyNo" formControlName="currCompanyNo">
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                    <div class="location-wrapz">
+                                                       <div class="locz">
+                                                        <input type="hidden" [value]="formGroupControls[i]['controls'].CountryID.value"  id="CountryID" formControlName="CountryID">
+                                                        <app-country-list-code [country]="true" [parentIdControl]="formGroupControls[i]['controls'].CountryID" (getDataIdCountry)="getCountry($event)" [title]="'Country'"></app-country-list-code>
+                                                       </div>
+                                                       <div class="locz">
+                                                        <input type="hidden" [value]="formGroupControls[i]['controls'].CityID.value"  id="CityID" formControlName="CityID">
+                                                        <app-city-list-code [getId]="formGroupControls[i]['controls'].CountryID.value" [parentIdControl]="formGroupControls[i]['controls'].CityID" [title]="'City'" [placeholder]="'Search City'"></app-city-list-code>                                                      
+                                                       </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+
+                                                    <div class="educaQualification">
+                                                        <input type="text"
+                                                            placeholder="Educational Qualification" class="form-control"
+                                                            id="educaQualification" formControlName="educaQualification">
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <!-- <td>
+
+                                                    <div class="currOrganisation">
+                                                        <input type="text" [value]="inputBlank"
+                                                            placeholder="Current Organisation" class="form-control"
+                                                            id="currOrganisation" formControlName="currOrganisation">
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td> -->
+                                                <td>
+                                                    <select class="form-control with-120" id="candidateType"
+                                                        formControlName="candidateType">
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let candType of candidateTypeData"
+                                                            [value]="candType?.typeId">{{candType?.statusName}}</option>
+                                                    </select>
+                                                </td>
+
+
+                                                <!-- <td>
+
+                                                    <select class="form-control idTypes" id="idtype" 
+                                                        formControlName="idType" (change)="candIdTypeValid($event)"
+                                                        >
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let idType of idTypeData" [value]="idType?.id">
+                                                            {{idType?.identity_name}}</option>
+                                                    </select>
+                                                </td> -->
+                                                <!-- <td>
+                                                    <div class="idNumbers">
+                                                        <input type="text" 
+                                                            placeholder="Unique ID No" class="form-control" id="idno"
+                                                            formControlName="idNo"  disableInitialSpace>
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td> -->
+                                                <td>
+                                                    <div class="time-table datepicker-wraps">
+                                                        <div class="time-table-cell ">
+                                                            <mat-form-field>
+                                                                <input matInput [matDatepicker]="datepickerInt"
+                                                                    [min]="minDate" id="intDate"
+                                                                    formControlName="intDate" autocomplete="off"
+                                                                    [value]="inputBlank" readonly required>
+                                                                <mat-datepicker-toggle matSuffix [for]="datepickerInt">
+                                                                    <mat-icon matDatepickerToggleIcon class="form-icon">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </mat-icon>
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #datepickerInt></mat-datepicker>
+                                                            </mat-form-field>
+
+                                                            <!-- time -->
+
+                                                        </div>
+                                                        <!-- end  -->
+                                                        <div class="time-table-cell">
+                                                            <div class="time-sec with-120" >
+                                                                <div class="time-sec-cell">
+                                                                    <!-- <input type="text" value="HH"  placeholder="HH" class="form-control" id="timeHours" formControlName="timeHours"
+                                                                       > -->
+                                                                    <select class="form-control" 
+                                                                        id="timeHours with-65" 
+                                                                        formControlName="timeHours"
+                                                                        (change)="hoursValid($event)">
+                                                                        <option value="-1" selected="selected">HH
+                                                                        </option>
+                                                                        <option value="00">00</option>
+                                                                        <option value="01">01</option>
+                                                                        <option value="02">02</option>
+                                                                        <option value="03">03</option>
+                                                                        <option value="04">04</option>
+                                                                        <option value="05">05</option>
+                                                                        <option value="06">06</option>
+                                                                        <option value="07">07</option>
+                                                                        <option value="08">08</option>
+                                                                        <option value="09">09</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="13">13</option>
+                                                                        <option value="14">14</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="16">16</option>
+                                                                        <option value="17">17</option>
+                                                                        <option value="18">18</option>
+                                                                        <option value="19">19</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="21">21</option>
+                                                                        <option value="22">22</option>
+                                                                        <option value="23">23</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="time-sec-cell">
+                                                                    <span>:</span>
+                                                                </div>
+                                                                <div class="time-sec-cell">
+                                                                    <select class="form-control with-65" 
+                                                                        id="timeMint" formControlName="timeMint" >
+                                                                        <option value="-1" selected="selected">MM
+                                                                        </option>
+                                                                        <option value="00"
+                                                                            [ngStyle]="{'display': isTimeZero == true ? 'block' : 'none' }"
+                                                                            *ngIf="isTimeZero">00</option>
+                                                                        <option value="05">05</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="15">15</option>
+                                                                        <option value="20">20</option>
+                                                                        <option value="25">25</option>
+                                                                        <option value="30">30</option>
+                                                                        <option value="35">35</option>
+                                                                        <option value="40">40</option>
+                                                                        <option value="45">45</option>
+                                                                        <option value="50">50</option>
+                                                                        <option value="55">55</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </td>
+                                                <td>
+                                                    <select class="form-control with-120" id="modeInterview" 
+                                                        formControlName="modeInterview" (change)="onSelectModeInt($event,i)">
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let int of intModeData" [value]="int?.id">
+                                                            {{int?.mode}}</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control with-120" id="interviewType" 
+                                                        formControlName="interviewType" >
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let intType of interviewTypeData" [value]="intType?.id">
+                                                            {{intType?.interviewType}}</option>
+
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <textarea class="form-control textareas" id="interviewDetails"
+                                                         maxlength="150"
+                                                        formControlName="interviewDetails"  disableInitialSpace>
+
+                                                    </textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="int-panel-selection width-180" >
+                                                       <input type="hidden" [value]="formGroupControls[i]['controls'].intPanel.value"  id="panelVal" formControlName="intPanel">
+                                                       <app-employee-list [panelIdControl]="formGroupControls[i]['controls'].intPanel"  [title]="''" [isEmpListServerSide]="true">
+
+                                                       </app-employee-list>
+                 
+                                                    </div>
+
+
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <div class="int-panel-selection width-180" >
+                                                       <input type="hidden" [value]="formGroupControls[i]['controls'].additionalPanel.value"  id="adpanelVal" formControlName="additionalPanel">
+                                                       <app-employee-list [panelIdControl]="formGroupControls[i]['controls'].additionalPanel"  [title]="''" 
+                                                       [isMultiple]="true">
+
+                                                       </app-employee-list>
+                 
+                                                    </div>
+
+
+                                                </td>
+
+                                                <td>
+                                                    <div class="datepicker-wraps">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="datepickerInfo"
+                                                                id="joinDate" [min]="minDate" formControlName="joinDate"
+                                                                autocomplete="off" [value]="inputBlank" readonly>
+                                                            <mat-datepicker-toggle matSuffix [for]="datepickerInfo">
+                                                                <mat-icon matDatepickerToggleIcon class="form-icon">
+                                                                    <i class="far fa-calendar-alt"></i>
+                                                                </mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #datepickerInfo></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="file" (change)="fileValidation($event)"
+                                                    class="form-control-file fileValdationx" 
+                                                    id="files" formControlName="filesUpload">  
+                                                </td>
+                                                
+                                                <td>
+                                                    <select class="form-control width-120" id="currencyType" 
+                                                        formControlName="currencyType" >
+                                                        <option value="-1">Select</option>
+                                                        <option *ngFor="let crr of currencyTypeData" [value]="crr?.id">
+                                                            <ng-container [ngSwitch]="crr.currency_code">
+                                                                <ng-container *ngSwitchCase="'INR'">
+                                                                    <i class="fs-icon">&#8377;</i> - {{crr?.currency_code}}
+                                                                </ng-container>
+                                                                <ng-container *ngSwitchCase="'USD'">
+                                                                    <i class="fs-icon">&#36;</i> -   {{crr?.currency_code}}
+                                                                </ng-container>
+                                                                <ng-container *ngSwitchCase="'Euro'">
+                                                                    <i class="fs-icon">&#8364;</i>  -  {{crr?.currency_code}}
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <div class="valid-parent">
+                                                        <input type="text" 
+                                                            (keyup)="saleryValidation($event)"
+                                                            placeholder="Current Salary" class="form-control width-90"
+                                                            formControlName="currentSalary" maxlength="9"
+                                                            id="currentSalary"  required  disableInitialSpace onlyNumber>
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="valid-parent">
+                                                        <input type="text" 
+                                                            (keyup)="saleryValidation($event)"
+                                                            placeholder="Expected Salary" class="form-control width-100"
+                                                            formControlName="expectedSalary" maxlength="9"
+                                                            id="expectedSalary"  required  disableInitialSpace onlyNumber>
+                                                        <span class="err-msg"></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control width-120"  id="offLetter"
+                                                        formControlName="offLetter">
+                                                        <option value="true">Yes</option>
+                                                        <option value="false">No</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <span class="tl-id">{{talentVal}}</span>
+                                                    <input type="hidden" [value]="talentVal" id="talentVal" readonly>
+                                                    <input type="hidden" [value]="talentIdVal" id="talentId" readonly>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <textarea class="form-control textareas" id="remark"
+                                                         maxlength="150" formControlName="remarkTd"  disableInitialSpace>
+
+                                                    </textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" (click)="removeRow(i)" class="btn-delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <div class="card-footer" *ngIf="isFooterHide">
+                                <!-- [disabled]="!saveNewEmp.valid" -->
+                                <button type="submit" class="btn btn-infocon">Submit
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <button type="button" class="btn btn-infocon" (click)="resetSn()">Reset
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- end card sec -->
+
+                    </form>
+
+                </mat-card>
+            </div>
+            <!-- end content body -->
+
+            <div class="alert-box-layout alert-animation alert-success-erp"
+                [ngClass]="isAlertSucess == true ? 'block-alert' : 'none-alert' ">
+                <div class="alert-box ">
+                    <div class="alert-head">
+                        <h4 class="alert-title">Success !
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </h4>
+                        <button type="button" (click)="closeAlert()" class="alert-close">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="alert-body">
+                        <h5>
+                            <h5>{{SuccessMsg}}</h5>
+                        </h5>
+                    </div>
+                    <div class="alert-foot text-right">
+                        <button type="button" class="alert-close-footer" (click)="closeAlert()">Ok</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end alert popup -->
+            <div class="alert-box-layout alert-animation"
+                [ngClass]="isAlertDanger == true ? 'block-alert' : 'none-alert' ">
+                <div class="alert-box">
+                    <div class="alert-head">
+                        <h4 class="alert-title">Alert !
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </h4>
+                        <button type="button" (click)="closeAlert()" class="alert-close">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="alert-body">
+                        <h5>
+                            <h5>{{errorMsg}}</h5>
+                        </h5>
+                    </div>
+                    <div class="alert-foot text-right">
+                        <button type="button" class="alert-close-footer" (click)="closeAlert()">Ok</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end alert popup -->
+
+            <!-- end alert popup -->
+            <div class="alert-box-layout alert-animation"
+                [ngClass]="isAlertFileType == true ? 'block-alert' : 'none-alert' ">
+                <div class="alert-box">
+                    <div class="alert-head">
+                        <h4 class="alert-title">Alert !
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </h4>
+                        <button type="button" (click)="closeAlert()" class="alert-close">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="alert-body">
+                        <h5 class="file-msg">Please upload file type
+                            <span>doc</span>
+                            <span>docx</span>
+                            <span>pdf</span>
+                            <span>rtf</span>
+                            <span>png</span>
+                            <span>jpg</span>
+                            <span>jpeg</span>
+                        </h5>
+                    </div>
+                    <div class="alert-foot text-right">
+                        <button type="button" class="alert-close-footer" (click)="closeAlert()">Ok</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end alert popup -->
+
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

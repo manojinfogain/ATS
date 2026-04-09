@@ -1,0 +1,73 @@
+<form [formGroup]="jdPannelAvailableForm" (ngSubmit)="jdPannelAvailableHandler(jdPannelAvailableForm)">
+    <div class="ats-modal-header">
+        <!-- <h1>{{data?.title}}</h1> -->
+        <h1>Confirmation for JD clarification and panel available - {{data?.th_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{talentInfo?.recruiter1|| '-'}}</p>     
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{talentInfo?.recruiter2|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280" border-rigt>
+                        <label class="lb-title">JD Clarification Confirmation<sup>*</sup> </label>
+                        <mat-radio-group aria-label="Select an option"
+                            formControlName="JDFlag">
+                            <mat-radio-button value="Y">Yes</mat-radio-button>
+                            <!-- <mat-radio-button value="R"> Referred Back </mat-radio-button> -->
+                        </mat-radio-group>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('JDFlag')?.touched && getControl('JDFlag')?.invalid">
+                            <div *ngIf="getControl('JDFlag')?.errors.required">
+                                Check box is required for JD clarification.
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                        <label class="lb-title">Panel Available Confirmation<sup>*</sup> </label>
+                        <mat-radio-group aria-label="Select an option"
+                            formControlName="PanelFlag">
+                            <mat-radio-button value="Y">Yes</mat-radio-button>
+                            <!-- <mat-radio-button value="R"> Referred Back </mat-radio-button> -->
+                        </mat-radio-group>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('PanelFlag')?.touched && getControl('PanelFlag')?.invalid">
+                            <div *ngIf="getControl('PanelFlag')?.errors.required">
+                                Check box is required for panel confirmation.
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" >
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

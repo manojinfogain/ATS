@@ -1,0 +1,452 @@
+<form [formGroup]="generateofferForm" (ngSubmit)="generateOfferHandler(generateofferForm)">
+    <div class="ats-modal-header">
+        <h1> View / {{data?.OfferStatusID === 100 ?'Upload Offer':'Upload Offer'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+
+            <!-- candidate Basic Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cd'" [allRoundList]="allRoundList">
+            </app-candidate-details-info>
+            <!-- candidate Offer Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cod'">
+            </app-candidate-details-info>
+
+            <div class="box-v-ats box-v-ats-form">
+                <!-- <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Candidate Offer Additional Details </h4>
+                    </div>
+                    <div class="checkbox-control rdn-ctrl">
+
+                    </div>
+                </div> -->
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Offer Number</mat-label>
+                                <input matInput placeholder="Offer Number" maxlength="100" disableInitialSpace
+                                    formControlName="offerNumber">
+
+                                    <mat-error *ngIf="getControl('offerNumber')?.touched && getControl('offerNumber')?.invalid">
+                                        <div *ngIf="getControl('offerNumber')?.errors.required">
+                                            Offer Number is required.
+                                        </div>
+                                    </mat-error>
+                                    <!-- validate ends-->
+                            </mat-form-field>
+                            <!-- validate -->
+                            
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final CTC</mat-label>
+                                <input matInput placeholder="Final CTC" maxlength="10" disableInitialSpace
+                                    formControlName="finalctc" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('finalctc').value |
+                                    convertToWord}}</mat-hint>
+
+                                <mat-error *ngIf="getControl('finalctc')?.touched && getControl('finalctc')?.invalid">
+                                    <div *ngIf="getControl('finalctc')?.errors.required">
+                                        Final CTC is required.
+                                    </div>
+                                    <div *ngIf="getControl('finalctc')?.errors.max">
+                                        <!-- Please enter amount less than approved CTC. -->
+                                        <span class="warning-ctc"> Final CTC Should be less than or equal to approved
+                                            CTC.</span>
+                                    </div>
+                                </mat-error>
+                                <!-- validate ends-->
+                            </mat-form-field>
+                            <!-- validate -->
+
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Joining Bonus</mat-label>
+                                <input matInput placeholder="Joining Bonus" maxlength="10" disableInitialSpace
+                                    formControlName="FinalJoiningBonus" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalJoiningBonus').value |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('FinalJoiningBonus')?.touched && getControl('FinalJoiningBonus')?.invalid">
+                                <div *ngIf="getControl('FinalJoiningBonus')?.errors.required">
+                                    Final Joining Bonus is required.
+                                </div>
+                                <div *ngIf="getControl('FinalJoiningBonus')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final Joining Bonus Should be less than or equal to approved
+                                        Joining Bonus.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Notice Period Buyout</mat-label>
+                                <input matInput placeholder="Notice Period Buyout" maxlength="10" disableInitialSpace
+                                    formControlName="FinalNoticeBuyOut" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalNoticeBuyOut').value |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('FinalNoticeBuyOut')?.touched && getControl('FinalNoticeBuyOut')?.invalid">
+                                <div *ngIf="getControl('FinalNoticeBuyOut')?.errors.required">
+                                    Final Notice Period Buyout is required.
+                                </div>
+                                <div *ngIf="getControl('FinalNoticeBuyOut')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final Notice Period Buyout Should be less than or equal to approved
+                                        Notice Period Buyout.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col" >
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Travel Expense</mat-label>
+                                <input matInput placeholder="Travel Expense" maxlength="10" disableInitialSpace
+                                    formControlName="FinalTravelExp" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalTravelExp').value |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('FinalTravelExp')?.touched && getControl('FinalTravelExp')?.invalid">
+                                <div *ngIf="getControl('FinalTravelExp')?.errors.required">
+                                    Final Travel Expense is required.
+                                </div>
+                                <div *ngIf="getControl('FinalTravelExp')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final Travel Expense Should be less than or equal to approved
+                                        Travel Expense.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col" >
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Relocation Expense</mat-label>
+                                <input matInput placeholder="Relocation Expense" maxlength="10" disableInitialSpace
+                                    formControlName="FinalRelocationExp" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalRelocationExp').value |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('FinalRelocationExp')?.touched && getControl('FinalRelocationExp')?.invalid">
+                                <div *ngIf="getControl('FinalRelocationExp')?.errors.required">
+                                    Final Relocation Expense is required.
+                                </div>
+                                <div *ngIf="getControl('FinalRelocationExp')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final Relocation Expense Should be less than or equal to approved
+                                        Relocation Expense.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col" >
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Retention bonus</mat-label>
+                                <input matInput placeholder="Retention bonus" maxlength="10" disableInitialSpace
+                                    formControlName="FinalRetentionBonus" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalRetentionBonus').value |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('FinalRetentionBonus')?.touched && getControl('FinalRetentionBonus')?.invalid">
+                                <div *ngIf="getControl('FinalRetentionBonus')?.errors.required">
+                                    Final Retention bonus is required.
+                                </div>
+                                <div *ngIf="getControl('FinalRetentionBonus')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final Retention bonus Should be less than or equal to approved
+                                        Retention bonus.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Date Of Joining</mat-label>
+                                <input matInput [matDatepicker]="picker2" [min]="minDate" required
+                                    formControlName="DateOfJoining" (dateInput)="changeDate('input', $event)">
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error
+                                    *ngIf="getControl('DateOfJoining').touched && getControl('DateOfJoining').invalid">
+                                    <div *ngIf="getControl('DateOfJoining').errors.required">
+                                        Date Of Joining is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <!-- joining location -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Joining Location</mat-label>
+                                <mat-select formControlName="joiningLocation" (selectionChange)="getLoc($event)">
+                                    <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                        {{data?.LocName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('joiningLocation')?.touched && getControl('joiningLocation')?.invalid">
+                                <div *ngIf="getControl('joiningLocation')?.errors.required">
+                                    Joining location is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- joining loc end -->
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >NPS (%)</mat-label>
+                                <mat-select formControlName="Nps">
+                                    <mat-option *ngFor="let data of NpsList" [value]="data.value">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('Nps')?.touched && getControl('Nps')?.invalid">
+                                <div *ngIf="getControl('Nps')?.errors.required">
+                                    NPS is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- end col -->
+
+
+                        <div class="ats-form-col" *ngIf="sudCoupHide">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Sudexo Coupon</mat-label>
+                                <mat-select formControlName="SudexoCoupen">
+                                    <mat-option *ngFor="let data of sudexoCoupenList" [value]="data.name">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('sudexoCoupen')?.touched && getControl('sudexoCoupen')?.invalid">
+                                <div *ngIf="getControl('sudexoCoupen')?.errors.required">
+                                    Sudexo Coupon is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- end col -->
+
+
+                    </div>
+                    <!-- end form -->
+                    <div class="dgm-track">
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Upload Documents</h4>
+                    </div>
+                    <div class="checkbox-control rdn-ctrl">
+
+                    </div>
+                </div>
+                <div class="box-v-body">
+                    <div class="mn-dp-up-wrap">
+                        <div class="container-fluid">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Offer Letter</h4>
+                                            </div>
+                                            <div class="checkbox-control"> </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                                <div class="ats-form-col upload-file-ats full-width"
+                                                    [ngClass]="getControl('fileOffer').touched && getControl('fileOffer').invalid ? 'error-file-input':'suc'">
+                                                    <div class="upload-file-input">
+                                                        <label>Upload Offer Letter
+                                                            <sup>*</sup>
+                                                        </label>
+                                                        <input type="file" #offerletter
+                                                            (change)="selectOfferletter($event)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                                <!-- <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>BGV Confirmation Documents</h4>
+                                            </div>
+                                            <div class="checkbox-control"> </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                                <div class="ats-form-col upload-file-ats full-width"
+                                                    [ngClass]="getControl('fileBGV').touched && getControl('fileBGV').invalid ? 'error-file-input':'suc'">
+                                                    <div class="upload-file-input">
+                                                        <label>Candidate BGV document upload confirmation mail
+                                                            <sup *ngIf="isFileReq">*</sup>
+                                                        </label>
+                                                        <input type="file" #fileBGV (change)="fileUp($event)" multiple>
+                                                    </div>
+                                                    <div class="file-name-list" *ngIf="allFiles">
+                                                        <ul>
+                                                            <li *ngFor="let item of allFiles; let i= index"
+                                                                [ngClass]="item.type == 'e' ? 'uploaded':'n'">{{i+1}}.
+                                                                {{item?.name}}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end form -->
+                </div>
+            </div>
+            <!-- end -->
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Candidate Address</h4>
+                    </div>
+                    <div class="checkbox-control rdn-ctrl">
+                        <div class="rdn-title">
+                            <h4>Offer Letter Address:</h4>
+                        </div>
+                        <div class="rdn-rdb">
+                            <mat-radio-group aria-label="Select an option" formControlName="sendOfferAddressType">
+                                <mat-radio-button value="C">Current</mat-radio-button>
+                                <mat-radio-button value="P">Permanent</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+
+
+
+                    </div>
+                    <!-- end form -->
+
+                    <div class="address-offer-wrap">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Current Address</h4>
+                                            </div>
+                                            <div class="checkbox-control">
+                                                <ng-container *ngIf="isHideConfirmAdd">
+                                                    <mat-checkbox formControlName="isShippingAddrConfirm">
+                                                        Confirm As Shipping Address
+                                                    </mat-checkbox>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz ats-vertical-from form-outline-ats ats-form-dark">
+                                                <app-address-candidate [group]="getControl('currentAddress')">
+                                                </app-address-candidate>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Permanent Address</h4>
+                                            </div>
+                                            <div class="checkbox-control">
+                                                <mat-checkbox (change)="sameAsAddress($event)">Same as current address
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz ats-vertical-from form-outline-ats ats-form-dark">
+                                                <app-address-candidate [group]="getControl('permanentAddress')">
+                                                </app-address-candidate>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dgm-track">
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+    </div>
+
+
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Save and Generate Offer
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

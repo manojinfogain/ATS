@@ -1,0 +1,1044 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <!-- <div class="filter-txt-opt">
+                    Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                    <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                  </div> -->
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/EmailId(personal/official)/EmployeeId'"
+                        [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li [ngClass]="{'disabled' : candidateList?.data?.length == 0}">
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                        <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" 
+                                                        (getSortFormData)="getSortData($event)"
+                                                        [dateRange]="true"
+                                                        [dateRangeTitle]="'Date Of Joining'"
+                                                        [companyLocation]="true" [LocationMulti]="true"
+                                                        [Division]="true" [DivisionMulti]="true"
+                                                        >
+                                                        </app-filter-sort>
+                                                    </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info" id="exportTable">
+
+                                    <div class="producti-wrapper">
+                                        <div class="wrp-bx ">
+                                            <ng-container class="sNo-name">
+                                                <!-- <ng-container matColumnDef="sNo" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        S. No
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element; let i=index"
+                                                        class="text-center ">
+                                                        {{i+1}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                                </ng-container> -->
+                                                <ng-container matColumnDef="Cid">
+                                                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef class="handl-colum color-white pos ">Employee Id </th>
+                                                    <td class="text-center" mat-cell *matCellDef="let element;">
+                                                      {{element?.EmployeeId ? element?.EmployeeId  : '-' }}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="candName" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Candidate Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.CandidateName || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="joiningDate"  class="">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                       Date Of Joining
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.JoiningDate}} -->
+                                                        {{(element?.DateOfJoining | date:'mediumDate' ) ||
+                                                        '-'}}
+                                                        
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="empType"   class="">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Employment Type
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.offeredDate}} -->
+                                                        {{(element?.EmploymentType) ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="email" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Personal Email Id
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.PersonalEmailID || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="OfficialEmail" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Official Email Id
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.OfficialEmailID || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="phone" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Mobile No.
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.PhoneNumber || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="division">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Division
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.Division || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="location" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Location
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.JoiningLocationName || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="OnboardingSpoc" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Onboarding SPOC
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.OnboardingSpoc || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="backPapers" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Back Papers
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Backpaper || '-'}} -->
+                                                        <span *ngIf="element?.BackpaperStatus == 10 ||
+                                                                    element?.BackpaperStatus == 20 ||
+                                                                    element?.BackpaperStatus == 30 ||
+                                                                    element?.BackpaperStatus == 40">Pending
+                                                        </span>
+                                                        <span *ngIf="element?.BackpaperStatus == 50 ||
+                                                                    element?.BackpaperStatus == 60 ||
+                                                                    element?.BackpaperStatus == 70 ||
+                                                                    element?.BackpaperStatus == 80 ||
+                                                                    element?.BackpaperStatus == 90 ||
+                                                                    element?.BackpaperStatus == 100 ||
+                                                                    element?.BackpaperStatus == 110 ||
+                                                                    element?.BackpaperStatus == 120 ||
+                                                                    element?.BackpaperStatus == 130">Verified
+                                                        </span>
+                                                    </td>
+                                                </ng-container>  
+                                                <!-- <ng-container matColumnDef="EAF" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Employment Application Form
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.EAF || '-'}}
+                                                    </td>
+                                                </ng-container> -->
+                                                
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="onbModeF2F" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        In-Person (F2F)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <ng-container [ngSwitch]="element?.OnboardingMode">
+                                                            <ng-container *ngSwitchCase="1">
+                                                                Yes
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="2">
+                                                                No
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+                                                </ng-container>
+                                                
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="onbModeVirtual" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Virtual
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <ng-container [ngSwitch]="element?.OnboardingMode">
+                                                            <ng-container *ngSwitchCase="1">
+                                                                No
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="2">
+                                                                Yes
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="onbModeRemarks" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Remarks for Exceptions <br> (if any)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{'-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                        <!-- 15days -->
+                                        <div class="wrp-bx">
+
+                                            <div class="handl-colum">
+                                                <ng-container matColumnDef="AccessCardForm">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Access Card Form
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.AccessCardForm || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.AccessCardForm">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="JoiningReportForm">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Joining Report Form
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.HiringManager_Name_Days_15 ||'-'}} -->
+                                                        <ng-container [ngSwitch]="element?.JoiningReportForm">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="SodexoBenefitForm">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Sodexo Benefit Form
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.HiringManager_Name_Days_15 ||'-'}} -->
+                                                        <ng-container [ngSwitch]="element?.SodexoBenefitForm">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="UnderCurrentAddress">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Undertaking For <br> Current Address
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.UnderCurrentAddress">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="UnderPendingDocument">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Undertaking For <br> Pending Documents
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.UnderPendingDocument">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="Form11">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Form 11
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.Form11">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="Form2PF">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Form 2-PF
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.Form2PF">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="FormF">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Form F
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.FormF">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="FormI">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Form I
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.Status_Days_15 || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.FormI">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="FormQ">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Form Q
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.AccessCardForm || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.FormQ">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="SEZ">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        SEZ Form
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.AccessCardForm || '-'}} -->
+                                                        <ng-container [ngSwitch]="element?.SEZ_Form">
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                Pending
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                Saved
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                Submitted
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                Verified
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                Referred Back
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'NA'">
+                                                                NA
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="preOnbVerDate">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Pre-Onboarding Forms <br> Verification Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.PreOnboardVerficationDate || '-'}}
+                                                       
+                                                    </td>
+
+                                                </ng-container>
+
+                                            </div>
+                                            <!-- ends day1  -->
+                                        </div>
+
+                                        <!-- 15days end -->
+
+                                        <!-- 30days start -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="AcceptableUseofAssetsPolicy">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                Acceptable Use of <br> Assets Policy
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.AcceptableUseOfAssetsPolicy">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="AntiCorruptionAntiBriberyPolicy">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                Anti Corruption & <br>Anti Bribery Policy
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.AntiCorruptionAntiBriberyPolicy">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="CodeofConductBusinessEthics">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                Code of Conduct & <br> Business Ethics Policy
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.CodeofConductBusinessEthicsPolicy">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="ConflictofInterest">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                Conflict of Interest <br> Policy
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.ConflictofInterestPolicy">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="NDA_Lateral">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                NDA Lateral
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.NDA_Lateral">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="POSHDocument">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                POSH Document
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    <!-- {{element?.H_Status_Days_30 ||'-'}} -->
+                                                    <ng-container [ngSwitch]="element?.POSHDocument">
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            Pending
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            Saved
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            Submitted
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            Verified
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            Referred Back
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'NA'">
+                                                            NA
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                           -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="day1OnbVerDate">
+
+                                                <th mat-header-cell *matHeaderCellDef
+                                                    class="highlight-th lite-blue">
+                                                    Day-1 Froms Verification Date
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                    {{element?.Day1VerficationDate || '-'}}
+                                                   
+                                                </td>
+
+                                            </ng-container>
+
+
+
+                                        </div>
+
+                                        <!--  30 days ends -->
+
+                                        <!-- 45days start -->
+                                        <div class="wrp-bx">
+                                            <div class="h2upto45">
+                                                <ng-container matColumnDef="isAppointmentLetterShared">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name">
+                                                    Appointment Letter shared<br> with employee
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.AppointmentLetterSharedEMp ||'-'}} -->
+                                                        <ng-container [ngSwitch]="element?.AppointmentLetterSharedEMp">
+                                                            <ng-container *ngSwitchCase="'Y'">
+                                                                Yes
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'N'">
+                                                                No
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                               -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="AppointmentLetterAcc">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name">
+                                                    Appointment Letter <br> Acceptance
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.AppointmentLetter ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="PendingDoc">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name">
+                                                    Pending Documents List<br> (if any)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.PendingDocList ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>                                            
+                                        </div>
+                                        <!-- 45days ends -->                                       
+                                    </div>
+
+                                    <!-- Header row first group -->
+                                    <ng-container *ngFor="let group of headGroup; let i = index">
+                                        <ng-container [matColumnDef]="group">
+                                            <ng-container [ngSwitch]="i">
+                                                <ng-container *ngSwitchCase="0">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="11" class="dark-blue heading-main pos">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="11">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- //for hidden columns in export -->
+                                                <!-- <ng-container *ngSwitchCase="1">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="5" class="dark-blue heading-main pos hide-col">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="5">
+                                                    </th>
+                                                </ng-container> -->
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="1">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3" class="dark-blue heading-main">
+                                                        Type of Onboarding
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3">
+                                                    </th>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="2">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="12" class="dark-orange heading-main">
+                                                        Pre-Onboarding Forms 
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="12">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="3">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="7" class="dark-blue heading-main">
+                                                        Day-1 Mandatory Policy Documents
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="7">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="4">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3" class="dark-orange heading-main ">
+                                                        
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <!-- <ng-container *ngSwitchCase="5">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="15" class="dark-blue heading-main">
+                                                        Upto 60 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="15">
+                                                    </th>
+                                                </ng-container> -->
+                                                <!-- // -->
+                                                <!-- <ng-container *ngSwitchCase="6">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="21" class="dark-orange heading-main">
+                                                        Upto 90 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="21">
+                                                    </th>
+                                                </ng-container> -->
+                                                <!-- // -->
+                                                <ng-container *ngSwitchDefault>
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="2">
+                                                        {{i==0? '':(i)+' '}}
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="2">
+                                                    </th>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="tr-fx">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                    <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr> -->
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [pageSizeOptions]="pazeOption"
+                                    [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

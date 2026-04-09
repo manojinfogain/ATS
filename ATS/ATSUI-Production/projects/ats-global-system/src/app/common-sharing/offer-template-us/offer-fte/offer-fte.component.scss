@@ -1,0 +1,127 @@
+.us-offer-Letter{
+    display: flex;
+    justify-content: center;
+   
+    background: #80808059;
+    .offer-letter-wrapper{
+        padding: 10px 10px 10px 30px;
+        background: #ffffff;
+        width: 800px;
+    }
+}
+
+// .offer-wrapper{
+//     width: 800px;
+// }
+
+.main-table {
+    background-color: #ffffff;
+    color: #333333;
+    font-size: 13px;
+    line-height: 14px;
+}
+
+.date-cell {
+    color: #333333;
+    font-family: Times New Roman;
+    font-size: 13px;
+    line-height: 14px;
+}
+
+.red-serif-text {
+    font-family: Times New Roman, serif;
+    color: red;
+}
+
+.address-text {
+    line-height: 107%;
+    font-family: Times New Roman;
+}
+
+.dear-text {
+    color: #333333;
+    font-size: 13px;
+    line-height: 14px;
+    padding-top: 12px;
+}
+
+.para-padding {
+    padding: 5px 0px;
+}
+
+.bold-text {
+    font-weight: 800;
+}
+
+.red-text {
+    color: red;
+}
+
+.sincerely-heading {
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 12px;
+}
+
+.company-info {
+    color: #333333;
+    font-size: 12px;
+    line-height: 14px;
+    padding-top: 12px;
+}
+
+.agreed-text {
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 12px;
+    padding-left: 45px;
+    font-style: italic;
+}
+
+.signature-field-left {
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 12px;
+    padding-left: 20px;
+    width: 330px;
+}
+
+.signature-field-right {
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 12px;
+    padding-left: 45px;
+    width: 175px;
+}
+
+.border-bottom-line {
+    border-bottom: 1px solid #333;
+    margin: 0px;
+}
+
+.field-label {
+    padding-bottom: 20px;
+    margin: 0px;
+}
+
+.blue-bar {
+    background: #2fccf6;
+    line-height: 6px;
+}
+
+.footer-title {
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-padding {
+    padding-top: 30px;
+}
+
+.text-center {
+    text-align: center;
+}

@@ -1,0 +1,18 @@
+
+.ats-foot-tb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:host ::ng-deep.highlight-confirm{
+    background: #e3ffe3;
+}
+
+.cursor-s{
+    cursor: copy;
+}
+
+.margin-left-4 {
+    margin-left: 4px;
+}

@@ -1,0 +1,786 @@
+<form [formGroup]="sendForApprovalForm">
+<div class="ats-modal-header">
+    <h1>{{data.title}} </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+        <!-- candidate Basic Details -->
+        <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data" [detailsType]="'cd'"
+            [allRoundList]="allRoundList">
+        </app-candidate-details-info>
+        <div class="box-v-ats box-v-ats-form">
+            <div class="box-v-header box-h-t-both">
+                <div>
+                    <h4>Candidate Offer Details Form</h4>
+                </div>
+                <div>
+                    <!-- <button type="button" class="btn btn-infocon" (click)="openDialogApprover()">
+                        Add Update Number Of Approver
+                    </button> -->
+                </div>
+               
+            </div>
+            <div class="box-v-body">
+                <div
+                    class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                    <div class="ats-form-col">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Division</mat-label>
+                            <mat-select formControlName="DivisionID">
+                                <mat-option *ngFor="let data of divisionList" [value]="data.ID">
+                                    {{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="getControl('DivisionID')?.touched && getControl('DivisionID')?.invalid">
+                                <div *ngIf="getControl('DivisionID')?.errors.required">
+                                    Division name is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Date Of Joining</mat-label>
+                            <input matInput [matDatepicker]="picker2" (dateInput)="changeDate('input', $event)" required
+                                formControlName="DateOfJoining" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('DateOfJoining').touched && getControl('DateOfJoining').invalid">
+                                <div *ngIf="getControl('DateOfJoining').errors.required">
+                                    Date Of Joining is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="!this.candData?.JoiningLocationId">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Joining Location</mat-label>
+                            <mat-select formControlName="JoiningLocationID">
+                                <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                    {{data?.LocName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="getControl('JoiningLocationID')?.touched && getControl('JoiningLocationID')?.invalid">
+                                <div *ngIf="getControl('JoiningLocationID')?.errors.required">
+                                    Joining Location is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="this.candData?.JoiningLocationId">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Joining Location</mat-label>
+                            <input matInput placeholder="Joining Location"
+                                [value]="candData?.JoiningLocationName"
+                                readonly>
+                        </mat-form-field>
+                        <input type="hidden" formControlName="JoiningLocationID" required>
+                    </div>
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Employment type</mat-label>
+                            <mat-select [disableOptionCentering]="true" required formControlName="CandidateTypeID"
+                                (selectionChange)="getCandidateTypeId($event)">
+                                <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                    {{list?.ContractType}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="getControl('CandidateTypeID').touched && getControl('CandidateTypeID').invalid">
+                                <div *ngIf="getControl('CandidateTypeID').errors.required">
+                                    Employment type is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isVisiblePartner">
+                        <div class="error-outside-control">
+                            <app-partner-list-control [formFieldAppearance]="'outline'"
+                                [parentIdControl]="getControl('PartnerID')" [required]="isReqPartner">
+                            </app-partner-list-control>
+                            <div class="mt-error-ats"
+                                *ngIf="getControl('PartnerID').touched && getControl('PartnerID').invalid">
+                                <span *ngIf="getControl('PartnerID').errors.required">
+                                    Partner is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isVisiblePartner">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Contract Completion Date</mat-label>
+                            <input matInput [matDatepicker]="picker3" [required]="isReqPartner"
+                                formControlName="ContractCompletionDate" [min]="minDateEnd"
+                                [matDatepickerFilter]="myFilterDate" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('ContractCompletionDate').touched && getControl('ContractCompletionDate').invalid">
+                                <div *ngIf="getControl('ContractCompletionDate').errors.required">
+                                    Contract Completion Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isLwdDate">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Contract Completion Date</mat-label>
+                            <input matInput [matDatepicker]="picker3" [required]="isReqLwdDate"
+                                formControlName="lwdDate" [min]="minDateEnd" [matDatepickerFilter]="myFilterDate"
+                                readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                            <mat-error *ngIf="getControl('lwdDate').touched && getControl('lwdDate').invalid">
+                                <div *ngIf="getControl('lwdDate').errors.required">
+                                    Contract Completion Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isVisiblePartner">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Service And Markup (%)</mat-label>
+
+                            <input matInput placeholder="Service And Markup" maxlength="3" disableInitialSpace
+                                formControlName="ServiceAndMarkup" onlyNumber [required]="isReqPartner">
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('ServiceAndMarkup')?.touched && getControl('ServiceAndMarkup')?.invalid">
+                                <div *ngIf="getControl('ServiceAndMarkup')?.errors.required">
+                                    Service And Markup is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <app-common-control-master [desgination]="true" [formControlOpt]="getControl('DesignationId')"
+                            [required]="true" [title]="'Designation'" [formFieldAppearance]="'outline'">
+                        </app-common-control-master>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('DesignationId')?.touched && getControl('DesignationId')?.invalid">
+                            <div *ngIf="getControl('DesignationId')?.errors.required">
+                                Designation is required.
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Talent Cube</mat-label>
+                            <mat-select formControlName="CubeID" required (selectionChange)="getCubeClusterID($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlTC"
+                                        [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                        [clearSearchInput]="false">
+
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of talentCubeList | TCFilter:searchInputTC"
+                                    [value]="data?.CubeId">
+                                    {{data?.CubeName}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('CubeID')?.touched && getControl('CubeID')?.invalid">
+                                <div *ngIf="getControl('CubeID')?.errors.required">
+                                    Talent Cube is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Grade</mat-label>
+                            <mat-select formControlName="gradeId" required (selectionChange)="getGradeId($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlGrade" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of gradeList | gradeFilter:searchInputGrade"
+                                    [value]="data.GRADE_ID">
+                                    {{data?.GRADE_NAME}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('gradeId')?.touched && getControl('gradeId')?.invalid">
+                                <div *ngIf="getControl('gradeId')?.errors.required">
+                                    Grade is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <!-- <div class="ats-form-col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Comp. Band</mat-label>
+                            <mat-select formControlName="gradeBand">
+                                <mat-option *ngFor="let data of gradeBandList" [value]="data.ID">
+                                    {{data?.Band}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="getControl('gradeBand')?.touched && getControl('gradeBand')?.invalid">
+                                <div *ngIf="getControl('gradeBand')?.errors.required">
+                                    Grade Band is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+
+                    <!-- <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Cluster </mat-label>
+                            <input matInput placeholder="Cluster" [value]="filterCubeList?.ClusterName || ''" readonly>
+                        </mat-form-field>
+                    </div> -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Role </mat-label>
+                            <input matInput placeholder="Cluster" [value]="RoleTalentCube?.RoleName || ''" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="ats-form-col">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Salary Type</mat-label>
+                            <mat-select formControlName="SalaryType" required>
+                                <mat-option *ngFor="let data of salaryTypeList" [value]="data.id">
+                                    {{data?.name}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('SalaryType')?.touched && getControl('SalaryType')?.invalid">
+                                <div *ngIf="getControl('SalaryType')?.errors.required">
+                                    Salary Type is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>CTC </mat-label>
+                            <input matInput placeholder="Final CTC" maxlength="10" disableInitialSpace
+                                formControlName="ctc" onlyNumber required>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('ctc').value | convertToWord}}
+                            </mat-hint>
+                            <mat-error *ngIf="getControl('ctc')?.touched && getControl('ctc')?.invalid">
+                                <div *ngIf="getControl('ctc')?.errors.required">
+                                    CTC is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="ats-form-col" *ngIf="IsVaribablePayVisible">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Variable Pay Percentage</mat-label>
+                            <mat-select formControlName="variablePayPercent"
+                            (selectionChange)="getVarPercent($event)">
+                                <mat-option *ngFor="let data of variablePayPercentage" [value]="data?.Percentage">
+                                    {{data?.Title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+                        <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Variable Pay %</mat-label>
+                            <input matInput placeholder="Variable Pay %" maxlength="10" formControlName="variablePay" readonly />
+                        
+                        </mat-form-field>
+
+                    </div>
+                    <!-- <div class="ats-form-col" *ngIf="IsVaribablePayVisible">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Variable Pay Amount</mat-label>
+                            <input matInput placeholder="Variable Pay" maxlength="10" disableInitialSpace
+                                formControlName="variablePay" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('variablePay').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('variablePay')?.touched && getControl('variablePay')?.invalid">
+                                <div *ngIf="getControl('variablePay')?.errors.max">
+                                    You can enter maximum 300000.
+                                </div>
+                            </mat-error>
+
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Variable Pay Commitment</mat-label>
+                            <mat-select formControlName="variablePayDuration">
+                                <mat-option *ngFor="let data of varpayCommitmentList" [value]="data?.num">
+                                    {{data?.title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Joining bonus </mat-label>
+                            <input matInput placeholder="Joining bonus" maxlength="10" disableInitialSpace
+                                formControlName="joiningBonus" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('joiningBonus').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('joiningBonus')?.touched && getControl('joiningBonus')?.invalid">
+                                <div *ngIf="getControl('joiningBonus')?.errors.required">
+                                    Joining bonus is required.
+                                </div>
+                            </mat-error>
+
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="IsMIPVisible">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>MIP </mat-label>
+                            <input matInput placeholder="MIP " maxlength="10" disableInitialSpace
+                                formControlName="MIP" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('MIP').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('MIP')?.touched && getControl('MIP')?.invalid">
+                                <div *ngIf="getControl('MIP')?.errors.max">
+                                    You can enter maximum 300000.
+                                </div>
+                            </mat-error>
+
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <!-- <div class="ats-form-col" *ngIf="IsSARVisible">
+                        <mat-form-field appearance="outline">
+                            <mat-label>SAR</mat-label>
+                            <mat-select formControlName="SAR">
+                                <mat-option *ngFor="let data of sarList" [value]="data">
+                                    {{data}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Notice period buyout </mat-label>
+                            <input matInput placeholder="Notice buyout" maxlength="10" disableInitialSpace
+                                formControlName="NoticeBuyOut" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('NoticeBuyOut').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('NoticeBuyOut')?.touched && getControl('NoticeBuyOut')?.invalid">
+                                <div *ngIf="getControl('NoticeBuyOut')?.errors.max">
+                                    You can enter maximum 200000.
+                                </div>
+                            </mat-error>
+
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Travel Expense</mat-label>
+                            <input matInput placeholder="Travel Expense" maxlength="10" disableInitialSpace
+                                formControlName="TravelExp" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('TravelExp').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error *ngIf="getControl('TravelExp')?.touched && getControl('TravelExp')?.invalid">
+                                <div *ngIf="getControl('TravelExp')?.errors.max">
+                                    You can enter maximum 50000.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Relocation Expense</mat-label>
+                            <input matInput placeholder="Relocation Expense" maxlength="10" disableInitialSpace
+                                formControlName="RelocationExp" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RelocationExp').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('RelocationExp')?.touched && getControl('RelocationExp')?.invalid">
+                                <div *ngIf="getControl('RelocationExp')?.errors.max">
+                                    You can enter maximum 100000.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Retention bonus</mat-label>
+                            <input matInput placeholder="Retention bonus" maxlength="10" disableInitialSpace
+                                formControlName="RetentionBonus" onlyNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RetentionBonus').value |
+                                convertToWord}}</mat-hint>
+                            <mat-error
+                                *ngIf="getControl('RetentionBonus')?.touched && getControl('RetentionBonus')?.invalid">
+                                <div *ngIf="getControl('RetentionBonus')?.errors.max">
+                                    You can enter maximum 300000.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Re-Hire</mat-label>
+                            <mat-select formControlName="reHire" required>
+                                <mat-option *ngFor="let data of RehireList" [value]="data.value">
+                                    {{data?.name}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('reHire')?.touched && getControl('reHire')?.invalid">
+                                <div *ngIf="getControl('reHire')?.errors.required">
+                                    Re-Hire is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Choose Required Approver</mat-label>
+                            <mat-select [formControl]="approverControl" multiple
+                            (selectionChange)="getSelectedApprover($event)" required>
+                              <mat-select-trigger>
+                                {{apprSelectedList[0]?.name || ''}}
+                                <span *ngIf="(approverControl.value?.length || 0) > 1" class="example-additional-selection">
+                                  (+{{(approverControl.value?.length || 0) - 1}} {{approverControl.value?.length === 2 ? 'other' : 'others'}})
+                                </span>
+                              </mat-select-trigger>
+                              <mat-option *ngFor="let list of ApproverList" [value]="list.id">
+                                {{list?.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >TAG Lead Approver</mat-label>
+                            <mat-select formControlName="TAGLead_Approver" required>
+                                <mat-option *ngFor="let list of tagHeadLevelApproverList" [value]="list.empnewid">
+                                    {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="getControl('TAGLead_Approver')?.touched && getControl('TAGLead_Approver')?.invalid">
+                                <div *ngIf="getControl('TAGLead_Approver')?.errors.required">
+                                    TAG Lead Approver is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isDeliveryHeadApprover">
+                        <mat-form-field appearance="outline">
+                            <mat-label appRemoveAriaOwns >Delivery Head Approver</mat-label>
+                            <mat-select formControlName="DH_Approver">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlDH"
+                                        [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                        [clearSearchInput]="false">
+    
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of funcHeadLevelApproverList| G5AboveApproverPipe:searchInputDH" [value]="list.empnewid">
+                                    {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('DH_Approver')?.touched && getControl('DH_Approver')?.invalid">
+                                <div *ngIf="getControl('DH_Approver')?.errors.required">
+                                    Delivery Head Approver is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+    
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isFunctionHeadApprover">
+                    <mat-form-field appearance="outline">
+                        <mat-label appRemoveAriaOwns > Function Head Approver</mat-label>
+                        <mat-select formControlName="FunctionHead">
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlFH"
+                                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                    [clearSearchInput]="false">
+
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let list of funcHeadLevelApproverList | G5AboveApproverPipe:searchInputFH" [value]="list.empnewid">
+                                {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- validate -->
+                        <mat-error
+                            *ngIf="getControl('FunctionHead')?.touched && getControl('FunctionHead')?.invalid">
+                            <div *ngIf="getControl('FunctionHead')?.errors.required">
+                                Function Head Approver is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col" *ngIf="isCOOApproverr">
+                    <mat-form-field appearance="outline">
+                        <mat-label appRemoveAriaOwns >President & COO Approver</mat-label>
+                        <mat-select formControlName="COO_Approver">
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlCoo"
+                                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                    [clearSearchInput]="false">
+
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let list of COOLevelApproverList | G5AboveApproverPipe:searchInputCoo" [value]="list.empnewid">
+                                {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- validate -->
+                        <mat-error
+                            *ngIf="getControl('COO_Approver')?.touched && getControl('COO_Approver')?.invalid">
+                            <div *ngIf="getControl('COO_Approver')?.errors.required">
+                                President & COO Approver is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <!-- end col -->
+
+
+
+                    <div class="ats-form-col" *ngIf="!IsApproveWithEdit">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Remarks</mat-label>
+                            <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                formControlName="remarks">
+                            <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                <div *ngIf="getControl('remarks')?.errors.required">
+                                    Remarks is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="!IsApproveWithEdit">
+                        <div
+                            class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                            <div class="ats-form-col upload-file-ats"
+                                [ngClass]="getControl('fileBGV').touched && getControl('fileBGV').invalid ? 'error-file-input':'suc'">
+                                <div class="upload-file-input">
+                                    <label>Documents Upload ( Optional )
+                                        <sup *ngIf="isFileReq">*</sup>
+                                    </label>
+                                    <input type="file" #fileBGV (change)="fileUp($event)" multiple>
+                                </div>
+                                <div class="file-name-list" *ngIf="allFiles">
+                                    <ul>
+                                        <li *ngFor="let item of allFiles; let i= index"
+                                            [ngClass]="item.type == 'e' ? 'uploaded':'n'">{{i+1}}. {{item?.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+                </div>
+                <!-- <p class="error-red-center">{{approverMsgMissing}}</p> -->
+               
+              
+            </div>
+        </div>
+        <!-- end -->
+        <div class="dgm-track" *ngIf="IsApproveWithEdit">
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header">
+                    <h4>Offer Action</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-body">
+
+                                <div class="dgm-track">
+                                    <div class="form-appr margin-top-10">
+                                        <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark box-shadow-c">
+                        
+                        
+                                            <!-- end col -->
+                                            <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                                                <label class="lb-title">Action<sup>*</sup> </label>
+                                                <mat-radio-group aria-label="Select an option"
+                                                (change)="statusChange($event)" formControlName="status">
+                                                    <mat-radio-button value="A">Approve</mat-radio-button>
+                                                    <mat-radio-button value="R"> Referred Back </mat-radio-button>
+                                                </mat-radio-group>
+                                                <!-- validate --><br>
+                                                <mat-error *ngIf="getControl('status')?.touched && getControl('status')?.invalid">
+                                                    <div *ngIf="getControl('status')?.errors.required">
+                                                        Status is required.
+                                                    </div>
+                                                </mat-error>
+                                                <!-- validate ends-->
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="ats-form-col">
+                                                <mat-form-field appearance="outline" class="place-from-control">
+                                                    <mat-label>{{isRemarkLabel}}</mat-label>
+                                                    <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                                        formControlName="remarks">
+                                                    <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                                        <div *ngIf="getControl('remarks')?.errors.required">
+                                                            Please Provide reasons for referring back to recruiter.
+                                                        </div>
+                                                    </mat-error>
+                                                </mat-form-field>
+                        
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="ats-form-col">
+                                                <div
+                                                    class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                        
+                                                    <div class="ats-form-col upload-file-ats"
+                                                        [ngClass]="getControl('fileBGV').touched && getControl('fileBGV').invalid ? 'error-file-input':'suc'">
+                                                        <div class="upload-file-input">
+                                                            <label>Documents Upload ( Optional )
+                                                                <sup *ngIf="isFileReq">*</sup>
+                                                            </label>
+                                                            <input type="file" #fileBGV (change)="fileUp($event)" multiple>
+                                                        </div>
+                                                        <div class="file-name-list" *ngIf="allFiles">
+                                                            <ul>
+                                                                <li *ngFor="let item of allFiles; let i= index"
+                                                                    [ngClass]="item.type == 'e' ? 'uploaded':'n'">{{i+1}}. {{item?.name}}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                       
+                        
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="ats-modal-footer text-center">
+    <ng-container *ngIf="data?.IsApproveEdit != 'Y'">
+        <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'S')"
+        [disabled]="offerAprDt.OfferID != null && data.OfferStatusID !=10">
+            Save
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'SS')">
+            Save and Send
+        </button>
+    </ng-container>
+    <ng-container *ngIf="data?.IsApproveEdit == 'Y'">
+        <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'S')">
+            Submit
+        </button>
+    </ng-container>
+    
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>
+</form>

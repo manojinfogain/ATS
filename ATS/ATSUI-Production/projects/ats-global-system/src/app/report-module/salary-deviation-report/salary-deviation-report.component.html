@@ -1,0 +1,260 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By CID/ Name/ Talent Id '" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By CID/ Name /Talent Id"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="dwnloadFileSingle()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+
+                                                <li>
+                                                    <!-- [offerStatusIds]="[120 generat offer,140, 160, 200, 180, 220]" -->
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                        [dateRangeTitle]="'By Offer Date'"   [dateRangeTitle2]="'By Joining Date'"  [companyLocation]="true"
+                                                        [LocationMulti]="true" [deliveryUnits]="true" [duMulti]="true"
+                                                        [requisitionType]="true" [requisitionMulti]="true"
+                                                        [account]="true" [accountMulti]="true"
+                                                        [recruiter]="true" [recMulti]="true"
+                                                        [ContractType]="true" [contractTypeMulti]="true"
+                                                        [profileSoure]="true" [profileSourMulti]="true"
+                                                        [offerStatus]="true" [offrStatusMulti]="true"
+                                                        [offerStatusIds]="[120,140, 160, 200, 180, 220]"
+                                                        [dateRangeStartToEnd]="true"
+                                                        [IsAccountByDu]="true" [isPractice]="true" [practiceMulti]="true"
+                                                        [CheckBoxFilter]="isSalaryVisible"
+                                                        [CheckBoxFilterTitle]="'Show Salary Details'">
+                                                      
+                                                    </app-filter-sort>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <ng-container matColumnDef="srNo">
+                                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="tId">
+                                        <th mat-header-cell *matHeaderCellDef>Talent Id </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.TalentId || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <!-- <ng-container matColumnDef="posiType">
+                                        <th mat-header-cell *matHeaderCellDef>Position <br>Type<br>New / Replacement
+                                        </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.Candidate_EmailId || '-'}}
+                                        </td>
+                                    </ng-container> -->
+                                    <!-- end -->
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>Status </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.Status || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Cid">
+                                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>{{cidColName}} </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">                                     
+                                          {{element?.CID ? (element?.CID | cidPrefix:element?.ProfileId) : '-' }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="candName">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Name </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.CandidateName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="candEmail">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Email </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.Emailid || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="contactNum">
+                                        <th mat-header-cell *matHeaderCellDef>Contact Number </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.MobileNumber || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="EmploymentType">
+                                        <th mat-header-cell *matHeaderCellDef>Employment Type </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.EmploymentType || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="SourceType">
+                                        <th mat-header-cell *matHeaderCellDef>Source Type </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Source || '-'}}
+                                        </td>
+                                    </ng-container>
+                                       <!-- end -->
+                                    <ng-container matColumnDef="ReqirementType">
+                                        <th mat-header-cell *matHeaderCellDef>Reqirement Type </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ReqirementType || '-'}}
+                                        </td>
+                                    </ng-container>
+                                     <!-- end -->
+                                     
+                                     <ng-container matColumnDef="PrimaryRecruiter">
+                                        <th mat-header-cell *matHeaderCellDef> Primary Recruiter </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.PrimaryRecruiter || '-'}}
+                                        </td>
+                                    </ng-container>
+                                     <!-- end -->
+                                     <ng-container matColumnDef="DeliveryUnit">
+                                        <th mat-header-cell *matHeaderCellDef>Global Delivery Lead</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.DeliveryUnit || '-'}}
+                                        </td>
+                                    </ng-container>
+                                     <!-- end -->
+                                     <ng-container matColumnDef="AccountName">
+                                        <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.AccountName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                     <!-- end -->
+                                     
+                                    <ng-container matColumnDef="dateRequistion">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Requisition </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateOfRequisition | date:"mediumDate")|| '-'}}
+
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="FinalApprovalDate">
+                                        <th mat-header-cell *matHeaderCellDef>Final Approval Date</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.FinalApprovalDate | date:'mediumDate') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="finalSelectDate">
+                                        <th mat-header-cell *matHeaderCellDef>Final Selection Date</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.FinalSelectionDate | date:'mediumDate') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="DateOfOffer">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Offer</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateOfOffer | date:'mediumDate') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+
+                                    <ng-container matColumnDef="DateOfJoining">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Joining</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateOfJoining | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+
+                                    <!-- end -->
+                                    <ng-container matColumnDef="ReqToOfferDays">
+                                        <th mat-header-cell *matHeaderCellDef>Request to <br>Offer Days </th>
+                                        <td mat-cell *matCellDef="let element; " class="align-center num">
+                                            {{element?.ReqToOfferDays || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="ReqToJoining">
+                                        <th mat-header-cell *matHeaderCellDef>Request to Joining </th>
+                                        <td mat-cell *matCellDef="let element; " class="align-center num">
+                                            {{element?.ReqToJoining || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                
+                                       <ng-container matColumnDef="JoiningLocation">
+                                        <th mat-header-cell *matHeaderCellDef>Joining Location </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.JoiningLocation || '-'}}
+                                        </td>
+                                    </ng-container>
+                                        <!--new end -->
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

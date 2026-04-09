@@ -1,0 +1,399 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+                    </app-auto-complete-talentid>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Name/ Email'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By  Name/ Email"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                               
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <!-- // -->
+                                    <ng-container matColumnDef="cid">
+                                        <th mat-header-cell *matHeaderCellDef>CID</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.cid || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      <ng-container matColumnDef="talentId">
+                                        <th mat-header-cell *matHeaderCellDef>Talent Id</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.talent_id || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="accountName">
+                                        <th mat-header-cell *matHeaderCellDef>Account</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.accountName || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="c_name">
+                                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.c_name || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="c_email">
+                                        <th mat-header-cell *matHeaderCellDef>Email</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.c_email || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                     
+                                      
+                                      <ng-container matColumnDef="Tech_1_Date">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 1 Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_1_Date?(element?.Tech_1_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                        </td>
+                                      </ng-container>
+                                      <ng-container matColumnDef="Tech_1_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 1 Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_1_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_1_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 1 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_1_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_1_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 1 Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_1_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      
+                                      <ng-container matColumnDef="Tech_2_Date">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 2 Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_2_Date?(element?.Tech_2_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                          
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_2_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 2 Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_2_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_2_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 2 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_2_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_2_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 2 Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_2_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="Tech_3_Date">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 3 Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_2_Date?(element?.Tech_3_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                          
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_3_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 3 Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_3_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_3_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 3 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_3_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Tech_3_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef  class="tech-hgl">Tech 3 Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Tech_3_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                    
+                                      
+                                      <ng-container matColumnDef="Managerial_Date">
+                                        <th mat-header-cell *matHeaderCellDef  class="mng-hgl">Managerial Round Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Managerial_Date?(element?.Managerial_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Managerial_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef  class="mng-hgl">Managerial Round Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Managerial_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Managerial_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef  class="mng-hgl">Managerial Round Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Managerial_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Managerial_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef  class="mng-hgl">Managerial Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Managerial_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="Management_Date">
+                                        <th mat-header-cell *matHeaderCellDef class="mngmm-hgl">Management Round Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Management_Date?(element?.Management_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Management_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef class="mngmm-hgl">Management Round Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Management_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Management_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef class="mngmm-hgl">Management Round Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Management_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="Management_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef class="mngmm-hgl">Management Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.Management_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      
+                                     
+                                      
+                                      <ng-container matColumnDef="HR_Offer_Date">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-hgl">HR Offer Discussion Round Interview Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HR_Offer_Date?(element?.HR_Offer_Date | date:'dd-MM-YYYY  h:mm a'):  '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                    
+                                      
+                                      <ng-container matColumnDef="VideoCampareConsentByRec">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-hgl">Final Consent By Recruiter</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.VideoCampareConsentByRec || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HR_Offer_VideoMatchPercent">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-hgl">HR Offer Discussion Round Video Match Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HR_Offer_VideoMatchPercent || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HR_Offer_VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-hgl">HR Offer Discussion Round Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HR_Offer_VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HR_Offer_updateVidScoreBackend">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-hgl">HR Offer Discussion Round Score Updated from Backend</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HR_Offer_updateVidScoreBackend || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="LOCATION_NAME">
+                                        <th mat-header-cell *matHeaderCellDef> Joining Location</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.LOCATION_NAME || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="DateOfJoining">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Joining</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.DateOfJoining?(element?.DateOfJoining | date:'dd-MM-YYYY'):  '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HRDay1Verification">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day1">HR Day 1 Verification</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay1Verification || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HRDay1Score">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day1">HR Day 1 Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay1Score || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HRDay1VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day1">HR Day 1 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay1VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="ISSDay1Verification">
+                                        <th mat-header-cell *matHeaderCellDef class="iss-day1">ISS Day 1 Verification</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.ISSDay1Verification || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="ISSDay1Score">
+                                        <th mat-header-cell *matHeaderCellDef class="iss-day1">ISS Day 1 Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.ISSDay1Score || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="ISSDay1VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef class="iss-day1">ISS Day 1 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.ISSDay1VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="RMDay1Verification">
+                                        <th mat-header-cell *matHeaderCellDef class="rm-day1">RM Day 1 Verification</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.RMDay1Verification || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="RMDay1Score">
+                                        <th mat-header-cell *matHeaderCellDef  class="rm-day1">RM Day 1 Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.RMDay1Score || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="RMDay1VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef  class="rm-day1">RM Day 1 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.RMDay1VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="HRDay7Verification">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day7">HR Day 7 Verification</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay7Verification || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HRDay7Score">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day7">HR Day 7 Score</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay7Score || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                      <ng-container matColumnDef="HRDay7VideoMatch">
+                                        <th mat-header-cell *matHeaderCellDef class="hr-day7">HR Day 7 Video Match</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                          {{element?.HRDay7VideoMatch || '-'}}
+                                        </td>
+                                      </ng-container>
+                                      
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

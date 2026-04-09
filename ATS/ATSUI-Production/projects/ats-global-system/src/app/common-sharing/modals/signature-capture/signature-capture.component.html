@@ -1,0 +1,68 @@
+<form>
+    <div class="ats-modal-header">
+        <h1>{{data?.titleSignModal}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="signature-sec">
+                <mat-tab-group>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            Signature Pad
+                        </ng-template>
+                        <div class="canvas-draw">
+                            <label>Sign Here:</label>
+                            <canvas #signPadCanvas width="350" height="80" class=" mat-elevation-z8"></canvas>
+
+                        </div>
+                        <div class="sign-action-r">
+                            <button type="submit" class="btn btn-infocon" (click)="saveSignPad()">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-infocon" (click)="clearSignPad()">
+                                Clear
+                            </button>
+                            <!-- <button type="button" class="btn btn-infocon" (click)="undoSign()">
+                                Erase
+                            </button> -->
+                        </div>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            Upload Signature
+                        </ng-template>
+                        <div class="ats-forms form-on-ats-fluid upload-signature-wrapper">
+                            <div class="ats-form-col upload-file-ats-scr">
+                                <div class="upload-file-input-scr">
+                                    <input type="file" required (change)="signUpload($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            Recently Added Signature
+                        </ng-template>
+                       <div class="signnature-thumb">
+                        <div class="thumb-v mat-elevation-z8"   *ngFor="let x of SignList">
+                            <img [src]="x?.im" (click)="selectSign(x)" />
+                        </div>
+                       
+                       </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+            <img [src]="signImage" />
+        </div>
+
+    </div>
+    <!-- <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" (click)="saveSignPad()">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->
+</form>

@@ -1,0 +1,460 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h">
+              </div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                      [placeHolder]="'Search By CID/ Name/ Talent ID'" [searchServerSide]="true"
+                      [isReset]="isResetSearch" matTooltip="Search By CID/ Name /Talent Id"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <li>
+                          <button mat-button class="act-button" matTooltip="Download Report" (click)="exportAsXLSX()">
+                            <span class="material-icons-outlined">
+                              download
+                            </span>
+                          </button>
+                        </li>
+                        <li>
+                          <!-- [ContractType]="true" [contractTypeMulti]="true" -->
+                          <!-- 130 Approved by HR, 135 referred by by HR -->
+                          <app-filter-sort [form]="sortFormFilter" (getSortFormData)="getSortData($event)"
+                            [dateRange]="true" [dateRangeTitle]="'By Offer Date'" [dateRangeTitle2]="'By Joining Date'"
+                            [deliveryUnits]="true" [duMulti]="true" [requisitionType]="true" [requisitionMulti]="true"
+                            [account]="true" [accountMulti]="true" [recruiter]="true" [recMulti]="true"
+                            [ContractTypeUS]="true" [contractTypeMultiUS]="true" [profileSoure]="true"
+                            [profileSourMulti]="true" [offerStatus]="true" [offrStatusMulti]="true"
+                            [offerStatusIds]="[120,140, 160, 200, 180, 220,130,135]" [dateRangeStartToEnd]="true"
+                            [IsAccountByDu]="true" [isPractice]="true" [practiceMulti]="true"
+                            [CheckBoxFilter]="isSalaryVisible" [CheckBoxFilterTitle]="'Show Salary Details'">
+                          </app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                  <!-- <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                                      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+                                      <td mat-cell *matCellDef="let element">{{ element[column] || '-' }}</td>
+                                    </ng-container> -->
+
+                  <ng-container matColumnDef="talentId">
+                    <th mat-header-cell *matHeaderCellDef>Talent ID</th>
+                    <td mat-cell *matCellDef="let element">{{element?.talentId || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="offerNumber">
+                    <th mat-header-cell *matHeaderCellDef>Offer Number</th>
+                    <td mat-cell *matCellDef="let element">{{element?.offerNumber || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let element">
+                      <!-- {{element?.status || '-'}} -->
+                      <app-all-status-id-visibility-shared [statusType]="'offer'" [statusId]="element?.statusID"
+                        [statusName]="element?.status">
+                      </app-all-status-id-visibility-shared>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="cid">
+                    <th mat-header-cell *matHeaderCellDef>CID</th>
+                    <td mat-cell *matCellDef="let element">{{element?.cid || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="candidateName">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.candidateName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gender">
+                    <th mat-header-cell *matHeaderCellDef>Gender</th>
+                    <td mat-cell *matCellDef="let element">{{element?.gender || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let element">{{element?.email || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="employeeId">
+                    <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+                    <td mat-cell *matCellDef="let element">{{element?.employeeId || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="contactNumber">
+                    <th mat-header-cell *matHeaderCellDef>Contact Number</th>
+                    <td mat-cell *matCellDef="let element">{{element?.contactNumber || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="positionType">
+                    <th mat-header-cell *matHeaderCellDef>Position Type</th>
+                    <td mat-cell *matCellDef="let element">{{element?.positionType || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="updatedEmploymentType">
+                    <th mat-header-cell *matHeaderCellDef>Updated Employment Type</th>
+                    <td mat-cell *matCellDef="let element">{{element?.updatedEmploymentType || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="employmentType">
+                    <th mat-header-cell *matHeaderCellDef>Employment Type</th>
+                    <td mat-cell *matCellDef="let element">{{element?.employmentType || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="transfer">
+                    <th mat-header-cell *matHeaderCellDef>Transfer</th>
+                    <td mat-cell *matCellDef="let element">{{element?.transfer || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateOfRequisition">
+                    <th mat-header-cell *matHeaderCellDef>Date of Requisition</th>
+                    <td mat-cell *matCellDef="let element">{{element?.dateOfRequisition ? (element.dateOfRequisition |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="initialMarkToHiringTagDate">
+                    <th mat-header-cell *matHeaderCellDef>Initial Mark to Hiring(TAG) Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.initialMarkToHiringTagDate ?
+                      (element.initialMarkToHiringTagDate | date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="externalMarkedTagDate">
+                    <th mat-header-cell *matHeaderCellDef>External Marked TAG Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.externalMarkedTagDate ?
+                      (element.externalMarkedTagDate | date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="initialPlannedOnboardingDate">
+                    <th mat-header-cell *matHeaderCellDef>Initial Planned Onboarding Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.initialPlannedOnboardingDate ?
+                      (element.initialPlannedOnboardingDate | date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="plannedOnboardingDate">
+                    <th mat-header-cell *matHeaderCellDef>Planned Onboarding Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.plannedOnboardingDate ?
+                      (element.plannedOnboardingDate | date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="l1InterviewDate">
+                    <th mat-header-cell *matHeaderCellDef>L1 Interview Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.l1InterviewDate ? (element.l1InterviewDate |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="finalSelectionDate">
+                    <th mat-header-cell *matHeaderCellDef>Final Selection Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.finalSelectionDate ? (element.finalSelectionDate |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="finalApprovalDate">
+                    <th mat-header-cell *matHeaderCellDef>Final Approval Date</th>
+                    <td mat-cell *matCellDef="let element">{{element?.finalApprovalDate ? (element.finalApprovalDate |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateOfOffer">
+                    <th mat-header-cell *matHeaderCellDef>Date Of Offer</th>
+                    <td mat-cell *matCellDef="let element">{{element?.dateOfOffer ? (element.dateOfOffer |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="revisedDateOfOffer">
+                    <th mat-header-cell *matHeaderCellDef>Revised Date Of Offer</th>
+                    <td mat-cell *matCellDef="let element">{{element?.revisedDateOfOffer ? (element.revisedDateOfOffer |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateOfJoining">
+                    <th mat-header-cell *matHeaderCellDef>Date Of Joining</th>
+                    <td mat-cell *matCellDef="let element">{{element?.dateOfJoining ? (element.dateOfJoining |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="dateOfDecline">
+                    <th mat-header-cell *matHeaderCellDef>Date Of Decline</th>
+                    <td mat-cell *matCellDef="let element">{{element?.dateOfDecline ? (element.dateOfDecline |
+                      date:dateFormat) : '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="declineCategory">
+                    <th mat-header-cell *matHeaderCellDef>Decline Category</th>
+                    <td mat-cell *matCellDef="let element">{{element?.declineCategory || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="reasonForDecline">
+                    <th mat-header-cell *matHeaderCellDef>Reason for Decline</th>
+                    <td mat-cell *matCellDef="let element">{{element?.reasonForDecline || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="candidatePrimarySkill">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Primary Skill</th>
+                    <td mat-cell *matCellDef="let element">{{element?.candidatePrimarySkill || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="candidateSubSkill">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Sub Skill</th>
+                    <td mat-cell *matCellDef="let element">{{element?.candidateSubSkill || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="thidPrimarySkill">
+                    <th mat-header-cell *matHeaderCellDef>THID Primary Skill</th>
+                    <td mat-cell *matCellDef="let element">{{element?.thidPrimarySkill || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="thidSubSkill">
+                    <th mat-header-cell *matHeaderCellDef>THID Sub Skill</th>
+                    <td mat-cell *matCellDef="let element">{{element?.thidSubSkill || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="totalExperience">
+                    <th mat-header-cell *matHeaderCellDef>Total Experience</th>
+                    <td mat-cell *matCellDef="let element">{{element?.totalExperience || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="expBucketing">
+                    <th mat-header-cell *matHeaderCellDef>Exp Bucketing</th>
+                    <td mat-cell *matCellDef="let element">{{element?.expBucketing || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="mu">
+                    <th mat-header-cell *matHeaderCellDef>MU</th>
+                    <td mat-cell *matCellDef="let element">{{element?.mu || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="globalDeliveryLead">
+                    <th mat-header-cell *matHeaderCellDef>Global Delivery Lead</th>
+                    <td mat-cell *matCellDef="let element">{{element?.globalDeliveryLead || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gdlName">
+                    <th mat-header-cell *matHeaderCellDef>GDL Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.gdlName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="division">
+                    <th mat-header-cell *matHeaderCellDef>Division</th>
+                    <td mat-cell *matCellDef="let element">{{element?.division || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="groupAccountName">
+                    <th mat-header-cell *matHeaderCellDef>Group Account Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.groupAccountName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="accountName">
+                    <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.accountName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="projectName">
+                    <th mat-header-cell *matHeaderCellDef>Project Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.projectName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="designation">
+                    <th mat-header-cell *matHeaderCellDef>Designation</th>
+                    <td mat-cell *matCellDef="let element">{{element?.designation || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="offshoreOnsite">
+                    <th mat-header-cell *matHeaderCellDef>Offshore / Onsite</th>
+                    <td mat-cell *matCellDef="let element">{{element?.offshoreOnsite || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="joiningLocation">
+                    <th mat-header-cell *matHeaderCellDef>Joining Location</th>
+                    <td mat-cell *matCellDef="let element">{{element?.joiningLocation || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="education">
+                    <th mat-header-cell *matHeaderCellDef>Education</th>
+                    <td mat-cell *matCellDef="let element">{{element?.education || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="currentEmployer">
+                    <th mat-header-cell *matHeaderCellDef>Current Employer</th>
+                    <td mat-cell *matCellDef="let element">{{element?.currentEmployer || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="currentLocation">
+                    <th mat-header-cell *matHeaderCellDef>Current Location</th>
+                    <td mat-cell *matCellDef="let element">{{element?.currentLocation || '-'}}</td>
+                  </ng-container>
+                    <ng-container matColumnDef="PayTypeExp">
+                    <th mat-header-cell *matHeaderCellDef>Pay Type (Hourly / Monthly / Annual) Screening Round</th>
+                    <td mat-cell *matCellDef="let element">{{element?.payTypeExpected || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="expectedCtc">
+                    <th mat-header-cell *matHeaderCellDef>Expected CTC</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.expectedCtc) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="payType">
+                    <th mat-header-cell *matHeaderCellDef>Pay Type (Hourly / Monthly / Annual)</th>
+                    <td mat-cell *matCellDef="let element">{{element?.payType || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="baseCtc">
+                    <th mat-header-cell *matHeaderCellDef>Base CTC</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.baseCtc) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="annualVariableCtc">
+                    <th mat-header-cell *matHeaderCellDef>Annual Variable CTC</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.annualVariableCtc) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="talentCube">
+                    <th mat-header-cell *matHeaderCellDef>Talent Cube</th>
+                    <td mat-cell *matCellDef="let element">{{element?.talentCube || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="cluster">
+                    <th mat-header-cell *matHeaderCellDef>Cluster</th>
+                    <td mat-cell *matCellDef="let element">{{element?.cluster || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="grade">
+                    <th mat-header-cell *matHeaderCellDef>Grade</th>
+                    <td mat-cell *matCellDef="let element">{{element?.grade || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gridLimitMin">
+                    <th mat-header-cell *matHeaderCellDef>Grid Limit (Min)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.gridLimitMin) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gridLimitMedianP50">
+                    <th mat-header-cell *matHeaderCellDef>Grid Limit (Median P-50)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.gridLimitMedianP50) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="exceptionFromMedianP50">
+                    <th mat-header-cell *matHeaderCellDef>Exception Yes/No (From Median P-50)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.exceptionFromMedianP50) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="exceptionPercentFromMedianP50">
+                    <th mat-header-cell *matHeaderCellDef>Exception % from Median P-50</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.exceptionPercentFromMedianP50) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gridLimitMaxP75">
+                    <th mat-header-cell *matHeaderCellDef>Grid Limit (Max P-75)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.gridLimitMaxP75) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="exceptionFromMaxP75">
+                    <th mat-header-cell *matHeaderCellDef>Exception Yes/No (From Max P-75)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.exceptionFromMaxP75) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="exceptionPercentFromMaxP75">
+                    <th mat-header-cell *matHeaderCellDef>Exception % from (Max P-75)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.exceptionPercentFromMaxP75) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gridBucketing">
+                    <th mat-header-cell *matHeaderCellDef>Grid Bucketing</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.gridBucketing) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="joiningBonus">
+                    <th mat-header-cell *matHeaderCellDef>Joining Bonus</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.joiningBonus) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="retentionBonus">
+                    <th mat-header-cell *matHeaderCellDef>Retention Bonus</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.retentionBonus) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="relocationExpense">
+                    <th mat-header-cell *matHeaderCellDef>Relocation Expense</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.relocationExpense) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="travelExpense">
+                    <th mat-header-cell *matHeaderCellDef>Travel Expense</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.travelExpense) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="noticePeriod">
+                    <th mat-header-cell *matHeaderCellDef>Notice Period</th>
+                    <td mat-cell *matCellDef="let element">{{element?.noticePeriod || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="primaryRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Primary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">{{element?.primaryRecruiter || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="secondaryRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Secondary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">{{element?.secondaryRecruiter || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="offerReleasedBy">
+                    <th mat-header-cell *matHeaderCellDef>Offer Released By</th>
+                    <td mat-cell *matCellDef="let element">{{element?.offerReleasedBy || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="sourceType">
+                    <th mat-header-cell *matHeaderCellDef>Source Type</th>
+                    <td mat-cell *matCellDef="let element">{{element?.sourceType || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="sourceName">
+                    <th mat-header-cell *matHeaderCellDef>Source Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.sourceName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="reHire">
+                    <th mat-header-cell *matHeaderCellDef>Re-hire</th>
+                    <td mat-cell *matCellDef="let element">{{element?.reHire || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="billingRate">
+                    <th mat-header-cell *matHeaderCellDef>Billing Rate ($)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.billingRate) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="perHourCostRate">
+                    <th mat-header-cell *matHeaderCellDef>Per Hour Cost Rate</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.perHourCostRate) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="dgmPercent">
+                    <th mat-header-cell *matHeaderCellDef>DGM Percent ($)</th>
+                    <td mat-cell *matCellDef="let element">{{maskIfRequired(element?.dgmPercent) || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="studioPractice">
+                    <th mat-header-cell *matHeaderCellDef>Studio/Practice</th>
+                    <td mat-cell *matCellDef="let element">{{element?.studioPractice || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="practiceCommunity">
+                    <th mat-header-cell *matHeaderCellDef>Practice Community</th>
+                    <td mat-cell *matCellDef="let element">{{element?.practiceCommunity || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="offerReleasedFor">
+                    <th mat-header-cell *matHeaderCellDef>Offer Released For</th>
+                    <td mat-cell *matCellDef="let element">{{element?.offerReleasedFor || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="remark">
+                    <th mat-header-cell *matHeaderCellDef>Remark</th>
+                    <td mat-cell *matCellDef="let element">{{element?.remark || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="isTalentIdReopened">
+                    <th mat-header-cell *matHeaderCellDef>Is Talent ID Reopened</th>
+                    <td mat-cell *matCellDef="let element">{{element?.isTalentIdReopened || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="previousTalentId">
+                    <th mat-header-cell *matHeaderCellDef>Previous Talent ID</th>
+                    <td mat-cell *matCellDef="let element">{{element?.previousTalentId || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="previousTalentIdAccount">
+                    <th mat-header-cell *matHeaderCellDef>Previous Talent ID Account</th>
+                    <td mat-cell *matCellDef="let element">{{element?.previousTalentIdAccount || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="talentIsReopenReason">
+                    <th mat-header-cell *matHeaderCellDef>Talent Is Reopen Reason</th>
+                    <td mat-cell *matCellDef="let element">{{element?.talentIsReopenReason || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="i9Representative">
+                    <th mat-header-cell *matHeaderCellDef>I9 Representative</th>
+                    <td mat-cell *matCellDef="let element">{{element?.i9Representative || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="i9RepresentativeEmployeeName">
+                    <th mat-header-cell *matHeaderCellDef>I9 Representative Employee Name</th>
+                    <td mat-cell *matCellDef="let element">{{element?.i9RepresentativeEmployeeName || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="yearsOfExperienceInPrimarySkill">
+                    <th mat-header-cell *matHeaderCellDef>Years of Experience in Primary Skill</th>
+                    <td mat-cell *matCellDef="let element">{{element?.yearsOfExperienceInPrimarySkill || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="medicalBenefitEligible">
+                    <th mat-header-cell *matHeaderCellDef>Medical Benefit Eligible</th>
+                    <td mat-cell *matCellDef="let element">{{element?.medicalBenefitEligible || '-'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="flsaJobClassification">
+                    <th mat-header-cell *matHeaderCellDef>FLSA Job Classification</th>
+                    <td mat-cell *matCellDef="let element">{{element?.flsaJobClassification || '-'}}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput" *ngIf="(candidateList?.data?.length === 0)">
+                </app-no-result-found>
+              </div>
+              <div class="ats-paging-sec">
+                <app-custom-paginator #paginatorRef [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                  (sendPagingData)="getPagingData($event)">
+                </app-custom-paginator>
+              </div>
+            </div>
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

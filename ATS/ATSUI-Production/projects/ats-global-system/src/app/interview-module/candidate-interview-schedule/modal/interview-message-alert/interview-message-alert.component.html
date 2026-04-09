@@ -1,0 +1,22 @@
+<div class="ats-modal-header">
+    <h1>Message</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="msg-list" *ngIf="data">
+            <mat-list>
+                <mat-list-item *ngFor="let item of data" [ngClass]="item?.type == 'err' ? 'err':'suc'">
+                    <mat-icon mat-list-icon *ngIf="item?.type == 'err'">error</mat-icon>
+                    <mat-icon mat-list-icon *ngIf="item?.type == 'suc'">check_circle_outline</mat-icon>
+                    <div class="mat-line-v">{{item?.msg}}</div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+        OK
+    </button>
+</div>

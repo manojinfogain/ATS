@@ -1,0 +1,1956 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <!-- <div class="filter-txt-opt">
+                                            Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                                            <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                                        </div> -->
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <!-- <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/Email'"
+                                            [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter> -->
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <div class="form-slv">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Year</mat-label>
+                                                            <mat-select [formControl]="formControlYear"
+                                                                (selectionChange)="MonthYear($event,1)">
+                                                                <mat-option *ngFor="let data of yearList"
+                                                                    [value]="data">
+                                                                    {{data}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="form-slv" *ngIf="!isWeekWiseReport">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Month</mat-label>
+                                                            <mat-select [formControl]="formControlMonth"
+                                                                (selectionChange)="MonthYear($event,2)">
+                                                                <mat-option *ngFor="let data of MonthList"
+                                                                    [value]="data.value">
+                                                                    {{data?.name}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="form-slv" *ngIf="isWeekWiseReport">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Month</mat-label>
+                                                            <mat-select [formControl]="formControlMonth"
+                                                                (selectionChange)="MonthYear($event,2)" multiple>
+                                                                <mat-option *ngFor="let data of MonthList"
+                                                                    [value]="data.value" [disabled]="isOptionDisabled(data.value)">
+                                                                    {{data?.name}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button mat-button class="act-button delegate-btn" matTooltip="{{isWeekWiseReport ? 'Show Date Wise Report' : 'Show Week Wise Report'}}"
+                                                        (click)="changeReport()">
+                                                        {{isWeekWiseReport ? 'Date Wise Report' : 'Week Wise Report'}}
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()" [disabled]="((candidateList?.data?.length === 0 && isWeekWiseReport) ||
+                                                        (dataSource?.length === 0 && isWeekWiseReport))">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <!-- <li>
+                                                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" 
+                                                    (sendSortData)="getSortData($event)" [companyLocation]="true">
+                                                    </app-filter-sort>
+                                                </li> -->
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" *ngIf="!isWeekWiseReport" class="table-mat-info" id="exportTable">
+                                    <!-- <ng-container matColumnDef="SNum">
+                                    <th mat-header-cell *matHeaderCellDef>S. No.</th>
+                                    <td mat-cell *matCellDef="let element; let i = index" class="text-center"> {{i+1}}</td>
+                                    </ng-container> -->
+                                    <div class="producti-wrapper">
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="recruiterName" sticky>
+                                                <th mat-header-cell *matHeaderCellDef class="">
+                                                    Recruiter Name
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.RecruiterName}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong> Total</strong> </td>
+                                            </ng-container>
+                                            <!-- new -->
+                                            <ng-container matColumnDef="RecruiterLocation">
+                                                <th mat-header-cell *matHeaderCellDef class="">
+                                                    Recruiter Location
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <!-- {{element?.RecruiterName}} -->
+                                                    {{element?.RecruiterLocation}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="RecruiterRM">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">
+                                                    Recruiter Rm
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <!-- {{element?.RecruiterName}} -->
+                                                    {{element?.RecruiterRM}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="midWayDropCandi">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">
+                                                    Mid Way Drop Candidates
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+
+                                                    {{element?.MidWayDrop}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong>
+                                                        {{finalTotal?.GrantTotalMidWayDrop}} </strong> </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="NoPositioncancelled">
+                                                <th mat-header-cell *matHeaderCellDef class="">
+                                                    No Of Position Cancelled<br>(THID Closed)
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+
+                                                    {{element?.NoPositioncancelled_THID_Closed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong>
+                                                        {{finalTotal?.GrantTotalNoOfPositionCancelled}}
+                                                    </strong> </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="NoOfEffortLoss">
+                                                <th mat-header-cell *matHeaderCellDef class="abc">
+                                                    Candidate on Position Cancelled<br>(Effort Loss)
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+
+                                                    {{element?.NoOfEffortLoss}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong>
+                                                        {{finalTotal?.GrantTotalNoOfEffectLoss}}
+                                                    </strong> </td>
+                                            </ng-container>
+
+                                            <!-- new ends -->
+                                            <div class="handl-colum">
+                                                <ng-container matColumnDef="schedulL1">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th ">
+
+                                                        Scheduled L1
+                                                    </th>
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th">
+                                                        Scheduled L1
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                                        {{element?.Day_1_L1_Scheduled}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef>
+                                                        {{sumTotal(candidateList?.data,'Day_1_L1_Scheduled')}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="intervL1">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th">
+                                                        Interviewed L1
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{element?.Day_1_L1_Interviewed}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef>
+                                                        {{sumTotal(candidateList?.data,'Day_1_L1_Interviewed')}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="selectedL1">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th">Selected
+                                                        L1
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{element?.Day_1_L1_Selected}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef>
+                                                        {{sumTotal(candidateList?.data,'Day_1_L1_Selected')}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="offered">
+                                                    <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{element?.Day_1_Offered}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef>
+                                                        {{sumTotal(candidateList?.data,'Day_1_Offered')}} </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- ends day1  -->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="2schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th-1">Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+
+                                                    {{element?.Day_2_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_2_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="2intervL1">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th-1">
+                                                    Interviewed
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_2_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_2_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="2selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th-1"> Selected
+                                                    L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_2_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_2_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="2offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_2_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_2_Offered')}} </td>
+                                            </ng-container>
+
+                                            <!-- ends day2  -->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="3schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_3_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_3_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="3intervL1">
+                                                <th mat-header-cell *matHeaderCellDef> Interviewed
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+
+                                                    {{element?.Day_3_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_3_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="3selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_3_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_3_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="3offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_3_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_3_Offered')}} </td>
+                                            </ng-container>
+
+                                            <!-- ends day3 -->
+
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="4schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_4_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_4_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="4intervL1">
+                                                <th mat-header-cell *matHeaderCellDef> Interviewed
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_4_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_4_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="4selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_4_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_4_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="4offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_4_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_4_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day4 -->
+
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+
+                                            <ng-container matColumnDef="5schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_5_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_5_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="5intervL1">
+                                                <th mat-header-cell *matHeaderCellDef> Interviewed
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_5_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_5_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="5selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_5_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_5_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="5offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_5_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_5_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day5 -->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="6schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_6_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_6_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="6intervL1">
+                                                <th mat-header-cell *matHeaderCellDef> Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_6_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_6_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="6selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_6_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_6_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="6offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_6_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_6_Offered')}} </td>
+                                            </ng-container>
+
+                                            <!-- ends day 6-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="7schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_7_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_7_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="7intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_7_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_7_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="7selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_7_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_7_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="7offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_7_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_7_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 7-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="8schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_8_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_8_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="8intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_8_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_8_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="8selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_8_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_8_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="8offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_8_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_8_Offered')}} </td>
+                                            </ng-container>
+
+                                            <!-- ends day 8-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="9schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef> Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_9_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_9_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="9intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_9_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_9_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="9selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef> Selected L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_9_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_9_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="9offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_9_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_9_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 9-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="10schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_10_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_10_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="10intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_10_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_10_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="10selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_10_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_10_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="10offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_10_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_10_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 10-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="11schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_11_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_11_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="11intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_11_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_11_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="11selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_11_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_11_L1_Selected')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="11offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_11_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_11_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 11-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="12schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_12_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_12_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="12intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_12_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_12_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="12selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_12_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_12_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="12offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_12_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_12_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 12-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="13schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_13_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_13_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="13intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_13_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_13_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="13selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_13_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_13_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="13offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_13_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_13_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 13-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="14schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_14_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_14_L1_Scheduled')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="14intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_14_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_14_L1_Interviewed')}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="14selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_14_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_14_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="14offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_14_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_14_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 14-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="15intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_15_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_15_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="15schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_15_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_15_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="15selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_15_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_15_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="15offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_15_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_15_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 15-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="16intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_16_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_16_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="16schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_16_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_16_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="16selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_16_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_16_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="16offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_16_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_16_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 16-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="17intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_17_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_17_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="17schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_17_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_17_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="17selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_17_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_17_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="17offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_17_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_17_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 17-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="18intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_18_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_18_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="18schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_18_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_18_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="18selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_18_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_18_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="18offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_18_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_18_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 18-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="19intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_19_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_19_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="19schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_19_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_19_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="19selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_19_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_19_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="19offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_19_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_19_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 19-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="20intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_20_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_20_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="20schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_20_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_20_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="20selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_20_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_20_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="20offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_20_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_20_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 20-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="21intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_21_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_21_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="21schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_21_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_21_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="21selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_21_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_21_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="21offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_21_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_21_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 21-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="22intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_22_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_22_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="22schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_22_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_22_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="22selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_22_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_22_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="22offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_22_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_22_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 22-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="23intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_23_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_23_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="23schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_23_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_23_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="23selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_23_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_23_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="23offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_23_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_23_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 23-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="24intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_24_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_24_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="24schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_24_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_24_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="24selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_24_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_24_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="24offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_24_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_24_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 24-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="25intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_25_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_25_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="25schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_25_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_25_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="25selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_25_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_25_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="25offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_25_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_25_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 25-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="26intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_26_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_26_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="26schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_26_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_26_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="26selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_26_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_26_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="26offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_26_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_26_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 26-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="27intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_27_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_27_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="27schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_27_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_27_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="27selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_27_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_27_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="27offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_27_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_27_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 27-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="28intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_28_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_28_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="28schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_28_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_28_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="28selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_28_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_28_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="28offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_28_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_28_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 28-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="29intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_29_L1_Interviewed==null?'-':element?.Day_29_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    <!-- <ng-container *ngIf="element?.Day_29_L1_Interviewed.toString()">
+                                                        ok
+                                                    </ng-container> -->
+                                                    {{sumTotal(candidateList?.data,'Day_29_L1_Interviewed')}}
+                                                    <!-- {{element?.Day_29_L1_Interviewed==null?'-':'-'}} -->
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="29schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_29_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_29_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="29selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_29_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_29_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="29offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_29_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_29_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 29-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="30intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_30_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_30_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="30schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_30_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_30_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="30selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_30_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_30_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="30offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_30_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_30_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 30-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="31intervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_31_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_31_L1_Interviewed')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="31schedulL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled
+                                                    L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.Day_31_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_31_L1_Scheduled')}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="31selectedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1</th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_31_L1_Selected }}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_31_L1_Selected')}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="31offered">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.Day_31_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{sumTotal(candidateList?.data,'Day_31_Offered')}} </td>
+                                            </ng-container>
+                                            <!-- ends day 31-->
+                                        </div>
+                                        <!-- ends -->
+                                        <div class="wrp-bx grand-t-main">
+                                            <ng-container matColumnDef="grandTotSchedL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Scheduled L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element?.GrandTotal_L1_Scheduled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalL1Scheduled}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="grandTotIntervL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Interviewed L1
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.GrandTotal_L1_Interviewed}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+
+                                                    {{finalTotal?.GrantTotalL1Interviewed}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="grandTotSelectL1">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Selected L1 </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.GrandTotal_L1_Selected}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalL1Selected}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="grandOffered">
+                                                <th mat-header-cell *matHeaderCellDef class="abc">Offered
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.GrandTotal_Offered}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalOffered}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- ends Grand-->
+                                        </div>
+                                        <!-- ends -->
+                                        <!-- Grand total ends -->
+                                        <div class="wrp-bx grand-t-main">
+                                            <!-- new colum -->
+                                            <ng-container matColumnDef="grandselectPer">
+                                                <th mat-header-cell *matHeaderCellDef class="">Selected L1
+                                                    <br>
+                                                    %
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+
+                                                    {{element?.L1_SelectedPer ||'NA'}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+
+                                                </td>
+                                            </ng-container>
+                                            <!-- new colum -->
+                                            <ng-container matColumnDef="grandselectOffPer">
+                                                <th mat-header-cell *matHeaderCellDef class="">Select L1 To Offer
+                                                    <br>
+                                                    %
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.L1_SelectedToOfferedPer || 'NA'}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="NoOfCandidateJoined">
+                                                <th mat-header-cell *matHeaderCellDef class="">
+                                                    Joined
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.NoOfCandidateJoined}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalNoCandidateJoined}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column ar -->
+                                            <ng-container matColumnDef="organisationDrop">
+                                                <th mat-header-cell *matHeaderCellDef class="abc">
+                                                    Organization Drop
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.OrganizationDropCount}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalOrganizationDropCount }}
+                                                </td>
+
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="candidateDrop">
+                                                <th mat-header-cell *matHeaderCellDef class="">
+                                                    Candidate Drop
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{element?.CandidateDropCount}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef>
+                                                    {{finalTotal?.GrantTotalCandidateDropCount }}
+                                                </td>
+                                            </ng-container>
+                                            <!-- hidden colum for excel -->
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="anotherOfferBetterComp">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Another Offer- Better Compensation
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.AnotherofferBettercompensation}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalAnotherofferBettercompensation}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="anotherOfferPermanentWFH">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Another Offer- Permanent WFH
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.AnotherofferPermanentWFH}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalAnotherofferPermanentWFH}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="anotherOfferLocationChoice">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Another Offer- Location of choice
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.AnotherofferLocationchoice}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalAnotherofferLocationchoice}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="anotherOfferOrganization">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Another Offer- Organization
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.AnotherofferOrganization}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalAnotherofferOrganization}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="anotherOfferOnsiteOppurtunity">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Another Offer -Onsite Opportunity
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.AnotherofferOnsiteopportunity}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalAnotherofferOnsiteopportunity}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="personalReason">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Personal Reason
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.PersonalReason}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalPersonalReason}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="processDelay">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Process Delay
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.Processdelay}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalProcessdelay}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="retainByCurrentOrganization">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Retained By Current Organization
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.RetainedbycurrentOrganization}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalRetainedbycurrentOrganization}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="cost">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Cost
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.Cost}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalCost}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="positionCanceled">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Position Cancelled/ Closed/ Hold
+
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.PositionCanceled}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalPositionCanceled}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="fakeCandidate">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Fake Candidate
+
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.Fakecandidate}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalFakecandidate}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="negativeReferenceCheck">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Negetive Reference Check
+
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.NegativeReferencecheck}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalNegativeReferencecheck}}
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- end column -->
+                                            <ng-container matColumnDef="roleFitment">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                    Role Fitment
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.RoleFitment}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalRoleFitment}}
+                                                </td>
+                                            </ng-container>
+
+                                              <!-- end column -->
+                                              <ng-container matColumnDef="Responsiveness">
+                                                <th mat-header-cell *matHeaderCellDef class="hide-col">
+                                                   Responsiveness
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;" class="hide-col">
+                                                    {{element?.Responsiveness}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef class="hide-col">
+                                                    {{finalTotal?.GrantTotalResponsiveness}}
+                                                </td>
+                                            </ng-container>
+
+                                        </div>
+
+                                        <!-- ends -->
+                                    </div>
+
+                                    <!-- Header row first group -->
+                                    <ng-container *ngFor="let group of headGroup; let i = index">
+                                        <ng-container [matColumnDef]="group">
+                                            <ng-container *ngIf="i==32 || group == 'day45'; else otherColumnHeader"
+                                                class="grand-tot-wrap">
+                                                <th mat-header-cell *matHeaderCellDef 
+                                                    class="grand-total" [attr.colspan]="12">
+                                                    Grand Total
+                                                <th mat-header-cell *matHeaderCellDef 
+                                                    [attr.colspan]="12">
+                                                </th>
+                                            </ng-container>
+                                            <ng-template #otherColumnHeader>
+                                                <th mat-header-cell *matHeaderCellDef 
+                                                    [attr.colspan]="i==0?3:4">
+                                                    {{i==0? '':(i)+' '+getmonths+' '+formControlYear.value}}
+                                                <th mat-header-cell *matHeaderCellDef 
+                                                    [attr.colspan]="i==0?3:4">
+
+                                                    <!-- <ng-container *ngIf="i===32; else monthField">
+                                                    Grand Total
+                                                </ng-container>
+                                                <ng-template #monthField>
+                                                    {{i==0? '':(i)+' '+getmonths}}
+                                                </ng-template> -->
+                                                </th>
+                                            </ng-template>
+
+                                        </ng-container>
+                                        <!-- <ng-container matColumnDef="midWayDropCandi">
+                                                <th mat-header-cell *matHeaderCellDef class="handl-colum">
+                                                    Mid Way Drop Candidates
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    
+                                                    {{element?.MidWayDrop}}
+                                                </td>
+                                                <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                            </ng-container> -->
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="tr-fx">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                    <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
+                                </table>
+                                <table mat-table [dataSource]="dataSource" *ngIf="isWeekWiseReport" class="table-mat-info" id="exportTable">
+                                    <ng-container *ngFor="let key of displayedColumns2">
+                                        <ng-container [matColumnDef]="key">
+                                            <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                                                 {{replaceUnder(key)}} </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element">
+                                           {{(element[key] == null) ? '-' : element[key]}}
+                                            </td>
+                                            <td mat-footer-cell *matFooterCellDef>
+                                                {{key == 'Recruiter_Emp_Id' ? 'Total' : (key == 'Recruiter_Name' || key == 'Recruiter_Location' || key == 'Recruiter_RM' || key == 'L1_Selected_Percent') ? '' : sumTotal(dataSource,key)}}</td>
+                                        </ng-container>     
+                                    </ng-container>                          
+                                    
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;let i = index"></tr>
+                                    <tr mat-footer-row *matFooterRowDef="displayedColumns2;sticky: true"></tr>
+
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="((candidateList?.data?.length === 0 && isWeekWiseReport) ||
+                                     (dataSource?.length === 0 && isWeekWiseReport))">
+                                </app-no-result-found>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                   
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

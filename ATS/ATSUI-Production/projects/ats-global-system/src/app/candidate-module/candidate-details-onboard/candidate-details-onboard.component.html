@@ -1,0 +1,124 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <div class="candidate-screen">
+                    <div class="candidate-screen-body">
+                        <div class="candidate-tab candidate-tab-verticals">
+                            <mat-tab-group [(selectedIndex)]="selectedTabIndex"
+                                (selectedTabChange)="onTabChanged($event);" #atsOnTab>
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Personal Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <div class="form-content-wrapper">
+                                            <app-candidate-personal-details [appearance]="formAppearance"
+                                                [formClass]="formClass" #personalDetailsCom [candidatePersonalDetails]="candidatePersonalDetails">
+
+                                            </app-candidate-personal-details>
+                                        </div>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Family Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-candidate-family-details [appearance]="formAppearance"
+                                            [formClass]="formClass">
+
+                                        </app-candidate-family-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Educational Background
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-candidate-education-details [appearance]="formAppearance"
+                                            [formClass]="formClass"></app-candidate-education-details>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Training Courses Attended
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-training-courses-attended [appearance]="formAppearance"
+                                            [formClass]="formClass"></app-training-courses-attended>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Employment Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-employment-details [appearance]="formAppearance" [formClass]="formClass">
+                                        </app-employment-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Salary Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-salary-details [appearance]="formAppearance" [formClass]="formClass">
+                                        </app-salary-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Upload Documents
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-document-details-sc [appearance]="formAppearance" [formClass]="formClass"
+                                        [uploadedDocumentLists]="uploadedDocumentLists">
+                                        </app-document-details-sc>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                        Other Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-other-details-sc [appearance]="formAppearance" [formClass]="formClass">
+                                        </app-other-details-sc>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+                    <div class="candidate-screen-footer">
+                        <button type="button" class="btn btn-infocon" *ngIf="isPrevBtnShow" (click)="prevTab()">
+                            Prev
+                        </button>
+                        <button type="button" class="btn btn-infocon" (click)="nextTab()" *ngIf="isNextBtnShow">
+                            Next
+                        </button>
+                    </div>
+
+                </div>
+                <!-- end candidate screen -->
+
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

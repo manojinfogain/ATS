@@ -1,0 +1,143 @@
+<form [formGroup]="upladFilesForm" (ngSubmit)="submitRequest(upladFilesForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.pageTitle}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Interview Type:</h4>
+                            <p>{{candidteRoundDetails?.interviewType?.Type || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Interview Date:</h4>
+                            <p> {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Interviewer:</h4>
+                            <p>  {{candidteRoundDetails?.interviewer?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+
+
+                    <div class="vrf-form-sec">
+                        <div class="container-fluid">
+                            <div class="row">
+                        <div class="form-on-ats form-fill-ats col-md-6 width-50-inline">
+
+                            <div class="form-on-col upload-file-onb width-480"
+                                [ngClass]="getControl('fileVideo').touched && getControl('fileVideo').invalid ? 'error-file-input':'suc'">
+                                <div class="upload-file-input" [ngClass]="{'wd-trans' : data?.interviewTypeId == 2} ">
+                                    <label>Please Upload Candidate Video
+                                        <sup>*</sup>
+                                    </label>
+                                    <input type="file" formControlName="fileVideo" (change)="videoUpload($event)"
+                                        required>
+                                </div>
+                                <label class="hlt">Note: Video length should not exceed 5 minutes.</label>
+                                <!-- <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a>
+                                <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a> -->
+                                <div class="guidline-action">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" title="Click here to view" (click)="VideoUploadGuideline(data)" class="guid">Video Recording Guidelines</a>  
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline(data)" class="guid">Video Trim & Upload guidelines</a>  
+                                        </li>
+                                    </ul>
+                                </div>
+                               </div>
+
+                            <div class="form-on-col full-width">
+                                <div class="rad-bb-wrapper">
+                                    <mat-checkbox required formControlName="IsConsent"
+                                        [ngClass]="getControl('IsConsent').touched  && getControl('IsConsent').invalid ? 'consent-error':'suc'">
+                                        <ng-container>
+                                            <span>Uploading Video <span *ngIf="data?.interviewTypeId == 2">and the Transcript </span>of the candidate participating in the
+                                                discussion.</span>
+                                        </ng-container>
+                                        <sup class="dangr">*</sup>
+                                    </mat-checkbox>
+
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                    <!-- </div>
+                    <div class="vrf-form-sec"> -->
+                        <div class="form-on-ats form-fill-ats col-md-6 width-50-inline" *ngIf="data?.interviewTypeId == 2">
+
+                            <div class="form-on-col upload-file-onb width-375"
+                                [ngClass]="getControl('fileTranscript').touched && getControl('fileTranscript').invalid ? 'error-file-input':'suc'">
+                                <div class="upload-file-input width-300-important">
+                                    <label>Please Upload Transcript
+                                        <sup *ngIf="isTranscriptMandatory">*</sup>
+                                    </label>
+                                    <input type="file" formControlName="fileTranscript" (change)="transcriptUpload($event)"
+                                        [required]=" isTranscriptMandatory && data?.interviewTypeId == 2">
+                                </div>
+                                <label class="hlt">Note: Transcript must be of whole discussion.</label>
+                                <!-- <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a>
+                                <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a> -->
+                                <!-- <div class="guidline-action">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" title="Click here to view" (click)="VideoUploadGuideline(data)" class="guid">Video Recording Guidelines</a>  
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline(data)" class="guid">View video Trim & Upload guidelines</a>  
+                                        </li>
+                                    </ul>
+                                </div> -->
+                               </div>
+
+                            <!-- <div class="form-on-col" >
+                                <div class="rad-bb-wrapper">
+                                    <mat-checkbox required formControlName="IsConsent"
+                                        [ngClass]="getControl('IsConsent').touched  && getControl('IsConsent').invalid ? 'consent-error':'suc'">
+                                        <ng-container>
+                                            <span>Uploading Video of the candidate participating in the
+                                                discussion.</span>
+                                        </ng-container>
+                                        <sup class="dangr">*</sup>
+                                    </mat-checkbox>
+
+                                </div>
+                            </div> -->
+                            <!-- end col -->
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

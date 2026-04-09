@@ -1,0 +1,24 @@
+<ng-container *ngIf="fileData?.fileType == 'P'">
+    <a href="javascript:void(0)" title="">
+    <img [src]="pathSrc | safeUrl">
+    </a>
+    <div class="img-overlays">
+        <a href="javascript:void(0)"  (click)="previewImageVideo(fileData)" title="" class="view-l-wt">View</a>
+      </div>
+</ng-container>
+<ng-container *ngIf="fileData?.fileType == 'V'">
+    <a href="javascript:void(0)" title="" >
+        <img src="../../../../../assets/images/banner/video-player-banner.png">
+    </a>
+    <div class="img-overlays">
+        <a href="javascript:void(0)" (click)="previewVideo(fileData)" title="" class="view-l-wt">Watch/Download Video</a>
+      </div>
+</ng-container>
+
+<!-- <video #videoPlayer class="video-js vjs-default-skin"  preload="none" width="640px" controls 
+[poster]="'https://ats.infogain.com/assets/images/Infogain_Logo2.png'">
+<source [src]="pathSrc"
+    type="video/mp4"  />
+Browser not supported
+</video>
+<button (click)="downloadOfferletter()">downloadOfferletter</button> -->

@@ -1,0 +1,197 @@
+<div class="ats-modal-header">
+  <h3>{{data.title}}</h3>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="rep-can-wrap">
+      <ng-container *ngIf="data?.isDBFrom && ratingDt?.OverallRating">
+        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+          <div class="view-list-bx tabl-sec-nms full-width">
+            <h4>Match Skills :</h4>
+            <div class="quest-auto-view">
+              <table mat-table [dataSource]="SkillRatings" class="table-mat-info table-mat-info-fdp">
+                <ng-container matColumnDef="Skill">
+                  <th mat-header-cell *matHeaderCellDef> Skill </th>
+                  <td mat-cell *matCellDef="let element;">
+                    {{element?.Skill || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="SkillType">
+                  <th mat-header-cell *matHeaderCellDef> Skill Type </th>
+                  <td mat-cell *matCellDef="let element;">
+                    {{element?.SkillType || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="RatingDemand">
+                  <th mat-header-cell *matHeaderCellDef>Proficiency Level</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element?.skillProficiencyLevelName || '-' }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Rating">
+                  <th mat-header-cell *matHeaderCellDef> Rating (AI)</th>
+                  <td mat-cell *matCellDef="let element" class="text-right">
+                    {{element?.Rating}}
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsGenAI;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsGenAI;let i = index"></tr>
+              </table>
+              <app-no-result-found *ngIf="SkillRatings.length === 0">
+              </app-no-result-found>
+            </div>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Mandatory Skill Rating :</h4>
+            <p>{{ratingDt?.MandatoryRating}}</p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Good To Have Skill Rating :</h4>
+            <p>{{ratingDt?.GoodToHaveRating}}</p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Overall Rating :</h4>
+            <p>{{ratingDt?.OverallRating}}</p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Profile Match (%) :</h4>
+            <p>{{ ratingDt?.OverallPercentage }} %</p>
+          </div>
+          <!-- end -->
+
+
+          <div class="view-list-bx ovlscRec">
+            <h4>Recommendation :</h4>
+            <p>{{ratingDt?.Recommendation || '-'}}</p>
+          </div>
+          <!-- end -->
+
+
+
+
+        </div>
+      </ng-container>
+      <ng-container *ngIf="data?.isDBFrom && !ratingDt?.OverallRating">
+        <p>No Record Found</p>
+      </ng-container>
+      <ng-container *ngIf="!data?.isDBFrom">
+        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+          <div class="view-list-bx tabl-sec-nms full-width">
+            <h4>Matching Skills :</h4>
+            <div class="quest-auto-view">
+              <table mat-table [dataSource]="data?.Ratings" class="table-mat-info table-mat-info-fdp">
+                <ng-container matColumnDef="Skill">
+                  <th mat-header-cell *matHeaderCellDef> Skill </th>
+                  <td mat-cell *matCellDef="let element;">
+                    {{element?.name || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="SkillType">
+                  <th mat-header-cell *matHeaderCellDef> Skill Type </th>
+                  <td mat-cell *matCellDef="let element;">
+                    {{element?.type || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="RatingDemand">
+                  <th mat-header-cell *matHeaderCellDef> Proficiency Level</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ getProficiencyName(element?.skillProficiencyLevel) }}
+                    <!-- {{ element?.skillProficiencyLevel | skillProficiency }} -->
+                    <!-- <ng-container [ngSwitch]="element?.skillProficiencyLevel">
+                      <ng-container *ngSwitchCase="1">Beginner</ng-container>
+                      <ng-container *ngSwitchCase="2">Intermediate</ng-container>
+                      <ng-container *ngSwitchCase="3">Advanced</ng-container>
+                      <ng-container *ngSwitchCase="4">Expert</ng-container>
+                      <ng-container *ngSwitchDefault>-</ng-container>
+                    </ng-container> -->
+
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Rating">
+                  <th mat-header-cell *matHeaderCellDef> Rating (AI)</th>
+                  <td mat-cell *matCellDef="let element" class="text-right">
+                    {{element?.rating}}
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsGenAI1;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsGenAI1;let i = index"></tr>
+              </table>
+              <app-no-result-found *ngIf="data?.Ratings?.length === 0">
+              </app-no-result-found>
+            </div>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Mandatory Skill Rating :</h4>
+            <p>{{data?.mandatoryRating}}</p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Good To Have Skill Rating :</h4>
+            <p>{{data?.goodToHaveRating}} </p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Overall Rating :</h4>
+            <p>{{data?.overallRating}}</p>
+          </div>
+          <!-- end -->
+          <div class="view-list-bx ovlsc">
+            <h4>Profile Match (%) :</h4>
+            <p>{{ data?.overallPercentage }} %</p>
+          </div>
+          <!-- end -->
+
+
+          <div class="view-list-bx ovlscRec">
+            <h4>Recommendation :</h4>
+            <p>{{data?.Recommendation || '-'}}</p>
+          </div>
+          <!-- end -->
+
+
+
+
+        </div>
+      </ng-container>
+
+
+    </div>
+
+    <div class="not-wrapper" *ngIf="(data?.isDBFrom && ratingDt?.OverallRating)">
+      <h3>Reference:</h3>
+      <ul class="reference-list">
+        <li><label>Mandatory Skill Rating:</label> Average rating of all mandatory skills.</li>
+        <li><label>Good to Have Skill Rating:</label> Average rating of all good-to-have skills.</li>
+        <li><label>Overall Rating:</label> Weighted score combining 80% from mandatory skills and 20% from
+          good-to-have skills.</li>
+        <li><label>Profile Match (%):</label> Percentage of required skills matched, considering presence and
+          proficiency level.</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->

@@ -1,0 +1,40 @@
+<!-- <div>
+  <mat-form-field>
+    <input type="text" id="talentFocused" placeholder="talent Id" aria-label="Number" matInput [formControl]="autoAyat" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.talentID" (onSelectionChange)="getTalentId(option)">
+        {{ option.talentID}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-progress-bar mode="query" *ngIf="IsDropdownLoader" class="dropdown-loader"></mat-progress-bar>
+  <button class="search-btn" (click)="searchTalent($event)">
+    <i class="fa fa-search"></i>
+  </button>
+</div> -->
+
+<div>
+  <mat-form-field>
+    <mat-label appRemoveAriaOwns >Select Talent Id <span class="err-mn" *ngIf="required">*</span></mat-label>
+    <mat-select [formControl]="talentIdControl" [disableOptionCentering]="true" #mySelect (selectionChange)="getTalentId($event)">
+      <mat-option>
+        <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+          [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search Talent Id'" [clearSearchInput]="false">
+          <div class="mat-select-search-custom-header-content" *ngIf="IsDropdownLoaderSearch">
+            <mat-progress-bar mode="query"  class="dropdown-loader"></mat-progress-bar>
+          </div>
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option value="all" *ngIf="isAll">ALL</mat-option>
+      <mat-option *ngFor="let list of talentData | talentIdFilter:searchInput" [value]="list.talentID" 
+        >
+        {{list?.talentID}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+  <button class="search-btn" *ngIf="isShowSearchIcon" (click)="searchTalent($event)">
+    <i class="fa fa-search"></i>
+  </button>
+  <mat-progress-bar mode="query" *ngIf="IsDropdownLoader" class="dropdown-loader"></mat-progress-bar>
+</div>

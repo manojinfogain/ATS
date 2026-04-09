@@ -1,0 +1,51 @@
+div#cdk-overlay-6 .ats-model-wrap {
+    width: 82vw !important;
+}
+
+.ats-forms.ats-sch-form .ats-form-col.other-off-s {
+    display: block;
+    /* align-items: center; */
+}
+
+.ats-forms.ats-sch-form .ats-form-col.upload-file-ats {
+    display: block;
+    /* align-items: center; */
+}
+
+.page-container-header {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+// .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+//     padding: 0 !important; 
+// }
+
+// .mat-form-field-subscript-wrapper{
+//     padding: 0 !important; 
+
+// }
+
+// Make disabled input, select, and textarea text black only when disabled
+.mat-form-field-disabled .mat-input-element,
+.mat-form-field-disabled .mat-select-value,
+input[disabled],
+select[disabled],
+textarea[disabled],
+.mat-select-disabled .mat-select-value {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important; /* For Safari */
+  opacity: 1 !important;
+}
+
+// For readonly fields (if you want to include them)
+input[readonly],
+textarea[readonly] {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  opacity: 1 !important;
+}
+
+.ats-forms.ats-sch-form .ats-form-col.other-off-s .of-title {
+    width: 100px !important;
+}

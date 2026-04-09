@@ -1,0 +1,103 @@
+<form [formGroup]="offerLetterForm" (ngSubmit)="submitRequest(offerLetterForm)">
+    <div class="ats-modal-header">
+        <h1>
+             Accept Offer
+        </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper upload-can-pnb-form">
+
+                <div class="form-download-wrapper" role="alert">
+                    <button mat-button type="button" class="act-button" 
+                    (click)="downloadOfferletter()"
+                       >
+                        <!-- <span class="material-icons-outlined">
+                               download
+                         </span> -->
+                         Download Offer Letter
+                    </button>
+                </div>
+                <div class="note-upload-doc-ats">
+                    <p>Please download your offer letter by clicking the <strong>'Download Offer Letter'</strong> button above. After reviewing it thoroughly,
+                         kindly sign the document and upload the signed copy using the button provided below.</p>
+                   
+                  </div>
+                <div class="form-upload-wrapper">
+                    <div class="download-wrap wrapper-com">
+                    </div>
+                    <div class="dvo-f"
+                        class="upload-wrapper wrapper-com mat-elevation">
+                        <div class="upload-wrap">
+                            <ng-container>
+                                <label>Upload signed copy Offer Letter
+                                    <sup>*</sup></label>
+                                <div class="ats-forms form-on-ats-fluid">
+                                    <div
+                                        class="ats-form-col upload-file-ats-scr">
+                                        <div class="upload-file-input-scr"
+                                            [ngClass]="getControl('fileOffer').touched && getControl('fileOffer').invalid ? 'error-file-input':'suc'">
+                                            <input type="file"
+                                                required
+                                                (change)="selectOfferletter($event)">
+                                            <mat-error
+                                                *ngIf="getControl('fileOffer')?.touched && getControl('fileOffer')?.invalid">
+                                                <div
+                                                    *ngIf="getControl('fileOffer')?.errors.required">
+                                                    Please choose a file
+                                                </div>
+                                            </mat-error>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- ends -->
+                    <div class="conset-candidate">
+                        <mat-checkbox required
+                            formControlName="iConfirmedCheckBox">
+                            <ng-container>
+                                <span class="f-size-12">I have read all the terms & conditions outlined in the Offer Letter and provide my consent to them</span>
+                            </ng-container>
+                            <sup class="dangr">*</sup>
+
+                        </mat-checkbox>
+                        <mat-error
+                            *ngIf="getControl('iConfirmedCheckBox')?.touched && getControl('iConfirmedCheckBox')?.invalid">
+                            <div
+                                *ngIf="getControl('iConfirmedCheckBox')?.errors.required">
+                                Consent is required
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- endss -->
+
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+
+        <button class="btn btn-infocon">
+            Submit
+        </button>
+        <!-- <button type="button" class="btn btn-infocon" (click)="prevStep()" *ngIf="step>0 && step<8">
+            Prev
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="nextStep()" *ngIf="step>=0 && step<7">
+            Next
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="confirmMailSendToCandidate(data)">
+            Test
+        </button> -->
+    </div>
+
+</form>

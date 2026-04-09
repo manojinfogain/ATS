@@ -1,0 +1,80 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+    <!-- <div class="card-header card-header-flex"> -->
+        <!-- <div class="ats-left-h"></div>
+        <div class="erp-search-input ats-right-h">
+            <div class="filter-at-wrapper">
+               
+                <div class="s-fil">
+                    <div class="act-header-btn">
+                        <ul>                                               
+                            <li>
+                                <button mat-button class="act-button delegate-btn" (click)="previewOfferletter(data?.cid)"
+                                    matTooltip="Offer Letter">Offer Letter
+                                </button>
+                            </li>
+                            <li>
+                                <button mat-button class="act-button delegate-btn" (click)="chooseSodexoForm()"
+                                matTooltip="Sodexo Form">Sodexo Form
+                            </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div> -->
+    <div class="ats-modal-body" *ngIf="data?.isOfferPayroll === 'Y'">
+        <div class="panel-content">
+            <div class="can-view-wrap">
+                <div class="can-list-view">
+                    <h5>Preview Offer letter:</h5>
+                    <p>
+                        <button type="button" class="btn-ey-v" matTooltip="Preview  Offer"
+                            (click)="previewOfferletter(data?.CandidateId)">
+                            <span class="material-icons-outlined">
+                                picture_as_pdf
+                            </span>
+                        </button>
+                    </p>
+                </div>
+              
+                <div class="can-list-view">
+                    <h5>Preview Sodexo Form:</h5>
+                    <p>
+                        <button type="button" class="btn-ey-v" matTooltip="Preview Sodexo Form"
+                            (click)="chooseSodexoForm(data?.CandidateId)">
+                            <span class="material-icons-outlined">
+                                picture_as_pdf
+                            </span>
+                        </button>
+                    </p>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    
+    <div class="ats-modal-body">
+      <app-ats-pdf-viewer [pdfBlob]="pdfPreviewData" [fileName]="documentName">
+            </app-ats-pdf-viewer>
+    </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- <button type="button"  class="btn btn-infocon" (click)="sendOfferHandler()"
+        *ngIf="(data?.OfferStatusID === 120 && data?.IsObnoardApplicable == 0) ||
+         (
+            data?.OfferStatusID === 120 && (data?.OnboardStatusId != 10 && data?.OnboardStatusId != 30 && data?.OnboardStatusId != 20)
+         )">
+            Send Offer to {{data?.Name}}
+        </button> -->
+       
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

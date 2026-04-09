@@ -1,0 +1,58 @@
+<form [formGroup]="joineeStatusForm" (ngSubmit)="submitJoineeStatusForm(joineeStatusForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr view-list-dt-3 box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Tentative Joining Date:</h4>
+                            <p>{{data?.joiningDate | date:'dd MMM YY'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats full-width">
+                        <mat-radio-group aria-label="Select an option" formControlName="joineeStatus">
+                            <mat-radio-button *ngFor="let item of joineeStatus" [value]="item?.value">
+                                {{item?.name}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <div class="rd-st-err"
+                            *ngIf="getControl('joineeStatus')?.touched && getControl('joineeStatus')?.invalid">
+                            <div *ngIf="getControl('joineeStatus')?.errors.required">
+                                <span class="remarText">Please select above status.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!joineeStatusForm.valid">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

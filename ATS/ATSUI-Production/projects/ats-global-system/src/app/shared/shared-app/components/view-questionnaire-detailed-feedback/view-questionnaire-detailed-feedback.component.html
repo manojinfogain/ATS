@@ -1,0 +1,188 @@
+<div class="view-feedback-questionnaire-screen">
+    <div class="header-question-type-wrap">
+        <div class="ats-modal-fdvdrheader">
+            <h4 class="header"> Detailed Feedback</h4>
+        </div>
+    </div>
+    <!-- feedback new view starts -->
+    <ng-container *ngIf="feedbackDetails?.isNewFeedback =='Y'">
+        <!-- lable 1 -->
+        <!-- lable 2 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{newLabel2}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{assessRoleKnowledgLabelNew}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.assessRoleKnowledg}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 3 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{newLabel3}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidatePrblmSolvingApprochLabelNew}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidatePrblmSolvingApproch}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 5 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{newlabel5}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidateFitForInfogainLabelNew}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidateFitForInfogain}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+    </ng-container>
+    <!-- feedback new view ends -->
+    <!-- feedback old view starts-->
+    <ng-container *ngIf="feedbackDetails?.isNewFeedback =='N'">
+        <!-- lable 1 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{label1}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{familiarProgramTechnologLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.familiarProgramTechnolog}}.
+                </span>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{technicalSkillsEvaluatLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.technicalSkillsEvaluat}}.
+                </span>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidateCodingChallengeLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>
+                    <ng-container *ngIf="feedbackDetails?.candidateCodingChallenge =='Y'; else resNo">
+                        Yes
+                        <div class="view-btn-handle ss-handle">
+                            <div class="btn-act">
+                                <button mat-button type="button" matTooltip="Download/ View File "
+                                    [ngClass]="feedbackDetails?.techFileName ? 'view-pic-hover' :''"
+                                    (click)="dwnloadFileSingle(feedbackDetails)">
+                                    <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #resNo>
+                        No
+                    </ng-template>
+
+                </span>
+
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 2 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{label2}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{assessRoleKnowledgLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.assessRoleKnowledg}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 3 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{label3}}</h4>
+            </div>
+
+
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidatePrblmSolvingApprochLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidatePrblmSolvingApproch}}.
+                </span>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidateApprochComplexPrblmLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidateApprochComplexPrblm}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 4 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{label4}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidatePossesIndustryDomExpLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidatePossesIndustryDomExp ?
+                    feedbackDetails?.candidatePossesIndustryDomExp : ' - '}}
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+        <!-- lable 5 -->
+        <div class="question-section">
+            <div class="question-label">
+                <h4 class="header">{{label5}}</h4>
+            </div>
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidateFitForInfogainLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidateFitForInfogain}}.
+                </span>
+            </div>
+
+            <div class="question-wrap">
+                <span class="question">
+                    {{candidateAbilityToAdoptChangeWorkLabel}}
+                </span>
+                <span class="answer-wrp">
+                    <span>Answer: </span>{{feedbackDetails?.candidateAbilityToAdoptChangeWork}}.
+                </span>
+            </div>
+        </div>
+        <!-- ends -->
+    </ng-container>
+</div>

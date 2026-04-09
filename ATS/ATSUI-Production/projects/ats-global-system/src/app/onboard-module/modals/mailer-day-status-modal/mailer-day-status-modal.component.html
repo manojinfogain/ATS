@@ -1,0 +1,214 @@
+<form [formGroup]="joineeStatusForm" (ngSubmit)="submitJoineeStatusForm(joineeStatusForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}}</h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="send-ems-wrap">
+                <div class="send-ems-wrap-h">
+                    <div class="form-up">
+                        <div
+                            class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz2 form-outline-ats ats-form-dark">
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Joining Date </mat-label>
+                                    <input matInput [matDatepicker]="picker2" [max]="maxDate"
+                                        formControlName="confirmJoinDate" readonly (dateInput)="onDateChange($event)">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        <mat-icon matDatepickerToggleIcon>calendar_month
+                                        </mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error
+                                        *ngIf="getControl('confirmJoinDate').touched && getControl('confirmJoinDate').invalid">
+                                        <div *ngIf="getControl('confirmJoinDate').errors.required">
+                                            Joining Date is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Location</mat-label>
+                                    <mat-select formControlName="LocationId" [required]="true"
+                                        (selectionChange)="onLocationChange($event)">
+                                        <mat-option *ngFor="let list of locationList" [value]="list?.LocID">
+                                            {{list?.LocName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="send-ems-wrap-b">
+                    <div class="send-ems-wrap-tbh">
+                        <table mat-table [dataSource]="dataSource" class="table-mat-info">
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="masterToggle()" [checked]="isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleSelection(row)"
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+                             <ng-container matColumnDef="HiringTeam">
+                                        <th mat-header-cell *matHeaderCellDef>Hiring Team
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.HiringTeam || '-'}}</td>
+                                    </ng-container>
+                            <!-- S.No -->
+                            <ng-container matColumnDef="sno">
+                                <th mat-header-cell *matHeaderCellDef> S.No </th>
+                                <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+                            </ng-container>
+
+                            <!-- Talent ID -->
+                            <ng-container matColumnDef="TalentId">
+                                <th mat-header-cell *matHeaderCellDef> Talent Id </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.TalentId || '-' }} </td>
+                            </ng-container>
+
+                            <!-- Name -->
+                            <ng-container matColumnDef="CandidateName">
+                                <th mat-header-cell *matHeaderCellDef> Name of the Candidate </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.CandidateName }} </td>
+                            </ng-container>
+
+                            <!-- Offer No -->
+                            <ng-container matColumnDef="OfferNumber">
+                                <th mat-header-cell *matHeaderCellDef> Offer No </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.OfferNumber }} </td>
+                            </ng-container>
+
+                            <!-- Joining Location -->
+                            <ng-container matColumnDef="JoiningLocation">
+                                <th mat-header-cell *matHeaderCellDef> Candidate Joining Location </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.JoiningLocation }} </td>
+                            </ng-container>
+
+                            <!-- Rehire -->
+                            <ng-container matColumnDef="Rehire">
+                                <th mat-header-cell *matHeaderCellDef> Re-Hire </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Rehire }} </td>
+                            </ng-container>
+
+                            <!-- Email ID Creation -->
+                            <ng-container matColumnDef="EmailCration">
+                                <th mat-header-cell *matHeaderCellDef> Email ID Creation </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.EmailCration }} </td>
+                            </ng-container>
+
+                            <!-- Total Experience -->
+                            <ng-container matColumnDef="TotalExperience">
+                                <th mat-header-cell *matHeaderCellDef> Total Exp (in yrs.) </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.TotalExperience }} </td>
+                            </ng-container>
+
+                            <!-- Education -->
+                            <ng-container matColumnDef="EduQualification">
+                                <th mat-header-cell *matHeaderCellDef> Education </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.EduQualification }} </td>
+                            </ng-container>
+
+                            <!-- Practice -->
+                            <ng-container matColumnDef="Practice">
+                                <th mat-header-cell *matHeaderCellDef> Practice </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Practice }} </td>
+                            </ng-container>
+
+                            <!-- Delivery Unit -->
+                            <ng-container matColumnDef="DeliveryUnit">
+                                <th mat-header-cell *matHeaderCellDef> Delivery Unit Name </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.DeliveryUnit }} </td>
+                            </ng-container>
+
+                            <!-- Primary Skill -->
+                            <ng-container matColumnDef="Skill">
+                                <th mat-header-cell *matHeaderCellDef> Primary Skill </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Skill || '-' }} </td>
+                            </ng-container>
+
+                            <!-- Designation -->
+                            <ng-container matColumnDef="Designation">
+                                <th mat-header-cell *matHeaderCellDef> Designation </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Designation }} </td>
+                            </ng-container>
+
+                            <!-- Grade -->
+                            <ng-container matColumnDef="Grade">
+                                <th mat-header-cell *matHeaderCellDef> Grade </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Grade }} </td>
+                            </ng-container>
+
+                            <!-- Current Company -->
+                            <ng-container matColumnDef="CurrentEmployer">
+                                <th mat-header-cell *matHeaderCellDef> Current Company </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.CurrentEmployer }} </td>
+                            </ng-container>
+
+                            <!-- Account -->
+                            <ng-container matColumnDef="Account">
+                                <th mat-header-cell *matHeaderCellDef> Account </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Account }} </td>
+                            </ng-container>
+
+                            <!-- Reporting Manager -->
+                            <ng-container matColumnDef="CandidateRM">
+                                <th mat-header-cell *matHeaderCellDef> Reporting Manager </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.CandidateRM || '-' }} </td>
+                            </ng-container>
+
+                            <!-- Division -->
+                            <ng-container matColumnDef="Division">
+                                <th mat-header-cell *matHeaderCellDef> Division </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Division }} </td>
+                            </ng-container>
+
+                            <!-- Status -->
+                            <ng-container matColumnDef="Status">
+                                <th mat-header-cell *matHeaderCellDef> Status </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.Status }} </td>
+                            </ng-container>
+
+                            <!-- Onboarding Type -->
+                            <ng-container matColumnDef="iOnboardingType">
+                                <th mat-header-cell *matHeaderCellDef> Onboarding Type </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.iOnboardingType }} </td>
+                            </ng-container>
+
+                            <!-- Header and Rows -->
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+                        <app-no-result-found *ngIf="dataSource?.data?.length === 0">
+                        </app-no-result-found>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="dataSource?.data?.length == 0">
+            Send Email
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,329 @@
+<div class="info-connect-right">
+    <div class="dashboard-ats">
+        <div class="dashboard-ats-header">
+            <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <!-- end header -->
+        <div class="dashboard-ats-body">
+            <section class="ats-dash-report-sec">
+                <div class="ats-dash-report-sec-h">
+                    <div class="left-h-d filter-date-text">
+                        <!-- <h3>DU Overall Report {{isTableView?'':'- '+accountName}} <span> (From {{(selectedDate?.startDate| date:'dd MMM yyyy') || (defaultFromDate| date:'dd MMM yyyy')}} 
+                            To {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}})</span>
+                        </h3> -->
+                        <!-- <h3>*Disclaimer:- <span> This report includes candidate details which are processed through ATS only.</span></h3> -->
+                    </div>
+                    <div class="right-h-d">
+                        <div class="dash-action-s">
+                            <ul>
+                                <!-- <li class="s-d-b">
+                                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                        [placeHolder]="'Search By DU'">
+                                    </app-search-filter>
+                                </li>                                 -->
+                                <li>
+                                    <div class="form-slv">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Year</mat-label>
+                                            <mat-select [formControl]="formControlYear"
+                                                (selectionChange)="MonthYear($event)">
+                                                <mat-option *ngFor="let data of yearList" [value]="data?.Value">
+                                                    {{data?.FinicialYear}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" (click)="exportAsXLSX()">
+                                        <span class="material-icons-outlined" matTooltip="Download Report">
+                                            download
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="dash-header-icon">
+                                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                        (getSortFormData)="getSortData($event)" [deliveryUnits]="true" [duMulti]="true">
+                                    </app-filter-sort>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-dash-report-sec-b">
+                    <!-- <app-no-result-found  *ngIf="reportList?.length === 0"></app-no-result-found> -->
+                    <!-- *ngIf="reportList.length !=0 && isTableView" -->
+                    <div class="ats-dash-table du-reports">
+                        <table mat-table [dataSource]="duOverallLocationSpecificList" class="table-mat-info"
+                            id="exportTable">
+                            <ng-container matColumnDef="duHiringTot">
+                                <th mat-header-cell *matHeaderCellDef class="unit">
+                                    Location Wise
+                                </th>
+                                <td mat-cell *matCellDef="let element;" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-total2': element?.Type=='S','ft-ytd': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    {{element?.Type == 'S' ? totalQ : element?.MonthName }}
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="ft-total"> Total (Q1-Q2-Q3) </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locJoiningNoida">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['noida']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Noida_Joined}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locJoiningBang">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['bangalore']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Banglore_Joined}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locJoiningMum">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['mumbai']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Mumbai_Joined}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locJoiningPune">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['pune']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Pune_Joined}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningw1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+
+
+                            <!-- ends -->
+                            <ng-container matColumnDef="total">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'MR')">
+                                        {{element?.Total_Joined}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joininTotal')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="joiningPercent">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    {{specificLocationLabel['JoiningPercent']}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'CL')">
+                                        {{element?.Per_Joined ? element?.Per_Joined : element?.Type=='Q' ||
+                                        element?.Type == 'S' || element?.Type=='M' ? 0 : '' }}
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'joiningPercent')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- w1 decline sec starts -->
+                            <ng-container matColumnDef="locDeclNoida">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['noida']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.Noida_Decline}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declineW1')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locDeclBang">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['bangalore']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'NS')">
+                                        {{element?.Banglore_Decline}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declineW2')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locDeclMum">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['mumbai']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'SC')">
+                                        {{element?.Mumbai_Decline}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declineW3')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="locDeclPune">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['pune']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T1')">
+                                        {{element?.Pune_Decline}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declineW4')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="totalDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="specificLocationLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.Total_Decline}}
+                                        <span *ngIf="element?.Type == 'YTD' || element?.Type == 'PerQuar'">
+                                            <span class="hide-col">00</span>%
+                                        </span>
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declineTotal')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="declinePercent">
+                                <th mat-header-cell *matHeaderCellDef
+                                    [innerHTML]="specificLocationLabel['declinePercent']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.Per_Decline ? element?.Per_Decline : element?.Type=='Q' ||
+                                        element?.Type == 'S' || element?.Type=='M' ? 0 : '' }}
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'declinePercent')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- decline sec ends -->
+                            <!-- grand total  -->
+                            <ng-container matColumnDef="grandTotal">
+                                <th mat-header-cell *matHeaderCellDef>
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q', 'ft-bg2': element?.Type=='S','ft-ytdd2': element?.Type=='YTD','ft-perQ': element?.Type=='PerQuar'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.GrandTotal}}
+                                    </a>
+                                </td>
+                                <!-- <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(DummyDuOverAllHiringList,'grandTotal')}}
+                                </td> -->
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- Header row first group -->
+                            <ng-container *ngFor="let group of headGroup; let i = index">
+                                <ng-container [matColumnDef]="group">
+                                    <ng-container class="grand-tot-wrap">
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            class="grand-total" [attr.colspan]="clacRowSpan(i)?.num"
+                                            [ngClass]="clacRowSpan(i)?.class">
+                                            {{clacRowSpan(i)?.title}}
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            [attr.colspan]="clacRowSpan(i)?.num">
+                                        </th>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tr-fx">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr> -->
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+<!-- end right wrapper -->

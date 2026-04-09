@@ -1,0 +1,64 @@
+
+.onb-list-table{
+    width:100%;
+    th.mat-header-cell {
+     text-align: left;
+     color: #000000;
+     font-size: 13px;
+ }
+    .actiob-checkd{
+     display: flex;
+     align-items: center;
+    }
+    .btn-action {
+     .btn-act{
+       border: none;
+      }
+    }
+ }
+ .view-list-dt-appr{
+  margin-bottom: 13px;
+  padding: 10px 0px;
+ }
+ .view-list-dt-appr .view-list-bx p{
+  font-size: 12px;
+ }
+ .view-list-dt-appr .view-list-bx h4 {
+  font-size: 12px;
+ }
+ .view-list-dt-appr .view-list-bx {
+  padding: 5px;
+  width: 25%;
+ }
+
+ .mail-title{
+  color: #1a38a7;
+  font-family: Montserrat-SemiBold;
+  font-size: 12px;
+  padding: 10px 10px
+}
+.m-txtarea{
+  height: 200px;
+}
+
+.at-ct-inline{
+  width: 100% !important;
+  margin-bottom: 20px !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.text-red {
+  color: red;
+}
+
+.btn-resend {
+  background-color: #1f6a9f;
+  color: white;
+}

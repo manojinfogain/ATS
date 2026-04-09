@@ -1,0 +1,235 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+      <div class="page-container-inner">
+        <div class="page-container-header clearfix">
+          <div class="page-title-left float-left">
+            <app-breadcrumbs></app-breadcrumbs>
+          </div>
+          <!-- <div class="search-input float-left">
+            <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true"
+              [isSelectedRequisition]="true">
+            </app-auto-complete-talentid>
+          </div> -->
+          <!-- end search field -->
+        </div>
+        <!-- end content header -->
+        <div class="content-body">
+          <mat-card>
+            <div class="card">
+              <div class="card-header  card-header-flex">
+                <div class="ats-left-h"></div>
+                <div class="erp-search-input ats-right-h">
+                  <div class="filter-at-wrapper">
+                    <div class="s-fil">
+                      <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By  Name/ Email'"
+                        [searchServerSide]="true" [isReset]="isResetSearch"
+                        matTooltip="Search By  Name/ Email"></app-search-filter>
+                    </div>
+                    <div class="s-fil">
+                      <div class="act-header-btn">
+                        <ul>
+                          <li>
+                              <button mat-button class="act-button" (click)="exportAsXLSX()" matTooltip="Download Tracker">
+                                <i class="fas fa-file-download ex-icon"></i>
+                              </button>
+                            </li>
+                          <li>
+                            <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter"
+                              [isResetForm]="isResetFilter" 
+                              [dateRangeStartToEnd]="true" [dateRangeTitle2]="'By Joining Date'"></app-filter-sort>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <!-- matrial Table -->
+                <div class="table-scroll-bd">
+                  <table mat-table [dataSource]="candidateList" class="table-mat-info">
+  
+                    <ng-container matColumnDef="EmployeeCode">
+                      <th mat-header-cell *matHeaderCellDef>Employee Code</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.EmployeeId || '-'}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="Cid">
+                      <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                        {{cidColName}} </th>
+                      <td class="text-center" mat-cell *matCellDef="let element;">
+                        {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                      </td>
+                    </ng-container>
+  
+                    <!-- Candidate Name Column -->
+                    <ng-container matColumnDef="EmployeeName">
+                      <th mat-header-cell *matHeaderCellDef>Employee Name </th>
+                      <td mat-cell *matCellDef="let element;">
+                        {{element.EmployeeName || '-'}}
+                        <!-- {{element.OfferModifiedOn |date}} -->
+                      </td>
+                    </ng-container>
+  
+                  
+  
+                    <ng-container matColumnDef="Talent_ID">
+                      <th mat-header-cell *matHeaderCellDef> Talent ID </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.talent_id || '-'}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="joiningDate">
+                        <th mat-header-cell *matHeaderCellDef> Date Of Joining</th>
+                        <td mat-cell *matCellDef="let element"> {{(element?.DateOfJoining | date:'dd MMM yyyy') || '-'}}
+                        </td>
+                      </ng-container>
+  
+                    <!-- Phone No. Column -->
+                    <ng-container matColumnDef="RMConnectVerification">
+                      <th mat-header-cell *matHeaderCellDef> RM Connect Verification </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.RMConnectVerification || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RMConnectVerificationdoneon">
+                      <th mat-header-cell *matHeaderCellDef>RMConnect Verification done on</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{(element?.RMConnectVerificationDate | date:'dd MMM yyyy') || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RMConnectVerificationdoneby">
+                      <th mat-header-cell *matHeaderCellDef>RM Connect Verification done by</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.RMConnectVerificationBy ? element?.RMConnectVerificationBy : '-' }}
+  
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="RMConnectVerificationSuccessful">
+                      <th mat-header-cell *matHeaderCellDef>RMConnect Verification Successful</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        {{element?.RMConnectVerificationSuccess || '-'}}
+                      </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="RMConnectPendingFrom">
+                      <th mat-header-cell *matHeaderCellDef>RM Connect Pending From (Days)</th>
+                      <td mat-cell *matCellDef="let element">
+                          {{element?.RMConnectVerificationPendingFrom || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RemarksRM">
+                      <th mat-header-cell *matHeaderCellDef> Remarks (RM)</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        {{element?.RMConnectVerificationRemark || '-'}}
+                      </td>
+                    </ng-container>
+
+                    <!-- ISS -->
+                    <ng-container matColumnDef="ISSConnectVerification">
+                      <th mat-header-cell *matHeaderCellDef> ISS Connect Verification </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.ISSConnectVerification || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ISSConnectVerificationdoneon">
+                      <th mat-header-cell *matHeaderCellDef>ISS Connect Verification done on</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{(element?.ISSConnectVerificationDate | date:'dd MMM yyyy') || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ISSConnectVerificationdoneby">
+                      <th mat-header-cell *matHeaderCellDef>ISS Connect Verification done by</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.ISSConnectVerificationBy ? element?.ISSConnectVerificationBy : '-' }}
+  
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="ISSConnectVerificationSuccessful">
+                      <th mat-header-cell *matHeaderCellDef>ISS Connect Verification Successful</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        {{element?.ISSConnectVerificationSuccess || '-'}}
+                      </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="ISSConnectPendingFrom">
+                      <th mat-header-cell *matHeaderCellDef>ISS Connect Pending From (Days)</th>
+                      <td mat-cell *matCellDef="let element">
+                          {{element?.ISSConnectVerificationPendingFrom || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RemarksISS">
+                      <th mat-header-cell *matHeaderCellDef> Remarks (ISS)</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        {{element?.ISSConnectVerificationRemark || '-'}}
+                      </td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="HRVerificationPost7days">
+                      <th mat-header-cell *matHeaderCellDef>HR Verification (Post 7 days)</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.HR7ConnectVerification || '-'}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="HRVerificationdoneon">
+                        <th mat-header-cell *matHeaderCellDef>HR Verification done on</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{(element?.HR7ConnectVerificationDate | date:'dd MMM yyyy') || '-'}}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="HRVerificationdoneby">
+                        <th mat-header-cell *matHeaderCellDef>HR Verification done by</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.HR7ConnectVerificationBy || '-'}}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="HRVerificationSuccess">
+                        <th mat-header-cell *matHeaderCellDef>HR Verification Successful </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.HR7ConnectVerificationSuccess || '-'}}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="HRConnectPendingFrom">
+                        <th mat-header-cell *matHeaderCellDef>HR Verification Pending From (Days)</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.HR7ConnectVerificationPendingFrom || '-'}}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="RemarksHR">
+                        <th mat-header-cell *matHeaderCellDef>Remarks (HR) </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.HR7ConnectVerificationRemark || '-'}}
+                        </td>
+                      </ng-container>
+                  
+  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                    [ngClass]="{'highlight-confirm': row.IsConsent}"></tr>
+                  </table>
+                  <app-no-result-found [searchedValue]="searchInput"
+                    *ngIf="candidateList?.length === 0 || candidateList?.length === null">
+                  </app-no-result-found>
+                </div>
+                <div class="ats-paging-sec">
+                  <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                </div>
+  
+              </div>
+  
+            </div>
+            <!-- end card sec -->
+          </mat-card>
+        </div>
+        <!-- end content body -->
+      </div>
+      <!-- end inner container -->
+  
+    </div>
+    <!-- end page content wrapper -->
+  </div>
+  <!-- end right wrapper -->

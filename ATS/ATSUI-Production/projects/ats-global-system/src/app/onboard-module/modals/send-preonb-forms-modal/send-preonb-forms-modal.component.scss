@@ -1,0 +1,77 @@
+.ats-model-wrap .mat-dialog-container .mat-dialog-content {
+    min-height: 47vh !important; 
+}
+
+.table-mat-info th .mat-header-cell {
+  text-align: none !important;
+}
+
+
+
+.view-list-dt-appr .view-list-bx {
+  width: 25%;
+}
+
+.view-list-dt-appr2 .view-list-bx2 {
+  width: 100% !important;
+}
+.at-ct-inline{
+  width: 100% !important;
+}
+
+.box-v-ats{
+  padding-bottom: 0px;
+}
+
+.table-add-form-view{
+   width:100%;
+   th.mat-header-cell {
+    text-align: left;
+    color: #000000;
+    font-size: 13px;
+}
+   .actiob-checkd{
+    display: flex;
+    align-items: center;
+   }
+   .btn-action {
+    .btn-act{
+      border: none;
+     }
+   }
+}
+
+.pre-onb-list-table{
+   table{
+    tr.mat-row, tr.mat-footer-row,tr.mat-header-row {
+      height: auto;
+      th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+        padding: 5px 10px;
+        font-size: 13px;
+      }
+      th.mat-header-cell{
+        padding: 11px 10px;
+      }
+     }
+   }
+}
+/* for itenery section onboard mode - enable preonboard form**/
+.wrap-mode-itnery-file{
+  display: flex !important;
+  padding: 4px 1px;
+  .view-list-bx2{
+    width: 45% !important;
+  }
+  .view-list-bx23{
+    width: 28% !important;
+  }
+}
+
+.width-330 {
+  width: 330px;
+}
+
+.btn-resend {
+  background-color: #1f6a9f;
+  color: white;
+}

@@ -1,0 +1,57 @@
+<form [formGroup]="formSendAssesment" (ngSubmit)="sendAssesmentHandler(formSendAssesment)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}
+             <!-- To {{data?.Name}} -->
+            </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content> 
+        <div class="ats-modal-body">
+            <!-- <input type="hidden" formControlName="thid"> -->
+            <div class="ats-forms ats-forms-horz">
+                <div class="ats-form-col search-input">
+                    <!-- <app-talent-id-control-all
+                    [isShowSearchIcon]="false"
+                        [talentIdControl]="formTransfer.get('talendIdControl')"
+                        (getDataTalentId)="getDataTalent($event)"  ></app-talent-id-control-all> -->
+                        <mat-form-field >
+                            <mat-label appRemoveAriaOwns >Assessments </mat-label>
+                            <mat-select formControlName="coderBytesAssesments" required
+                                (selectionChange)="getCoderByteAssesmentID($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCoderBytAssesment"
+                                        [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let data of coderByteAssessmentList| coderBytePipe:searchInputCoderBytAssesment"
+                                    [value]="data?.test_id">
+                                    {{data?.display_name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                <!-- end col -->
+
+                <div class="ats-form-col">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Remarks" maxlength="500" formControlName="remarks"
+                        disableInitialSpace></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Send To Candidate
+            <!-- To {{data?.Name}} -->
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

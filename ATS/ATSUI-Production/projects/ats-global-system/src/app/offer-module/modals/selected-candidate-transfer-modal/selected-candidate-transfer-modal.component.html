@@ -1,0 +1,50 @@
+<form [formGroup]="formTransfer" (ngSubmit)="TransferTalent(formTransfer)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <input type="hidden" formControlName="thid">
+            <div class="ats-forms ats-forms-horz">
+                <div class="ats-form-col search-input">
+                    <app-talent-id-control-all
+                    [isShowSearchIcon]="false"
+                        [talentIdControl]="formTransfer.get('talendIdControl')"
+                        (getDataTalentId)="getDataTalent($event)"  ></app-talent-id-control-all>
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col" *ngIf="data?.callType != 2">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Remarks" maxlength="500" formControlName="remarks"
+                        disableInitialSpace [required]="data?.callType != 2">></textarea>
+                        <!-- <input matInput placeholder="Remarks" maxlength="500" formControlName="remarksTransfer"
+                            disableInitialSpace required> -->
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col" *ngIf="data?.callType == 2">
+                    <mat-form-field class="place-from-control">
+                        <!-- <mat-label>Reason To Transfer</mat-label> -->
+                        <mat-select formControlName="ReopeningReason" [required]="data?.callType == 2" placeholder="Reason To Transfer">
+                            <mat-option *ngFor="let data of reasonList" [value]="data?.ID" [matTooltip]="data?.Remarks">
+                                {{data?.Remarks}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

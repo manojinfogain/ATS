@@ -1,0 +1,60 @@
+:host ::ng-deep.datepicker-wraps{
+    .mat-form-field{
+        width:120px
+    }
+    .mat-form-field-flex{
+        align-items: center;
+        border: solid 1px #ddd;
+        border-radius: 4px;
+        padding-left: 9px;
+    }
+   .mat-form-field-suffix {
+        font-size: 18px;
+        color: #1f6a9f;
+    }
+   .mat-form-field-suffix .form-icon {
+        color: #1f6a9f;
+    }
+}
+
+:host ::ng-deep.location-wrapz{
+    display: flex;
+    .locz{
+        padding: 0px 5px;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-label {
+        color: #9c8686;
+        font-size: 11px;
+        font-family: Arial !important;
+    }
+}
+.with-75{
+    width: 75% !important;
+}
+.with-165{
+    width: 165px !important;
+}
+.with-120{
+    width: 120px !important;
+}
+.with-65{
+    width: 65px !important;
+}
+.width-180{
+    width: 180px !important;
+}
+.fileValdationx{
+   width:145px;font-size:10px;
+}
+.width-90{
+    width:90px !important;
+}
+.width-100{
+    width:100px !important;
+}
+.width-120{
+    width:120px !important;
+}
+.width-177{
+    width:177px !important;
+}

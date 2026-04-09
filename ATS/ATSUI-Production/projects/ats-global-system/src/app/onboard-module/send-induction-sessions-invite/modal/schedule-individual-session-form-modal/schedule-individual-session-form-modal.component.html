@@ -1,0 +1,184 @@
+<form [formGroup]="scheduleIndividualSessionForm" (ngSubmit)="submitRequest(scheduleIndividualSessionForm)">
+    <div class="ats-modal-header">
+        <h1>{{'Schedule Individual Session'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns  appRemoveAriaOwns >Event Name</mat-label>
+                                <mat-select placeholder="Event Name" (selectionChange)="selectEvent($event)"
+                                    formControlName="eventId" required>
+                                    <mat-option *ngFor="let item of joiningItineraryList" [value]="item?.EventId">
+                                        {{item?.EventName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Date of Invite</mat-label>
+                                <input matInput [matDatepicker]="picker1" formControlName="dateOfInvite" readonly [min]="today">
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <div class="time-pick-ats">
+                                <div class="time-pick-call">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Start Time(HH)</mat-label>
+                                        <mat-select placeholder="Start Time(HH)" formControlName="startTimeHours">
+                                            <mat-option value="00">00</mat-option>
+                                            <mat-option value="01">01</mat-option>
+                                            <mat-option value="02">02</mat-option>
+                                            <mat-option value="03">03</mat-option>
+                                            <mat-option value="04">04</mat-option>
+                                            <mat-option value="05">05</mat-option>
+                                            <mat-option value="06">06</mat-option>
+                                            <mat-option value="07">07</mat-option>
+                                            <mat-option value="08">08</mat-option>
+                                            <mat-option value="09">09</mat-option>
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="11">11</mat-option>
+                                            <mat-option value="12">12</mat-option>
+                                            <mat-option value="13">13</mat-option>
+                                            <mat-option value="14">14</mat-option>
+                                            <mat-option value="15">15</mat-option>
+                                            <mat-option value="16">16</mat-option>
+                                            <mat-option value="17">17</mat-option>
+                                            <mat-option value="18">18</mat-option>
+                                            <mat-option value="19">19</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="21">21</mat-option>
+                                            <mat-option value="22">22</mat-option>
+                                            <mat-option value="23">23</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="time-pick-call ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Start Time(MM)</mat-label>
+                                        <mat-select placeholder="Start Time(MM)" formControlName="startTimeMint">
+                                            <mat-option value="00">00</mat-option>
+                                            <mat-option value="05">05</mat-option>
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="15">15</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="25">25</mat-option>
+                                            <mat-option value="30">30</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="45">45</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                            <mat-option value="55">55</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <div class="time-pick-ats">
+                                <div class="time-pick-call ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >End Time(HH)</mat-label>
+                                        <mat-select placeholder="End Time(HH)" formControlName="endTimeHours">
+                                            <mat-option value="00">00</mat-option>
+                                            <mat-option value="01">01</mat-option>
+                                            <mat-option value="02">02</mat-option>
+                                            <mat-option value="03">03</mat-option>
+                                            <mat-option value="04">04</mat-option>
+                                            <mat-option value="05">05</mat-option>
+                                            <mat-option value="06">06</mat-option>
+                                            <mat-option value="07">07</mat-option>
+                                            <mat-option value="08">08</mat-option>
+                                            <mat-option value="09">09</mat-option>
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="11">11</mat-option>
+                                            <mat-option value="12">12</mat-option>
+                                            <mat-option value="13">13</mat-option>
+                                            <mat-option value="14">14</mat-option>
+                                            <mat-option value="15">15</mat-option>
+                                            <mat-option value="16">16</mat-option>
+                                            <mat-option value="17">17</mat-option>
+                                            <mat-option value="18">18</mat-option>
+                                            <mat-option value="19">19</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="21">21</mat-option>
+                                            <mat-option value="22">22</mat-option>
+                                            <mat-option value="23">23</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="time-pick-call ">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >End Time(MM)</mat-label>
+                                        <mat-select placeholder="End Time(MM)" formControlName="endTimeMint">
+                                            <mat-option value="00">00</mat-option>
+                                            <mat-option value="05">05</mat-option>
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="15">15</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="25">25</mat-option>
+                                            <mat-option value="30">30</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="45">45</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                            <mat-option value="55">55</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Candidate List</mat-label>
+                                <mat-select placeholder="Candidate List" formControlName="candList" multiple>
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlAddlCandidates"
+                                            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                            [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of this.data?.candidateList" [value]="item?.empId">
+                                        {{item?.Name}}{{'( '+ item?.empId + ' )'}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="ats-form-col">
+                            <app-employee-list-for-spoc-control [panelIdControl]="getControl('spocPersonId')"
+                                [formFieldAppearance]="'outline'" [title]="'Spoc Person(s)'" [isMultiple]="true"
+                                [getAllEmp]="data?.spocPersonsList" [required]="true">
+                            </app-employee-list-for-spoc-control>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

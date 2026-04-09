@@ -1,0 +1,124 @@
+<div class="info-connect-right upcoming-interview-wrapper">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix page-upc-head">
+                <div class="page-title-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <!-- end search field -->
+                <div class="pagefilter-upc">
+                    <!-- <div class="act-header-btn">
+                        <ul>
+                            <li>
+                                <div class="form-slv">
+                                    <mat-checkbox class="pc-today" >Today</mat-checkbox>
+                                </div>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <section class="sch-interviw-wrapper">
+
+                <div class="int-grid-bx-main">
+                    <div class="no-f-up align-center-full-width">
+                        <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.length === 0">
+                        </app-no-result-found>
+                    </div>
+                    <div class="int-grid-bx" *ngFor="let item of candidateList"
+                        [ngClass]="'day'+(getdayName(item?.interviewDate))">
+                        <div class="side-int-l">
+                            <app-session-upcoming-timer [futureDate]="item?.interviewDate  | dateSwitch:item">
+                            </app-session-upcoming-timer>
+                            <div class="imp-dt">
+                                <ul>
+                                    <li>
+                                        <span class="int-icon">
+                                            <span class="material-icons-outlined">
+                                                calendar_month
+                                            </span>
+                                        </span> <span class="inf-title">{{item?.interviewDate | dateSwitch:item | date:'dd MMM
+                                            YY'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-icon">
+                                            <span class="material-icons-outlined">
+                                                schedule
+                                            </span>
+                                        </span> <span class="inf-title">{{item?.interviewDate  | dateSwitch:item | date:'h:mm a'}}</span>
+                                    </li>
+                                    <!-- <li>{{getdayName(item?.interviewDate)}}</li> -->
+                                </ul>
+                            </div>
+                            <div class="dv-act-btn">
+                                <div class="btn-action">
+                                    <div class="btn-act">
+                                        <a mat-button href="javascript:void(0)" (click)="dwnloadFileSingle(item)"
+                                            matTooltip="View/Download Resume">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </div>
+                                    <!-- end -->
+                                    <div class="btn-act">
+                                        <a mat-button href="javascript:void(0)" (click)="viewTalentIdDetails(item)"
+                                            matTooltip="View Job Description">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                            </div>
+                            <div class="action-btn">
+                                <a [href]="item?.joiningLink" target="_blank">Join</a>
+                                <!-- <button type="button">Join</button> -->
+                            </div>
+
+                        </div>
+                        <div class="side-int-r">
+                            <div class="int-dt-cn">
+                                <ul>
+                                    <li>
+                                        <span class="int-titlev">Candidate</span> <span class="inf-title">: {{item?.Name
+                                            || '-'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-titlev">Panel</span> <span class="inf-title">:
+                                            {{item?.Interviewer || '-'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-titlev">Interview Type</span> <span class="inf-title">:
+                                            {{item?.interviewType || '-'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-titlev">Interview Mode</span> <span class="inf-title">:
+                                            {{item?.interviewMode || '-'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-titlev">Skill</span> <span class="inf-title">: {{item?.skill ||
+                                            '-'}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="int-titlev">Account</span> <span class="inf-title">: {{item?.AccountName ||
+                                            '-'}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end -->
+
+                </div>
+                <!-- end -->
+
+            </section>
+
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

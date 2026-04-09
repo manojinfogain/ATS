@@ -1,0 +1,78 @@
+<div class="can-temp-body">
+    <!-- <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Education Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" class="btn-text-at" (click)="addEducationDetails()">
+                            Add Education Details
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> -->
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="cand-ot-table">
+            <table mat-table [dataSource]="uploadedDocumentLists" class="table-mat-info">
+                <ng-container matColumnDef="categ">
+                    <th mat-header-cell *matHeaderCellDef>Category</th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- {{element?.docCategName || '-'}} -->
+                        {{element?.docCategId == 1 || element?.docCategId == 2 ? element?.docCategName+' ('+(element?.employerName ? element?.employerName : '')+')' : (element?.docCategName ? element?.docCategName : '-') }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subcateg">
+                    <th mat-header-cell *matHeaderCellDef> Sub Category </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.docSubCategName || '-'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="docType">
+                    <th mat-header-cell *matHeaderCellDef> Document Type </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.documentTypeName || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+
+                        <div class="ul-action">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        (click)="viewAndDwnloadFile(element)" matTooltip="View/ Download file">
+                                        <span class="material-icons">
+                                            info
+                                        </span>
+                                    </a>
+                                </li>
+                                <!-- view pdf and downlod -->
+                                <!-- <li>
+                                    <a href="javascript:void(0)"
+                                        (click)="dwnloadFile(element)" matTooltip="View/ Download file AR">
+                                        <span class="material-icons">
+                                            download
+                                        </span>
+                                    </a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <app-no-result-found *ngIf="uploadedDocumentLists?.length === 0">
+            </app-no-result-found>
+        </div>
+    </div>
+</div>

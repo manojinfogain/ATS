@@ -1,0 +1,837 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Name/ Email/ CID/ Talent ID'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By Name/ Email/ CID/ Talent ID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="downloadReportAsExel()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <!-- <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter"
+                                                        (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                        [dateRangeTitle]="'By '" [recruiter]="true" [recMulti]="true"
+                                                        [companyLocation]="true" [LocationMulti]="true" [account]="true"
+                                                        [accountMulti]="true" [requisitionType]="true"
+                                                        [requisitionMulti]="true" [prSkill]="true" [skillMulti]="true"
+                                                        [dateRangeStartToEnd]="true"
+                                                        [dateRangeTitle2]="'Interview Date'">
+                                                    </app-filter-sort> -->
+                                                    <!-- [minDate]="dateMin" -->
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                    [isResetForm]="isResetFilter"
+                                                    (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                    [dateRangeTitle]="'External Hiring Date'" [prSkill]="true"
+                                                    [skillMulti]="true" [recMulti]="true" [account]="true"
+                                                    [accountMulti]="true" [deliveryUnits]="true" [duMulti]="true"
+                                                    [recruiter]="true" [IsAccountByDu]="true" 
+                                                    [dateRangeStartToEnd]="true" [dateRangeTitle2]="'Interview Date'"
+                                                    
+                                                    [profileSoure]="true" [profileSourMulti]="true"   [isTalentStatus]="true" [talentStatusMulti]="true">
+                                                </app-filter-sort>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <ng-container matColumnDef="srNo">
+                                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="tId">
+                                        <th mat-header-cell *matHeaderCellDef>Talent ID </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.TalentId || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end  -->
+                                    <ng-container matColumnDef="createdOn">
+                                        <th mat-header-cell *matHeaderCellDef>Created On <br> (Date) </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{(element?.CreatedOndate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end  -->
+                                    <ng-container matColumnDef="finalApprovedDate">
+                                        <th mat-header-cell *matHeaderCellDef>Final Approved<br> (Date) </th>
+                                        <td mat-cell *matCellDef="let element;">
+
+                                            {{(element?.talentIdApproveddate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end  -->
+                                    <!-- end -->
+                                    <!-- <ng-container matColumnDef="Cid">
+                                        <th mat-header-cell *matHeaderCellDef>CID</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.cid || '-'}}
+                                        </td>
+                                    </ng-container> -->
+                                    <ng-container matColumnDef="Cid">
+                                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>{{cidColName}} </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.cid ? (element?.cid | cidPrefix:element?.profileId) : '-' }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="CandidateName">
+                                        <th mat-header-cell *matHeaderCellDef> Candidate Name</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.CandidateName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="EmployeeId">
+                                        <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.EmployeeID || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Gender">
+                                        <th mat-header-cell *matHeaderCellDef>Gender</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Gender || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Email">
+                                        <th mat-header-cell *matHeaderCellDef>Email</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Email || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="MobileNumber">
+                                        <th mat-header-cell *matHeaderCellDef>Mobile Number</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Mobile || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Dob">
+                                        <th mat-header-cell *matHeaderCellDef>Date Of Birth</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateofBirth | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="CurrentEmployer">
+                                        <th mat-header-cell *matHeaderCellDef>Current Employer</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.CurrentEmployer || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="CurrentLocation">
+                                        <th mat-header-cell *matHeaderCellDef>Current Location</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.CandidateCurrentLocation || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Experience">
+                                        <th mat-header-cell *matHeaderCellDef>Experience</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TotalExperince || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="prSkillCandidate">
+                                        <th mat-header-cell *matHeaderCellDef>Primary Skill <br>(Candidate)</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.PrimarySkill || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="subSkillCandidate">
+                                        <th mat-header-cell *matHeaderCellDef>Sub Skill <br>(Candidate)</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.SubSkill || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="prSkillCThid">
+                                        <th mat-header-cell *matHeaderCellDef>Primary Skill <br>(Talent ID)</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.PrimarySkillTHID || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="subSkillThid">
+                                        <th mat-header-cell *matHeaderCellDef>Sub Skill <br>(Talent ID)</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.SubSkillTHID || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="AccountName">
+                                        <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.AccountName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="DepartmentUnit">
+                                        <th mat-header-cell *matHeaderCellDef>Department/ Unit</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.DU || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="BU">
+                                        <th mat-header-cell *matHeaderCellDef>MU</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.BUName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Designation">
+                                        <th mat-header-cell *matHeaderCellDef>Designation</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Designation || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="CurrentSalary">
+                                        <th mat-header-cell *matHeaderCellDef>Current Salary</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.CurrentSalary || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="ExpectedSalary">
+                                        <th mat-header-cell *matHeaderCellDef>Expected Salary</th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ExceptedSalary || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="pendingWithLeaderHiringDate">
+                                        <th mat-header-cell *matHeaderCellDef>Pending With Leadership
+                                            <br> (Hiring Start Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.PendingWithTagStartDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="JdClarification">
+                                        <th mat-header-cell *matHeaderCellDef>JD Clarification
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.JDClarificationDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="PanelAvailable">
+                                        <th mat-header-cell *matHeaderCellDef>Panel Available
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.PanelAvailableDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="OffshoreOnshore">
+                                        <th mat-header-cell *matHeaderCellDef>Offshore / Onshore
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.OffshoreOnshore || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="EmploymentType">
+                                        <th mat-header-cell *matHeaderCellDef>Employment Type
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.EmploymentType || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="TalentCubeCandidate">
+                                        <th mat-header-cell *matHeaderCellDef>Talent Cube <br> (Candidate)
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TalentCubeCandidateName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="TalentCubeTHID">
+                                        <th mat-header-cell *matHeaderCellDef>Talent Cube
+                                            <br> (THID)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TalentCubeTalentName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="CandidateGrade">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Grade
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Grade || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="talentGrade">
+                                        <th mat-header-cell *matHeaderCellDef>Talent Grade
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TalentGrade || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="SourcingDate">
+                                        <th mat-header-cell *matHeaderCellDef>Sourcing (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.SourcingDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="sreenRoundApprovalHmDate">
+                                        <th mat-header-cell *matHeaderCellDef>Screening Round (Date)
+                                            <br> (Approval from HM)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.ScreeningDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="sreenRoundStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Screening Round
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ScreeningRoundStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="profileApproevedBy">
+                                        <th mat-header-cell *matHeaderCellDef>Profile Approved By
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ProfileApprovedbyName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound1Date">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 1
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.TechanicalRound1Date | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound1Status">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 1
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TechanicalRound1Status || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound2Date">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 2
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.TechanicalRound2Date | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound2Status">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 2
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TechanicalRound2Status || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound3Date">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 3
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.TechanicalRound3Date | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="techRound3Status">
+                                        <th mat-header-cell *matHeaderCellDef>Technical Round 3
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.TechanicalRound3Status || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="managerialRoundDate">
+                                        <th mat-header-cell *matHeaderCellDef>Managerial Round
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.ManagialRoundDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="managerialRoundStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Managerial Round
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ManagialRoundStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="ManagementRoundDate">
+                                        <th mat-header-cell *matHeaderCellDef>Management Round
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.ManagementRoundDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="ManagementRoundStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Management Round
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ManagementRoundStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <!-- <ng-container matColumnDef="ManagementRoundPanalName">
+                                        <th mat-header-cell *matHeaderCellDef>Management Round
+                                            <br> (Panel Name)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.DateOfOffer || '-'}}
+                                        </td>
+                                    </ng-container> -->
+                                    <!-- end -->
+                                    <ng-container matColumnDef="hrDiscussionDate">
+                                        <th mat-header-cell *matHeaderCellDef>HR Discussion
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.HRRoundDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="hrDiscussionStatus">
+                                        <th mat-header-cell *matHeaderCellDef>HR Discussion
+                                            <br> (Status)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.HRRoundStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="OfferApprovalInitiationDate">
+                                        <th mat-header-cell *matHeaderCellDef>Offer Approval Initiation
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.OfferApprovalSentDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="TagLeadApprovalDate">
+                                        <th mat-header-cell *matHeaderCellDef>Tag Lead Approval
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.ApprovalReceivedTAGDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="FirstApproverName">
+                                        <th mat-header-cell *matHeaderCellDef>1st Offer Approver Name
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.FirstApproverName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="FirstOfferApproverDate">
+                                        <th mat-header-cell *matHeaderCellDef>1st Offer Approval
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.FirstApproverDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+
+                                    <ng-container matColumnDef="secondApproverName">
+                                        <th mat-header-cell *matHeaderCellDef>2nd Offer Approver Name
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.SecondApproverName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="secondOfferApproverDate">
+                                        <th mat-header-cell *matHeaderCellDef>2nd Offer Approval
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.SecondApproverDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+
+                                    <ng-container matColumnDef="thirdofferApproverName">
+                                        <th mat-header-cell *matHeaderCellDef>3nd Offer Approver Name
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ThirdApproverName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="thirdOfferApproverDate">
+                                        <th mat-header-cell *matHeaderCellDef>3nd Offer Approval
+                                            <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.ThirdApproverDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+
+                                    <ng-container matColumnDef="offeredDate">
+                                        <th mat-header-cell *matHeaderCellDef>Offered Date
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.OfferGenerationDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="candidateRevertDate">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Revert <br> (Date)
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.CandidateRevertDate | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <!-- <ng-container matColumnDef="candidateJoiningDate">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Joining <br> (Date)
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateOfJoining | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container> -->
+                                    <!-- end -->
+                                    <ng-container matColumnDef="status" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Status
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.CandiadteStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="PrimaryRecruiterName">
+                                        <th mat-header-cell *matHeaderCellDef>Primary Recruiter Name
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.PrimaryRecruiter || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="secondryRecruiterName">
+                                        <th mat-header-cell *matHeaderCellDef>Recruiter Name
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.RectruiterName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="recruiterRmName">
+                                        <th mat-header-cell *matHeaderCellDef>Recruiter's RM
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.RectruiterRMName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="doj">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Joining <br> (Date)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{(element?.DateOfJoining | date:'mediumDate')|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Source">
+                                        <th mat-header-cell *matHeaderCellDef>Source <br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.Source|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="SourceName">
+                                        <th mat-header-cell *matHeaderCellDef>Source Name<br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.SourceName|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="Status" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Talent Status
+                                          <br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                          <ng-container [ngSwitch]="element?.TalentStatusID">
+                                            <ng-container *ngSwitchCase="1">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="4">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="5">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="6">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="7">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="8">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="9">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="10">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="11">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="12">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="13">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="14">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="15">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="18">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="19">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="20">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="20">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="21">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="22">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="23">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="24">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="26">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="28">
+                                              <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="29">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="30">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="32">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="33">
+                                              <button class="btn-status-dg schedule" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="34">
+                                              <button class="btn-status-dg rejects" type="button">
+                                                {{element?.TalentStatus}}
+                                              </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                              {{element?.TalentStatus || '-'}}
+                                            </ng-container>
+                                          </ng-container>
+                                        </td>
+                                      </ng-container>
+                                    <ng-container matColumnDef="reasonForDrop">
+                                        <th mat-header-cell *matHeaderCellDef>Reason For Drop <br>
+
+                                        </th>
+                                        <td mat-cell *matCellDef="let element; ">
+                                            {{element?.ResonforDrop|| '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

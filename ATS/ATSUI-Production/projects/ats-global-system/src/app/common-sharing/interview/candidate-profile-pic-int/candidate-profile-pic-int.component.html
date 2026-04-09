@@ -1,0 +1,44 @@
+<div class="ats-modal-header">
+    <h1>{{data?.name | titlecase }} - {{data?.roundList?.interviewType?.Type | titlecase}}</h1>
+    <!-- <h2>{{name }}</h2> -->
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <!-- <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar> -->
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="fd-list-wrap">
+            <div class="table-data-scroll-pop22">
+                <!--  code start -->
+                <div class="box-v-ats">
+                    <div class="box-v-body ">
+                        <div class="single-profile-pic" *ngIf="!isMultiProfile">
+                            <div class=" canidate-picture-wrapper">
+                                <div class="img-prf">
+                                    <app-view-profile-pics [roundId]="roundId" [cid]="cid"></app-view-profile-pics>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end signle -->
+                        <div class="all-profile-pic" *ngIf="isMultiProfile">
+                            <div class="profile-pic-grid" *ngFor="let item of this.data?.roundList">
+                                <figure>
+                                    <div class="no-pic" *ngIf="item?.IsPicturePresent == 'N'">
+                                       <img src="../../../../assets/images/no-profile-male.png" alt="">
+                                    </div>
+                                    <ng-container *ngIf="item?.IsPicturePresent == 'Y'">
+                                        <app-view-profile-pics [roundId]="item?.RoundId" [cid]="cid"></app-view-profile-pics>     
+                                    </ng-container>
+                                    <figcaption>{{item?.interviewType?.Type}}</figcaption>
+                                </figure>
+                            </div>
+                           
+                        </div>
+
+                        <!-- download section icon -->
+                    </div>
+                </div>
+                <!--  code end -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,387 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <div class="filter-txt-opt">
+
+                                </div>
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Requisition ID'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <!-- <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Company List"
+                                                        (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>                                               -->
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter" [account]="true"
+                                                        [accountMulti]="true" [prSkill]="true" [skillMulti]="true"
+                                                        (getSortFormData)="getSortData($event)">
+                                                    </app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="panelList" class="table-mat-info">
+
+                                    <ng-container matColumnDef="thid">
+                                        <th class="compny-name-width" mat-header-cell *matHeaderCellDef> Requisition ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.talentId || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="RequisitionType">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Requisition Type</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.ReqType || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Account">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Account</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.AccountName || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Skill">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Skill</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.PriSkill || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="startDate">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Interview Start Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{(element?.startDate | date:'dd MMM yyyy') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="endDate">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Interview End Date</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{(element?.endDate | date:'dd MMM yyyy') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="candiateCount">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Tentative Interview Count</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.candidateCount}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="prRec">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Primary Recruiter</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.primaryRecName|| '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="srRec">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Secondary Recruiter</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.primaryRecName || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="AddedOn">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Published On</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{(element?.AddedOnUTC | date:'dd MMM yyyy') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="AddedBy">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Published By</th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element?.AddedbyName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th class="alignment-column" mat-header-cell *matHeaderCellDef>Status</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            <ng-container [ngSwitch]="element?.SubStatusID">
+                                                <ng-container *ngSwitchCase="1">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="2">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="3">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="4">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="5">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="6">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="7">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="8">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="9">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="10">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="11">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="12">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="13">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="14">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="15">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="18">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="19">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="20">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="20">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="21">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="22">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="23">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="24">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="26">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="28">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="29">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="30">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="32">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="33">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="34">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.SubStatus}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    {{element?.SubStatus || '-'}}
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </td>
+
+                                    </ng-container>
+
+                                    <!-- end -->
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="action-td">
+
+                                                <div class="btn-action btn-action-center btn-single">
+                                                    <ng-container>
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button" matTooltip="Add Slot"
+                                                                (click)="openSlotNominationModal(element)">
+                                                                <span class="material-icons-outlined">
+                                                                    more_time
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-act "
+                                                            [ngClass]="{'act-count': (element?.slotCount > 0)}">
+                                                            <button mat-button type="button" matTooltip="View Slot"
+                                                                (click)="openSlotListModal(element)">
+                                                                <span class="material-icons">
+                                                                    lock_clock
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button"
+                                                                matTooltip="View Talent ID Details"
+                                                                (click)="viweTalentFullDetailsModal(element)">
+                                                                <span class="material-icons-outlined">
+                                                                    preview
+                                                                </span>
+                                                            </button>
+                                                        </div>
+
+
+                                                        <div class="btn-act"
+                                                            *ngIf=" element?.SubStatusID == 3 && userData?.otherRoles?.IsTAG =='Y'">
+                                                            <button mat-button type="button" matTooltip="Update"
+                                                                (click)="updatePublishJob(element)">
+                                                                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button"
+                                                                matTooltip="Notification Employee List"
+                                                                (click)="openNotificationEmployeeListModal(element)">
+                                                                <span class="material-icons-outlined">
+                                                                    visibility
+                                                                </span>
+                                                            </button>
+                                                        </div>
+
+                                                    </ng-container>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="(panelList?.length === 0)">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

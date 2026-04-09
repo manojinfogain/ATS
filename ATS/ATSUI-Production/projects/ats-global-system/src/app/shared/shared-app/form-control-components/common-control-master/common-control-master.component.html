@@ -1,0 +1,19 @@
+<div class="int-panel-selectionf" *ngIf="desgination">
+  <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+    <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+    <mat-select [formControl]="formControlOpt" [disableOptionCentering]="true" [required]="required"
+    (selectionChange)="getdesignationId($event)">
+      <mat-option>
+        <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+          [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder" [clearSearchInput]="false">
+          
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let list of designationListData | desigFilter:searchInput" [value]="list.DesignationId" 
+        >
+        {{list?.DesignationName}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+</div>

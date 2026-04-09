@@ -1,0 +1,70 @@
+<div class="ats-auth-wrapper candidate-offer-act">
+    <div class="auth-content-box">
+        <form (ngSubmit)="submitForm(VideoSubmitFormGroup)" [formGroup]="VideoSubmitFormGroup">
+            <div class="auth-box-card">
+                <div class="auth-box-headr">
+                    <h3>Video Match</h3>
+                </div>
+                <div class="auth-box-body">
+                    
+                    <div class="sm-text welcms">
+                        <h4 *ngIf="hideFormControl">Welcome to video matching screen.</h4>
+                        <p *ngIf="hideFormControl">
+                            Please select account to get OTP on your email id.
+                        </p>
+                        <p *ngIf="isVideoMatch">
+                            Video match score already updated by <strong>{{videoMatchDetails?.ModifiedByName}}</strong>.
+                        </p>
+                        <p *ngIf="isVideoUpdate">
+                            Video match score has been successfully updated.
+                        </p>
+                        <p *ngIf="invalidUrl">
+                            Invalid URL.
+                        </p>
+                        
+                        <ng-container *ngIf="!invalidUrl">
+                            <p class="candidate-info">
+                                <strong>Candidate Name</strong> : {{videoMatchDetails?.name}}
+                             </p> 
+                             <p class="candidate-info">
+                                <strong>Candidate Email</strong> : {{videoMatchDetails?.email}}
+                             </p> 
+                             <p class="candidate-info-last">
+                                <strong>Interview Round</strong> : {{videoMatchDetails?.interviewType}}
+                             </p> 
+                        </ng-container>
+                        
+                    </div>
+
+                    <div class="auth-form" *ngIf="hideFormControl">
+                        <div class="auth-form-row">
+                            <div class="control-dev">
+                                <div class="control-dev-inpt full-width">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns >Select your account</mat-label>
+                                        <mat-select formControlName="userEmpId" required>
+                                          <mat-option *ngFor="let d of videoMatchUserAccess" [value]="d.EmployeeId">
+                                           {{d.EmployeeName}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end form  -->
+
+                </div>
+                <div class="auth-box-footer" *ngIf="hideFormControl">
+                    <button type="submit" class="btn btn-infocon" [disabled]="!VideoSubmitFormGroup.valid">
+                        Submit
+                    </button>
+                    <button type="button" class="btn btn-simple-ats" (click)="resetForm()">Reset
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- end card -->
+        </form>
+    </div>
+</div>

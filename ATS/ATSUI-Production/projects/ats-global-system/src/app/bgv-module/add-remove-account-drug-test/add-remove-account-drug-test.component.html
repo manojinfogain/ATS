@@ -1,0 +1,166 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <div class="filter-txt-opt">
+
+                                </div>
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search Account'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button"
+                                                        matTooltip="Download Account List" (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="btn btn-infocon"
+                                                        (click)="addNewAccountModal({})">
+                                                        Add New Account <i class="fa fa-chair"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="accountList" class="table-mat-info">
+                                    <ng-container matColumnDef="srNo">
+                                        <th class="alignment-column" mat-header-cell *matHeaderCellDef>S. No</th>
+                                        <td mat-cell *matCellDef="let element; let i=index" class="text-center">
+                                            {{i+1}}
+
+                                        </td>
+                                    </ng-container>
+                                    <!-- end -->
+                                    <ng-container matColumnDef="AccountName">
+                                        <th class="compny-name-width" mat-header-cell *matHeaderCellDef>Account Name
+                                        </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.AccountName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="AccountOwner">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Account Owner</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.AccountOwner ? element?.AccountOwner + ' (' + element?.AccountOwnerId + ')' : '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="BUName">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>BU
+                                            Name</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.BUName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="DUName">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>GDL
+                                            Name</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.DUName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="AddedBy">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Added By</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.AddedBy || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Addedon">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Added On</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            <!-- {{element?.Addedon || '-'}} -->
+                                            {{(element?.AddenOn | date:'mediumDate') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th class="alignment-column" mat-header-cell *matHeaderCellDef>Status</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            <ng-container *ngIf="element?.ISActive == 1 ; else newDeb">
+                                                <button class="btn-status-dg offergen" type="button">
+                                                    Active
+                                                </button>
+                                            </ng-container>
+                                            <ng-template #newDeb>
+                                                <button class="btn-status-dg rejects" type="button">
+                                                    Inactive
+                                                </button>
+                                            </ng-template>
+
+                                        </td>
+
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th class="alignment-column cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            Action</th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            <!-- {{element?.AccountOwner || '-'}} -->
+                                            <button mat-button color="warn" matTooltip="Remove from Drug Test List"
+                                                (click)="removeAccountFromDTList(element)">
+                                                <span class="material-icons-outlined">delete</span>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- end -->
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="(accountList?.length === 0)">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,99 @@
+<div class="info-connect-right">
+    <div class="dashboard-ats">
+        <div class="dashboard-ats-header">
+            <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <!-- end header -->
+        <div class="dashboard-ats-body">
+            <section class="ats-dash-report-sec">
+                <div class="ats-dash-report-sec-h">
+                    <div class="left-h-d filter-date-text">
+                        <h3>GDL Wise Report {{isTableView?'':'- '+accountName}} <span> (From {{(selectedDate?.startDate| date:'dd MMM yyyy') || (defaultFromDate| date:'dd MMM yyyy')}} 
+                            To {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}})</span>
+                        </h3>
+                    </div>
+                    <div class="right-h-d">
+                        <div class="dash-action-s">
+                            <ul>
+                                <li class="s-d-b" *ngIf="isTableView">
+                                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                        [placeHolder]="'Search By GDL'">
+                                    </app-search-filter>
+                                </li>                                
+                                <li>
+                                    <a href="javascript:void(0)" (click)="ChangeReportView()">
+                                        <span class="material-icons-outlined" matTooltip="Chart View"
+                                            *ngIf="isTableView">
+                                            bar_chart
+                                        </span>
+                                        <span class="material-icons-outlined" matTooltip="Table View"
+                                            *ngIf="!isTableView">
+                                            table_view
+                                        </span>
+                                    </a>
+                                </li>
+                                <li 
+                                *ngIf="isTableView">
+                                    <a href="javascript:void(0)" (click)="exportAsXLSX()">
+                                        <span class="material-icons-outlined" matTooltip="Download Report">
+                                            download
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="dash-header-icon">
+                                    <app-filter-sort [form]="sortFormFilter"
+                                        [isResetForm]="isResetFilter"
+                                        (getSortFormData)="getSortData($event)"
+                                        [dateRange]="true" [dateRangeTitle]="'Talent ID Creation Date'"
+                                        [dateRangeStartToEnd]="true" [dateRangeTitle2]="'Marked For External Hiring Date'"
+                                        [minDate]="dateMin" (getDateOutput)="getDateRange($event)">
+                                    </app-filter-sort>
+                                </li>
+                               
+                                
+                                <li *ngIf="!isTableView">
+                                    <div class="form-slv">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >GDL</mat-label>
+                                            <mat-select (selectionChange)="selectDuId($event)"
+                                                [formControl]="DuControl">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlList"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option value="all">
+                                                    All
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of reportList | duFilterOnDash:searchInputList"
+                                                    [value]="data?.DUID">
+                                                    {{data?.DeliveryUnit}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-dash-report-sec-b">
+                    <app-no-result-found  *ngIf="reportList?.length === 0"></app-no-result-found>
+                    <app-du-bu-report [loaded]="loaded" [reportList]="reportList" [isTableView]="isTableView"
+                        [legendTitle]="legendTitle" [duChartDataFilter]="duChartDataFilter"
+                        [searchInput]="searchInput" [filteredDate]="bodyParam">
+                    </app-du-bu-report>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- end right wrapper -->

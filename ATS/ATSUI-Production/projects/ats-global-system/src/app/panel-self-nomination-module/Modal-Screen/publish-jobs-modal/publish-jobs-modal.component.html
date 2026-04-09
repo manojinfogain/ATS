@@ -1,0 +1,115 @@
+<form [formGroup]="updateTalentIdForm" (ngSubmit)="updateTalentIdHandler(updateTalentIdForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}} - {{TalentData?.talent_id}}</h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>fullfillment Date:</h4>
+                            <p>{{(TalentData?.initial_fullfilment_date | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter1|| '-'}}</p>
+                        </div>
+
+                        <!-- end -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter2|| '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-v-ats box-v-ats-form-f">
+                <div class="box-v-body">
+                    <div class="form-up">
+                        <div
+                            class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Interview Start Date</mat-label>
+                                    <input matInput [matDatepicker]="picker2" (dateInput)="changeDateStart($event)"
+                                        [min]="minDate" formControlName="startDate" readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        <mat-icon matDatepickerToggleIcon>calendar_month
+                                        </mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error
+                                        *ngIf="getControl('startDate')?.touched && getControl('startDate')?.invalid">
+                                        <div *ngIf="getControl('startDate')?.errors.required">
+                                            Interview  Start Date is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Interview End Date</mat-label>
+                                    <input matInput [matDatepicker]="picker3" (dateInput)="changeDate('input', $event)"
+                                        [min]="mindateEnd" formControlName="endDate" readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                        <mat-icon matDatepickerToggleIcon>calendar_month
+                                        </mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                    <mat-error *ngIf="getControl('endDate')?.touched && getControl('endDate')?.invalid">
+                                        <div *ngIf="getControl('endDate')?.errors.required">
+                                            Interview End Date is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Tentative  Interview Count (Per day)</mat-label>
+                                    <input matInput placeholder="Candidate Count" maxlength="10" disableInitialSpace
+                                    formControlName="candidateCount" onlyNumber>
+                                    <mat-error *ngIf="getControl('candidateCount')?.touched && getControl('candidateCount')?.invalid">
+                                        <div *ngIf="getControl('candidateCount')?.errors.required">
+                                            Tentative  Interview Count is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

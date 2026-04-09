@@ -1,0 +1,234 @@
+<form [formGroup]="updateEduDetailsForm" (ngSubmit)="submitForm(updateEduDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns  appRemoveAriaOwns >Course Name</mat-label>
+                            <mat-select formControlName="category" required>
+                                <mat-option value="option1">BSC</mat-option>
+                                <mat-option value="option1">B.Tech.</mat-option>
+                                <mat-option value="option1">12th</mat-option>
+                                <mat-option value="option1">10th</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="categoryControl?.touched && categoryControl?.invalid">
+                                <div *ngIf="categoryControl?.errors?.required">
+                                    Course Name is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>Duration</mat-label>
+                            <mat-date-range-input [rangePicker]="campaignOnePicker" required>
+                                <input matStartDate placeholder="Start date" formControlName="dateFrom" required>
+                                <input matEndDate placeholder="End date" formControlName="dateTo" required>
+                            </mat-date-range-input>
+                            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                            <mat-error *ngIf="dateFromControl?.touched && dateFromControl?.invalid">
+                                <div *ngIf="dateFromControl?.errors?.required">
+                                    From Date is required.
+                                </div>                               
+                            </mat-error>
+                            <mat-error *ngIf="dateToControl?.touched && dateToControl?.invalid">
+                                <div *ngIf="dateToControl?.errors?.required">
+                                    End Date is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns  appRemoveAriaOwns >Year of Passing</mat-label>
+                            <mat-select formControlName="yearOfPassing" required>
+                                <mat-option value="option1">2011</mat-option>
+                                <mat-option value="option1">2012</mat-option>
+                                <mat-option value="option1">2013</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="yearOfPassingControl?.touched && yearOfPassingControl?.invalid">
+                                <div *ngIf="yearOfPassingControl?.errors?.required">
+                                    Year of Passing is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of Establishment</mat-label>
+                            <input matInput type="text" formControlName="collegeName" required>
+                            <mat-error *ngIf="collegeNameControl?.touched && collegeNameControl?.invalid">
+                                <div *ngIf="collegeNameControl?.errors?.required">
+                                    Name of Establishment is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Affiliated To</mat-label>
+                            <input matInput type="text" formControlName="boardName" required>
+                            <mat-error *ngIf="boardNameControl?.touched && boardNameControl?.invalid">
+                                <div *ngIf="boardNameControl?.errors?.required">
+                                    Affiliated To is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns  appRemoveAriaOwns >Subject/Specialization</mat-label>
+                            <mat-select formControlName="specialization" required>
+                                <mat-option value="option1">Computer Science & Engineering</mat-option>
+                                <mat-option value="option2">Information Technology</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="specializationControl?.touched && specializationControl?.invalid">
+                                <div *ngIf="specializationControl?.errors?.required">
+                                    Subject/Specialization is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Education Type</mat-label>
+                            <mat-select formControlName="educationType">
+                                <mat-option value="option1">Full Time</mat-option>
+                                <mat-option value="option1">Part time</mat-option>
+                                <mat-option value="option2">Correspondence </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Level</mat-label>
+                            <mat-select formControlName="level">
+                                <mat-option value="option1">Diploma</mat-option>
+                                <mat-option value="option1">Degree</mat-option>
+                                <mat-option value="option2">Certificate</mat-option>
+                                <mat-option value="option1">Hr. Secondary</mat-option>
+                                <mat-option value="option2">Sr. Secondary</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Grade</mat-label>
+                            <mat-select formControlName="grade" required>
+                                <mat-option value="option1">Grade</mat-option>
+                                <mat-option value="option1">Percentage</mat-option>
+                                <mat-option value="option1">CGPA</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="gradeControl?.touched && gradeControl?.invalid">
+                                <div *ngIf="gradeControl?.errors?.required">
+                                    Grade is required.
+                                </div>                               
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Grade/Percentage Value</mat-label>
+                            <input matInput type="text" formControlName="gradePercent" required>
+                        </mat-form-field>
+                        <mat-error *ngIf="gradePercentControl?.touched && gradePercentControl?.invalid">
+                            <div *ngIf="gradePercentControl?.errors?.required">
+                                Grade/Percentage Value is required.
+                            </div>                               
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Sponsored</mat-label>
+                            <mat-select formControlName="sponsored">
+                                <mat-option value="option1">Yes</mat-option>
+                                <mat-option value="option1">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Discipline</mat-label>
+                            <mat-select formControlName="discipline">
+                                <mat-option value="option1">"B" Level</mat-option>
+                                <mat-option value="option1">10th</mat-option>
+                                <mat-option value="option2">12th </mat-option>
+                                <mat-option value="option1">A Level</mat-option>
+                                <mat-option value="option1">Advanced Computing</mat-option>
+                                <mat-option value="option1">B.Sc.</mat-option>
+                                <mat-option value="option1">B.Tech.</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Minor Fields</mat-label>
+                            <mat-select formControlName="minorFields">
+                                <mat-option value="option1">"B" Level</mat-option>
+                                <mat-option value="option1">10th</mat-option>
+                                <mat-option value="option2">12th </mat-option>
+                                <mat-option value="option1">A Level</mat-option>
+                                <mat-option value="option1">Advanced Computing</mat-option>
+                                <mat-option value="option1">B.Sc.</mat-option>
+                                <mat-option value="option1">B.Tech.</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Major Fields</mat-label>
+                            <mat-select formControlName="majorFields">
+                                <mat-option value="option1">"B" Level</mat-option>
+                                <mat-option value="option1">10th</mat-option>
+                                <mat-option value="option2">12th </mat-option>
+                                <mat-option value="option1">A Level</mat-option>
+                                <mat-option value="option1">Advanced Computing</mat-option>
+                                <mat-option value="option1">B.Sc.</mat-option>
+                                <mat-option value="option1">B.Tech.</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

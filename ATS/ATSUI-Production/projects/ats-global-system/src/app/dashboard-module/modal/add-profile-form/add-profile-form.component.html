@@ -1,0 +1,366 @@
+<form [formGroup]="addProfileForm" (ngSubmit)="submitProfile(addProfileForm)">
+  <div class="ats-modal-header">
+    <ng-container *ngIf="data?.type == 1">
+      <h1> {{data?.title}} for {{data?.list?.profile_name}} - ({{data?.thIds?.talent_id}})</h1>
+    </ng-container>
+    <ng-container *ngIf="data?.type == 2">
+      <h1> {{data?.title}} for {{data?.list?.name}}</h1>
+    </ng-container>
+
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+      <div class="ats-forms ats-forms-horz">
+        <div class="ats-form-col">
+          <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="firstName" maxlength="500" disableInitialSpace onlyAlphabets appCapitalizeWords required>
+            <mat-error *ngIf="nameControl.touched && nameControl.invalid">
+              <div *ngIf="nameControl.errors.required">
+                Candidate First Name is required.
+              </div>
+              <div *ngIf="nameControl.errors.pattern">
+                Please enter valid First  Name.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+
+        <div class="ats-form-col">
+          <mat-form-field>
+            <input matInput placeholder="Middle Name" formControlName="middleName" maxlength="500" disableInitialSpace onlyAlphabets appCapitalizeWords>
+            <mat-error *ngIf="middlenameControl.touched && middlenameControl.invalid">
+             
+              <div *ngIf="middlenameControl.errors.pattern">
+                Please enter valid Middle  Name.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+
+        <div class="ats-form-col">
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="lastName" maxlength="500" disableInitialSpace onlyAlphabets appCapitalizeWords >
+            <mat-error *ngIf="lastnameControl.touched && lastnameControl.invalid">
+             
+              <div *ngIf="lastnameControl.errors.pattern">
+                Please enter valid Last  Name.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col">
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="email" maxlength="250" disableInitialSpace required>
+            <mat-error *ngIf="emailControl.touched && emailControl.invalid">
+              <div *ngIf="emailControl.errors.required">
+                Candidate Email is required.
+              </div>
+              <div *ngIf="emailControl.errors.pattern">
+                Please enter valid Email ID.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col mob-num-wrap">
+          <div class="mb-col code-mobile">
+            <app-country-list-code [countryCode]="true" [parentIdControl]="countryCodeControl" [title]="'Country Code'" [placeholder]="'Search'" [required]="true">
+            </app-country-list-code>
+          </div>
+          <div class="mb-col">
+            <mat-form-field>
+              <input matInput placeholder="Mobile Number" mobNumber formControlName="mobileNumber" maxlength="15"
+                disableInitialSpace required>
+                <mat-error
+                *ngIf="mobileNumberControl?.touched && mobileNumberControl.invalid">
+                <ng-container
+                    *ngIf="mobileNumberControl?.errors?.required">
+                    Phone Number is required.
+
+                </ng-container>
+                <ng-container *ngIf="mobileNumberControl?.errors?.minlength">
+                  Please enter 10 digit valid mobile number.
+              </ng-container>
+
+              <ng-container *ngIf="mobileNumberControl?.errors?.maxlength">
+                  Please enter 10 digit valid mobile number.
+              </ng-container>
+
+            </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <!-- end col -->
+        <!-- candidate DOB  -->
+        <div class="ats-form-col" *ngIf="isDobVisible">
+          <mat-form-field>
+            <mat-label>DOB</mat-label>
+            <input [disabled]="data?.type == 2 && data?.list?.dob " matInput [matDatepicker]="datepickerInfo2"
+                placeholder="DOB" formControlName="candiDob"
+                readonly [required]="data?.type == 1 ||
+                          (this.data?.type == 2 && !this.data?.list?.dob)"
+                          [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="datepickerInfo2">
+                <mat-icon matDatepickerToggleIcon class="form-icon date-icon-spac">
+                    <i class="far fa-calendar-alt"></i>
+                </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #datepickerInfo2></mat-datepicker>
+          </mat-form-field>
+         
+        </div>
+        <!-- end col -->
+        
+        <div class="ats-form-col">
+
+          <!-- <mat-form-field>
+                  <input matInput placeholder="Primary Skills" formControlName="primarySkill" maxlength="250"
+                    required disableInitialSpace>
+                    <mat-error
+                    *ngIf="primarySkill.touched && primarySkill.invalid">
+                    <div *ngIf="primarySkill.errors.required">
+                      Primary Skills is required.
+                    </div>
+                  </mat-error>
+                </mat-form-field> -->
+          <app-skill-set [panelIdControl]="primarySkillControl" [required]="true" [title]="' Skill'">
+          </app-skill-set>
+        </div>
+        <!-- end col -->
+
+        <!-- <div class="ats-form-col"> -->
+          <!-- <mat-form-field>
+                  <input matInput placeholder="Secondary Skills" formControlName="secondarySkill" maxlength="250"
+                    required disableInitialSpace>
+                    <mat-error
+                    *ngIf="secondarySkill.touched && secondarySkill.invalid">
+                    <div *ngIf="secondarySkill.errors.required">
+                      Secondary Skills is required.
+                    </div>
+                  </mat-error>
+                </mat-form-field> -->
+          <!-- <app-skill-set [panelIdControl]="secondarySkillControl" [required]="true" [title]="'Additional Skills'" 
+          [isMultiple]="true">
+          </app-skill-set>
+        </div> -->
+        <div class="ats-form-col skill-wrapper" [ngClass]="{'half-width': data?.list?.IsFromNaukriAPI == 'Y'}">
+          <div class="skill-col">
+            <app-skill-set [panelIdControl]="secondarySkillControl" [required]="true" [title]="'Additional Skills'" [isMultiple]="true">
+            </app-skill-set>
+          </div>
+          <div *ngIf="data?.list?.IsFromNaukriAPI == 'Y'" class="skill-ref-col">
+            <!-- <button type="button" class="btn btn-infocon skill-ref-btn" > -->                     
+                      <ng-container>
+                        <a href="javascript:void(0)"
+                          (click)="$event.preventDefault()"
+                          [ngbPopover]="data?.list?.sSkillName"
+                          popoverTitle="Skill Reference"
+                          placement="right"
+                          triggers="click:blur">
+                          Show Skill Reference
+                        </a>
+                      </ng-container>
+              <!-- Show Skill Reference -->
+            <!-- </button> -->
+          </div>
+        </div>
+        <!-- end col -->
+        
+      <div class="ats-form-col">
+        <div class="exp-section-control-main">
+          <div class="exp-section-control-ds">
+            <div class="exp-cols">
+              <mat-form-field>
+                <input matInput placeholder="Total Experience (Year)" formControlName="totalExperience" 
+                  disableInitialSpace onlyNumber maxlength="2" required expYear>
+                <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in year.</mat-hint> -->
+                <mat-error *ngIf="totalExperienceControl.touched && totalExperienceControl.invalid">
+                  <div *ngIf="totalExperienceControl.errors.required">
+                    Total Experience is required.
+                  </div>
+                  <!-- <div *ngIf="totalExperienceControl.errors.max">
+                    Experience should be less than 480 month.
+                  </div> -->
+                </mat-error>
+              </mat-form-field>
+             </div>
+            <div class="exp-cols">
+              <mat-form-field>
+                <input matInput placeholder="Total Experience (Month)" formControlName="totalExpMonth" 
+                  disableInitialSpace onlyNumber maxlength="2" required expMonth>
+                <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in month.</mat-hint> -->
+              </mat-form-field>
+            </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="ats-form-col">
+        <div class="exp-section-control-main">
+          <div class="exp-section-control-ds">
+            <div class="exp-cols">
+              <mat-form-field>
+                <input matInput placeholder="Relevant Experience (Year)" formControlName="releventExperience"
+                  disableInitialSpace onlyNumber maxlength="2" required expYear>
+                <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in year.</mat-hint> -->
+                <mat-error *ngIf="releventExperienceControl.touched && releventExperienceControl.invalid">
+                  <div *ngIf="releventExperienceControl.errors.required">
+                    Relevant Experience is required.
+                  </div>
+                  <div *ngIf="releventExperienceControl.errors.max">
+                    Experience should be less than 480 month.
+                  </div>
+                </mat-error>
+              </mat-form-field>
+             </div>
+            <div class="exp-cols">
+              <mat-form-field>
+                <input matInput placeholder="Relevant Experience (Month)" formControlName="relExpMonth" 
+                  disableInitialSpace onlyNumber maxlength="2" required expMonth>
+                <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in month.</mat-hint> -->
+              </mat-form-field>
+            </div>
+        </div>
+        </div>
+      </div>
+
+
+        <div class="ats-form-col">
+          <mat-form-field>
+            <mat-select placeholder="Status" formControlName="statusid" required>
+              <mat-option *ngFor="let list of statusList" [value]="list?.statusId">{{list?.statusName}}</mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="statusidControl.touched && statusidControl.invalid">
+              <div *ngIf="statusidControl.errors.required">
+                Status is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+
+        <div class="ats-form-col"  *ngIf="isReferredBy">
+          <mat-form-field>
+            <mat-select placeholder="Referred By" formControlName="ReferredBy">
+              <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlRef"
+                  [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                  
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let list of approverList | panelFilter:searchInputRef" [value]="list.empnewid" 
+                >
+                {{list?.fullName}} {{"("+ list.empnewid +")"}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="getControl('ReferredBy').touched && getControl('ReferredBy').invalid">
+              <div *ngIf="getControl('ReferredBy').errors.required">
+                Referred By is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+
+        <div class="ats-form-col"  *ngIf="isPartner">
+          <mat-form-field>
+            <mat-select placeholder="Partner" formControlName="Partner">
+              <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder"
+                    [clearSearchInput]="false">
+
+                </ngx-mat-select-search>
+            </mat-option>
+              <mat-option *ngFor="let list of partnerList | partnerFilter:searchInput" [value]="list.PartnerID">
+                {{list?.PartnerName}}
+            </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="getControl('Partner').touched && getControl('Partner').invalid">
+              <div *ngIf="getControl('Partner').errors.required">
+                Partner is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col" *ngIf="isLink">
+          <mat-form-field>
+            <input matInput placeholder="Link" formControlName="Link" maxlength="2000" disableInitialSpace>
+            <mat-error *ngIf="getControl('Link').touched && getControl('Link').invalid">
+              <div *ngIf="getControl('Link').errors.required">
+                Link is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col" *ngIf="isApprover">
+          <mat-form-field>
+            <mat-select placeholder="Approver" formControlName="Approver">
+              <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlApr"
+                  [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                  
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let list of approverList | panelFilter:searchInputApr" [value]="list.empnewid" 
+                >
+                {{list?.fullName}} {{"("+ list.empnewid +")"}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="getControl('Approver').touched && getControl('Approver').invalid">
+              <div *ngIf="getControl('Approver').errors.required">
+                Approver is required.
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col" *ngIf="isremarks">
+          <mat-form-field>
+            <mat-label>Remarks</mat-label>
+            <textarea matInput placeholder="Enter Remark" maxlength="2000" formControlName="remarks"
+                disableInitialSpace></textarea>
+                <mat-error *ngIf="getControl('remarks').touched && getControl('remarks').invalid">
+                  <div *ngIf="getControl('remarks').errors.required">
+                    Remark is required.
+                  </div>
+                </mat-error>
+                
+        </mat-form-field>
+        </div>
+        <!-- end col -->
+        <div class="ats-form-col  upload-file-ats" [ngClass]="resumeControl.touched && resumeControl.invalid ? 'error-file-input':'suc'">
+          <div class="upload-file-input" >
+            <label>Upload Resume
+              <sup *ngIf="data?.type === 1">*</sup>
+            </label>
+            <input type="file" (change)="fileUp($event)" formControlName="resume">
+          </div>
+          <div class="file-error" *ngIf="resumeControl.touched && resumeControl.invalid">
+            <span *ngIf="resumeControl.errors.required"> Please upload Resume.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ats-modal-footer">
+    <button type="submit" class="btn btn-infocon" *ngIf="isSubmitEnable">
+      {{data.type == 1 ?'Submit':'Update'}}
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+  </div>
+</form>

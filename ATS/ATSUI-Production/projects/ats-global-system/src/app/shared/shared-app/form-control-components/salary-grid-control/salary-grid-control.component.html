@@ -1,0 +1,40 @@
+
+<div class="dgm-track">
+    <div class="box-v-ats box-v-ats-form">
+        <div class="box-v-header">
+            <h4>Salary Grid</h4>
+        </div>
+        <div class="box-v-body">
+
+            <div class="dgm-track">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4>Minimum Salary</h4>
+                        <p>
+                            {{aprvCountDataList?.MinSal?(aprvCountDataList?.MinSal |
+                            customCurrency:1:0:2): '-'}}
+                        </p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>Median Salary</h4>
+                        <p>
+                            {{aprvCountDataList?.MidSal?(aprvCountDataList?.MidSal |
+                            customCurrency:1:0:2): '-'}}
+                        </p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Maximum Salary</h4>
+                        <p>
+                            {{aprvCountDataList?.MaxSal?(aprvCountDataList?.MaxSal |
+                            customCurrency:1:0:2): '-'}}
+                        </p>
+                    </div>
+                    <!-- end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

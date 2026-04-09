@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
+import { UserAuthService } from '../authentication/user-auth.service';
+import { SPECIALACCESSUSER } from '../constant/common.const';
+import { GetSetStorageService } from '../services/get-set-storage.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SpecialAccessGuard  {
+  constructor( private _router:Router,private _authServe:UserAuthService,private _storage:GetSetStorageService){}
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      let empId = this._storage.getUserEmpId();
+      let  isUserValid = SPECIALACCESSUSER.offerAccesRight.filter(r=> r.empId === parseInt(empId)).length != 0?true:false;
+      if (isUserValid && this._authServe.isRecruiter() || isUserValid && this._authServe.isSuperAdmin() || this._authServe.isApproverLogin()){  
+        return true
+      }
+      else{
+        this._storage.destroyAllStorage();
+        this._router.navigate(['/login']);
+        return false
+      }
+  }
+  
+}

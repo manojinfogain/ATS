@@ -1,0 +1,11 @@
+<div class="sl-vm-control">
+    <mat-form-field  [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+      <mat-select [formControl]="formControlOpt" [disableOptionCentering]="true" 
+      (selectionChange)="getSelectId($event)">
+        <mat-option *ngFor="let list of gradeBandList" [value]="list.ID" >
+          {{list?.Band}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>

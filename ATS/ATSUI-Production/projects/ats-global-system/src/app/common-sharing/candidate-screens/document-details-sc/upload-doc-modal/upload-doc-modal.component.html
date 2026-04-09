@@ -1,0 +1,70 @@
+<form [formGroup]="docUploadForm" (ngSubmit)="submitdocUploadForm(docUploadForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="upload-modal-form ">
+                <div class="dcb-table">
+                    <table class="table table-doc-list" formArrayName="uploadDocGroup">
+                        <tbody>
+                            <!-- <ng-container *ngFor="let item of uploadDocGroup.controls; let pointIndex=index">
+                                <tr trdocumentuploadselect [element]="data"
+                                [docCategList]="docCategList" [docSubCategList]="docSubCategList"
+                                [formClass]="formClass" [appearance]="appearance" [formGroupName]="pointIndex"></tr>
+                            </ng-container> -->
+                            <tr *ngFor="let item of uploadDocGroup.controls; let pointIndex=index"
+                                [formGroupName]="pointIndex">
+                                <td>
+                                    <input type="hidden" formControlName="subCateg" #subCateg>
+                                    <input type="hidden" formControlName="uniqId">
+                                    <!-- <ng-container *ngIf="subCateg.value == 3">
+                                        Salary Slip -{{pointIndex+1}}
+                                    </ng-container> -->
+                                    <div class="form-on-ats form-on-ats-fluid doc-select-width" [ngClass]="formClass">
+
+                                        <div class="form-on-col">
+
+                                            <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                <!-- <mat-label>Category</mat-label> -->
+                                                <mat-select placeholder="Select Document" formControlName="documentType"
+                                                    (selectionChange)="selectionDoc(pointIndex)">
+                                                    <mat-option *ngFor="let categ of subChildDocTypeListIn"
+                                                        [value]="categ?.id">
+                                                        {{categ?.Name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ats-forms form-on-ats-fluid" [ngClass]="formClass">
+                                        <div class="ats-form-col upload-file-ats-scr">
+                                            <div class="upload-file-input-scr">
+                                                <input type="file" (change)="fileChangeEvent($event,pointIndex)"
+                                                    [disabled]="uploadDocGroup['controls'][pointIndex]['controls'].documentType.invalid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

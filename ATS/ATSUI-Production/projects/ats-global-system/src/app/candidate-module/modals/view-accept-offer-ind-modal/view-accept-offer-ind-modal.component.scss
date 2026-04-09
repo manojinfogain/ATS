@@ -1,0 +1,80 @@
+:host ::ng-deep.quadrat {
+    background: #1f6a9f;
+    border: solid 1px #2370a7;
+    box-shadow: 0 3px 1px #0b466f;
+    -webkit-box-shadow: 0 3px 1px #0b466f;
+    -moz-box-shadow: 0 3px 1px #0b466f;
+    -o-box-shadow: 0 3px 1px #0b466f;
+    -ms-box-shadow: 0 3px 1px #0b466f;
+    color: #ffffff;
+}
+
+@keyframes blink {
+    0%, 100% {background:#3F06FF  !important;}
+    50% {background: #8EDDBE  !important;}
+  }
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.offer-letter-section {
+    display: flex;
+    justify-content: center;
+
+    .letter-wrapper {
+        width: 800px;
+    }
+}
+
+:host ::ng-deep.sign-wrap {
+    height: 76px;
+    width: 350px;
+    display: inline-block;
+    padding: 14px;
+
+    img {
+        max-height: 100%;
+    }
+}
+:host ::ng-deep.input-agr {
+    border: none;
+    border-bottom: 1px solid #7e7d7d;
+    font-size: 12px;
+    &:focus{
+        outline: none;
+    }
+}
+:host ::ng-deep.error-ct {
+    border-color: red;
+}
+:host ::ng-deep.error-ctp {
+    color: red;
+}
+
+// .mat-dialog-content {
+//     max-height: calc(100vh - 134px) !important;
+
+// }
+
+.ats-modal-header {
+    padding: 10px 10px !important;
+    height: 45px !important;
+    h1 {
+        font-size: 14.5px !important;
+        margin: 0 !important;
+        //position: absolute !important;
+       // top: -6px !important;
+    }
+}
+// .ats-modal-header {
+//     padding: 10px 10px;
+//     border-bottom: solid 1px #ddd;
+//     /* margin: 0px 0px; */
+//     /* position: relative; */
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+    
+// }
+

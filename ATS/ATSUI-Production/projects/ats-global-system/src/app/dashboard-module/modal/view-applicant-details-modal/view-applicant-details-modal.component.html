@@ -1,0 +1,163 @@
+<div class="ats-modal-header">
+    <h1>{{candData?.FirstName || '-'}} {{candData?.LastName || ''}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="view-list-dt-wrap">
+            <div class="view-list-bx">
+                <h4>Job ID:</h4>
+                <p>{{candData?.JobId || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Applicant UID:</h4>
+                <p>{{candData?.ApplicantUid || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Applicant ID:</h4>
+                <p>{{candData?.ApplicantID || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>First Name:</h4>
+                <p>{{candData?.FirstName || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Middle Name:</h4>
+                <p>{{candData?.MiddleName || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Last Name:</h4>
+                <p>{{candData?.LastName || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Date Of Birth:</h4>
+                <p>{{candData?.DateOfBirth ? (candData?.DateOfBirth | date:'mediumDate') : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Mobile:</h4>
+                <p>{{candData?.Mobile || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Email:</h4>
+                <p>{{candData?.Email || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Gender:</h4>
+                <p>{{candData?.Gender || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Salary:</h4>
+                <p>{{candData?.Salary || '-'}}</p>
+            </div>            
+            <div class="view-list-bx">
+                <h4>Current Location:</h4>
+                <p>{{candData?.CurrentLocation || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Current Employer:</h4>
+                <p>{{candData?.CurrEmployer || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Key Skills:</h4>
+                <p>{{candData?.KeySkills || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Designation:</h4>
+                <p>{{candData?.Designation || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Total Experience:</h4>
+                <p>{{candData?.TotalExpInYear ? candData?.TotalExpInYear+' Year(s)' : '-'}}
+                    {{candData?.TotalExpInMonth ? candData?.TotalExpInMonth+' Month(s)' : '-'}}
+                </p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Reference Code:</h4>
+                <p>{{candData?.ReferenceCode || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Apply Source:</h4>
+                <p>{{candData?.ApplySource || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Created Date (In UTC):</h4>
+                <p>{{candData?.CreatedDate ? (candData?.CreatedDate | date:'mediumDate') : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Dump Added On (In IST):</h4>
+                <p>{{candData?.DumpAddedOn ? (candData?.DumpAddedOn | date:'mediumDate') : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Is Screen Rejected:</h4>
+                <p>{{candData?.isScreenRejected !== undefined ? (candData?.isScreenRejected ? 'Yes' : 'No') : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Screen Reject Reason ID:</h4>
+                <p>{{candData?.screenRejectReasonId || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Screen Reject Remarks:</h4>
+                <p>{{candData?.Screenrejectemarks || '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Relevant Exp (Years):</h4>
+                <p>{{candData?.RelevantExpInYear ? candData?.RelevantExpInYear+' Year(s)' : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Relevant Exp (Months):</h4>
+                <p>{{candData?.RelevantExpInMonth ? candData?.RelevantExpInMonth+' Month(s)' : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Total Exp (Years):</h4>
+                <p>{{candData?.TotalExpInYear ? candData?.TotalExpInYear+' Year(s)' : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Total Exp (Months):</h4>
+                <p>{{candData?.TotalExpInMonth ? candData?.TotalExpInMonth+' Month(s)' : '-'}}</p>
+            </div>
+            <div class="view-list-bx">
+                <h4>Applicant Status:</h4>
+                <p>{{candData?.ApplicantStatus || '-'}}</p>
+            </div>
+            <!-- Education Details -->
+            <div class="view-list-bx" *ngIf="candData?.EducationDetails?.length">
+                <h4>Education Details:</h4>
+                <ul>
+                    <li *ngFor="let edu of candData.EducationDetails">
+                        <strong>{{edu.Level || '-'}}:</strong>
+                        {{edu.Qualification || '-'}} 
+                        <span *ngIf="edu.Specialization">({{edu.Specialization}})</span>
+                        <span *ngIf="edu.Institute">, {{edu.Institute}}</span>
+                        <span *ngIf="edu.PassingYear">, {{edu.PassingYear}}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Work Details -->
+            <div class="view-list-bx" *ngIf="candData?.WorkDetails?.length">
+                <h4>Work Details:</h4>
+                <ul>
+                    <li *ngFor="let work of candData.WorkDetails">
+                        <strong>{{work.CompanyType || '-'}}:</strong>
+                        {{work.OrganizationName || '-'}}
+                        <span *ngIf="work.Designation">, {{work.Designation}}</span>
+                        <span *ngIf="work.StartDate">, From: {{work.StartDate | date:'mediumDate'}}</span>
+                        <span *ngIf="work.EndDate">, To: {{work.EndDate | date:'mediumDate'}}</span>
+                        <!-- <span *ngIf="work.Experience">, Exp: {{work.Experience}}</span> -->
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Q&A Details -->
+            <div class="view-list-bx" *ngIf="candData?.QADetails?.length">
+                <h4>Questions &amp; Answers Details:</h4>
+                <ul>
+                    <li *ngFor="let qa of candData.QADetails">
+                        <strong>Que.:</strong> {{qa.QuestionText || '-'}}<br>
+                        <strong>Ans.:</strong> {{qa.Answer || '-'}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

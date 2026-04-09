@@ -1,0 +1,519 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+          <!-- Talent ID Details -->
+          <app-candidate-details-info  [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+          [detailsType]="'TD'" [allRoundList]="allRoundList" [talentDetails]="talentDetails"
+          >
+      </app-candidate-details-info>
+        <!-- candidate Basic Details -->
+        <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data" [detailsType]="'cd'"
+            [allRoundList]="allRoundList">
+        </app-candidate-details-info>
+        <!-- candidate Offer Details -->
+        <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data" [detailsType]="'cod'"
+            [salaryGridShow]="true">
+        </app-candidate-details-info>
+        <!-- end -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Approver Details</h4>
+            </div>
+            <div class="box-v-body table-body">
+                <div class="apr-list aprover-dt-list max-height-200" >
+                    <table mat-table [dataSource]="approvalData" class="table-mat-info">
+                        <ng-container matColumnDef="approverType">
+                            <th mat-header-cell *matHeaderCellDef>Approver Type</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <ng-container *ngIf="element?.ApproverType === 0;else appr">
+                                    Recruiter
+                                </ng-container>
+                                <ng-template #appr>
+                                    Approver {{element?.ApproverType}}
+                                </ng-template> -->
+
+                                <div [ngSwitch]="element?.ApproverType">
+                                    <div *ngSwitchCase="1">
+                                        Tag Lead
+                                    </div>
+                                    <div *ngSwitchCase="2">
+                                        <ng-container *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                                            Delivery Head
+                                        </ng-container>
+                                        <ng-container *ngIf="offerAprDt?.IsRenuTeam != 'Y'">
+                                            <ng-container *ngIf="getDiff(element)">Delivery Head</ng-container>
+                                            <ng-container *ngIf="!getDiff(element)"> DP/Studio Owner</ng-container>
+                                        </ng-container>
+                                        
+                                        <!-- DP/PDL/SDP -->
+                                    </div>
+                                    <div *ngSwitchCase="3">
+                                        <!-- Senior Vice president -->
+                                        <!-- /President & COO -->
+                                        Global Delivery Leader
+                                        
+                                    </div>
+                                    <div *ngSwitchCase="6">
+                                        Function Head
+                                    </div>
+                                    <div *ngSwitchCase="4">
+                                        President & COO
+                                    </div>
+                                    <div *ngSwitchCase="5">
+                                        Tag Head
+                                     </div>
+                                     <div *ngSwitchCase="7">
+                                        CDO
+                                    </div>
+                                    
+                                    <div *ngSwitchCase="'S'">
+                                        <button class="btn-status-dg holds" type="button">
+                                            Sent
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        Recruiter
+                                    </div>
+
+                                </div>
+
+                        </ng-container>
+                        <ng-container matColumnDef="approverName">
+                            <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.approverName || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTaken">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- {{element?.ActionTaken || '-'}} -->
+
+                                <div [ngSwitch]="element?.ActionTaken">
+                                    <div *ngSwitchCase="'D'">
+                                        <button class="btn-status-dg schedule" type="button">
+                                            Draft
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'A'">
+                                        <button class="btn-status-dg selecteds" type="button">
+                                            Approved
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'R'">
+                                        <button class="btn-status-dg rejects" type="button">
+                                            Referred Back
+                                        </button>
+                                    </div>
+
+                                    <div *ngSwitchCase="'S'">
+                                        <button class="btn-status-dg holds" type="button">
+                                            Submitted
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'P'">        
+                                        <button class="btn-status-dg holds" type="button">
+                                            {{(offerAprDt?.StatusID == 240 || offerAprDt?.StatusID == 260) &&
+                                            element?.ActionTaken == 'P'?'NA':'Pending' }}
+                                        </button>
+                                    </div>
+
+                                    <div *ngSwitchCase="'V'">
+                                        <button class="btn-status-dg rv" type="button">
+                                            Revised
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'RE'">
+                                        <button class="btn-status-dg rv" type="button">
+                                            Re-Initiated
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'RO'">
+                                        <button class="btn-status-dg rv" type="button">
+                                            Re-Opened
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        NA
+                                    </div>
+
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTakenOn">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken On</th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="element?.ActionTaken">
+                                    <ng-container
+                                    *ngIf="element?.ModifiedOnUTC == null || element?.ModifiedOnUTC == '';else dateUTC">
+                                   
+                                    {{(element?.ModifiedOn| date:'dd MMM yyyy, h:mm a') || '-'}}
+                                </ng-container>
+                                <ng-template #dateUTC>
+                                    {{element?.ModifiedOnUTC | dateUTCTime:'Do MMM  YYYY, h:mm a'}}
+                                </ng-template>
+                                    <!-- {{element?.ModifiedOn | dateUTCTime:'Do MMM  YYYY, h:mm a'}} -->
+                                </ng-container>
+                                <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTakenBy">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken By</th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="element?.ActionTaken">
+                                    {{element?.ModifiedbyName || '-'}}
+                                </ng-container>
+                                <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="justification">
+                            <th mat-header-cell *matHeaderCellDef>Justification (Above Median)</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.JustificationBucket || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="remarks">
+                            <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Remarks || '-'}}</td>
+                        </ng-container>
+
+                        <ng-container class="documents" matColumnDef="documents">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <!-- <i class="fas fa-edit"></i> -->
+                                Documents
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                                <div class="btn-action btn-action-centers">
+                                    <div class="btn-act">
+                                        <button [ngClass]="{'disble' : element?.IsAttachmentPresent=='N'}" mat-button
+                                            type="button" class="btn-ey-v" matTooltip="View Documents "
+                                            (click)="documentsDownload(element)">
+                                            <i class="fa fa-folder" aria-hidden="true"></i>
+                                            <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+                                        </button>
+                                    </div>
+                                    <!-- ends -->
+                                </div>
+                            </td>
+                        </ng-container>
+                        <!-- ends -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                            [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                    </table>
+                </div>
+              
+            </div>
+            <!-- <app-no-result-found [searchedValue]="searchInput" *ngIf="approvalData?.length === 0">
+            </app-no-result-found> -->
+            <div *ngIf="approvalData?.length === 0" class="no-record-found text-filter-alert">
+                No Details Found
+            </div>
+        </div>
+        <!-- end  -->
+        <!-- *ngIf="hideforall" -->
+        <div class="box-v-ats" *ngIf="isVisibleForUs">
+            <div class="box-v-header">
+                <h4>HR Action Details</h4>
+            </div>
+            <div class="box-v-body table-body">
+                <div class="apr-list aprover-dt-list max-height-200">
+                    <table mat-table [dataSource]="hrApprovalActivity" class="table-mat-info">
+                        <ng-container matColumnDef="approverType">
+                            <th mat-header-cell *matHeaderCellDef>Approver Type</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <ng-container *ngIf="element?.ApproverType === 0;else appr">
+                                    Recruiter
+                                </ng-container>
+                                <ng-template #appr>
+                                    Approver {{element?.ApproverType}}
+                                </ng-template> -->
+
+                                <div [ngSwitch]="element?.ApproverType">
+                                    <!-- <div *ngSwitchCase="1">
+                                        Tag Lead
+                                    </div>
+                                    <div *ngSwitchCase="2">
+                                        <ng-container *ngIf="getDiff(element)">Delivery Head</ng-container>
+                                        <ng-container *ngIf="!getDiff(element)">DP/PDL/SDP</ng-container>
+                                       
+                                    </div>
+                                    <div *ngSwitchCase="3">
+                                       
+                                        Global Delivery Leader
+                                    </div>
+
+                                    <div *ngSwitchCase="4">
+                                        President & COO
+                                    </div>
+
+                                    <div *ngSwitchCase="'S'">
+                                        <button class="btn-status-dg holds" type="button">
+                                            Sent
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        Recruiter
+                                    </div> -->
+                                    <div *ngSwitchDefault>
+                                        HR
+                                    </div> 
+                                </div>
+
+                        </ng-container>
+                        <ng-container matColumnDef="approverName">
+                            <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.approverName || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTaken">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- {{element?.ActionTaken || '-'}} -->
+
+                                <div [ngSwitch]="element?.ActionTaken">
+                                    <div *ngSwitchCase="'D'">
+                                        <button class="btn-status-dg schedule" type="button">
+                                            Draft
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'A'">
+                                        <button class="btn-status-dg selecteds" type="button">
+                                            Approved
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'R'">
+                                        <button class="btn-status-dg rejects" type="button">
+                                            Referred Back
+                                        </button>
+                                    </div>
+
+                                    <div *ngSwitchCase="'S'">
+                                        <button class="btn-status-dg holds" type="button">
+                                            Submitted
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchCase="'P'">
+                                        <button class="btn-status-dg holds" type="button">
+                                            {{(offerAprDt?.StatusID == 240 || offerAprDt?.StatusID == 260) &&
+                                            element?.ActionTaken == 'P'?'NA':'Pending' }}
+                                        </button>
+                                    </div>
+
+                                    <div *ngSwitchCase="'V'">
+                                        <button class="btn-status-dg rv" type="button">
+                                            Revised
+                                        </button>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        NA
+                                    </div>
+
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTakenOn">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken On</th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="element?.ActionTaken">
+                                    {{element?.ModifiedOn | dateUTCTime:'Do MMM  YYYY, h:mm a'}}
+                                </ng-container>
+                                <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ActionTakenBy">
+                            <th mat-header-cell *matHeaderCellDef>Action Taken By</th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container *ngIf="element?.ActionTaken">
+                                    {{element?.ModifiedbyName || '-'}}
+                                </ng-container>
+                                <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="remarks">
+                            <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Remarks || '-'}}</td>
+                        </ng-container>
+
+                        
+                        <!-- ends -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsHr; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsHr;let i = index"
+                            [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="hrApprovalActivity?.length === 0" class="no-record-found text-filter-alert">
+                No Hr Activity Found
+            </div>
+        </div>
+        <div class="box-v-ats display-none">
+            <div class="box-v-header">
+                <h4>Offer Status History</h4>
+            </div>
+            <div class="box-v-body">
+                <div class="apr-list aprover-dt-list max-height-200">
+                    <table mat-table [dataSource]="candStatusHistory" class="table-mat-info">
+
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef>Status</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.offerStatusName || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="updatedBy">
+                            <th mat-header-cell *matHeaderCellDef>Satus Updated By</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.Modified_ByName || '-'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="updatedOn">
+                            <th mat-header-cell *matHeaderCellDef>Satus Updated On</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.ModifiedOn | date:'dd-MMM-YYYY, h:mm a'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="declineCatg">
+                            <th mat-header-cell *matHeaderCellDef>Decline Category</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.DeclineCategoryName || '-'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="remarks">
+                            <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Remarks || '-'}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns1;let i = index"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+
+        <!-- address for India starts -->
+        <div class="box-v-ats" *ngIf="isVisibleForIndia">
+            <div class="box-v-header box-header-lf">
+                <div>
+                    <h4>Candidate Current Address</h4>
+                </div>
+                <div class="chk-lkv">
+                    <h4>Confirm Candidate Current Address : <span>{{offerAprDt?.isShippingAddrConfirm ==
+                            1?'YES':'NO'}}</span></h4>
+                </div>
+
+            </div>
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4> Flat, Floor, House No, Building, Apartment, Suite,
+                            Unit</h4>
+                        <p>{{offerAprDt?.AddressLine1 || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4> Area, Street, Sector, Village</h4>
+                        <p>{{offerAprDt?.AddressLine2 || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>Landmark, Locality</h4>
+                        <p>{{offerAprDt?.AddressLine3 || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>City</h4>
+                        <p>{{offerAprDt?.cr_city || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>State, Province, Region </h4>
+                        <p>{{offerAprDt?.cr_state || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>Zip/Postal Code</h4>
+                        <p>{{offerAprDt?.cr_postalCode || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Country</h4>
+                        <p>{{offerAprDt?.cr_countryName || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+        <!-- address for india ends -->
+        <!-- address for US starts -->
+        <div class="box-v-ats" *ngIf="isVisibleForUs">
+            <div class="box-v-header box-header-lf">
+                <div>
+                    <h4>Candidate Current Address</h4>
+                </div>
+                <!-- <div class="chk-lkv">
+                    <h4>Confirm Candidate Current Address : <span>{{offerAprDt?.isShippingAddrConfirm ==
+                            1?'YES':'NO'}}</span></h4>
+                </div> -->
+
+            </div>
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4> Street address, P.O box, company name, c/o</h4>
+                        <p>{{offerAprDt?.AddressLine1 || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>  Apartment, suite, unit, building, floor, etc</h4>
+                        <p>{{offerAprDt?.AddressLine2 || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <!-- <div class="view-list-bx">
+                        <h4>Landmark, Locality</h4>
+                        <p>{{offerAprDt?.AddressLine3 || '-'}}</p>
+                    </div> -->
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>City</h4>
+                        <p>{{offerAprDt?.cr_city || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>State, Province, Region </h4>
+                        <p>{{offerAprDt?.cr_state || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4>Zip/Postal Code</h4>
+                        <p>{{offerAprDt?.cr_postalCode || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Country</h4>
+                        <p>{{offerAprDt?.cr_countryName || '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                </div>
+            </div>
+        </div>
+        <!-- address for US end -->
+
+    </div>
+
+</div>
+
+
+<!-- <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->

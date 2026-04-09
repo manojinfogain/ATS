@@ -1,0 +1,486 @@
+<div class="ats-modal-header">
+    <h1>BGV Details - {{this.data?.Name}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="view-all-screen-dt">
+            <div class="ct-tab-screen  candidate-screen">
+                <mat-accordion class="candidate-ats-hr-rec">
+                    <!-- personal Details -->
+                    <mat-expansion-panel [expanded]="true" (opened)="setStep(0)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    settings_accessibility
+                                </span> Personal Information
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <div class="can-list-view">
+                                    <h5>Title:</h5>
+                                    <p>{{BGVPersonalInfo?.Title || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVPersonalInfo?.CandidateName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Date of Birth:</h5>
+                                    <p>{{(BGVPersonalInfo?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Mobile Number:</h5>
+                                    <p>{{BGVPersonalInfo?.MobileNumber || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Email ID:</h5>
+                                    <p>{{BGVPersonalInfo?.EmailId || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Personal Identity Document:</h5>
+                                    <p>{{BGVPersonalInfo?.DocumentName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Personal Identity Number:</h5>
+                                    <p>{{BGVPersonalInfo?.DocumentNumber || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>UAN Number:</h5>
+                                    <p>{{BGVPersonalInfo?.UANNumber || '-'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- end personal Details -->
+                    <!-- Address Details -->
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    location_on
+                                </span> Current Address Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVAddressDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                <div class="can-list-view">
+                                    <h5>Address:</h5>
+                                    <p>{{BGVAddressDetails?.Address || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Pin Code:</h5>
+                                    <p>{{BGVAddressDetails?.PinCode || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Mobile Number:</h5>
+                                    <p>{{BGVAddressDetails?.MobileNumber || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Alternate Contact Number:</h5>
+                                    <p>{{BGVAddressDetails?.AlternateContactNumber || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Country:</h5>
+                                    <p>{{BGVAddressDetails?.CountryName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>State:</h5>
+                                    <p>{{BGVAddressDetails?.State || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>City:</h5>
+                                    <p>{{BGVAddressDetails?.City || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Current Address Proof Document:</h5>
+                                    <p>{{BGVAddressDetails?.DocumentTypeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Preview {{BGVAddressDetails?.DocumentTypeName}}:</h5>
+                                    <p>
+                                        <button type="button" class="btn-ey-v"
+                                            (click)="previewDocument(BGVAddressDetails)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- end Address Details -->
+                    <!-- CRC Details -->
+                    <!-- CRC Check Details Section (renamed from Educational Background) -->
+                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    history_edu
+                                </span> CRC Check Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVCRCDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                <div class="can-list-view">
+                                    <h5>Father's Name:</h5>
+                                    <p>{{BGVCRCDetails?.FatherName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Date of Birth:</h5>
+                                    <p>{{(BGVCRCDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Address:</h5>
+                                    <p>{{BGVCRCDetails?.Address || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Duration to Stay:</h5>
+                                    <p>{{BGVCRCDetails?.DurationToStay || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Permanent Address Proof Document:</h5>
+                                    <p>{{BGVCRCDetails?.DocumentTypeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Preview {{BGVCRCDetails?.DocumentTypeName}}:</h5>
+                                    <p>
+                                        <button type="button" class="btn-ey-v" (click)="previewDocument(BGVCRCDetails)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- end CRC Check Details -->
+                    <!-- Highest Education Details -->
+                    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    model_training
+                                </span> Highest Education Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVHighestEducationDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                <div class="can-list-view">
+                                    <h5>College/Institute/School Name:</h5>
+                                    <p>{{BGVHighestEducationDetails?.CollegeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Date of Birth:</h5>
+                                    <p>{{(BGVHighestEducationDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Seat No. / Roll No. / Enrollment No. / PRN No.:</h5>
+                                    <p>{{BGVHighestEducationDetails?.SeatOrRollOrEnrollorPRNNo || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Degree / Qualification Name:</h5>
+                                    <p>{{BGVHighestEducationDetails?.DegreeOrQualification || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Year of Passing:</h5>
+                                    <p>{{BGVHighestEducationDetails?.YearOfPassing || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Division / CGPA / Percentage:</h5>
+                                    <p>{{BGVHighestEducationDetails?.DivisionOrCGPAOrPercent || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Educational Qualification Proof Document:</h5>
+                                    <p>{{BGVHighestEducationDetails?.DocumentTypeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Preview {{BGVHighestEducationDetails?.DocumentTypeName}}:</h5>
+                                    <p>
+                                        <button type="button" class="btn-ey-v"
+                                            (click)="previewDocument(BGVHighestEducationDetails)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- end highest education Details -->
+                    <!-- Employment Details -->
+                    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    work_history
+                                </span> Employment Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-temp-body">
+                                <div class="can-temp-b">
+                                    <div class="cand-ot-table">
+                                        <table mat-table [dataSource]="this.BGVEmploymentDetails"
+                                            class="table-mat-info">
+                                            <!-- Checkbox Column -->
+                                            <ng-container matColumnDef="employerName">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Name of the Employer
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.PayloadOrganization || '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- end -->
+                                            <ng-container matColumnDef="employerType">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Employer Type
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <!-- {{element?.employerType || '-'}} -->
+                                                    <ng-container *ngIf="element?.CompanyType == 'C'">
+                                                        Current Employer
+                                                    </ng-container>
+                                                    <ng-container *ngIf="element?.CompanyType == 'P1'">
+                                                        Previous Employer 1
+                                                    </ng-container>
+                                                    <ng-container *ngIf="element?.CompanyType == 'P2'">
+                                                        Previous Employer 2
+                                                    </ng-container>
+                                                </td>
+                                            </ng-container>
+                                            <!-- end -->
+                                            <ng-container matColumnDef="employeeId">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Employee ID
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.EmployeeId || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="Doj">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Date of Joining
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.DOJ ? (element?.DOJ | date:'yyyy-MM-dd') : '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="currentWorking">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Currently Working
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.CurrentlyWithSameCompany == 'Yes' ? 'Yes' : 'No'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Designation">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Designation
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.Designation || '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="RMNameDesig">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    RM Name & Designation
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.RMNameDesignation || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="RMContact">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    RM Contact
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.RMContactNumber || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="RMEmail">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    RM Email
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.RMEmailId || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="HRNameDesig">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    HR Name & Designation
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.HRNameDesignation || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="HRContact">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    HR Contact
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.HRContactNumber || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="HREmail">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    HR Email
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.HREmailId || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action" stickyEnd>
+                                                <th mat-header-cell *matHeaderCellDef> Action</th>
+                                                <td mat-cell *matCellDef="let element" class="text-left">
+
+                                                    <div class="btn-action btn-action-centers">
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button"
+                                                                (click)="previewEmpDetDoc(element)"
+                                                                matTooltip="Preview Document">
+                                                                <span class="material-icons-outlined">
+                                                                    preview
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index">
+                                            </tr>
+                                        </table>
+
+                                        <!-- <app-no-result-found *ngIf="employmentList?.length === 0">
+            </app-no-result-found> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- end Employment Details -->
+                    <!-- Global DB Check Details -->
+                    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    work_history
+                                </span> Global Database Check Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVGlobalDBCheckDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                <div class="can-list-view">
+                                    <h5>Father's Name:</h5>
+                                    <p>{{BGVGlobalDBCheckDetails?.FatherName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Gender:</h5>
+                                    <p>{{BGVGlobalDBCheckDetails?.GenderName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Date of Birth:</h5>
+                                    <p>{{(BGVGlobalDBCheckDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Identity Proof Document:</h5>
+                                    <p>{{BGVGlobalDBCheckDetails?.DocumentTypeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Preview {{BGVGlobalDBCheckDetails?.DocumentTypeName}}:</h5>
+                                    <p>
+                                        <button type="button" class="btn-ey-v"
+                                            (click)="previewDocument(BGVGlobalDBCheckDetails)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--  End Global DB Check Details -->
+                    <!-- OFAC Details -->
+                    <!-- <span class="material-icons-outlined">
+                                        alt_route
+                                    </span> -->
+                    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                                    gavel
+                                </span> OFAC Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panel-content">
+                            <div class="can-view-wrap">
+                                <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVOFACDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                <div class="can-list-view">
+                                    <h5>Father's Name:</h5>
+                                    <p>{{BGVOFACDetails?.FatherName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Date of Birth:</h5>
+                                    <p>{{(BGVOFACDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Identity Proof Document:</h5>
+                                    <p>{{BGVOFACDetails?.DocumentTypeName || '-'}}</p>
+                                </div>
+                                <div class="can-list-view">
+                                    <h5>Preview {{BGVOFACDetails?.DocumentTypeName}}:</h5>
+                                    <p>
+                                        <button type="button" class="btn-ey-v"
+                                            (click)="previewDocument(BGVOFACDetails)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--  Salary Details -->
+
+                </mat-accordion>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="ats-modal-footer text-center">
+    <button class="btn btn-infocon" (click)="submitAction()">
+        Approve & Initiate BGV
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>

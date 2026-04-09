@@ -1,0 +1,23 @@
+.search-cand-table {
+    overflow: auto;
+    max-height: calc(100vh - 250px);
+}
+.table-mat-info td.mat-cell, .table-mat-info td.mat-footer-cell{
+    font-size: 0.8rem;
+    padding: 2px 8px !important;
+}
+
+.search-result-wrapper{
+    position: relative;
+    .arrow-right-cnt{
+        position: absolute;
+        right:100%;
+        background: #1f6a9f;
+        top: 0 px;
+        z-index: 99;
+        padding: 6px 16px;
+        font-size: 1rem;
+        color:#fff;
+        margin-left: -3px;
+    }
+}

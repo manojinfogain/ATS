@@ -1,0 +1,44 @@
+<form>
+    <div class="ats-modal-header">
+        <!-- <h1>{{data?.title}}</h1> -->
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+
+            <ng-container [ngSwitch]="data?.formTypeId">
+                <ng-container *ngSwitchCase="1">
+                    <app-personal-dt-form [data]="data"></app-personal-dt-form>
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                   <app-accesscard-form [data]="data"></app-accesscard-form>
+                </ng-container>
+                <ng-container *ngSwitchCase="3">
+                    <app-joining-form [data]="data"></app-joining-form>
+                </ng-container>
+                <ng-container *ngSwitchCase="4">
+                   <app-undertaking-current-address [data]="data"></app-undertaking-current-address>
+                </ng-container>
+                <ng-container *ngSwitchCase="5">
+                   <app-undertaking-pending-docs [data]="data"></app-undertaking-pending-docs>
+                </ng-container>
+                <ng-container *ngSwitchCase="6">
+                    <app-sudexo-form [data]="data"></app-sudexo-form>
+                 </ng-container>
+                <ng-container *ngSwitchDefault></ng-container>
+            </ng-container>
+          
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="printForm()">
+            Print / Save as PDF
+        </button>
+        <!-- <button *ngIf="data?.formTypeId == 2" type="button" class="btn btn-infocon" (click)="sendIDcardDetailsToAdmin()">
+           Send ID card details to Admin
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Close
+        </button>
+    </div>
+</form>

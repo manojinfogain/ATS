@@ -1,0 +1,211 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <!-- <div class="filter-txt-opt">
+                    Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                    <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                  </div> -->
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/EmailId(personal/official)'"
+                        [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li [ngClass]="{'disabled' : candidateList?.data?.length == 0}">
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                        <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" 
+                                                        (getSortFormData)="getSortData($event)"
+                                                        [dateRange]="true"
+                                                        [dateRangeTitle]="'Date Of Joining'"
+                                                        [companyLocation]="true" [LocationMulti]="true"
+                                                        >
+                                                        </app-filter-sort>
+                                                    </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info" id="exportTable">
+
+                                    <div class="producti-wrapper">
+                                        <div class="wrp-bx ">
+                                            <ng-container class="sNo-name">
+                                                <ng-container matColumnDef="sNo">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        S. No
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element; let i=index"
+                                                        class="text-center ">
+                                                        {{i+1}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Empl_Id">
+                                                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef class="handl-colum color-white pos ">Employee Id</th>
+                                                    <td class="text-center" mat-cell *matCellDef="let element;">
+                                                      {{element?.EmployeeId ? element?.EmployeeId  : '-' }}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Empl_Name">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Employee Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.EmployeeName || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                
+                                                <ng-container matColumnDef="Grade" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Grade
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{(element?.Grade ) ||
+                                                        '-'}}
+                                                        
+                                                    </td>
+                                                </ng-container>
+                                                
+                                                
+                                                <ng-container matColumnDef="Joining_Date" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Joining Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{(element?.DateofJoining | date:'mediumDate' ) ||
+                                                        '-'}}
+                                                        
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Location"   >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Location
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{(element?.LocationName) ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="PendingDocumentsFromEmployee">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Pending Documents from employee
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.PendingDoc || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="DeclarationSubmissionDate" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Declaration submission date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                 
+                                                        {{(element?.DeclarationSubmissionDate | date:'mediumDate' ) ||
+                                                        '-'}}
+                                                        
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="ExpectedDateOfSubmission" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Expected date of submission
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.ExpectedDateOfSubmission | date:'mediumDate' || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="Ageing" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Ageing
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.Ageing || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="ActualDateOfSubmission" >
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        Actual date of submission
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.ActualSubmissionDate | date:'mediumDate' || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                            </ng-container>
+                                        </div>                                    
+                                    </div>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="tr-fx">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [pageSizeOptions]="pazeOption"
+                                    [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

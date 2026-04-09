@@ -1,0 +1,492 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h">
+                <!-- <div class="filter-txt-opt">
+                    Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                    <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                  </div> -->
+              </div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By CID/ Name/ Email'"
+                      [searchServerSide]="true" [isReset]="isResetSearch"
+                      matTooltip="Search By CID/ Name/ Email"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <li>
+                          <button mat-button class="act-button" matTooltip="Download Report" (click)="exportAsXLSX()">
+                            <i class="fas fa-file-download ex-icon"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <!-- <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" 
+                              (sendSortData)="getSortData($event)" [companyLocation]="true">
+                            </app-filter-sort> -->
+
+                          <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                            (getSortFormData)="getSortData($event)" [dateRange]="true" [dateRangeTitle]="'Referred On'"
+                            [prSkill]="true" [skillMulti]="true" [recMulti]="true" [account]="true"
+                            [accountMulti]="true" [deliveryUnits]="true" [duMulti]="true" [recruiter]="true"
+                            [IsAccountByDu]="true" [isPractice]="true" [practiceMulti]="true">
+                          </app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                  <!-- <ng-container matColumnDef="SNum">
+                      <th mat-header-cell *matHeaderCellDef>S. No.</th>
+                      <td mat-cell *matCellDef="let element; let i = index" class="text-center"> {{i+1}}</td>
+                    </ng-container> -->
+
+                  <ng-container matColumnDef="refId">
+                    <th mat-header-cell *matHeaderCellDef>Referral ID</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      {{element?.ReferralId || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="cid">
+                    <th mat-header-cell *matHeaderCellDef class="cid-col-width">{{cid}} </th>
+                    <td mat-cell *matCellDef="let element" class="text-center ">
+                      {{element?.cid?prefixCid + element?.cid : '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <!-- new cid  -->
+                  <!-- <ng-container matColumnDef="cid">
+                    <th mat-header-cell *matHeaderCellDef class="cid-col-width">{{cid}} </th>
+                    <td mat-cell *matCellDef="let element" class="text-center ">
+                      <ng-container [ngSwitch]="element?.CandidateStatusId">
+                        <ng-container *ngSwitchCase="1">
+                          <button class="btn-status-dg shortlisted" type="button">
+                              {{element?.CandiadteStatus}}
+                          </button>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="2">
+                          <button class="btn-status-dg drops" type="button">
+                              {{element?.CandiadteStatus}}
+                          </button>
+                      </ng-container>
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        {{element?.CandiadteStatus || '-'}}
+                    </ng-container>
+                      {{element?.cid?prefixCid + element?.cid : '-'}}
+                    </td>
+                  </ng-container> -->
+                  <!-- new cid ends -->
+                  <ng-container matColumnDef="refLocation">
+                    <th mat-header-cell *matHeaderCellDef>Referral Location</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.ReferralLocation || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="tId">
+                    <th mat-header-cell *matHeaderCellDef>Requisition Id <br> (Talent Id) </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.TalentId || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="accountName">
+                    <th mat-header-cell *matHeaderCellDef>Account </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.AccountName || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="candLocation">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Location</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidateLocation || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="candName">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidateName || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="candPhone">
+                    <th mat-header-cell *matHeaderCellDef>Phone No. </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidatePhone || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="candiEmail">
+                    <th mat-header-cell *matHeaderCellDef>Email </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidateEmail || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="empExperience">
+                    <th mat-header-cell *matHeaderCellDef>Experience</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidateExperience || '-'}} yrs
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="PrimarySkill">
+                    <th mat-header-cell *matHeaderCellDef>Primary Skill </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.PrimarySkill || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="subSkill">
+                    <th mat-header-cell *matHeaderCellDef>Sub Skill </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.SubSkill || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="currentStatus">
+                    <th mat-header-cell *matHeaderCellDef>Current Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CurrentStatus || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+
+                  <ng-container matColumnDef="empRefeLoc">
+                    <th mat-header-cell *matHeaderCellDef>Referred On</th>
+                    <td mat-cell *matCellDef="let element;">
+                      <!-- {{element?.ReferredOn || '-'}} -->
+                      {{element?.ReferredOn| date:'dd MMM yyyy'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="recruName">
+                    <th mat-header-cell *matHeaderCellDef>Primary <br> Recruiter
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.RectruiterName || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refName">
+                    <th mat-header-cell *matHeaderCellDef>Referrer Name</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerNAme || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refEmpId">
+                    <th mat-header-cell *matHeaderCellDef>Referrer Employee ID</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerEmpId || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refDu">
+                    <th mat-header-cell *matHeaderCellDef>Referrer GDL</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerDU || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refAccount">
+                    <th mat-header-cell *matHeaderCellDef>Referrer Account</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerAccount || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refBaseLoc">
+                    <th mat-header-cell *matHeaderCellDef>Referrer Base Location</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerBAseLocation || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="refGrade">
+                    <th mat-header-cell *matHeaderCellDef>Referrer Grade</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ReferrerGrade || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="screeningDate">
+                    <th mat-header-cell *matHeaderCellDef> Screening Round
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ScreeningDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="techRound1">
+                    <th mat-header-cell *matHeaderCellDef> Technical Round 1
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.TechanicalRound1Date| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="techRound2">
+                    <th mat-header-cell *matHeaderCellDef> Technical Round 2
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.TechanicalRound2Date| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="techRound3">
+                    <th mat-header-cell *matHeaderCellDef> Technical Round 3
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.TechanicalRound3Date| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="customerRound1">
+                    <th mat-header-cell *matHeaderCellDef> Customer Round 1
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.CustomerRound1Date| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+
+                  <!-- end -->
+                  <ng-container matColumnDef="customerRound2">
+                    <th mat-header-cell *matHeaderCellDef> Customer Round 2
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.CustomerRound2Date| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="managerialRound">
+                    <th mat-header-cell *matHeaderCellDef> Managerial Round
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ManagialRoundDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="HRRoundDate">
+                    <th mat-header-cell *matHeaderCellDef> HR Discussion
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.HRRoundDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="offrAprrovSentDate">
+                    <th mat-header-cell *matHeaderCellDef> Offer Approval Sent
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.OfferApprovalSentDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="offrReceivTagDate">
+                    <th mat-header-cell *matHeaderCellDef> Approval Received TAG
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ApprovalReceivedTAGDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="approvalReceDeliveryHead">
+                    <th mat-header-cell *matHeaderCellDef> Approval Received
+                      <br>DP / PDL / SDP {{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ApprovalReceivedDHDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="approvalReceSvp">
+                    <th mat-header-cell *matHeaderCellDef> Approval Received GDL
+                      <br> {{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ApprovalReceivedSVPDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="approvalReceCoo">
+                    <th mat-header-cell *matHeaderCellDef> Approval Received COO
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.ApprovalReceivedCOODate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="offrGeneration">
+                    <th mat-header-cell *matHeaderCellDef> Offer Generation
+                      <br>{{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.OfferGenerationDate| date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="offerAcceptancDate">
+                    <th mat-header-cell *matHeaderCellDef> Offer Acceptance
+                      <br> {{DateDate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{(element?.OfferAcceptanceDate | date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status <br> (Joined/Declined/YTJ)</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.CandidateStatus || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <!-- screen reject reason column -->
+                  <ng-container matColumnDef="ScreenStatus">
+                    <th mat-header-cell *matHeaderCellDef>Screen Status</th>
+                    <td mat-cell *matCellDef="let element;">
+                      <ng-container *ngIf="element.isScreenRejected === 1; else newDeb">
+                        <span class="btn-status-dg rejects">Screen Rejected </span>
+                      </ng-container>
+                      <ng-template #newDeb>
+                        -
+                      </ng-template>
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="ScreenRejectReason">
+                    <th mat-header-cell *matHeaderCellDef>Reject Reason</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.isScreenRejected === 1 ? element?.ScreenRejectReason : '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- screen reject reason column ends-->
+                  <!-- end -->
+                  <ng-container matColumnDef="resTimeAdher">
+                    <th mat-header-cell *matHeaderCellDef>Response Timelines Adherence </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.ResponseTimelineAdhereness || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+
+                  <ng-container matColumnDef="slaCompl">
+                    <th mat-header-cell *matHeaderCellDef>SLA Compliance <br>(Response Timelines)</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.SLACompliance || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- end -->
+                  <ng-container matColumnDef="modifiedOn">
+                    <th mat-header-cell *matHeaderCellDef>Modified On </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ModifiedOn}}
+                    </td>
+                  </ng-container>
+        
+                  <!-- end column -->
+                  <ng-container matColumnDef="modifiedBy">
+                    <th mat-header-cell *matHeaderCellDef>Modified By</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.ModifiedBy || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput" *ngIf="(candidateList?.data?.length === 0)">
+                </app-no-result-found>
+              </div>
+              <div class="ats-paging-sec">
+                <app-custom-paginator #paginatorRef [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                  (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

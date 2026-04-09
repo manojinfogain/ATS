@@ -1,0 +1,322 @@
+<div class="ats-modal-header">
+  <h1>Interview Feedback Details</h1>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+  <!-- <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar> -->
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="fd-list-wrap">
+      <div class="top-dt-wrap">
+        <div class="list-record-interview">
+          <ul>
+            <li>
+              <label><span>Name:</span>{{candidateData?.Name || '-'}}</label>
+            </li>
+            <li>
+              <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+            </li>
+            <li>
+              <label><span>Talent ID:</span>
+                <ng-container *ngIf="isTlView">
+                  {{candidateData?.THID || '-'}}
+                </ng-container>
+                <!-- {{candidateData?.THID || '-'}} -->
+                <div class="sl-v" *ngIf="!isTlView">
+                  <!-- <select  class="custom-select" [formControl]="talentControl">
+                    <option value="all">All</option>
+                    <option *ngFor="let list of talentIdList" [value]="list?.th_id">{{list?.talentId}}</option>
+                  </select> -->
+                  <mat-form-field appearance="outline" class="ats-from-control">
+                    <!-- <mat-label>Talent Id</mat-label> -->
+                    <mat-select [formControl]="talentControl" (selectionChange)="getTalentId($event)">
+                      <mat-option value="all">All</mat-option>
+                      <mat-option *ngFor="let list of talentIdList" [value]="list?.th_id">{{list?.talentId}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </label>
+
+            </li>
+            <!-- <li>
+              <label><span>Candidate Picture:</span></label>
+              <div class="btn-action btn-action-centers">
+                <div class="btn-act">
+                  <button  mat-button type="button"
+                    class="btn-ey-v" matTooltip="View Candidate Picture arrr" (click)="viewCandidatePictureModal()">
+                    <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="form-list-wrap">
+        <mat-form-field appearance="outline" class="ats-from-control">
+          <mat-label>Talent Id</mat-label>
+          <mat-select [formControl]="talentControl">
+            <mat-option value="all">All</mat-option>
+            <mat-option *ngFor="let list of talentIdList" [value]="list?.th_id">{{list?.talentId}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+      <div class="table-data-scroll-pop2  table-data-scroll-pop-interv-details" *ngIf="roundDataListFinal">
+
+        <ng-container *ngIf="roundDataListFinal.length ===0">
+          <div class="text-filter-alert">
+            <span class="hlt">No Record Found</span>
+          </div>
+        </ng-container>
+
+        <table mat-table [dataSource]="roundDataListFinal" class="table-mat-info table-mat-info-fdp"
+          *ngIf="roundDataListFinal.length !=0">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="h-check">
+              <mat-checkbox [matTooltip]="checkboxLabel()" (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+                [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)"
+                [disabled]="element?.excluded" [matTooltip]="checkboxLabel(element)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Candidate Name Column -->
+          <ng-container matColumnDef="Round">
+            <th mat-header-cell *matHeaderCellDef> Round </th>
+            <td mat-cell *matCellDef="let element;" class="text-center">
+              {{element?.sequenceId || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="talentId">
+            <th mat-header-cell *matHeaderCellDef> Talent Id </th>
+            <td mat-cell *matCellDef="let element;" class="text-center">
+              {{element?.talentId || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="profPic">
+            <th mat-header-cell *matHeaderCellDef> Profile Picture</th>
+
+            <td mat-cell *matCellDef="let element;" class="text-center">
+              <div class="profile-pic-wp">
+                <!-- <ng-container>
+                  <app-view-profile-pics [roundId]="element?.RoundId"></app-view-profile-pics>
+                   <img src="assets/images/no-profile-male.png" alt=""> 
+              </ng-container> -->
+                <!-- ////////////// -->
+                <div class="no-pic" *ngIf="element?.IsPicturePresent=='N' || element?.IsPicturePresent==null">
+                  <img src="assets/images/no-profile-male.png" alt="">
+                </div>
+                <ng-container *ngIf="element?.IsPicturePresent=='Y'">
+                  <a href="javascript:void(0)" (click)="viewCandidatePictureModal(element)">
+                    <app-view-profile-pics [roundId]="element?.RoundId" [cid]="this.data.cid"></app-view-profile-pics>
+                  </a>
+                  <!-- <img src="assets/images/no-profile-male.png" alt=""> -->
+                </ng-container>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Email ID Column -->
+          <ng-container matColumnDef="InterviewType">
+            <th mat-header-cell *matHeaderCellDef>Interview Type </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.interviewType?.Type || '-'}}
+            </td>
+          </ng-container>
+          <!-- Phone No. Column -->
+          <ng-container matColumnDef="Interviewdate">
+            <th mat-header-cell *matHeaderCellDef> Interview Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.InterviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="assDate">
+            <th mat-header-cell *matHeaderCellDef> Assessment Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.AssessmentDate| date:'dd-MM-yyyy') || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterviewMode">
+            <th mat-header-cell *matHeaderCellDef>Interview Mode </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.InterviewMode?.mode || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="InterviewLoc">
+            <th mat-header-cell *matHeaderCellDef>Interview Location </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element?.InterviewMode?.id == 2 && element?.InterviewLocationId != 0">{{element?.InterviewLocationName || '-'}}</span>
+              <span *ngIf="element?.InterviewMode?.id == 2 && element?.InterviewLocationId == 0">{{'Others' || '-'}}</span>
+              <span *ngIf="element?.InterviewMode?.id != 2">{{'-'}}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="InterviewAdd">
+            <th mat-header-cell *matHeaderCellDef>Location Address </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.vanueOrLink || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterviewBy">
+            <th mat-header-cell *matHeaderCellDef>Interview By </th>
+            <td mat-cell *matCellDef="let element">
+              <div [ngSwitch]="element?.interviewBy">
+                <ng-container *ngSwitchCase="'M'">
+                  {{interviewByLabel.mettl}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'C'">
+                  {{interviewByLabel.Coderbyte}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'G'">
+                  {{interviewByLabel.Glider}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'E'">
+                  {{interviewByLabel.externalAgency}} / {{element?.ExternalAgency?.name}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'I'">
+                  {{interviewByLabel.internalPanel}}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{interviewByLabel.internalPanel}}
+                </ng-container>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="InterviewStatus">
+            <th mat-header-cell *matHeaderCellDef>Interview Status</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.InterViewStatus?.Status || '-'}}
+            </td>
+          </ng-container> -->
+
+          <!-- camdi -->
+          <ng-container matColumnDef="InterviewStatus">
+            <th mat-header-cell *matHeaderCellDef class="candStat">
+              <i class="fas fa-thermometer-three-quarters"></i>
+              Candidate Status
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-left" class="candStat">
+              <div [ngSwitch]="element?.InterViewStatus?.Id">
+                <!-- <div *ngSwitchCase="240">
+                  <button class="btn-status-dg schedule" type="button">
+                    {{(element?.InterViewStatus?.Status  + ' / ' + element?.PrevStatus?.Status)}}
+                  </button>
+                </div> -->
+                <!-- new -->
+                <ng-container *ngSwitchCase="240">
+                  <button class="btn-status-dg drops" type="button">
+                    <!-- {{(element?.PrevStatus?.Status  + ' / ' + element?.InterViewStatus?.Status )}} -->
+                    {{element?.PrevStatus?.Status ? element?.PrevStatus?.Status  + ' / ' : 'NA /' }}
+                    {{element?.InterViewStatus?.Status}}
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="260">
+                  <button class="btn-status-dg drops" type="button">
+                    <!-- {{( element?.PrevStatus?.Status + ' / ' + element?.InterViewStatus?.Status )}} -->
+                    {{element?.PrevStatus?.Status ? element?.PrevStatus?.Status  + ' / ' : 'NA /' }}
+                    {{element?.InterViewStatus?.Status}}
+                  </button>
+                </ng-container>
+
+                <ng-container *ngSwitchDefault>
+                  <!-- {{element?.InterViewStatus?.Status || '-'}} -->
+                  {{getInterviewStatus(element?.InterViewStatus?.Id,element?.InterViewStatus?.Status, data?.IsExceptionVideo, data?.fileNameVideo)}}            
+                </ng-container>
+
+              </div>
+            </td>
+          </ng-container>
+          <!-- candi -->
+         
+          <ng-container matColumnDef="Panel">
+            <th mat-header-cell *matHeaderCellDef> Primary Interviewer </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.interviewer?.Name || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="AdditionalPanel">
+            <th mat-header-cell *matHeaderCellDef> Additional Interviewers </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.AdditionalInterviewer?.length === 0? '-':''}}
+              <ng-container *ngFor="let int of element?.AdditionalInterviewer;let isLast=last">
+                {{int?.Name}}{{isLast ? '' : ', '}}
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="recruiter">
+            <th mat-header-cell *matHeaderCellDef> Recruiter </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.recruiter.Name || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef>Action </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <div class="btn-action btn-single btn-action-center">
+                <ng-container [ngSwitch]="element?.interviewType?.Id">
+                  <ng-container *ngSwitchCase="4">
+                    <div class="btn-act"
+                      *ngIf="(element?.interviewer?.Id == userData?.EmpNewId  || userData?.RoleId == 5 || data?.final == true)">
+                      <button mat-button type="button" matTooltip="View" (click)="penfeedbackInfoModal(element)"
+                      [disabled]="element?.InterViewStatus?.Id == 1 || element?.InterViewStatus?.Id == 2 || element?.InterViewStatus?.Id == 3">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                    <div class="btn-act" *ngIf="element?.interviewer?.Id == userData?.EmpNewId  || element?.recruiter?.Id == userData?.EmpNewId  || userData?.RoleId == 5">
+                      <button mat-button type="button" matTooltip="View Salary Supporting Documents"
+                      [disabled]=" (element?.FinalAttachment == '' ||  element?.FinalAttachment == null) &&
+                      (element?.FinalAttachment1 == '' ||  element?.FinalAttachment1 == null) &&
+                      (element?.FinalAttachment2 == '' ||  element?.FinalAttachment2 == null)"
+                       (click)="downloadSalaryDocumentModal(element)">
+                      <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <div class="btn-act">
+                      <button mat-button type="button" matTooltip="View" (click)="penfeedbackInfoModal(element)"
+                      [disabled]="element?.InterViewStatus?.Id == 1 || element?.InterViewStatus?.Id == 2 || element?.InterViewStatus?.Id == 3">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <!-- <div class="btn-act">
+                  <button mat-button type="button" matTooltip="Download Feedback"
+                    (click)="downloadPDF(element)">
+                    <i class='fas fa-file-export'></i>
+                  </button>
+                </div> -->
+
+              </div>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ats-modal-footer">
+  <button type="button" class="btn btn-infocon" (click)="downloadPDF()"
+    [disabled]="this.selection.selected.length === 0">
+    <i class="fa fa-download" aria-hidden="true"></i> Download Feedback
+  </button>
+</div>

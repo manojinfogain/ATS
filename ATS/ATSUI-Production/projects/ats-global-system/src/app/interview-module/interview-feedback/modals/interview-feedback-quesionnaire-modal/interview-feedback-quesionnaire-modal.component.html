@@ -1,0 +1,560 @@
+<form [formGroup]="feedbackQuestionnaireForm">
+    <div class="ats-modal-header">
+        <h1>
+            Candidate Detailed Feedback - {{data?.name}}
+        </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="view-all-screen-dt">
+                <div class="ct-tab-screen  candidate-screen">
+                    <mat-accordion class="candidate-ats-hr-rec">
+
+
+                        <mat-expansion-panel [expanded]="true" (opened)="setStep(0)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{hdEroor:technicalPracticeSkillControl.touched &&technicalPracticeSkillControl?.invalid}">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>
+                                    <!-- Technical Skills Proficiencies & Practical Skills -->
+                                    {{label1}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div mat-dialog-content>
+                                            <div class="ats-modal-body">
+                                                <div class="box-v-ats" formGroupName="technicalPracticeSkillForm">
+                                                    <!-- <div class="box-v-header">
+                                                        <h4>Update Offer Status</h4>
+                                                    </div> -->
+
+                                                    <div class="form-appr">
+
+                                                        <div
+                                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                                            <div class="ats-form-col">
+
+                                                                <p class="ques-heading">
+                                                                    {{familiarProgramTechnologLabel}}
+                                                                </p>
+                                                                <mat-form-field>
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="familiarProgramTechnolog"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #familiarProgramTechnolog></textarea>
+                                                                    <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required.</mat-hint>
+                                                                    <mat-hint class="hint-wrap"
+                                                                        align="end">{{familiarProgramTechnolog.value?countNonSpaceChars(familiarProgramTechnolog.value):0}}/1000</mat-hint>
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="technicalPracticeSkillControl?.get('familiarProgramTechnolog')?.touched && technicalPracticeSkillControl?.get('familiarProgramTechnolog')?.invalid">
+                                                                    <div
+                                                                        *ngIf="technicalPracticeSkillControl?.get('familiarProgramTechnolog')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="technicalPracticeSkillControl?.get('familiarProgramTechnolog')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- end col -->
+                                                            <div class="ats-form-col">
+                                                                <p class="quees-heading">
+                                                                    {{technicalSkillsEvaluatLabel}}
+                                                                </p>
+                                                                <mat-form-field class="place-from-control">
+                                                                    <!-- <mat-label>Answer</mat-label> -->
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="technicalSkillsEvaluat"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #technicalSkillsEvaluat></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{technicalSkillsEvaluat.value?countNonSpaceChars(technicalSkillsEvaluat.value):0}}/1000</mat-hint>
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="technicalPracticeSkillControl?.get('technicalSkillsEvaluat')?.touched && technicalPracticeSkillControl?.get('technicalSkillsEvaluat')?.invalid">
+                                                                    <div
+                                                                        *ngIf="technicalPracticeSkillControl?.get('technicalSkillsEvaluat')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="technicalPracticeSkillControl?.get('technicalSkillsEvaluat')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- end col -->
+
+                                                            <div class="ats-form-col upload-file-ats action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                                                                <!-- <label
+                                                                    class="lb-title">{{candidateCodingChallengeLabel}}<sup>*</sup>
+                                                                </label> -->
+                                                                <p class="quees-heading">
+                                                                    <label
+                                                                        class="lb-title">{{candidateCodingChallengeLabel}}<sup>*</sup>
+                                                                    </label>
+                                                                </p>
+                                                                <mat-radio-group aria-label="Select an option"
+                                                                    (change)="statusChange($event)"
+                                                                    formControlName="candidateCodingChallenge">
+                                                                    <mat-radio-button value="Y">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="N">No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                                <!-- validate --><br>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="technicalPracticeSkillControl?.get('candidateCodingChallenge')?.touched && technicalPracticeSkillControl?.get('candidateCodingChallenge')?.invalid">
+                                                                    <div
+                                                                        *ngIf="technicalPracticeSkillControl?.get('candidateCodingChallenge')?.errors?.required">
+                                                                        Please select Yes/ NO.
+                                                                    </div>
+                                                                </mat-error>
+                                                                <!-- validate ends-->
+                                                                <div *ngIf="isSSrequired" class="attchment-wrap">
+                                                                    <div class=" view-btn-handle ss-handle">
+                                                                        <div class="upload-file-input">
+                                                                            <label>Attach File
+                                                                                <sup>*</sup> <span class="max-size">(
+                                                                                    Max file size 15MB )</span>
+                                                                            </label>
+                                                                            <input type="file"
+                                                                                formControlName="fileUpload" #fileBGV
+                                                                                (change)="fileUp($event)">
+
+                                                                        </div>
+                                                                        <mat-error class="error-aprrove-Reject"
+                                                                            *ngIf="technicalPracticeSkillControl?.get('fileUpload')?.touched && technicalPracticeSkillControl?.get('fileUpload')?.invalid">
+                                                                            <div
+                                                                                *ngIf="technicalPracticeSkillControl?.get('fileUpload')?.errors?.required">
+                                                                                Please insert an screenshot.
+                                                                            </div>
+                                                                        </mat-error>
+
+
+                                                                    </div>
+                                                                    <div *ngIf="feedbackDetails?.techFileName"
+                                                                        class=" view-btn-handle ss-handle">
+                                                                        <div class="btn-act">
+                                                                            <button mat-button type="button"
+                                                                                matTooltip="Download/ View File"
+                                                                                [ngClass]="feedbackDetails?.techFileName ? 'view-pic-hover' :''"
+                                                                                (click)="dwnloadFileSingle(feedbackDetails)">
+                                                                                <i class="fa fa-eye view-pic"
+                                                                                    aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end -->
+
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <!-- end offer letter  -->
+                        <mat-expansion-panel [expanded]="true" (opened)="setStep(1)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{hdEroor:fundamentalKnowledgFormControl.touched &&fundamentalKnowledgFormControl?.invalid}">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>
+                                    <!-- Fundamental Knowledge -->
+                                    {{label2}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div mat-dialog-content>
+                                            <div class="ats-modal-body">
+                                                <div class="box-v-ats" formGroupName="fundamentalKnowledgForm">
+                                                    <!-- <div class="box-v-header">
+                                                     
+                                                    </div> -->
+
+                                                    <div class="form-appr">
+
+                                                        <div
+                                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                                            <div class="ats-form-col">
+
+                                                                <p class="ques-heading">
+                                                                    {{assessRoleKnowledgLabel}}
+
+                                                                </p>
+                                                                <mat-form-field>
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="assessRoleKnowledg"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #assessRoleKnowledg></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                            align="end">{{assessRoleKnowledg.value?countNonSpaceChars(assessRoleKnowledg.value):0}}/1000</mat-hint>
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.touched && fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.invalid">
+                                                                    <div
+                                                                        *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="fundamentalKnowledgFormControl?.get('assessRoleKnowledg')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                    <!-- [maxlength]="maxTextLength" -->
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- end col -->
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                                <!-- column for details -->
+
+                                                <!-- end -->
+                                                <!-- column for details ends-->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                    </div> 
+                                </div> -->
+
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{hdEroor:prblmSolvingSkillFormControl.touched &&prblmSolvingSkillFormControl?.invalid}">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>
+                                    <!-- Problem Solving and Logical Thinking -->
+                                    {{label3}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div mat-dialog-content>
+                                            <div class="ats-modal-body">
+                                                <div class="box-v-ats" formGroupName="prblmSolvingSkillForm">
+                                                    <!-- <div class="box-v-header">
+                                                        <h4>Update Offer Status</h4>
+                                                    </div> -->
+                                                    <div class="form-appr">
+                                                        <div
+                                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                                            <div class="ats-form-col">
+                                                                <p class="quees-heading">
+                                                                    {{candidatePrblmSolvingApprochLabel}}
+                                                                </p>
+                                                                <mat-form-field class="place-from-control">
+                                                                    <!-- <mat-label>Answer</mat-label> -->
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="candidatePrblmSolvingApproch"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #prblmSolvingApprc></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{prblmSolvingApprc.value?countNonSpaceChars(prblmSolvingApprc.value):0}}/1000</mat-hint>
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.touched 
+                                                                && prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.invalid">
+                                                                    <div
+                                                                        *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="prblmSolvingSkillFormControl?.get('candidatePrblmSolvingApproch')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <div class="ats-form-col">
+                                                                <p class="ques-heading">
+                                                                    {{candidateApprochComplexPrblmLabel}}
+                                                                </p>
+                                                                <mat-form-field>
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="candidateApprochComplexPrblm"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #candidateApprochComplexPrblm></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{candidateApprochComplexPrblm.value?countNonSpaceChars(candidateApprochComplexPrblm.value):0}}/1000</mat-hint>
+                                                                        
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.touched && prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.invalid">
+                                                                    <div
+                                                                        *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="prblmSolvingSkillFormControl?.get('candidateApprochComplexPrblm')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- end col -->
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>
+                                    <!-- Industry/ Domain Knowledge (Optional) -->
+                                    {{label4}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div mat-dialog-content>
+                                            <div class="ats-modal-body">
+                                                <div class="box-v-ats" formGroupName="industryDomainKnowledgForm">
+                                                    <!-- <div class="box-v-header">
+                                                       
+                                                    </div> -->
+
+                                                    <div class="form-appr">
+
+                                                        <div
+                                                            class="ats-forms ats-forms-horz ats-form-ext-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                                                            <div class="ats-form-col">
+
+                                                                <p class="ques-heading">
+                                                                    {{candidatePossesIndustryDomExpLabel}}
+
+                                                                </p>
+                                                                <mat-form-field>
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="candidatePossesIndustryDomExp"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        #candidPossesDomExp></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{candidPossesDomExp.value?countNonSpaceChars(candidPossesDomExp.value):0}}/1000</mat-hint>
+                                                                        
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <!-- end col -->
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{hdEroor:CulturatFitAdaptabilityFormControl.touched &&CulturatFitAdaptabilityFormControl?.invalid}">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>
+                                    <!-- Cultural Fit & Adaptability -->
+                                    {{label5}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div mat-dialog-content>
+                                            <div class="ats-modal-body">
+                                                <div class="box-v-ats" formGroupName="CulturatFitAdaptabilityForm">
+                                                    <!-- <div class="box-v-header">
+                                                        
+                                                    </div> -->
+
+                                                    <div class="form-appr">
+
+                                                        <div
+                                                            class="ats-forms ats-forms-horz ats-form-ext-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                                                            <div class="ats-form-col">
+
+                                                                <p class="ques-heading">
+                                                                    {{candidateFitForInfogainLabel}}
+                                                                </p>
+                                                                <mat-form-field>
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="candidateFitForInfogain"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #candidateFitForInfogain></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{candidateFitForInfogain?.value?countNonSpaceChars(candidateFitForInfogain?.value):0}}/1000</mat-hint>
+                                                                        
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.touched 
+                                                                && CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.invalid">
+                                                                    <div
+                                                                        *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateFitForInfogain')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- end col -->
+                                                            <div class="ats-form-col">
+                                                                <p class="quees-heading">
+                                                                    {{candidateAbilityToAdoptChangeWorkLabel}}
+                                                                </p>
+                                                                <mat-form-field class="place-from-control">
+                                                                    <!-- <mat-label>Answer</mat-label> -->
+                                                                    <textarea matInput type="text"
+                                                                        placeholder="Your Answer"
+                                                                        formControlName="candidateAbilityToAdoptChangeWork"
+                                                                        disableInitialSpace [maxlength]="maxTextLength"
+                                                                        [minlength]="minTextLength"
+                                                                        #abilityAdoptCandiate></textarea>
+                                                                        <mat-hint class="hint-wrap hint-msg"
+                                                                        align="start">Minimum 100 characters required</mat-hint>
+                                                                        <mat-hint class="hint-wrap"
+                                                                        align="end">{{abilityAdoptCandiate?.value?countNonSpaceChars(abilityAdoptCandiate?.value):0}}/1000</mat-hint>
+                                                                        
+                                                                </mat-form-field>
+                                                                <mat-error class="error-aprrove-Reject"
+                                                                    *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.touched 
+                                                            && CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.invalid">
+                                                                    <div
+                                                                        *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.errors?.required">
+                                                                        Required Field.
+                                                                    </div>
+                                                                    <div
+                                                                        *ngIf="CulturatFitAdaptabilityFormControl?.get('candidateAbilityToAdoptChangeWork')?.errors?.minLenNoWhitespace">
+                                                                        {{minCharacError}}
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                    </div> 
+                                </div> -->
+
+                            </ng-template>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+
+        <button class="btn btn-infocon" (click)="submitRequest(feedbackQuestionnaireForm, 'D')">
+            Draft
+        </button>
+        <button class="btn btn-infocon" (click)="submitRequest(feedbackQuestionnaireForm, 'S')">
+            Save
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="confirmMailSendToCandidate(data)">
+            Test
+        </button> -->
+    </div>
+
+</form>

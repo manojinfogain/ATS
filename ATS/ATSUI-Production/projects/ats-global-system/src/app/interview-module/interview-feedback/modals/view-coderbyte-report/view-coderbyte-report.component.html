@@ -1,0 +1,145 @@
+<div class="ats-modal-header">
+    <!-- <h1>{{data.title}} {{data.CTHID}} Details</h1> -->
+    <h1>Assessment Report
+    </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <ng-container>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Candidate Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+
+                            <div class="view-list-bx">
+                                <h4>Candidate Name:</h4>
+                                <p>{{assessmentDetails?.userName || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Email:</h4>
+                                <p>{{assessmentDetails?.Candidate_Email || '-'}}</p>
+                            </div>
+                            <!-- <div class="view-list-bx">
+                                <h4>Joined on:</h4>
+                                <p>{{assessmentDetails?.AssessmentLink || '-'}}</p>
+                            </div> -->
+
+                           
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+            <ng-container>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Assessment Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Assessment:</h4>
+                                <p>{{assessmentDetails?.display_name || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <!-- <h4>Assessment Date:</h4> -->
+                                <h4>Joined on:</h4>
+                                <p>{{(assessmentDetails?.Assessment_Date | date:'mediumDate' )||  '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Total Challenges:</h4>
+                                <p>{{assessmentDetails?.total_challenges || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Qualifing Score:</h4>
+                                <p>{{assessmentDetails?.Qualifying_Score || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Final Score (%):</h4>
+                                <p>{{assessmentDetails?.Final_Score || '-'}}</p>
+                            </div>
+
+                            <!-- <div class="view-list-bx">
+                                <h4>Completed in:</h4>
+                                <p>{{assessmentDetails?.AssessmentLink || '-'}}</p>
+                            </div> -->
+                            <div class="view-list-bx">
+                                <h4>Status:</h4>
+                                <p>{{assessmentDetails?.status || '-'}}</p>
+                                <!-- <label>
+                                    
+                                    <ng-container>
+                                        <button class="btn-status-dg selecteds" type="button">
+                                            Ok
+                                        </button>
+                                    </ng-container>
+                                    <ng-template #cheatingNo>
+
+                                        <button class="btn-status-dg rejects" type="button">
+                                            No
+                                        </button>
+                                    </ng-template>
+                                </label> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Cheating Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Cheating Detected:</h4>
+                                <label>
+                                    <ng-container *ngIf="assessmentDetails.cheating_flag =='Likely'; else cheatingNo">
+                                        <button class="btn-status-dg rejects" type="button">
+                                            Yes
+                                        </button>
+                                    </ng-container>
+                                    <ng-template #cheatingNo>
+                                        <button class="btn-status-dg selecteds" type="button">
+                                            No
+                                        </button>
+                                    </ng-template>
+                                </label>
+                            </div>
+                            <ng-container *ngIf="assessmentDetails.cheating_flag =='Likely'">
+                                <div class="view-list-bx">
+                                    <h4>Plagiarism (Count):</h4>
+                                    <p>{{assessmentDetails?.cheating_details_plagiarism || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx">
+                                    <h4>Tab Leaving (Count):</h4>
+                                    <p>{{assessmentDetails?.cheating_details_tab_leaving || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx">
+                                    <h4>Paste Code (Count):</h4>
+                                    <p>{{assessmentDetails?.cheating_details_pasted_code || '-'}}</p>
+                                </div>
+                                <!-- <div class="view-list-bx">
+                                    <h4>Cheating Details:</h4>
+                                    <p>{{assessmentDetails?.cheating_flag || '-'}}</p>
+                                </div> -->
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,101 @@
+<form [formGroup]="reasonForDropForm" (ngSubmit)="submitDropReasonForm(reasonForDropForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Status</mat-label>
+                            <mat-select formControlName="statusType" required
+                            (selectionChange)="changeStatus($event)">
+                                <mat-option *ngFor="let data of statusList" [value]="data?.statusId">
+                                    {{data?.statusName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('dropType')?.touched && getControl('dropType')?.invalid">
+                            <div>
+                                <span *ngIf="getControl('dropType').errors.required">
+                                    Please select drop type.
+                                </span>
+                            </div>
+                        </mat-error>
+                        <!-- <div class="error-outside-control">
+                           
+                        </div> -->
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Reason For Drop</mat-label>
+                            <mat-select formControlName="dropReason" required [disabled]="!isDropTypeSelected">
+                                <mat-option *ngFor="let data of offerDropReason" [value]="data?.id">
+                                    {{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('dropReason')?.touched && getControl('dropReason')?.invalid">
+                            <div>
+                                <span *ngIf="getControl('dropReason').errors.required">
+                                    Please select a reason.
+                                </span>
+                            </div>
+                        </mat-error>
+                        <!-- <div class="error-outside-control">
+                           
+                        </div> -->
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Remark
+                            </mat-label>
+                            <textarea matInput placeholder="Remark" maxlength="500" disableInitialSpace
+                                formControlName="remark"> </textarea>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('remark')?.touched && getControl('remark')?.invalid">
+                            <div *ngIf="getControl('remark')?.errors.required">
+                                <span class="remarText">Remark is required</span>
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!reasonForDropForm.dirty">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

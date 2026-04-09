@@ -1,0 +1,47 @@
+<div class="form-control-sam" *ngIf="isMultiple">
+
+    <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+        <mat-select [formControl]="IdControl" [disableOptionCentering]="true" [required]="required"
+           multiple #select [disableClose]="true">
+           <mat-select-trigger>
+            {{multiSelectedVal?.length !== 0 ? multiSelectedVal[0]?.viewValue : ''}}
+            <span *ngIf="IdControl?.value?.length > 1 && showCount > 1" class="example-additional-selection">
+              (+{{ showCount - 1 }} {{IdControl?.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+           </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlSubPractice"
+                [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+            </ngx-mat-select-search>
+          </mat-option>
+          <div class="select-all" *ngIf="subPracticeList?.length !=0 && !searchInputSubPractice">
+            <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+          </div>
+          <mat-option *ngFor="let list of subPracticeList| subPracticeListFilter:searchInputSubPractice" 
+          [value]="list?.SubPracticeId" (click)="optionClick()">
+            {{list?.SubPracticeName}}</mat-option>
+        </mat-select>
+    
+      </mat-form-field>
+</div>
+
+
+<div class="form-control-sam" *ngIf="!isMultiple">
+  <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+    <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+      <mat-select [formControl]="IdControl" [disableOptionCentering]="true" [required]="required">
+        <mat-option>
+          <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlSubPractice"
+              [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+              
+          </ngx-mat-select-search>
+      </mat-option>
+       <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let list of subPracticeList| subPracticeListFilter:searchInputSubPractice" 
+        [value]="list?.SubPracticeId">
+          {{list?.SubPracticeName}}</mat-option>
+      </mat-select>
+  
+    </mat-form-field>
+</div>

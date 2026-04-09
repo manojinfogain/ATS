@@ -1,0 +1,25 @@
+::ng-deep .mat-select-trigger {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  line-height: normal;
+}
+
+.first-selected-location {
+  display: inline-block;
+  max-width: calc(100% - 80px); // Reserve space for "+X others" text
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+  vertical-align: middle;
+}
+
+.example-additional-selection {
+  display: inline-block;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 4px;
+  vertical-align: middle;
+  line-height: inherit;
+}

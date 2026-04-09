@@ -1,0 +1,22 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h1> Unmap/Unassigned  Profile</h1>
+  
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+  </div>
+  <div mat-dialog-content>
+  
+    <div class="ats-modal-body">
+      <div class="ats-prf-wrapper">
+         <ul>
+           <li *ngFor="let data of ptofileList">
+             <label> {{data?.profile_name}}</label>
+             <a href="javascript:void(0)" (click)="openProfileList(data)" title="">{{data?.candidateCount}}</a>
+           </li>
+           
+         </ul>
+      </div>
+    </div>
+  
+  </div>
+  

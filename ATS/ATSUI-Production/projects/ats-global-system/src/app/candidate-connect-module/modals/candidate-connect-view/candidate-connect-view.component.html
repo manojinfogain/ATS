@@ -1,0 +1,135 @@
+<div class="ats-modal-header">
+  <h1>{{data?.title}} - {{data?.Name || '-'}}</h1>
+
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+  <!-- new -->
+  <div class="card-header  card-header-flex">
+    <div class="ats-left-h"></div>
+    <div class="erp-search-input ats-right-h">
+        <div class="filter-at-wrapper">
+            <!-- <div class="s-fil">
+                <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                matTooltip="Search by Name, Email, Phone, Talent Id, Account, Pri-Sec Recruiter, Skill"
+                    [placeHolder]="'Search'" [searchServerSide]="true"
+                    [isReset]="isResetSearch"></app-search-filter>
+            </div> -->
+            <div class="s-fil">
+                <div class="act-header-btn">
+                    <ul>
+                        <li>
+                            <button mat-button class="act-button" matTooltip="Download Report"
+                                (click)="exportAsXLSX()">
+                                <span class="material-icons-outlined">
+                                    download
+                                </span>
+                            </button>
+                        </li>
+                        <!-- <li>
+                            <app-filter-sort [form]="sortFormFilter"
+                                [isResetForm]="isResetFilter"
+                                  (getSortFormData)="getSortData($event)"
+                                  >
+                            </app-filter-sort>
+                        </li> -->
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+  <!-- new -->
+<div mat-dialog-content>
+  
+  <div class="ats-modal-body">
+     
+    <div class="fd-list-wrap">
+      <!-- // -->
+
+      <!-- // -->
+      <div class="table-data-scroll-pop2">
+
+        <table mat-table [dataSource]="statusList" class="table-mat-info table-mat-info-fdp" matSort >
+          <!-- Candidate Name Column -->
+          <ng-container matColumnDef="CandidateStatus">
+            <th mat-header-cell *matHeaderCellDef> Connect Event </th>
+            <td mat-cell *matCellDef="let element;" class="text-center">
+              {{element?.CandidateStatusName || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ConnectPerson">
+            <th mat-header-cell *matHeaderCellDef> Connected Person </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.connectPersonName || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ConnectDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Connected Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.ConnectDate|date:'dd MMMM yyyy')|| '-'}}
+            </td>
+          </ng-container>
+          <!-- Email ID Column -->
+
+          <ng-container matColumnDef="RescheduleDate">
+            <th mat-header-cell *matHeaderCellDef>Reschedule Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.RescheduleDate|date:'dd MMMM yyyy') || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="remark">
+            <th mat-header-cell class="warn" *matHeaderCellDef>Remarks</th>
+            <td class="" mat-cell *matCellDef="let element">
+              {{element?.Remark || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="modifiedby">
+            <th mat-header-cell *matHeaderCellDef>Created By </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.updatedByName|| '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="CreatedOn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created On </th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.updatedOn|date:'dd MMMM yyyy, hh:mm a')|| '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="connectStatus">
+            <th mat-header-cell class="warn" *matHeaderCellDef>Status</th>
+            <td class="" mat-cell *matCellDef="let element">
+              {{element?.connectStatus || '-'}}
+            </td>
+          </ng-container>
+          <!-- new column  -->
+          <ng-container matColumnDef="offereddate">
+            <th mat-header-cell *matHeaderCellDef>Offered Date </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- {{(element?.updatedOn|date:'dd MMMM yyyy, hh:mm a')|| '-'}} -->
+              Add
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateOfJoining">
+            <th mat-header-cell *matHeaderCellDef>Date of Joining </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- {{(element?.updatedOn|date:'dd MMMM yyyy, hh:mm a')|| '-'}} -->
+              add
+            </td>
+          </ng-container>
+          <!-- end -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+
+        </table>
+        
+        <app-no-result-found [searchedValue]="searchInput" *ngIf="statusList?.data?.length === 0 || statusList?.data?.length === null"></app-no-result-found>
+      </div>
+    </div>
+  </div>
+</div>

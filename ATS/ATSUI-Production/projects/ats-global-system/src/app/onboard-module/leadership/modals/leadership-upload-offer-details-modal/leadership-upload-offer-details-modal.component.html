@@ -1,0 +1,133 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Candidate Details</h4>
+            </div>
+            <div class="box-v-body ats-form-ui-enhance-font">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4>Candidate Name:</h4>
+                        <p>{{data?.Name || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Candidate Email:</h4>
+                        <p>{{data?.email || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Contact No:</h4>
+                        <p>{{data?.phone || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+
+        <!--  -->
+        <form [formGroup]="uploadOfferForm">
+            <div class="box-v-ats box-v-ats-form">
+
+                <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Upload Documents</h4>
+                    </div>
+                    <div class="checkbox-control rdn-ctrl">
+
+                    </div>
+                </div>
+                <div class="box-v-body">
+                    <div class="mn-dp-up-wrap">
+                        <div class="container-fluid">
+                            <div class="row">
+
+                                <div class="col-md-6 width-50-inline">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Offer Letter</h4>
+                                            </div>
+                                            <div class="checkbox-control rdn-ctrl">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                                <div class="ats-form-col upload-file-ats full-width"
+                                                    [ngClass]="getControl('fileOffer').touched && getControl('fileOffer').invalid ? 'error-file-input':'suc'">
+                                                    <div class="upload-file-input">
+                                                        <label>Upload Offer Letter
+                                                            <sup>*</sup>
+                                                        </label>
+                                                        <input type="file" #offerletter
+                                                            (change)="selectOfferletter($event)">
+                                                    </div>
+                                                </div>
+                                                <div class="ats-form-col upload-file-ats full-width">
+                                                    <mat-form-field appearance="outline" class="w-100">
+                                                        <mat-label>Offer Number</mat-label>
+                                                        <input matInput placeholder="Enter Offer Number" formControlName="offerNumber"
+                                                            maxlength="250" required/>
+                                                    </mat-form-field>
+                                                
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 width-50-inline">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Offer Acceptance eMail</h4>
+                                            </div>
+                                            <div class="checkbox-control"> </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                                <div class="ats-form-col upload-file-ats full-width"
+                                                    [ngClass]="getControl('uploadAcceptanceFile').touched && getControl('uploadAcceptanceFile').invalid ? 'error-file-input':'suc'">
+                                                    <div class="upload-file-input">
+                                                        <label>Upload Offer Acceptance Mail-( Optional )
+                                                            
+                                                        </label>
+                                                        <input type="file" #uploadAcceptanceFile
+                                                            (change)="fileUpAcceptance($event)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- end -->
+
+        <!-- column for details ends-->
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon"
+            (click)="updateOfferHandler(uploadOfferForm)">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

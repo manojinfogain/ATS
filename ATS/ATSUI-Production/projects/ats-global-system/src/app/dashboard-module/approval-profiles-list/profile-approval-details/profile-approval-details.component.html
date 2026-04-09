@@ -1,0 +1,129 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <button mat-stroked-button color="primary" (click)="back()">Back</button>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="can-view-wrap">
+                                <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>
+                                        {{profileDetails?.Name || '-'}}
+                                    </p>
+                                </div>
+                                <!-- end -->
+
+                                <div class="can-list-view">
+                                    <h5>Candidate Email:</h5>
+                                    <p>{{profileDetails?.email || '-'}} </p>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Skill:</h5>
+                                    <p>{{profileDetails?.Skill || '-'}} </p>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Approver:</h5>
+                                    <p>{{profileDetails?.ApproverName || '-'}} </p>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Status:</h5>
+                                    <p>
+                                        <ng-container [ngSwitch]="profileDetails?.StatusApr">
+                                            <ng-container *ngSwitchCase="'P'">
+                                                <button class="btn-status-dg schedule" type="button">
+                                                    Pending
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'R'">
+                                                <button class="btn-status-dg rejects" type="button">
+                                                    Rejected
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'A'">
+                                                <button class="btn-status-dg shortlisted" type="button">
+                                                    Approved
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                -
+                                            </ng-container>
+                                        </ng-container>
+                                    </p>
+                                </div>
+                                <!-- end -->
+
+                                <div class="can-list-view">
+                                    <h5>Action :</h5>
+                                    <div>
+                                        <div class="btn-action">
+
+
+                                            <div class="btn-act" *ngIf="profileDetails?.StatusApr == 'P' &&
+                         profileDetails?.ApproverId == userData?.EmpNewId">
+                                                <a mat-button href="javascript:void(0)"
+                                                    (click)="approveCandidateHandler(profileDetails)"
+                                                    matTooltip="Profile Approval">
+                                                    <span class="material-icons-outlined">
+                                                        how_to_reg
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="btn-act">
+                                                <a mat-button href="javascript:void(0)"
+                                                    (click)="dwnloadFileSingle(profileDetails)"
+                                                    matTooltip="View/Download Resume">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                            </div>
+                                            <div class="btn-act">
+                                                <a mat-button href="javascript:void(0)"
+                                                    (click)="viewDetails(profileDetails)" matTooltip="View Profile">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                            <div class="btn-act">
+                                                <a mat-button [href]="profileDetails?.Link | safeUrl" matTooltip="Profile Link" rel="nofollow" target="_blank"
+                                                [class.disabled-link]="!profileDetails?.Link">
+                                                    <span class="material-icons-outlined">
+                                                        link
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <!-- end -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end -->
+                            </div>
+                            <!-- end -->
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

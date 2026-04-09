@@ -1,0 +1,594 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="formTransfer" (ngSubmit)="submitForm()">
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="dgm-track">
+                <div class="box-v-ats box-v-ats-form">
+                    <div class="box-v-header">
+                        <h4>Candidate Offered Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="dgm-track">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-body">
+                                    <div class="dgm-track">
+                                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                            <div class="view-list-bx">
+                                                <h4> Candidate Name :</h4>
+                                                <p>{{data?.Name || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4> Candidate Email:</h4>
+                                                <p>{{data?.email || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Offered CTC:</h4>
+                                                <p>{{(candData?.CTC|
+                                                    customCurrency:1:0:2) || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Joining Bonus:</h4>
+                                                <p>{{(candData?.JoiningBonus|
+                                                    customCurrency:1:0:2) || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Talent Cube:</h4>
+                                                <p>{{candData?.Talentcube || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Cluster:</h4>
+                                                <p>{{candData?.Cluster || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Role:</h4>
+                                                <p>{{candData?.Role || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Grade:</h4>
+                                                <p>{{candData?.Grade || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4>Grade Band:</h4>
+                                                <p>{{candData?.GradeBand || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <!-- <div class="view-list-bx">
+                                                <h4> Account Name:</h4>
+                                                <p>{{candData?.CurrentAccountName || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4>Project Name:</h4>
+                                                <p>{{candData?.projectName || '-'}}</p>
+                                            </div> -->
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Variance (From Mid Salary):</h4>
+                                                <p>{{candData?.VarianceMed ? candData?.VarianceMed + ' %' : '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Variance (From Max Salary):</h4>
+                                                <p>{{candData?.VarianceMax ? candData?.VarianceMax + ' %' : '-'}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end -->
+                        </div>
+                        <div class="dgm-track">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-header">
+                                    <h4>Salary Grid</h4>
+                                </div>
+                                <div class="box-v-body">
+                                    <div class="dgm-track">
+                                        <div class="box-v-ats box-v-ats-form">
+                                            <div class="box-v-body">
+
+                                                <div class="dgm-track">
+                                                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                                                        
+                                                        <div class="view-list-bx">
+                                                            <h4>Minimum Salary</h4>
+                                                            <p>
+                                                                {{candData?.MinGridLimit?(candData?.MinGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="view-list-bx">
+                                                            <h4>Median Salary</h4>
+                                                            <p>
+                                                                {{candData?.MedGridLimit?(candData?.MedGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="view-list-bx">
+                                                            <h4>Maximum Salary</h4>
+                                                            <p>
+                                                                {{candData?.MaxGridLimit?(candData?.MaxGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end -->
+            </div>
+            <div class="dgm-track">
+                <div class="box-v-ats box-v-ats-form">
+                    <div class="box-v-header">
+                        <h4>Current Requisition ID Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="dgm-track">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-body">
+                                    <div class="dgm-track">
+                                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                            <div class="view-list-bx">
+                                                <h4> Talent ID :</h4>
+                                                <p>{{currTHIDDetails?.TalentID || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4> Requirement Type :</h4>
+                                                <p>{{currTHIDDetails?.requisitionType || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx" *ngIf="currTHIDDetails?.ISTCImplimented == 1">
+                                                <h4>Talent Cube:</h4>
+                                                <p>{{currTHIDDetails?.Talentcube || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx" *ngIf="currTHIDDetails?.ISTCImplimented == 1">
+                                                <h4>Cluster:</h4>
+                                                <p>{{currTHIDDetails?.Cluster || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx" *ngIf="currTHIDDetails?.ISTCImplimented == 1">
+                                                <h4>Role:</h4>
+                                                <p>{{currTHIDDetails?.Role || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Grade:</h4>
+                                                <p>{{currTHIDDetails?.Grade || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4> Account Name:</h4>
+                                                <p>{{currTHIDDetails?.AccountName || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4>Project Name:</h4>
+                                                <p>{{currTHIDDetails?.projectName || '-'}}</p>
+                                            </div>
+                                            <!-- end -->                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end -->
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- end -->
+            </div>
+
+            <div class="dgm-track">
+                <div class="box-v-ats box-v-ats-form">
+                    <div class="box-v-header">
+                        <h4>Target Requisition ID Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="dgm-track">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-body">
+                                    <div
+                                        class="ats-forms ats-form-normal-font ats-forms-horz ats-forms-horz4 form-outline-ats ats-form-dark">
+                                        <div class="ats-form-col">
+                                            <app-talent-id-control-all [isShowSearchIcon]="false" [formFieldAppearance]="'outline'"
+                                                [talentIdControl]="formTransfer.get('talendIdControl')"
+                                                (getDataTalentId)="getDataTalent($event)"></app-talent-id-control-all>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Remarks</mat-label>
+                                                <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                                    formControlName="remarks" required>
+                                            </mat-form-field>                
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                    <div class="dgm-track" *ngIf="isTargetReqIdDetailsVisible">
+                                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                            <div class="view-list-bx">
+                                                <h4> Talent ID :</h4>
+                                                <p>{{targetTHIDDetails?.TalentID || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4> Requirement Type :</h4>
+                                                <p>{{targetTHIDDetails?.requisitionType || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Talent Cube:</h4>
+                                                <p>{{targetTHIDDetails?.Talentcube || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx" *ngIf="targetTHIDDetails?.ISTCImplimented == 1">
+                                                <h4>Cluster:</h4>
+                                                <p>{{targetTHIDDetails?.Cluster || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx" *ngIf="targetTHIDDetails?.ISTCImplimented == 1">
+                                                <h4>Role:</h4>
+                                                <p>{{targetTHIDDetails?.Role || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Grade:</h4>
+                                                <p>{{targetTHIDDetails?.Grade || '-'}}</p>
+                                            </div>
+                                            <div class="view-list-bx">
+                                                <h4> Account Name:</h4>
+                                                <p *ngIf="targetTHIDDetails?.ISReinitiationFromAccount != 'Y'">{{targetTHIDDetails?.AccountName || '-'}}</p>
+                                                <button class="btn-status-dg schedule" type="button" *ngIf="targetTHIDDetails?.ISReinitiationFromAccount == 'Y'">
+                                                    {{targetTHIDDetails?.AccountName || '-'}}
+                                                </button>
+                                            </div>
+
+                                            <div class="view-list-bx">
+                                                <h4>Project Name:</h4>
+                                                <p>{{targetTHIDDetails?.projectName || '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Variance (From Mid Salary):</h4>
+                                                <p *ngIf="targetTHIDDetails?.IsReinitiationFromVariance != 'Y'">{{targetTHIDDetails?.VarianceMed ? targetTHIDDetails?.VarianceMed + ' %' : '-'}}</p>
+                                                <button class="btn-status-dg schedule" type="button" *ngIf="targetTHIDDetails?.IsReinitiationFromVariance == 'Y'">
+                                                    {{targetTHIDDetails?.VarianceMed ? targetTHIDDetails?.VarianceMed + ' %' : '-'}}
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="view-list-bx">
+                                                <h4>Variance (From Max Salary):</h4>
+                                                <p *ngIf="targetTHIDDetails?.IsReinitiationFromVariance != 'Y'">{{targetTHIDDetails?.VarianceMax ? targetTHIDDetails?.VarianceMax + ' %' : '-'}}</p>
+                                                <button class="btn-status-dg schedule" type="button" *ngIf="targetTHIDDetails?.IsReinitiationFromVariance == 'Y'">
+                                                    {{targetTHIDDetails?.VarianceMax ? targetTHIDDetails?.VarianceMax + ' %' : '-'}}
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+                                        </div>
+                                        
+                                        <p class="tx-h-red" *ngIf="isReinitiationRequired">
+                                            <strong>Note: </strong>&nbsp; <strong> Offer Reinitiation is required </strong>to transfer to {{targetTHIDDetails?.TalentID}} Talent ID {{reinitiationMsg}}.                                       
+                                        </p>
+                                        <p class="tx-h-red" *ngIf="!isTransferable && targetTHIDDetails?.ISTransferAllowed == 0">
+                                            <strong>Note: </strong>&nbsp; Transfer is <strong> not allowed </strong> for this Talent ID.                                       
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end -->
+                        </div>
+                        <div class="dgm-track" *ngIf="isTargetReqIdDetailsVisible">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-header">
+                                    <h4>Salary Grid (Target Requisition ID)</h4>
+                                </div>
+                                <div class="box-v-body">
+                                    <div class="dgm-track">
+                                        <div class="box-v-ats box-v-ats-form">
+                                            <div class="box-v-body">
+
+                                                <div class="dgm-track">
+                                                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                        <div class="view-list-bx">
+                                                            <h4>Minimum Salary</h4>
+                                                            <p>
+                                                                {{targetTHIDDetails?.MinGridLimit?(targetTHIDDetails?.MinGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="view-list-bx">
+                                                            <h4>Median Salary</h4>
+                                                            <p>
+                                                                {{targetTHIDDetails?.MedGridLimit?(targetTHIDDetails?.MedGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="view-list-bx">
+                                                            <h4>Maximum Salary</h4>
+                                                            <p>
+                                                                {{targetTHIDDetails?.MaxGridLimit?(targetTHIDDetails?.MaxGridLimit
+                                                                |
+                                                                customCurrency:1:0:2): '-'}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="tx-h">
+                                                        <strong>** </strong>&nbsp; Salary Grid and Variance are calculated based on Candidate's offered Grade & CTC.                                       
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dgm-track" *ngIf="isTargetReqIdDetailsVisible">
+                            <div class="box-v-ats box-v-ats-form">
+                                <div class="box-v-header">
+                                    <h4>DGM Calculator</h4>
+                                </div>
+                                <div class="box-v-body">
+                                    <div class="dgm-track">
+                                        <div class="box-v-ats box-v-ats-form">
+                                            <div class="box-v-body">
+                                                <div
+                                                    class="ats-forms ats-form-normal-font ats-forms-horz ats-forms-horz4 form-outline-ats ats-form-dark">
+    
+    
+    
+                                                    <div class="ats-form-col">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Billing Currency</mat-label>
+                                                            <mat-select formControlName="billingCurrencyId"
+                                                                (selectionChange)="locChanged($event)">
+                                                                <mat-option *ngFor="let currency of currencyTypeData"
+                                                                    [value]="currency.CurId">
+                                                                    {{currency.CurName}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+    
+                                                    </div>
+                                                    <!-- end col -->
+                                                    <div class="ats-form-col" *ngIf="!isBillRateEditable">
+                                                        <mat-form-field appearance="outline" class="place-from-control">
+                                                            <mat-label>Billing Rate/Hr in billing currency </mat-label>
+                                                            <input matInput placeholder="Billing Rate/Hr in billing currency"
+                                                                [value]="targetTHIDDetails?.BillingRate"
+                                                                readonly>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="ats-form-col" *ngIf="isBillRateEditable">
+                                                        <mat-form-field appearance="outline" class="place-from-control">
+                                                            <mat-label>Billing Rate/Hr in billing currency</mat-label>
+                                                            <input matInput
+                                                                placeholder="Billing Rate/Hr in billing currency"
+                                                                maxlength="12" formControlName="billingRateHrCurrency"
+                                                                disableInitialSpace onlyDecimalNumber>
+    
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <!-- end col -->
+    
+                                                    <div class="ats-form-col" *ngIf="!isBillHrEditable">
+                                                        <mat-form-field appearance="outline" class="place-from-control">
+                                                            <mat-label>Billable Hours/Day</mat-label>
+                                                            <input matInput placeholder="Billable Hours/Day"
+                                                                [value]="targetTHIDDetails?.BillingHours"
+                                                                readonly>
+                                                        </mat-form-field>
+                                                    </div>
+    
+                                                    <div class="ats-form-col" *ngIf="isBillHrEditable">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Billable Hours/Day</mat-label>
+                                                            <mat-select formControlName="billableHoursDay"
+                                                                (selectionChange)="locChanged($event)">
+                                                                <mat-option *ngFor="let data of billingHours"
+                                                                    [value]="data">
+                                                                    {{data}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+    
+                                                    </div>
+                                                    <!-- end col -->
+    
+                                                    <div class="ats-form-col">
+                                                        <mat-form-field appearance="outline" class="place-from-control">
+                                                            <mat-label>Project Buffer if applicable (%)</mat-label>
+                                                            <input matInput placeholder="Project Buffer if applicable"
+                                                                maxlength="3" formControlName="projectBuffer"
+                                                                disableInitialSpace onlyNumber>
+    
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <!-- end col -->
+    
+    
+                                                </div>
+                                                <div class="dgm-track">
+                                                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                        <div class="view-list-bx">
+                                                            <h4>Local Currency</h4>
+                                                            <p>{{localCurrency || '-'}}</p>
+                                                        </div>
+                                                        <!-- end -->
+                                                        <div class="view-list-bx">
+                                                            <h4>Billing Rate/Hr in USD</h4>
+                                                            <p>
+                                                                {{dgmData?.BillingRateHr?(dgmData?.BillingRateHr |
+                                                                currency): '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <!-- end -->
+                                                        <div class="view-list-bx">
+                                                            <h4>Annual Billable Hours</h4>
+                                                            <p>{{dgmData?.AnnualBillableHours || '-'}}</p>
+                                                        </div>
+                                                        <!-- end -->
+                                                        <!-- <div class="view-list-bx">
+                                                            <h4>Variance (From Median Salary)</h4>
+                                                            <p>{{dgmData?.varianceMid+'%'}}</p>
+                                                        </div> -->
+                                                        <!-- end -->
+    
+                                                        <!-- <div class="view-list-bx" *ngIf="isHideVarience"> -->
+                                                        <!-- <div class="view-list-bx">
+                                                            <h4>Variance (From Max Salary)</h4>
+                                                            <p>{{dgmData?.varianceMax+'%'}}</p>
+                                                        </div> -->
+                                                        <!-- end -->
+                                                    </div>
+                                                    <!-- <p class="tx-h"><strong>Note:</strong> Variance is calculated Inclusive
+                                                        <strong>Joining Bonus</strong>
+                                                    </p> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+                                    </div>
+    
+                                    <div class="dgm-track">
+                                        <div class="box-v-ats box-v-ats-form">
+                                            <div class="box-v-header">
+                                                <h4>In USD</h4>
+                                            </div>
+                                            <div class="box-v-body">
+                                                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                    <div class="view-list-bx">
+                                                        <h4>Annual Revenue</h4>
+                                                        <p>{{dgmData?.AnnualRevenue?(dgmData?.AnnualRevenue |
+                                                            currency):'-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Annual Salary Cost</h4>
+                                                        <p>{{dgmData?.AnnualSalaryCost?(dgmData?.AnnualSalaryCost |
+                                                            currency):'-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Joining Bonus</h4>
+                                                        <p>{{dgmData?.JoiningBonus?(dgmData?.JoiningBonus | currency):'-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Benefits</h4>
+                                                        <p>{{dgmData?.Benefits?(dgmData?.Benefits | currency):'-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Project Buffer</h4>
+                                                        <p>{{dgmData?.ProjectBuffer?(dgmData?.ProjectBuffer |
+                                                            currency):'-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <!-- <h4>Non- Reimbursable Travel cost</h4> -->
+                                                        <!-- <p>{{candData?.rf || '-'}}</p> -->
+                                                        <div>
+                                                            <div
+                                                                class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+    
+                                                                <div class="ats-form-col">
+                                                                    <mat-form-field appearance="outline"
+                                                                        class="place-from-control">
+                                                                        <mat-label>Non- Reimbursable Travel cost</mat-label>
+                                                                        <input matInput
+                                                                            placeholder="Non- Reimbursable Travel cost"
+                                                                            maxlength="15"
+                                                                            formControlName="NonReimbursableTravelCost"
+                                                                            disableInitialSpace onlyNumber>
+    
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!-- end col -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <!-- <h4>Project Specific Cost</h4>
+                                                    <p>{{candData?.rf || '-'}}</p> -->
+                                                        <div>
+                                                            <div
+                                                                class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+    
+                                                                <div class="ats-form-col">
+                                                                    <mat-form-field appearance="outline"
+                                                                        class="place-from-control">
+                                                                        <mat-label>Project Specific Cost</mat-label>
+                                                                        <input matInput placeholder="Project Specific Cost"
+                                                                            maxlength="15"
+                                                                            formControlName="projectSpecificCost"
+                                                                            disableInitialSpace onlyNumber >
+    
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!-- end col -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>DGM</h4>
+                                                        <p>{{dgmData?.dgmCost?(dgmData?.dgmCost | currency):'-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>DGM (%)</h4>
+                                                        <p>{{dgmData?.dgmCostPercent?dgmData?.dgmCostPercent+' %': '0%'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+                                    </div>
+    
+                                </div>
+    
+                            </div>
+                            <!-- end -->
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- end -->
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!isTransferable">
+            Transfer
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

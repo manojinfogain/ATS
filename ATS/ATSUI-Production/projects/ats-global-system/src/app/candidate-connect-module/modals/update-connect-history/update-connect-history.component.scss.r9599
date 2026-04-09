@@ -1,0 +1,16 @@
+.ats-model-wrap .mat-dialog-container .mat-dialog-content {
+    min-height: 47vh !important; 
+}
+
+.slt-ar{
+   // min-width: 347.922px;
+  // top: 231.297px;
+//   overflow: scroll;
+  
+}
+.ats-forms{
+  padding-top: 10px;
+}
+.box-v-ats{
+  padding-bottom: 0px;
+}

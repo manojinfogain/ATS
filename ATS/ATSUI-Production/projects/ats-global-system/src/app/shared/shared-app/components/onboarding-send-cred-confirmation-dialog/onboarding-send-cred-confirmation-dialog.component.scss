@@ -1,0 +1,28 @@
+.mat-dialog-actions {
+    // padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    /* min-height: 52px; */
+    align-items: center;
+    box-sizing: content-box;
+    margin-bottom: -24px;
+    margin-top: -24px !important;
+}
+
+.disable-field{
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+}
+
+.width-45-percent {
+    width: 45%;
+}
+
+.width-50-percent {
+    width: 50%;
+}
+
+.text-red-small {
+    color: red;
+    font-size: 12px;
+}

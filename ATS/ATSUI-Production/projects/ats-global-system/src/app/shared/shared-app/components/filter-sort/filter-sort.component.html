@@ -1,0 +1,731 @@
+<button mat-button class="act-button filter-btn" [matMenuTriggerFor]="userSort" matTooltip="Filter">
+  <i class="fa fa-filter" aria-hidden="true"></i>
+</button>
+
+<mat-menu #userSort="matMenu" [overlapTrigger]="false" class="sort-custom-from-overlay sort-custom-from-overlay-range">
+  <form [formGroup]="form" (ngSubmit)="submitData(form)">
+    <div class="card" (click)="$event.stopPropagation();">
+      <div class="card-header">
+        <h6>{{FilterTitle}}</h6>
+      </div>
+      <div class="card-body">
+        <div class="sort-form place-form">
+          <div class="form-row" *ngIf="isTextBoxCtrl">
+            <mat-form-field appearance="outline" [floatLabel]="'always'" class="ats-from-control">
+              <mat-label>{{textBoxTitle}}</mat-label>
+              <input matInput [placeholder]="textBoxPlacHolder" formControlName="textBoxCtrl" disableInitialSpace>
+
+            </mat-form-field>
+          </div>
+          <div class="form-row" *ngIf="checkboxFun">
+            <mat-checkbox class="check-filter" formControlName="checkBoxCtrl">Screen Rejected</mat-checkbox>
+          </div>
+          <div class="form-row" *ngIf="checkboxPendingWithMe">
+            <mat-checkbox class="check-filter" formControlName="pendingWithMe">Pending With Me</mat-checkbox>
+          </div>
+          <div class="form-row" *ngIf="checkboxPendingForBuddyAssign">
+            <mat-checkbox class="check-filter" checked formControlName="PendingCases">Pending For Buddy
+              Assign</mat-checkbox>
+          </div>
+          <div class="form-row" *ngIf="AppliedListCheckBoxIjp">
+            <mat-checkbox class="check-filter" formControlName="appliedEmp">{{appliedIjpTitle}}</mat-checkbox>
+          </div>
+          <div class="form-row" *ngIf="CheckBoxFilter">
+            <mat-checkbox class="check-filter" formControlName="CheckBoxFilter">{{CheckBoxFilterTitle}}</mat-checkbox>
+          </div>
+
+          <!-- experince slider -->
+          <div class="form-row fx-dr" *ngIf="isExperinceSlider">
+            <!-- <div class="search-form-box-header" >
+                    <h4> Experience</h4>
+              </div> -->
+            <div class="slider-exp-control" matTooltip="Select Experience">
+              <label>Experience</label>
+              <ngx-slider (userChangeEnd)="expControlUpdate($event)" formControlName="experienceRange"
+                [options]="optionsExp"></ngx-slider>
+            </div>
+          </div>
+
+          <div class="form-row fx-dr" *ngIf="isRangeSlider">
+            <div class="slider-exp-control" [matTooltip]="rangeSliderToolTip">
+              <label>{{rangeSliderLabel}}</label>
+              <ngx-slider formControlName="RangeSlider" [options]="optionsRange"></ngx-slider>
+            </div>
+          </div>
+          <div class="form-row fx-dr" *ngIf="isRangeSliderNP">
+            <div class="slider-exp-control" [matTooltip]="rangeSliderToolTipNP">
+              <label>{{rangeSliderLabelNP}}</label>
+              <ngx-slider formControlName="RangeSliderNP" [options]="optionsRangeNP"></ngx-slider>
+            </div>
+          </div>
+
+          <!-- slider number percentage % -->
+          <div class="form-row fx-dr" *ngIf="isNumberSliderRange">
+            <div class="slider-exp-control" [matTooltip]="numberSliderTooltip">
+              <!-- <label></label> -->
+              <mat-label appRemoveAriaOwns>{{numberSliderLabel}}</mat-label>
+              <ngx-slider formControlName="numberRange" [options]="optionsNumberRange" [(value)]="valueijp"
+                [(highValue)]="highValueijp"></ngx-slider>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="interviewType">
+            <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label appRemoveAriaOwns>Interview Type</mat-label>
+              <mat-select formControlName="InterviewTypeId">
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of listData" [value]="list.id">
+                  {{list?.interviewType}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+          <!-- end row -->
+          <div class="form-row fx-dr" *ngIf="interviewTypeNew">
+            <app-interview-type-control [title]="'Interview Type'" [IdControl]="InterviewTypeIdNewControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="interviewTypeMulti">
+            </app-interview-type-control>
+            <!-- <app-interview-type-control [title]="'Interview Type'" [IdControl]="interviewTypeControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="true">
+
+            </app-interview-type-control> -->
+            <!-- <app-location-control [title]="companyLocationTitle" [locationControlOpt]="locationControl"
+            [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+            [isMultiple]="LocationMulti">
+
+          </app-location-control> -->
+          </div>
+
+          <!-- status assing -->
+          <div class="form-row" *ngIf="statusAssign">
+            <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label appRemoveAriaOwns>{{statusAssignTitle}}</mat-label>
+              <mat-select formControlName="statusAssignId">
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of statusData" [value]="list.id">
+                  {{list?.name}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+          <!-- end row -->
+
+          <!-- cskill country -->
+          <div class="form-row fx-dr" *ngIf="isCountryCskill">
+            <app-cskills-country-control [panelIdControl]="countryCskilld" [title]="'Country'"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="countryCskilldMulti">
+            </app-cskills-country-control>
+          </div>
+          <!-- company location -->
+          <div class="form-row fx-dr" *ngIf="companyLocation">
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label>{{companyLocationTitle}}</mat-label>
+              <mat-select formControlName="location">
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of locationData" [value]="list?.LocID">{{list?.LocName}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!-- [offerStatusIds]="offerStatusIds" -->
+            <app-location-control [title]="companyLocationTitle" [locationControlOpt]="locationControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="LocationMulti" [companyLocationIds]="companyLocationIds">
+
+            </app-location-control>
+
+          </div>
+
+          <!-- Division -->
+          <div class="form-row fx-dr" *ngIf="Division">
+            <app-division-control [title]="DivisionTitle" [DivisionIdControl]="DivisionControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isMultiple]="DivisionMulti">
+
+            </app-division-control>
+
+          </div>
+
+          <!-- contract type -->
+          <div class="form-row fx-dr" *ngIf="ContractType">
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label>Contract Type</mat-label>
+              <mat-select [disableOptionCentering]="true" required formControlName="ContractType">
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                  {{list?.ContractType}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <app-contract-type-control [title]="ContractTypeTitle" [contractTypeControlOpt]="ContractTypeControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="contractTypeMulti" [contractIds]="contractIds">
+
+            </app-contract-type-control>
+          </div>
+           <!-- contract type location wise  -->
+          <div class="form-row fx-dr" *ngIf="ContractTypeUS"> 
+            <app-employement-type-loc-control [title]="employementTypeTitle" [contractTypeControlOptUS]="ContractTypeControlUS"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="contractTypeMultiUS" [contractIds]="contractIdsUS">
+
+            </app-employement-type-loc-control>
+          </div>
+
+          <!-- partner -->
+          <div class="form-row fx-dr" *ngIf="PartnerID">
+            <app-partner-list-control [title]="partnerTitle" [formFieldAppearance]="'outline'"
+              [parentIdControl]="PartnerIDControl" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="PartnerMulti">
+            </app-partner-list-control>
+
+          </div>
+          <!-- grade -->
+          <div class="form-row fx-dr" *ngIf="grade">
+            <app-grade-latest-control [title]="gradeTitle" [gradeControlOpt]="gradeControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="gradeMulti"
+              [gradeIds]="gradeIds">
+            </app-grade-latest-control>
+          </div>
+          <!-- ijp status -->
+          <div class="form-row fx-dr" *ngIf="ijpStatus">
+            <app-ijp-status-control [title]="ijpStatusTitle" [ijpStatusControlOpt]="ijpStatusControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="ijpStatusMulti" [screenType]="screenType">
+            </app-ijp-status-control>
+          </div>
+          <!-- profile source  -->
+          <div class="form-row fx-dr" *ngIf="profileSoure">
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+                <mat-label>Contract Type</mat-label>
+                <mat-select [disableOptionCentering]="true" required formControlName="ContractType">
+                  <mat-option value="all">All</mat-option>
+                  <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                    {{list?.ContractType}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+            <app-profile-source-control [title]="profileSourceTitle" [profileSourceControlOpt]="profileSourceControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="profileSourMulti">
+
+            </app-profile-source-control>
+          </div>
+
+          <!-- canidate status -->
+          <div class="form-row " *ngIf="candidateStatus">
+            <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label appRemoveAriaOwns>{{candidateStatusTitle}}</mat-label>
+              <mat-select formControlName="statusId" (selectionChange)="candStatusOptionChange($event.value)">
+                <mat-option>
+                  <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlCandiStatus"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of statusList | candiStatusFilter:searchInput" [value]="list?.statusId">
+                  {{list?.statusName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+          <div class="form-row fx-dr" *ngIf="candidateStatusNew">
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+                <mat-label>Contract Type</mat-label>
+                <mat-select [disableOptionCentering]="true" required formControlName="ContractType">
+                  <mat-option value="all">All</mat-option>
+                  <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                    {{list?.ContractType}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+            <app-candidate-status-control [title]="candidateStatusTitle"
+              [candidateStatusControlOpt]="candidateStatusNewControl" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="candidateStatusMultiNew">
+
+            </app-candidate-status-control>
+          </div>
+
+
+          <!-- offer status -->
+          <div class="form-row fx-dr" *ngIf="offerStatus">
+            <!-- <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label>{{offerStatusTitle}}</mat-label>
+              <mat-select formControlName="offerstatus">
+                <mat-option>
+                  <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlOfferStatus"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option value="all">All</mat-option>
+                <mat-option value="0" *ngIf="dropPendingWithMeOfferApr">
+                  Pending With Me
+                </mat-option>
+              
+                <mat-option *ngFor="let list of offerStatusList | offerStatusPipe:searchInputOffer"
+                  [value]="list?.statusId">{{list?.statusName}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+
+            <app-offer-status-control [offerStatusTitle]="offerStatusTitle" [offerStatusControlOpt]="offerStatusControl"
+              [formFieldAppearance]="'outline'" [offerStatusIds]="offerStatusIds" [floatLabel]="'always'"
+              [isAllOption]="true" [isMultiple]="offrStatusMulti" (getDataSource)="getIdForSubList($event)">
+
+            </app-offer-status-control>
+
+          </div>
+          <!-- end row -->
+           
+
+           <!-- GetBGVColorCodeDetails status -->
+          <div class="form-row fx-dr" *ngIf="bgvFinalStatus">
+            <app-bgv-final-status-control [title]="bgvFinalStatusTitle" [ControlFormOpt]="bgvFinalStatusControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="bgvFinalStatusMulti">
+            </app-bgv-final-status-control>
+          </div>
+          <!-- end row -->
+
+          <!-- onboardStatus status -->
+          <div class="form-row fx-dr" *ngIf="onboardStatus">
+            <app-onboard-status-control [title]="onboardStatusTitle" [ControlFormOpt]="onboardStatusControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="onboardStatusMulti">
+
+            </app-onboard-status-control>
+
+          </div>
+          <!-- end row -->
+          <!-- onboar SubdStatus status -->
+          <div class="form-row fx-dr" *ngIf="onboardSubStatus">
+            <app-onboard-status-control [title]="onboardSubStatusTitle" [ControlFormOpt]="onboardSubStatusControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="onboardSubStatusMulti" [statusType]="'S'">
+            </app-onboard-status-control>
+
+          </div>
+          <!-- end row -->
+
+          <!-- onboar SubdStatus status -->
+          <div class="form-row fx-dr" *ngIf="day1SubStatus">
+            <app-onboard-status-control [title]="day1SubStatusTitle" [ControlFormOpt]="day1SubStatusControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="day1SubStatusMulti" [statusType]="'S'">
+            </app-onboard-status-control>
+
+          </div>
+          <!-- end row -->
+
+          <!-- Sub List  -->
+          <div class="form-row fx-dr" *ngIf="subList && isSubList">
+            <app-sub-list-control [IdControl]="subListType" [title]="subListTitle" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isMultiple]="subListMulti" [Ids]="subListIds">
+            </app-sub-list-control>
+          </div>
+          <!-- end row -->
+
+
+          <div class="form-row" *ngIf="interviewBy">
+            <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label appRemoveAriaOwns>Interview By</mat-label>
+              <mat-select formControlName="InterviewById">
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let list of interviewByList" [value]="list.id">
+                  {{list?.interviewByName}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+          <!-- interview by  -->
+          <div class="form-row fx-dr" *ngIf="interviewByNewControl">
+            <app-interview-by-list-control [title]="candidateStatusTitle"
+              [interviewByControlOpt]="InterviewByIdNewControl" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="interviewByMulti">
+            </app-interview-by-list-control>
+          </div>
+          <!-- registred partner status -->
+          <div class="form-row fx-dr" *ngIf="registeredPartnerStatusControl">
+            <app-registered-partner-status [title]="partnerStatusTitle"
+              [registeredPartnerStatusControlOpt]="regisPartnerStatusControl" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="regisPartnerStatusMulti">
+            </app-registered-partner-status>
+          </div>
+
+          <!-- registred partner's contracts status -->
+          <div class="form-row fx-dr" *ngIf="PartnerContractsStatus">
+            <app-partner-contracts-status [title]="partnerContractStatusTitle"
+              [partnerContractsStatusControlOpt]="partnerContractsStatusControl" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="partnerContractStatusMulti">
+            </app-partner-contracts-status>
+          </div>
+
+          <!-- end row -->
+          <!-- talent sub status -->
+          <div class="form-row fx-dr" *ngIf="talentSubStatus">
+            <app-talent-sub-status-list-control [title]="subStatusTitle"
+              [talentsubStatusControlOpt]="talentSubStatusControl" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="talentSubMulti">
+            </app-talent-sub-status-list-control>
+
+          </div>
+          <!-- end row -->
+
+
+          <!-- end row -->
+          <div class="form-row" *ngIf="noticePeriod">
+            <mat-form-field appearance="outline" class="place-from-control">
+              <mat-label appRemoveAriaOwns>{{snoticePeriodTitle}}</mat-label>
+              <mat-select formControlName="noticePeriod">
+                <mat-option value="all">All</mat-option>
+                <mat-option value="15">Less than 15 days</mat-option>
+                <mat-option value="30">Less than 30 days</mat-option>
+                <mat-option value="45">Less than 45 days</mat-option>
+                <mat-option value="60">Less than 60 days</mat-option>
+                <mat-option value="90">Less than 90 days</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- end row -->
+
+          <!-- requisition Type  -->
+          <div class="form-row fx-dr" *ngIf="requisitionType">
+            <app-requisition-type-control [title]="requisitionTypeTitle" [formControlOpt]="requisitionTypeControl"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="requisitionMulti">
+            </app-requisition-type-control>
+          </div>
+
+
+
+          <!-- recruiter -->
+          <div class="form-row fx-dr" *ngIf="recruiter">
+            <!-- <app-recruiter-list-control [IdControl]="recruiterIdControl" [title]="recruiterTitle"
+                    [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true">
+                    </app-recruiter-list-control> -->
+            <app-m-recruiter-ctrl [parentIdControl]="recruiterIdControl" [isMultiple]="recMulti"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true">
+            </app-m-recruiter-ctrl>
+          </div>
+
+          <!-- designation -->
+          <div class="form-row fx-dr" *ngIf="designation">
+            <app-designation-control [IdControl]="designationControl" [title]="DesignationTitle"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true">
+            </app-designation-control>
+          </div>
+
+          <!-- delivery units  -->
+          <div class="form-row fx-dr" *ngIf="deliveryUnits">
+            <!-- <mat-form-field  appearance="outline" class="place-from-control">
+                      <mat-label>DU</mat-label>
+                      <mat-select formControlName="deliveryUnit" [disableOptionCentering]="true">
+                        <mat-option value="all">All</mat-option>
+                        <mat-option *ngFor="let list of deliveryUnitList" [value]="list.DeliveryUnitID" 
+                        >
+                        {{list?.DeliveryUnit}}
+                      </mat-option>
+                      </mat-select>
+                  
+                    </mat-form-field> -->
+            <app-du-list-control [IdControl]="deliveryUnit" [title]="'GDL'" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isMultiple]="duMulti" (getDataSource)="getDuID($event)">
+            </app-du-list-control>
+          </div>
+
+          <!-- account  -->
+          <div class="form-row fx-dr" *ngIf="account">
+            <!-- <mat-form-field appearance="outline" class="place-from-control" *ngIf="account">
+                        <mat-label>Account</mat-label>
+                        <mat-select formControlName="accountType" [disableOptionCentering]="true">
+                          <mat-option>
+                            <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlAccount"
+                              [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                            </ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option value="all">All</mat-option>
+                          <mat-option *ngFor="let list of accountList| accountFilter:searchInputAccount" [value]="list?.accountId">{{list?.accountName}}</mat-option>
+                          </mat-select>
+                    </mat-form-field> -->
+
+            <app-account-list-control [IdControl]="accountType" [title]="'Account'" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isMultiple]="accountMulti" [isAccountByDu]="IsAccountByDu" [DuIds]="duIdList"
+              [filterAccount]="filterAccount">
+            </app-account-list-control>
+          </div>
+          <!-- end row -->
+
+          <!-- account head -->
+          <div class="form-row fx-dr" *ngIf="accountHead">
+
+            <app-account-owner-control [parentIdControl]="accountHeadCtrl" [title]="'DP / PDL / SDP'"
+              [isAllOption]="true" [formFieldAppearance]="'outline'" [floatLabel]="'always'"
+              [isMultiple]="accountHeadMulti">
+            </app-account-owner-control>
+          </div>
+          <!-- end row -->
+
+          <!-- <div class="form-row">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Recruiter</mat-label>
+                        <mat-select formControlName="accountType" [disableOptionCentering]="true">
+                          <mat-option>
+                            <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlRecruiter"
+                              [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                            </ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option value="all">All</mat-option>
+                          <mat-option *ngFor="let list of recruiterList| recruiterFilter:searchInputRecruiter" [value]="list?.newEmpId">
+                            {{list?.fullName}} ({{list?.newEmpId}})
+                          </mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                  </div> -->
+          <!-- end row -->
+
+          <!-- primary skill -->
+          <div class="form-row fx-dr" *ngIf="prSkill">
+
+            <!-- <mat-form-field  appearance="outline" class="place-from-control">
+                      <mat-label>Primary Skill</mat-label>
+                      <mat-select formControlName="primarySkill" [disableOptionCentering]="true">
+                        <mat-option>
+                          <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+                            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option value="all">All</mat-option>
+                        <mat-option *ngFor="let list of skillDataList | skillFilter:searchInput" [value]="list.SkillId" 
+                        >
+                        {{list?.SKillName}}
+                      </mat-option>
+                      </mat-select>
+                  
+                    </mat-form-field>  -->
+            <app-skill-set [panelIdControl]="primarySkill" [title]="'Skill'" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isAllOption]="true" [isMultiple]="skillMulti">
+            </app-skill-set>
+          </div>
+
+          <!-- Studio / Practice -->
+          <div class="form-row fx-dr" *ngIf="isPractice">
+            <app-practice-list-control [panelIdControl]="practiceId" [title]="'Studio / Practice'"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="practiceMulti" (getDataSource)="getPracticeId($event)">
+            </app-practice-list-control>
+          </div>
+
+          <div class="form-row fx-dr" *ngIf="isOppVisbile">
+            <app-opplistcontrol [IdControl]="OppIdCtrl" [title]="oppIdTitle" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isMultiple]="oppMulti">
+            </app-opplistcontrol>
+          </div>
+          <div class="form-row fx-dr" *ngIf="isBillableVisible">
+           <mat-form-field appearance="outline" class="place-from-control" [floatLabel]="'always'">
+              <mat-label appRemoveAriaOwns>Is Billable</mat-label>
+              <mat-select formControlName="isBillable">
+                <mat-option value="all">All</mat-option>
+                <mat-option value="Y">Yes</mat-option>
+                <mat-option value="N">No</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+           <div class="form-row fx-dr" *ngIf="isMuAllocationVisible">
+           <mat-form-field appearance="outline" class="place-from-control" [floatLabel]="'always'">
+              <mat-label appRemoveAriaOwns>Is MU Allocation</mat-label>
+              <mat-select formControlName="isMuAllocation">
+                <mat-option value="all">All</mat-option>
+                <mat-option value="Y">Yes</mat-option>
+                <mat-option value="N">No</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+          <div class="form-row fx-dr" *ngIf="isBizOpsVisible">
+            <app-bizops-control [IdControl]="bizOpsLeadCtrl" [title]="bizOpsTitle" [formFieldAppearance]="'outline'"
+              [floatLabel]="'always'" [isMultiple]="bizOpsMulti">
+            </app-bizops-control>
+          </div>
+
+
+
+          <!-- talent status list -->
+          <div class="form-row fx-dr" *ngIf="isTalentStatus">
+            <app-talent-status-control [panelIdControl]="talentStatusIDControl" [title]="isTalentStatusTitle"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="talentStatusMulti">
+            </app-talent-status-control>
+          </div>
+
+          <!--Sub practice -->
+          <div class="form-row fx-dr" *ngIf="isSubPractice">
+            <app-sub-practice-list-control [IdControl]="subPracticeId" [title]="'Sub Practice'"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="subPracticeMulti" [PracticeIds]="practiceIds">
+            </app-sub-practice-list-control>
+          </div>
+
+          <!-- practice community -->
+          <div class="form-row fx-dr" *ngIf="isPrCommunity">
+            <app-practice-community-list-control [IdControl]="prCommunityId" [title]="'Practice Community'"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+              [isMultiple]="prCommunityMulti" [PracticeIds]="practiceIds">
+            </app-practice-community-list-control>
+          </div>
+
+          <!-- hiring manager -->
+          <div class="form-row fx-dr" *ngIf="HMList">
+            <app-hiring-manager-control [parentIdControl]="HMId" [isMultiple]="HMMulti"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true">
+            </app-hiring-manager-control>
+          </div>
+
+          <!-- date range 1 -->
+          <div class="form-row range-row" *ngIf="dateRange">
+            <label class="rng-title">{{dateRangeTitle}}</label>
+            <div class="form-to-range-control">
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>From</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="dateFrom" [required]="requiredDateStart"
+                    (dateInput)="changeDate('input', $event)" [max]="maxDate" [min]="minDateFrom" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="date-h">-</div>
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>To</mat-label>
+                  <input matInput [matDatepicker]="picker1" formControlName="dateTo" [min]="minDate" [max]="maxDate"
+                    readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker1">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+          <!-- end row -->
+
+          <!-- date range second   ///////// -->
+          <div class="form-row range-row" *ngIf="dateRangeStartToEnd ">
+            <label class="rng-title">{{dateRangeTitle2}}</label>
+            <div class="form-to-range-control">
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>From</mat-label>
+                  <input matInput [matDatepicker]="picker4" formControlName="dateStart"
+                    (dateInput)="changeDate2('input', $event)" [max]="maxDate2" [min]="minDateFrom2" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker4">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker4></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="date-h">-</div>
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>To</mat-label>
+                  <input matInput [matDatepicker]="picker5" formControlName="dateEnd" [min]="minDate2" [max]="maxDate2"
+                    readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker5">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker5></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+          <!-- date range third   ///////// -->
+          <div class="form-row range-row" *ngIf="dateRangeThird">
+            <label class="rng-title">{{dateRangeThirdTitle}}</label>
+            <div class="form-to-range-control">
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>From</mat-label>
+                  <input matInput [matDatepicker]="picker5" formControlName="dateStartThree"
+                    (dateInput)="changeDate3('input', $event)" [max]="maxDate3" [min]="minDateFrom3" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker5">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker5></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="date-h">-</div>
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control">
+                  <mat-label>To</mat-label>
+                  <input matInput [matDatepicker]="picker6" formControlName="dateEndThree" [min]="minDate3"
+                    [max]="maxDate3" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker6">
+                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker6></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- time range    ///////// -->
+          <div class="form-row range-row" *ngIf="timeCtrl">
+            <label class="rng-title">Time</label>
+            <div class="form-to-range-control">
+              <div class="date-r">
+                <mat-form-field appearance="outline" floatLabel="always" class="place-from-control">
+                  <mat-label>Start Time</mat-label>
+                  <mat-select formControlName="startTime" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let list of Time24HrsList" [value]="list?.value">
+                      {{list?.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="date-h">-</div>
+              <div class="date-r">
+                <mat-form-field appearance="outline" class="place-from-control" floatLabel="always">
+                  <mat-select formControlName="endTime" [disableOptionCentering]="true">
+                    <mat-label>End Time</mat-label>
+                    <mat-option *ngFor="let list of Time24HrsList" [value]="list?.value">
+                      {{list?.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-row fx-dr" *ngIf="panelCtrl">
+            <app-panel-list-ctrl [parentIdControl]="PanelIdControl" [isMultiple]="panelMulti"
+              [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true" [title]="panelCtrlTitle"
+              [PanelList]="PanelList">
+            </app-panel-list-ctrl>
+          </div>
+
+        </div>
+        <!-- end form -->
+      </div>
+      <div class="card-footer">
+
+        <button type="submit" class="btn btn-infocon">
+          Apply
+        </button>
+        <button type="submit" class="btn btn-infocon btn-pink" (click)="reset()">
+          Reset
+        </button>
+        <button type="button" class="btn btn-infocon btn-basic" (click)="close()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-menu>

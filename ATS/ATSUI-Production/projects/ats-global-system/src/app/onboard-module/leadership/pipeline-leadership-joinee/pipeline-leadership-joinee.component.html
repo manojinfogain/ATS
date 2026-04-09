@@ -1,0 +1,390 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <!-- <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+                    </app-auto-complete-talentid> -->
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="searhByTitle" [searchServerSide]="true"
+                                            [isReset]="isResetSearch" [matTooltip]="searhByTitle"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter"
+                                                        (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                        [dateRangeTitle]="'Joining Date'" [companyLocation]="true"
+                                                        [LocationMulti]="true"></app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+
+                                    <ng-container matColumnDef="Cid">
+                                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            CID
+                                        </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Candidate Name Column -->
+                                    <ng-container matColumnDef="CandidateName">
+                                        <th mat-header-cell *matHeaderCellDef> Candidate
+                                            Name </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element.Name || '-'}}
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <!-- Email ID Column -->
+                                    <ng-container matColumnDef="EmailID">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Personal <br> Email ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.email || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Joining Location Column -->
+                                    <ng-container matColumnDef="joiningLoc">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Joining Location
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.JoiningLocationName || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Phone No. Column -->
+                                    <ng-container matColumnDef="PhoneNo">
+                                        <th mat-header-cell *matHeaderCellDef>Phone
+                                            No. </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.phone || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="doj">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Tentative DOJ
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{(element?.joiningDate | date:'dd MMM YY') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="cDoj">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Confirmed DOJ
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{(element?.confirmJoinDate | date:'dd MMM YY') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="offerNum">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Offer Number
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.OfferNumberFull || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="isEmpCreated">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Is Employee ID Created
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <span *ngIf="element?.IsEmployeeIdCreated == 1" class="cursor-s">Yes</span>
+                                            <span *ngIf="element?.IsEmployeeIdCreated == 0" class="cursor-s">No</span>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emailIdOrg">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Infogain Email ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <span [cdkCopyToClipboard]="element?.orgEmail" class="cursor-s">
+                                                {{element?.orgEmail || '-'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="domainId">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Domain Id
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <span [cdkCopyToClipboard]="element?.domainId" class="cursor-s">
+                                                {{element?.domainId || '-'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="assignedIssDelegatorName">
+                                        <th mat-header-cell *matHeaderCellDef class="onbaord-spocs-color"> Assigned ISS
+                                            Spoc. <br>
+                                            (Confidential) </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.assignedIssDelegatorName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="dormantStatus">
+                                        <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                                            <br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.isTidDormant">
+                                                <ng-container *ngSwitchCase="'D'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{'DORMANT'}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'R'">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{'RE-ACTIVATED'}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{'ACTIVE'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="offerStatus">
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Offer
+                                            Status</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.offerStatus">
+                                                <ng-container *ngSwitchCase="20">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="40">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="60">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="80">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="30">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="50">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="70">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="90">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="110">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="120">
+                                                    <button class="btn-status-dg offergen" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="100">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="10">
+                                                    <button class="btn-status-dg holds" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="140">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="160">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="180">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="200">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="220">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.offerStatusName}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    {{element?.offerStatusName || '-'}}
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef> Action</th>
+                                        <td mat-cell *matCellDef="let element" class="text-left">
+
+                                            <div class="btn-action btn-action-centers">
+                                                <!--  -->
+                                                <div class="btn-act"
+                                                    *ngIf="(userData?.otherRoles?.IsRenuTeamAdmin == 'Y') && element?.IsEmployeeIdCreated != 1">
+                                                    <button mat-button type="button"
+                                                        (click)="updateCandidateJoinStatus(element, 'LS')"
+                                                        matTooltip="Confirm Candidate Joining Status">
+                                                        <span class="material-icons-outlined">
+                                                            supervised_user_circle
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- ends -->
+                                                <!-- Update Day1 Status -->
+                                                <div class="btn-act"
+                                                    *ngIf="isActionAllowed(userData, element)">
+                                                    <button mat-button type="button"
+                                                        (click)="updateDay1CandidateJoinStatus(element)"
+                                                        matTooltip="Update Day1 Status">
+                                                        <span class="material-icons-outlined">
+                                                            av_timer
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- ends -->
+                                                <!--  -->
+                                                <div class="btn-act"
+                                                    *ngIf="userData.RoleId === 7 && element?.offerStatus == 140 && element?.IsEmployeeIdCreated != 1">
+                                                    <button mat-button type="button"
+                                                        (click)="createEmpEmailDomain(element, 'LS')"
+                                                        matTooltip="Update Candidate Email/Domain ID"
+                                                        [disabled]="element?.orgEmail && element?.updateByIssCount >= 2">
+                                                        <span class="material-icons-outlined">
+                                                            manage_accounts
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- ends -->
+                                                <!-- 160 declined -->
+                                                <!-- -->
+                                                <div class="btn-act"
+                                                    *ngIf="userData.RoleId === 7 && element?.offerStatus == 160 && element?.IsEmployeeIdCreated != 1">
+                                                    <button mat-button type="button"
+                                                        (click)="deleteEmpEmailDomain(element)"
+                                                        matTooltip="Delete Candidate Email/Domain ID">
+                                                        <span class="material-icons-outlined">
+                                                            delete_sweep
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- *ngIf="(element?.onboardStatus == 40 &&  element?.candidateHiringType =='C' ) && (this.userData?.RoleId == 9  && element?.CandidateSubmissionStatus !='D') " -->
+                                                <div class="btn-act"  *ngIf="isShowIssDelegationAction(element)">
+                                                    <button mat-button type="button"
+                                                        [matTooltip]="element?.isDelegatorIssAssigned == 'Y' ? 'Update ISS Spoc' : 'Assign ISS Spoc'"
+                                                        (click)="openDelegateToIssModal(element)">
+                                                        <span class="material-icons-outlined">
+                                                            engineering
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                        [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                                    </tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList?.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec ats-foot-tb">
+                                <div>
+                                    <!-- <button  class="btn btn-infocon" (click)="SendEmailToISS()">
+                                        Send
+                                    </button> -->
+                                </div>
+                                <div>
+                                    <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                        (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

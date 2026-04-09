@@ -1,0 +1,183 @@
+<div class="partners-table-section">
+    <!-- table start no of days -->
+    <div class="p-registration-table-section">
+        <div class="heading-wrapper">
+            <!-- <h3 class="table-title">Contract Details</h3> -->
+
+            <div class="box-v-header">
+                <h4>Contract Details</h4>
+            </div>
+            <div class="add-row-btn-wrap" *ngIf="data?.type =='N'|| data?.type =='S'">
+                <!-- "
+                  [disabled]="formSchRowGroup.length >= 10" -->
+                <button type="button" class="btn btn-infocon btn-flex-add btn-add-contract"
+                    (click)="addUpdateControl()">
+                    <span class="material-icons-outlined">
+                        add_circle_outline
+                    </span>
+                    <span>
+                        Add More Contract
+                    </span>
+                </button>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-sec">
+                <ng-container [formGroup]="form">
+                    <!-- *ngIf="ContractDetailsGroupArray?.length != 0" -->
+                    <ng-container formGroupName="ContractDetails">
+
+                        <table class="table">
+                            <!-- <caption>Total Leaves in a year: </caption> -->
+                            <thead class="table-light">
+                                <tr>
+                                    <!-- <th scope="col"></th> -->
+                                    <th scope="col">Contract Type</th>
+                                    <th scope="col">Contract Availability</th>
+                                    <th scope="col">Contract Start Date</th>
+                                    <th scope="col">Contract End Date</th>
+                                    <th scope="col" *ngIf="data?.type !='P'">Action</th>
+                                </tr>
+                            </thead>
+                            <!-- <div class="wrap-table-content"> -->
+                            <tbody>
+
+                                <!-- *ngIf="creditDays.length >0" -->
+                                <ng-container *ngIf="data?.type =='N' ||data?.type =='S' || data?.type =='P' ">
+                                    <!-- *ngFor="let data of creditDays" -->
+                                    <tr *ngFor="let  items of ContractDetailsGroupArray?.controls; let i=index"
+                                        [formGroupName]="i">
+                                        <!-- <td>
+                                            <div class="ats-form-col sl-col">
+                                                <h3>Contract {{i+1}} </h3>
+
+                                            </div>
+                                        </td> -->
+                                        <td>
+                                            <div class="ats-form-col partner-contract-col">
+                                                <input type="hidden" formControlName="id">
+                                                <mat-form-field appearance="outline" class="place-from-control">
+                                                    <mat-label appRemoveAriaOwns>Contract Type</mat-label>
+                                                    <mat-select [disableOptionCentering]="true" required
+                                                        formControlName="ContractTypeID">
+                                                        <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                                            {{list?.ContractType}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col partner-contract-col">
+                                                <mat-form-field appearance="outline" class="place-from-control23424">
+                                                    <mat-label appRemoveAriaOwns>Contract Availability</mat-label>
+                                                    <mat-select [disableOptionCentering]="true" required
+                                                        (selectionChange)="getContractAvailablity($event, i)"
+                                                        formControlName="ContractAvailability">
+                                                        <mat-option value="Y">
+                                                            Yes
+                                                        </mat-option>
+                                                        <mat-option value="N">
+                                                            No
+                                                        </mat-option>
+                                                    </mat-select>                                  
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col partner-contract-col">
+                                                <mat-form-field appearance="outline" class="place-from-control">
+                                                    <mat-label>Contract Start Date </mat-label>
+                                                    <input matInput [matDatepicker]="picker1" 
+                                                        formControlName="StartDate" (dateInput)="changeDate(i, $event)"
+                                                        #stDate readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                        <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar"
+                                                                aria-hidden="true"></i></mat-icon>
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col partner-contract-col">
+                                                <mat-form-field appearance="outline" class="place-from-control">
+                                                    <mat-label>Contract End Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker2" 
+                                                        formControlName="EndDate" [min]="minEndDates[i]" readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                        <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar"
+                                                                aria-hidden="true"></i></mat-icon>
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <div class="ats-form-col sl-col" *ngIf="data?.type =='N' || data?.type =='S'">
+                                            <button class="btn-sv-delete" type="button"
+                                                (click)="deleteRow($event,i,items)" [matTooltip]="'Delete'"
+                                                [disabled]="ContractDetailsGroupArray.length ===1">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </tr>
+                                </ng-container>
+                                <!-- view edit details  starts -->
+                                <ng-container *ngIf="data?.type =='U'">
+                                    <tr *ngFor="let  elements of partnerContracts; let i=index">
+                                        <!-- <td>
+                                            <div class="ats-form-col sl-col contract-view-col">
+                                                <p>Contract {{i+1}} </p>
+                                            </div>
+                                        </td> -->
+                                        <td>
+                                            <div class="ats-form-col sl-col-update contract-view-col">
+                                                <p>{{elements?.contractTypeName || '-'}} </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col sl-col-update contract-view-col">
+                                                <p>{{elements?.contractAvailabitily === 'Y'?'Yes':'No' || '-'}} </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col sl-col-update contract-view-col">
+                                               
+                                                <p>{{(elements?.startDate | date:'dd-MMM-yyyy') || '-'}} </p>
+                                                                            
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col sl-col-update contract-view-col">
+                                                <div class="end-date-action">
+                                                    <div>
+                                                       
+                                                        <p>{{(elements?.endDate | date:'dd-MMM-yyyy') || '-'}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ats-form-col sl-col-update update-btn-w align-right"
+                                                *ngIf="data?.type =='P' || data?.type =='U' || data?.type=='S'">
+                                                <button class="btn-sv-delete" type="button"
+                                                    (click)="updateContractModal(elements)"
+                                                    [matTooltip]="'Update Contract Details'">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <!-- </div> -->
+                        </table>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+        </div>
+    </div>
+    <!-- table ends -->
+</div>

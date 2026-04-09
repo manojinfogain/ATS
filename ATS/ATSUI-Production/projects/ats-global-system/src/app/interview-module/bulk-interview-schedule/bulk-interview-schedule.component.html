@@ -1,0 +1,180 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+             <app-breadcrumbs [subText]="'- (For Screening Round)'"></app-breadcrumbs>
+                </div>
+                <!-- end search field -->
+                <div class="download-sec float-left cl-ic">
+                    <ul>
+                        <li>
+                            <a tooltipClass="tooltip-custom"
+                            matTooltip="Bulk Upload Template (Only for Screening Round)" href="assets/docs/Bulk-Upload-Screening-Round-Template.xlsx" target="_blank">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <form [formGroup]="bulkFormGroup" (ngSubmit)="submitBulk(bulkFormGroup)">
+                        <div class="card">
+                            <!-- <div class="card-header card-header-flex">
+                                <div></div>
+                                <div class="download-sec">
+                                    <ul>
+                                        <li>
+                                            <a tooltipClass="tooltip-custom"
+                                            matTooltip="Download Sample Excel" href="assets/docs/Bulk Upload Screening Round Template.xlsx" target="_blank">
+                                                <i class="fas fa-cloud-download-alt"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                            <div class="card-body">
+                                <div class="hiring-form clearfix">
+                                    <div class="row">
+
+
+                                        <div class="col-md-3"
+                                            [ngClass]="filexlscontrol.touched && filexlscontrol.invalid ? 'error-file-input':'suc'">
+                                            <div class="upload-file-input upload-file-input-lg">
+                                                <label>Upload Excel
+                                                    <sup>*</sup>
+                                                </label>
+                                                <input type="file" (change)="fileUp($event)" formControlName="filexls"
+                                                    accept=".xlsx">
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+                                    
+                                    <div class="table-bulk-form" *ngIf="fileResumesControls.length != 0">
+                                        <table class="table  table-infoconnect">
+                                            <thead>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th> Upload Resume<sup>*</sup></th>
+                                            </thead>
+                                            <tbody formGroupName="fileResumes">
+                                                <tr *ngFor="let  items of fileResumesControls.controls; let i=index"
+                                                    [formGroupName]="i">
+                                                    <td>
+                                                        <input type="hidden" formControlName="name" #name>
+                                                        {{name.value}}
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" formControlName="email" #email>
+                                                        {{email.value}}
+                                                    </td>
+                                                    <td>
+                                                        <div
+                                                            [ngClass]="fileResumesControls.controls[i]['controls'].file.touched && fileResumesControls.controls[i]['controls'].file.invalid ? 'error-file-input':'suc'">
+                                                            <div class="upload-file-input upload-width-300">
+                                                                <input type="file" formControlName="file"
+                                                                    (change)="resumeSelect($event,i)" accept=".jpg,.jpeg,.png,.txt,.pdf,.doc,.docx,.rtf">
+                                                            </div>
+                                                            <!-- end col -->
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                                <!-- end form hiring -->
+
+                            </div>
+
+                            <div class="card-footer" *ngIf="filexlscontrol.valid">
+                                <button type="submit" class="btn btn-infocon">Submit
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <button type="button" class="btn btn-infocon" (click)="resetForm()">Reset
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <!-- end card sec -->
+                    </form>
+
+
+
+                </mat-card>
+
+                <mat-card class="result-bulk" *ngIf="resultData.length != 0">
+                    <div class="card">
+                        <div class="card-header card-header-flex">
+                            <div>
+                                <h3 class="page-title">Result:</h3>
+                            </div>
+                            <div class="download-sec">
+                                <ul>
+                                    <li>
+                                        <a tooltipClass="tooltip-custom" 
+                                        matTooltip="Download scheduled result" (click)="exportResultExcel()" href="javascript:void(0)">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end download icon -->
+                        </div>
+                        <div class="card-body">
+                            <div class="hiring-form clearfix">
+                                <div class="table-bulk-form">
+                                    <table class="table  table-infoconnect">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Message</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let item of resultData">
+                                                <tr
+                                                    [ngClass]="item?.statusID == 'error' ? 'error-msg-blk':'suc-msg-blk'">
+                                                    <td>{{item?.Name}}</td>
+                                                    <td>{{item?.email}}</td>
+                                                    <td>{{item?.status}}</td>
+                                                </tr>
+                                            </ng-container>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                            <!-- end form hiring -->
+
+                        </div>
+
+
+                    </div>
+                    <!-- end card sec -->
+
+
+
+                </mat-card>
+            </div>
+            <!-- end content body -->
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

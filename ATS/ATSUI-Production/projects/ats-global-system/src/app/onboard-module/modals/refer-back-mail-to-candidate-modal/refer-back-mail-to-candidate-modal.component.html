@@ -1,0 +1,63 @@
+<form [formGroup]="referBackForm" (ngSubmit)="submitReferBackForm(referBackForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Onboarding Status:</h4>
+                            <p>{{data?.onboardStatusName|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="form-on-ats form-fill-ats">
+                    <!-- <div class="form-on-col">
+                        <h6 class="mail-title">Send Email to Candidate</h6>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Email Subject</mat-label>
+                            <input matInput type="text" formControlName="mailSubject" required>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+
+                    <div class="form-on-col full-width">
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{'Remarks'}}</mat-label>
+                            <textarea matInput formControlName="mailBody" placeholder="Enter Remarks..."
+                                class="m-txtarea" required></textarea>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

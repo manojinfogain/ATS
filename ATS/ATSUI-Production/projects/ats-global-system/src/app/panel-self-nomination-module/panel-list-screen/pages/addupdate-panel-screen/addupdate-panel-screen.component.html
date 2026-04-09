@@ -1,0 +1,90 @@
+<form [formGroup]="PanelistAdditionForm" (ngSubmit)="submitPanelDetails(PanelistAdditionForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}} </h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div>
+                <div class="box-v-body">
+                    <div class="form-up">
+                        <div
+                            class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz2 form-outline-ats ats-form-dark">
+
+
+                            <div class="ats-form-col" *ngIf="isEmpDroDown">
+                                <mat-form-field appearance="outline">
+                                    <mat-label appRemoveAriaOwns>Select Panel</mat-label>
+                                    <mat-select formControlName="PanelEmpId" required (selectionChange)="getDataEmp($event)">
+                                        <mat-option>
+                                            <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                [formControl]="FilterCtrlEmp" [noEntriesFoundLabel]="'No record Found'"
+                                                [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let data of empListPanel | EmpFiltertPipe:searchInputEmp"
+                                            [value]="data.EmpNewId">
+                                            {{data?.FullName}}{{"("+ data.EmpNewId +")"}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns>Account</mat-label>
+                                    <input matInput placeholder="Account" formControlName="AccountId"  disableInitialSpace readonly
+                                    >
+                                </mat-form-field>
+                            </div>
+
+                            <!-- <div class="ats-form-col">
+                                <app-account-list-control [IdControl]="getControl('AccountId')" [title]="'Account'"
+                                    [formFieldAppearance]="'outline'" [isMultiple]="true" [required]="true">
+                                </app-account-list-control>
+                            </div> -->
+
+                            <!-- <div class="ats-form-col">
+                                <app-skill-set [panelIdControl]="getControl('Skills')" [title]="'Skill'"
+                                    [formFieldAppearance]="'outline'" [isAllOption]="true" [isMultiple]="true"
+                                    [required]="true">
+                                </app-skill-set>
+                            </div> -->
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns>Skill</mat-label>
+                                    <input matInput placeholder="Skills" formControlName="Skills"  disableInitialSpace readonly
+                                    >
+                                </mat-form-field>
+                            </div>
+
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns>Grade</mat-label>
+                                    <input matInput placeholder="Grade" formControlName="gradeId" maxlength="250" disableInitialSpace readonly
+                                    >
+                                </mat-form-field>
+                            </div>
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns>Total Experience</mat-label>
+                                    <input matInput placeholder="Total Experience" formControlName="exp" maxlength="250" disableInitialSpace readonly
+                                    >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Add
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

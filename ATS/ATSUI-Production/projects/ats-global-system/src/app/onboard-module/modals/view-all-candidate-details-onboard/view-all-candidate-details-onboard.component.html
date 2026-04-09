@@ -1,0 +1,2026 @@
+<form [formGroup]="verificationForm" (ngSubmit)="submitRequest(verificationForm)">
+    <div class="ats-modal-header">
+        <h1>{{this.data?.Name}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="view-all-screen-dt">
+                <!-- <div class="adt-info-wrap adt-info-wrap-roles">
+                    <ul>
+                        <li class="vrfPen">
+                            <span></span>
+                            Verification Pending
+                        </li>
+                        <li class="vrfByRec">
+                            <span></span>
+                            Verified By Recruiter
+                        </li>
+                        <li class="vrfByHR">
+                            <span></span>
+                            Verified By HR
+                        </li>
+                        <li class="vrfFailed">
+                            <span></span>
+                            Verification Failed
+                        </li>
+                    </ul>
+                </div> -->
+                <div class="ct-tab-screen  candidate-screen">
+                    <mat-accordion class="candidate-ats-hr-rec">
+                        <mat-expansion-panel [expanded]="step1 === 0" (opened)="setStep1(0)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{'verifyRec': personalDtStatusRec === 'Y' || personalDtStatusRec === 'F','notVerifyRec': personalDtStatusRec === 'N' || personalDtStatusHR === 'N','verifyHR':personalDtStatusHR === 'Y' || personalDtStatusHR === 'F' }">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        settings_accessibility
+                                    </span> Employment Application Form
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-accordion class="candidate-ats-hr-rec">
+                                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)"
+                                    *ngIf="userData?.RoleId == 1">
+                                    <mat-expansion-panel-header
+                                        [ngClass]="{'verifyRec': personalDtStatusRec === 'Y' || personalDtStatusRec === 'F','notVerifyRec': personalDtStatusRec === 'N' || personalDtStatusHR === 'N','verifyHR':personalDtStatusHR === 'Y' || personalDtStatusHR === 'F' }">
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                settings_accessibility
+                                            </span> Onboarding Verification Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>Name:</h5>
+                                                <p>
+                                                    {{candidatePersonalDetails?.FirstName}}
+
+                                                    {{candidatePersonalDetails?.MiddleName || ''}}
+
+                                                    {{candidatePersonalDetails?.LastName || ''}}
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Father’s Name:</h5>
+                                                <p>{{candidatePersonalDetails?.FatherName || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Email:</h5>
+                                                <p>{{candidatePersonalDetails?.email || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Gender:</h5>
+                                                <p>{{candidatePersonalDetails?.Gender || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5> Download BGV Confirmation Documents:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="bgvDownldModal(data)">
+                                                        <span class="material-icons-outlined">
+                                                            cloud_download
+                                                        </span>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Preview Offer letter:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v" matTooltip="Preview  Offer"
+                                                        (click)="previewandSendOffer(data)">
+                                                        <span class="material-icons-outlined">
+                                                            picture_as_pdf
+                                                        </span>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Passport size photograph:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        [disabled]="passportPhotoDoc.length === 0"
+                                                        (click)="downloadDocuments(passportPhotoDoc[0])">
+                                                        <span class="material-icons-outlined">
+                                                            cloud_download
+                                                        </span>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Pan card:</h5>
+                                                <p>
+                                                    <button type="button" [disabled]="panCardDoc.length === 0"
+                                                        class="btn-ey-v" (click)="downloadDocuments(panCardDoc[0])">
+                                                        <span class="material-icons-outlined">
+                                                            cloud_download
+                                                        </span>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                        </div>
+                                        <!-- end -->
+
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end personal Details -->
+                                <mat-expansion-panel [expanded]="userData?.RoleId != 1 ? true : false "
+                                    (opened)="userData?.RoleId != 1 ? setStep(0) : setStep(1)">
+                                    <mat-expansion-panel-header
+                                        [ngClass]="{'verifyRec': personalDtStatusRec === 'Y' || personalDtStatusRec === 'F','notVerifyRec': personalDtStatusRec === 'N' || personalDtStatusHR === 'N','verifyHR':personalDtStatusHR === 'Y' || personalDtStatusHR === 'F' }">
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                settings_accessibility
+                                            </span> Personal Details
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <div class="mat-st-up">
+                                                <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                        <ng-container [ngSwitch]="personalDtStatusRec">
+                                                            <ng-container
+                                                                *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p>
+                                                <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                        <ng-container [ngSwitch]="personalDtStatusHR">
+                                                            <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p> -->
+                                            </div>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>First Name:</h5>
+                                                <p>
+                                                    {{candidatePersonalDetails?.FirstName || '-'}}
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Middle Name:</h5>
+                                                <p>
+                                                    {{candidatePersonalDetails?.MiddleName || '-'}}
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5> Last Name:</h5>
+                                                <p>
+                                                    {{candidatePersonalDetails?.LastName || '-'}}
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Father’s Name:</h5>
+                                                <p>{{candidatePersonalDetails?.FatherName || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Gender:</h5>
+                                                <p>{{candidatePersonalDetails?.Gender || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Email:</h5>
+                                                <p>{{candidatePersonalDetails?.email || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Mobile Number:</h5>
+                                                <p>{{candidatePersonalDetails?.phone || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Alternate Number:</h5>
+                                                <p>{{candidatePersonalDetails?.LandlineNumber || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(candidatePersonalDetails?.dob | date:'mediumDate')|| '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Marital Status:</h5>
+                                                <p>{{candidatePersonalDetails?.maritalStatusName || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Nationality:</h5>
+                                                <p>{{candidatePersonalDetails?.NationalityName || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Total Experience (EAF):</h5>
+                                                <p *ngIf="!isTotalExperienceDiffer">
+                                                    <!-- {{candidatePersonalDetails?.totalExp || '-'}} year -->
+                                                    {{candidatePersonalDetails?.CandidateTotalExp ?
+                                                    candidatePersonalDetails?.CandidateTotalExp +
+                                                    '
+                                                    year' : '-'}}
+                                                    {{candidatePersonalDetails?.CandidateTotalExpMonth ?
+                                                    candidatePersonalDetails?.CandidateTotalExpMonth + ' Month' : ' '}}
+                                                </p>
+                                                <button class="btn-status-dg schedule" type="button"
+                                                    *ngIf="isTotalExperienceDiffer">
+                                                    <p>
+                                                        <!-- {{candidatePersonalDetails?.totalExp || '-'}} year -->
+                                                        {{candidatePersonalDetails?.CandidateTotalExp ?
+                                                        candidatePersonalDetails?.CandidateTotalExp +
+                                                        '
+                                                        year' : '-'}}
+                                                        {{candidatePersonalDetails?.CandidateTotalExpMonth ?
+                                                        candidatePersonalDetails?.CandidateTotalExpMonth + ' Month' : '
+                                                        '}}
+                                                    </p>
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Total Experience (ATS):</h5>
+                                                <p *ngIf="!isTotalExperienceDiffer">
+                                                    <!-- {{candidatePersonalDetails?.totalExp || '-'}} year -->
+                                                    {{candidatePersonalDetails?.totalExp ?
+                                                    candidatePersonalDetails?.totalExp +
+                                                    '
+                                                    year' : '-'}}
+                                                    {{candidatePersonalDetails?.totalExpMonth ?
+                                                    candidatePersonalDetails?.totalExpMonth + ' Month' : ' '}}
+                                                </p>
+                                                <button class="btn-status-dg schedule" type="button"
+                                                    *ngIf="isTotalExperienceDiffer">
+                                                    <p>
+                                                        <!-- {{candidatePersonalDetails?.totalExp || '-'}} year -->
+                                                        {{candidatePersonalDetails?.totalExp ?
+                                                        candidatePersonalDetails?.totalExp +
+                                                        '
+                                                        year' : '-'}}
+                                                        {{candidatePersonalDetails?.totalExpMonth ?
+                                                        candidatePersonalDetails?.totalExpMonth + ' Month' : ' '}}
+                                                    </p>
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Relevant Experience (EAF):</h5>
+                                                <p *ngIf="!isReleventExperienceDiffer">
+                                                    {{candidatePersonalDetails?.CandidateRelevantExp ?
+                                                    candidatePersonalDetails?.CandidateRelevantExp
+                                                    + ' year' : '-'}}
+                                                    {{candidatePersonalDetails?.CandidateRelevantExpMonth ?
+                                                    candidatePersonalDetails?.CandidateRelevantExpMonth + ' Month' : '
+                                                    '}} </p>
+                                                <button class="btn-status-dg schedule" type="button"
+                                                    *ngIf="isReleventExperienceDiffer">
+                                                    <p> {{candidatePersonalDetails?.CandidateRelevantExp ?
+                                                        candidatePersonalDetails?.CandidateRelevantExp
+                                                        + ' year' : '-'}}
+                                                        {{candidatePersonalDetails?.CandidateRelevantExpMonth ?
+                                                        candidatePersonalDetails?.CandidateRelevantExpMonth + ' Month' :
+                                                        ' '}}
+                                                    </p>
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+                                            <!-- <button class="btn-status-dg schedule" type="button">
+                                                {{statusName}}
+                                            </button> -->
+
+                                            <div class="can-list-view">
+                                                <h5>Relevant Experience (ATS):</h5>
+                                                <p *ngIf="!isReleventExperienceDiffer">
+                                                    {{candidatePersonalDetails?.releventExp
+                                                    ?
+                                                    candidatePersonalDetails?.releventExp
+                                                    + ' year' : '-'}}
+                                                    {{candidatePersonalDetails?.releventExpMonth ?
+                                                    candidatePersonalDetails?.releventExpMonth + ' Month' : ' '}} </p>
+                                                <button class="btn-status-dg schedule" type="button"
+                                                    *ngIf="isReleventExperienceDiffer">
+                                                    <p> {{candidatePersonalDetails?.releventExp ?
+                                                        candidatePersonalDetails?.releventExp
+                                                        + ' year' : '-'}}
+                                                        {{candidatePersonalDetails?.releventExpMonth ?
+                                                        candidatePersonalDetails?.releventExpMonth + ' Month' : ' '}}
+                                                    </p>
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>IT Experience:</h5>
+                                                <p> {{candidatePersonalDetails?.ITExpYear ?
+                                                    candidatePersonalDetails?.ITExpYear
+                                                    + ' year' : '-'}}
+                                                    {{candidatePersonalDetails?.ITExpMonth ?
+                                                    candidatePersonalDetails?.ITExpMonth + ' Month' : '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Core Skill:</h5>
+                                                <p> {{candidatePersonalDetails?.skillName ?
+                                                    candidatePersonalDetails?.skillName
+                                                    : '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Secondary Skills:</h5>
+                                                <p> {{candidatePersonalDetails?.AddtionalSkillName ?
+                                                    candidatePersonalDetails?.AddtionalSkillName : '-'}}</p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Blood Group:</h5>
+                                                <p>{{candidatePersonalDetails?.BloodGroup}}
+                                                    <ng-container [ngSwitch]="candidatePersonalDetails?.BloodGroupRh">
+                                                        <ng-container *ngSwitchCase="'P'">Positive</ng-container>
+                                                        <ng-container *ngSwitchCase="'N'">Negative</ng-container>
+                                                        <ng-container *ngSwitchCase="'U'">Unknown</ng-container>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Passport No.:</h5>
+                                                <p>{{candidatePersonalDetails?.PassportNo || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Valid Visa:</h5>
+                                                <p>
+                                                    <ng-container [ngSwitch]="candidatePersonalDetails?.ValidVisa">
+                                                        <ng-container *ngSwitchCase="'Y'">Yes</ng-container>
+                                                        <ng-container *ngSwitchCase="'N'">No</ng-container>
+                                                        <ng-container *ngSwitchDefault>
+                                                            -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+
+                                            <div class="can-list-view">
+                                                <h5>Visa Valid Upto:</h5>
+                                                <p>{{(candidatePersonalDetails?.VisaValidUpto | date:'mediumDate') ||
+                                                    '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Onsite/Overseas Experience:</h5>
+                                                <p>{{candidatePersonalDetails?.OverseasExp || '-'}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Present Address:</h5>
+                                                <p>
+                                                    {{presentAddress}}
+                                                </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Permanent Address:</h5>
+                                                <p> {{PermanentAddress}} </p>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="can-list-view">
+                                                <h5>Contact Address in Emergency:</h5>
+                                                <p> {{ContactAddressEmr}} </p>
+                                            </div>
+                                            <!-- end -->
+                                        </div>
+                                        <!-- end -->
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="personalDtStatusRec === 'Y' || personalDtStatusRec === 'N'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body"
+                                                *ngIf="personalDtStatusRec && personalDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.recruiterVerifiedRemarks ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="personalDtStatusHR  && personalDtStatusHR !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Status:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.HRVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification By:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.HRVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Date:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                            hh:mm a' ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Remark:</h5>
+                                                        <p>
+                                                            {{candidatePersonalDetails?.HRVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center">
+                                    <ng-container
+                                        *ngIf="!personalDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('PD')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="!personalDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('PD')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                        <!-- end personal Details -->
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{'verifyRec': familyDtStatusRec === 'Y' || familyDtStatusRec === 'F','notVerifyRec': familyDtStatusRec === 'N' || familyDtStatusHR === 'N' ,'verifyHR': familyDtStatusHR === 'Y' || familyDtStatusHR === 'F' }">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        family_restroom
+                                    </span> Family Details
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    <div class="mat-st-up">
+                                        <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                <ng-container [ngSwitch]="familyDtStatusRec">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p>
+                                        <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                <ng-container [ngSwitch]="familyDtStatusHR">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p> -->
+                                    </div>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <app-candidate-family-details [appearance]="formAppearance"
+                                    [familyDetailsList]="familyList" [formClass]="formClass">
+                                </app-candidate-family-details>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="familyDtStatusRec == 'Y' || familyDtStatusRec == 'N'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body"
+                                                *ngIf="familyDtStatusRec  && familyDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.recruiterVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="familyDtStatusHR  && familyDtStatusHR !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Status:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.HRVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification By:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.HRVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Date:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                            hh:mm a' ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Remark:</h5>
+                                                        <p>
+                                                            {{familyList[0]?.HRVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center" *ngIf="familyList.length !== 0">
+                                    <ng-container
+                                        *ngIf="!familyDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('FD')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!familyDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('FD')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <!-- end Family Details -->
+                        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{'verifyRec': eduDtStatusRec === 'Y' || eduDtStatusRec === 'F','notVerifyRec': eduDtStatusRec === 'N' || eduDtStatusHR === 'N','verifyHR': eduDtStatusHR === 'Y' || eduDtStatusHR === 'F' }">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span> Educational Background
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    <div class="mat-st-up">
+                                        <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                <ng-container [ngSwitch]="eduDtStatusRec">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p>
+                                        <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                <ng-container [ngSwitch]="eduDtStatusHR">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p> -->
+                                    </div>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <app-candidate-education-details [appearance]="formAppearance" [formClass]="formClass"
+                                    [candidateEducationDetails]="candidateEducationList"></app-candidate-education-details>
+
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="eduDtStatusRec == 'Y' || eduDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body" *ngIf="eduDtStatusRec   && eduDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{candidateEducationList[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{candidateEducationList[0]?.recruiterVerifiedByName ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{candidateEducationList[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{candidateEducationList[0]?.recruiterVerifiedRemarks ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="eduDtStatusHR  && eduDtStatusHR !== 'F'">
+                                                    <div class="can-view-wrap">
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Status:</h5>
+                                                            <p>
+                                                                {{candidateEducationList[0]?.HRVerifiedStatus ===
+                                                                1?'Verified':'Verification Failed'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification By:</h5>
+                                                            <p>
+                                                                {{candidateEducationList[0]?.HRVerifiedByName || '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Date:</h5>
+                                                            <p>
+                                                                {{candidateEducationList[0]?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                                hh:mm a' ||
+                                                                '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Remark:</h5>
+                                                            <p>
+                                                                {{candidateEducationList[0]?.HRVerifiedRemarks || '-'}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="candidateEducationList.length !== 0">
+                                    <ng-container
+                                        *ngIf="!eduDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('EB')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!eduDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('EB')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <!-- end Educational Details -->
+
+                                <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+                                    <mat-expansion-panel-header
+                                        [ngClass]="{'verifyRec': trainingCoursesDtStatusRec === 'Y' || trainingCoursesDtStatusRec === 'F','notVerifyRec': trainingCoursesDtStatusRec === 'N' || trainingCoursesDtStatusHR === 'N','verifyHR': trainingCoursesDtStatusHR === 'Y' || trainingCoursesDtStatusHR === 'F' }">
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                model_training
+                                            </span> Training Courses Attended
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <div class="mat-st-up">
+                                                <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                        <ng-container [ngSwitch]="trainingCoursesDtStatusRec">
+                                                            <ng-container
+                                                                *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p>
+                                                <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                        <ng-container [ngSwitch]="trainingCoursesDtStatusHR">
+                                                            <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p> -->
+                                            </div>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <ng-template matExpansionPanelContent>
+                                        <app-training-courses-attended [appearance]="formAppearance"
+                                            [trainingCoursesList]="trainingCoursesList"
+                                            [formClass]="formClass"></app-training-courses-attended>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="trainingCoursesDtStatusRec == 'Y' || trainingCoursesDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body"
+                                                *ngIf="trainingCoursesDtStatusRec && trainingCoursesDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{trainingCoursesList[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{trainingCoursesList[0]?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{trainingCoursesList[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{trainingCoursesList[0]?.recruiterVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="trainingCoursesDtStatusHR && trainingCoursesDtStatusHR !== 'F'">
+                                                    <div class="can-view-wrap">
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Status:</h5>
+                                                            <p>
+                                                                {{trainingCoursesList[0]?.HRVerifiedStatus ===
+                                                                1?'Verified':'Verification Failed'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification By:</h5>
+                                                            <p>
+                                                                {{trainingCoursesList[0]?.HRVerifiedByName || '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Date:</h5>
+                                                            <p>
+                                                                {{trainingCoursesList[0]?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                                hh:mm a' ||
+                                                                '-'}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="can-list-view">
+                                                            <h5>HR Verification Remark:</h5>
+                                                            <p>
+                                                                {{trainingCoursesList[0]?.HRVerifiedRemarks || '-'}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="trainingCoursesList.length !== 0">
+                                    <ng-container
+                                        *ngIf="!trainingCoursesDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('TC')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container
+                                        *ngIf="!trainingCoursesDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('TC')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+
+                                </mat-expansion-panel>
+                                <!-- end Training Courses Attended Details -->
+
+                                <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+                                    <mat-expansion-panel-header
+                                        [ngClass]="{'verifyRec': EmpDtStatusRec === 'Y' || EmpDtStatusRec === 'F','notVerifyRec': EmpDtStatusRec === 'N' || EmpDtStatusHR === 'N' ,'verifyHR': EmpDtStatusHR === 'Y' || EmpDtStatusHR === 'F' }">
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                work_history
+                                            </span> Employment Details
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <div class="mat-st-up">
+                                                <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                        <ng-container [ngSwitch]="EmpDtStatusRec">
+                                                            <ng-container
+                                                                *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p>
+                                                <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                        <ng-container [ngSwitch]="EmpDtStatusHR">
+                                                            <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p> -->
+                                            </div>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <ng-template matExpansionPanelContent>
+                                        <app-employment-details [appearance]="formAppearance" [formClass]="formClass"
+                                            [employmentList]="employmentList">
+                                        </app-employment-details>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="EmpDtStatusRec == 'Y' || EmpDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body" *ngIf="EmpDtStatusRec && EmpDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.recruiterVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="EmpDtStatusHR && EmpDtStatusHR !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Status:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.HRVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification By:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.HRVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Date:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                            hh:mm a' ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Remark:</h5>
+                                                        <p>
+                                                            {{employmentList[0]?.HRVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="employmentList.length !== 0">
+                                    <ng-container
+                                        *ngIf="!EmpDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('ED')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!EmpDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('ED')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+
+                                </mat-expansion-panel>
+                                <!-- end Employment Details -->
+
+                        <mat-expansion-panel *ngIf="data?.typeLeader !='LS'" [expanded]="step === 6" (opened)="setStep(6)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{'verifyRec': salDtStatusRec === 'Y' || salDtStatusRec === 'F','notVerifyRec': salDtStatusRec === 'N' ||  salDtStatusHR === 'N','verifyHR': salDtStatusHR === 'Y' || salDtStatusHR === 'F'}">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        money
+                                    </span> Salary Details
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    <div class="mat-st-up">
+                                        <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                <ng-container [ngSwitch]="salDtStatusRec">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p>
+                                        <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                <ng-container [ngSwitch]="salDtStatusHR">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p> -->
+                                    </div>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <app-salary-details [appearance]="formAppearance" [formClass]="formClass"
+                                    [salaryDetails]="salaryList">
+                                </app-salary-details>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="salDtStatusRec == 'Y' || salDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body" *ngIf="salDtStatusRec && salDtStatusRec !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{salaryList?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{salaryList?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{salaryList?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{salaryList?.recruiterVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="box-v-body" *ngIf="salDtStatusHR && salDtStatusHR !== 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Status:</h5>
+                                                        <p>
+                                                            {{salaryList?.HRVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification By:</h5>
+                                                        <p>
+                                                            {{salaryList?.HRVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Date:</h5>
+                                                        <p>
+                                                            {{salaryList?.HRVerifiedOn | date:'dd MMM YYYY,
+                                                            hh:mm a' ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="can-list-view">
+                                                        <h5>HR Verification Remark:</h5>
+                                                        <p>
+                                                            {{salaryList?.HRVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="salaryList?.noticePeriod != 0">
+                                    <ng-container
+                                        *ngIf="!salDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('SD')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!salDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('SD')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+
+                                </mat-expansion-panel>
+                                <!--  Salary Details -->
+
+                                <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+                                    <mat-expansion-panel-header
+                                        [ngClass]="{'verifyRec': docDtStatusRec === 'Y' || docDtStatusRec === 'F','notVerifyRec': docDtStatusRec === 'N' || docDtStatusHR === 'N','verifyHR': docDtStatusHR === 'Y' || docDtStatusHR === 'F' }">
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                money
+                                            </span> Document Details
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <div class="mat-st-up">
+                                                <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                        <ng-container [ngSwitch]="docDtStatusRec">
+                                                            <ng-container
+                                                                *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p>
+                                                <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                        <ng-container [ngSwitch]="docDtStatusHR">
+                                                            <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                            <ng-container
+                                                                *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                            <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                        </ng-container>
+                                                    </span></p> -->
+                                            </div>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <ng-template matExpansionPanelContent>
+                                        <app-document-details-sc [appearance]="formAppearance" [formClass]="formClass"
+                                            [uploadedDocumentLists]="uploadedDocumentLists">
+                                        </app-document-details-sc>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="docDtStatusRec =='Y' || docDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body" *ngIf="docDtStatusRec && docDtStatusRec != 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{uploadedDocumentLists[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{uploadedDocumentLists[0]?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{uploadedDocumentLists[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{uploadedDocumentLists[0]?.recruiterVerifiedRemarks ||
+                                                            '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="uploadedDocumentLists.length !== 0">
+                                    <ng-container
+                                        *ngIf="!docDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('DD')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!docDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('DD')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+
+                                </mat-expansion-panel>
+                                <!--  Salary Details -->
+
+
+                        <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)">
+                            <mat-expansion-panel-header
+                                [ngClass]="{'verifyRec': otherDtStatusRec === 'Y' || otherDtStatusRec === 'F','notVerifyRec': otherDtStatusRec === 'N' ||  otherDtStatusHR === 'N','verifyHR': otherDtStatusHR === 'Y' || docDtStatusHR === 'F' }">
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        alt_route
+                                    </span> {{data?.typeLeader =='LS' ? 'References' : 'Other Details' }} 
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    <div class="mat-st-up">
+                                        <p>{{tAGVerificationLabel}}<span class="stt-sm-r">
+                                                <ng-container [ngSwitch]="otherDtStatusRec">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p>
+                                        <!-- <p>{{hRVerificationLabel}}<span class="stt-sm-h">
+                                                <ng-container [ngSwitch]="otherDtStatusHR">
+                                                    <ng-container *ngSwitchCase="'Y'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchCase="'F'">{{verifiedLabel}}</ng-container>
+                                                    <ng-container
+                                                        *ngSwitchCase="'N'">{{notVerifiedLabel}}</ng-container>
+                                                    <ng-container *ngSwitchDefault>{{pendingLabel}}</ng-container>
+                                                </ng-container>
+                                            </span></p> -->
+                                    </div>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <app-other-details-sc [appearance]="formAppearance" [formClass]="formClass"
+                                    [candidateQuestionareDetails]="questionireList"
+                                    [candidateReferenceDetails]="refrenceList" [otherInformation]="otherInformation"
+                                    [typeLeader]="data?.typeLeader">
+                                </app-other-details-sc>
+
+                                        <div class="box-v-ats verification-details-wrap"
+                                            *ngIf="otherDtStatusRec == 'Y' || otherDtStatusHR == 'Y'">
+                                            <div class="box-v-header">
+                                                <h4>Verification Details</h4>
+                                            </div>
+                                            <div class="box-v-body" *ngIf="otherDtStatusRec && otherDtStatusRec != 'F'">
+                                                <div class="can-view-wrap">
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Status:</h5>
+                                                        <p>
+                                                            {{questionireList[0]?.recruiterVerifiedStatus ===
+                                                            1?'Verified':'Verification Failed'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification By:</h5>
+                                                        <p>
+                                                            {{questionireList[0]?.recruiterVerifiedByName || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Date:</h5>
+                                                        <p>
+                                                            {{questionireList[0]?.recruiterVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="can-list-view">
+                                                        <h5>Recruiter Verification Remark:</h5>
+                                                        <p>
+                                                            {{questionireList[0]?.recruiterVerifiedRemarks || '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end -->
+
+                                <div class="action-on-sec text-center"
+                                    *ngIf="questionireList.length !== 0">
+                                    <ng-container
+                                        *ngIf="!otherDtStatusRec  && data?.onboardStatus == 20">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('OD')">
+                                            {{verifyActionBtnLabelRec}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!otherDtStatusHR && isHRAction && data?.onboardStatus == 40">
+                                        <button type="button" class="btn btn-infocon"
+                                            (click)="openVerificationModal('OD')">
+                                            {{verifyActionBtnLabelHR}}
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+
+                                </mat-expansion-panel>
+                                <!--  Salary Details -->
+
+                            </mat-accordion>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel [expanded]="step1 === 1" (opened)="setStep1(1)" *ngIf="candidatePersonalDetails?.ISBGVFormsEnable == 'Y'" class="margin-bottom-25">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span> Background Verification Details
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-accordion class="candidate-ats-hr-rec">
+                                <!-- personal Details -->
+                                <mat-expansion-panel [expanded]="true" (opened)="setStep2(0)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                settings_accessibility
+                                            </span> Personal Information
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>Title:</h5>
+                                                <p>{{BGVPersonalInfo?.Title || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Candidate Name:</h5>
+                                                <p>{{BGVPersonalInfo?.CandidateName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(BGVPersonalInfo?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Mobile Number:</h5>
+                                                <p>{{BGVPersonalInfo?.MobileNumber || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Email ID:</h5>
+                                                <p>{{BGVPersonalInfo?.EmailId || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Personal Identity Document:</h5>
+                                                <p>{{BGVPersonalInfo?.DocumentName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Personal Identity Number:</h5>
+                                                <p>{{BGVPersonalInfo?.DocumentNumber || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>UAN Number:</h5>
+                                                <p>{{BGVPersonalInfo?.UANNumber || '-'}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end personal Details -->
+                                <!-- Address Details -->
+                                <mat-expansion-panel [expanded]="step2 === 1" (opened)="setStep2(1)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                location_on
+                                            </span> Current Address Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>Address:</h5>
+                                                <p>{{BGVAddressDetails?.Address || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Pin Code:</h5>
+                                                <p>{{BGVAddressDetails?.PinCode || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Mobile Number:</h5>
+                                                <p>{{BGVAddressDetails?.MobileNumber || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Alternate Contact Number:</h5>
+                                                <p>{{BGVAddressDetails?.AlternateContactNumber || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Country:</h5>
+                                                <p>{{BGVAddressDetails?.CountryName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>State:</h5>
+                                                <p>{{BGVAddressDetails?.State || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>City:</h5>
+                                                <p>{{BGVAddressDetails?.City || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Current Address Proof Document:</h5>
+                                                <p>{{BGVAddressDetails?.DocumentTypeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Preview {{BGVAddressDetails?.DocumentTypeName}}:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="previewDocument(BGVAddressDetails)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end Address Details -->
+                                <!-- CRC Details -->
+                                <!-- CRC Check Details Section (renamed from Educational Background) -->
+                                <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                history_edu
+                                            </span> CRC Check Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>Father's Name:</h5>
+                                                <p>{{BGVCRCDetails?.FatherName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(BGVCRCDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Address:</h5>
+                                                <p>{{BGVCRCDetails?.Address || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Duration to Stay:</h5>
+                                                <p>{{BGVCRCDetails?.DurationToStay || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Permanent Address Proof Document:</h5>
+                                                <p>{{BGVCRCDetails?.DocumentTypeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Preview {{BGVCRCDetails?.DocumentTypeName}}:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="previewDocument(BGVCRCDetails)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end CRC Check Details -->
+                                <!-- Highest Education Details -->
+                                <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                model_training
+                                            </span> Highest Education Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>College/Institute/School Name:</h5>
+                                                <p>{{BGVHighestEducationDetails?.CollegeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(BGVHighestEducationDetails?.DateOfBirth | date:'mediumDate') ||
+                                                    '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Seat No. / Roll No. / Enrollment No. / PRN No.:</h5>
+                                                <p>{{BGVHighestEducationDetails?.SeatOrRollOrEnrollorPRNNo || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Degree / Qualification Name:</h5>
+                                                <p>{{BGVHighestEducationDetails?.DegreeOrQualification || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Year of Passing:</h5>
+                                                <p>{{BGVHighestEducationDetails?.YearOfPassing || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Division / CGPA / Percentage:</h5>
+                                                <p>{{BGVHighestEducationDetails?.DivisionOrCGPAOrPercent || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Educational Qualification Proof Document:</h5>
+                                                <p>{{BGVHighestEducationDetails?.DocumentTypeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Preview {{BGVHighestEducationDetails?.DocumentTypeName}}:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="previewDocument(BGVHighestEducationDetails)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end highest education Details -->
+                                <!-- Employment Details -->
+                                <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                work_history
+                                            </span> Employment Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-temp-body">
+                                            <div class="can-temp-b">
+                                                <div class="cand-ot-table">
+                                                    <table mat-table [dataSource]="this.BGVEmploymentDetails"
+                                                        class="table-mat-info">
+                                                        <!-- Checkbox Column -->
+                                                        <ng-container matColumnDef="employerName">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Name of the Employer
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.PayloadOrganization || '-'}}
+                                                            </td>
+                                                        </ng-container>
+                                                        <!-- end -->
+                                                        <ng-container matColumnDef="employerType">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Employer Type
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                <ng-container *ngIf="element?.CompanyType == 'C'">
+                                                                    Current Employer
+                                                                </ng-container>
+                                                                <ng-container *ngIf="element?.CompanyType == 'P1'">
+                                                                    Previous Employer 1
+                                                                </ng-container>
+                                                                <ng-container *ngIf="element?.CompanyType == 'P2'">
+                                                                    Previous Employer 2
+                                                                </ng-container>
+                                                            </td>
+                                                        </ng-container>
+                                                        <!-- end -->
+                                                        <ng-container matColumnDef="employeeId">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Employee ID
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.EmployeeId || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Doj">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Date of Joining
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.DOJ ? (element?.DOJ | date:'yyyy-MM-dd') :
+                                                                '-'}}
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="currentWorking">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Currently Working
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.CurrentlyWithSameCompany == 'Yes' ? 'Yes' :
+                                                                'No'}}
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Designation">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                Designation
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.Designation || '-'}}
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="RMNameDesig">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                RM Name & Designation
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.RMNameDesignation || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="RMContact">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                RM Contact
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.RMContactNumber || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="RMEmail">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                RM Email
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.RMEmailId || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="HRNameDesig">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                HR Name & Designation
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.HRNameDesignation || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="HRContact">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                HR Contact
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.HRContactNumber || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="HREmail">
+                                                            <th mat-header-cell *matHeaderCellDef>
+                                                                HR Email
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element?.HREmailId || '-'}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="action" stickyEnd>
+                                                            <th mat-header-cell *matHeaderCellDef> Action</th>
+                                                            <td mat-cell *matCellDef="let element" class="text-left">
+
+                                                                <div class="btn-action btn-action-centers">
+                                                                    <div class="btn-act">
+                                                                        <button mat-button type="button"
+                                                                            (click)="previewEmpDetDoc(element)"
+                                                                            matTooltip="Preview Document">
+                                                                            <span class="material-icons-outlined">
+                                                                                preview
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </ng-container>
+
+
+
+                                                        <tr mat-header-row
+                                                            *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                                        <tr mat-row
+                                                            *matRowDef="let row; columns: displayedColumns;let i = index">
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!-- end Employment Details -->
+                                <!-- Global DB Check Details -->
+                                <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                work_history
+                                            </span> Global Database Check Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <div class="can-list-view">
+                                                <h5>Father's Name:</h5>
+                                                <p>{{BGVGlobalDBCheckDetails?.FatherName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Gender:</h5>
+                                                <p>{{BGVGlobalDBCheckDetails?.GenderName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(BGVGlobalDBCheckDetails?.DateOfBirth | date:'mediumDate') || '-'}}
+                                                </p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Identity Proof Document:</h5>
+                                                <p>{{BGVGlobalDBCheckDetails?.DocumentTypeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Preview {{BGVGlobalDBCheckDetails?.DocumentTypeName}}:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="previewDocument(BGVGlobalDBCheckDetails)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                                <!--  End Global DB Check Details -->
+                                <!-- OFAC Details -->
+                                <!-- <span class="material-icons-outlined">
+                                        alt_route
+                                    </span> -->
+                                <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <span class="material-icons-outlined">
+                                                gavel
+                                            </span> OFAC Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="panel-content">
+                                        <div class="can-view-wrap">
+                                            <!-- <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>{{BGVOFACDetails?.CandidateName || '-'}}</p>
+                                </div> -->
+                                            <div class="can-list-view">
+                                                <h5>Father's Name:</h5>
+                                                <p>{{BGVOFACDetails?.FatherName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Date of Birth:</h5>
+                                                <p>{{(BGVOFACDetails?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Identity Proof Document:</h5>
+                                                <p>{{BGVOFACDetails?.DocumentTypeName || '-'}}</p>
+                                            </div>
+                                            <div class="can-list-view">
+                                                <h5>Preview {{BGVOFACDetails?.DocumentTypeName}}:</h5>
+                                                <p>
+                                                    <button type="button" class="btn-ey-v"
+                                                        (click)="previewDocument(BGVOFACDetails)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- </mat-expansion-panel> -->
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+
+
+                <div class="box-v-ats verification-details-wrap"
+                    *ngIf="candidatePersonalDetails?.recFinalVerifiedStatus != null || candidatePersonalDetails?.HRFinalVerifiedStatus != null ">
+                    <div class="box-v-header">
+                        <h4>Verification Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="can-view-wrap">
+                            <div class="can-list-view">
+                                <h5>Verification Status:</h5>
+                                <p>
+                                    {{this.data?.onboardStatusName}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="can-list-view">
+                                <h5>Recruiter Verification By:</h5>
+                                <p>
+                                    {{candidatePersonalDetails?.recFinalVerifiedByName || '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="can-list-view">
+                                <h5>Recruiter Verification Date:</h5>
+                                <p>
+                                    {{candidatePersonalDetails?.recFinalVerifiedOn | date:'dd MMM YYYY, hh:mm a' ||
+                                    '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="can-list-view">
+                                <h5>Recruiter Verification Remark:</h5>
+                                <p>
+                                    {{this.data?.onboardStatus == 30 ?
+                                    candidatePersonalDetails?.recruiterVerifiedMailBody : '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                        </div>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="can-view-wrap">
+                            <div class="can-list-view">
+                                <h5>HR Verification By:</h5>
+                                <p>
+                                    {{candidatePersonalDetails?.HRFinalVerifiedByName || '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="can-list-view">
+                                <h5>HR Verification Date:</h5>
+                                <p>
+                                    {{candidatePersonalDetails?.HRFinalVerifiedOn | date:'dd MMM YYYY, hh:mm a' || '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="can-list-view">
+                                <h5>HR Verification Remark:</h5>
+                                <p>
+                                    {{this.data?.onboardStatus == 50 ? candidatePersonalDetails?.HRVerifiedMailBody :
+                                    '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end -->
+                <div class="margin-top-10" *ngIf="IsRecFinalSubmit"
+                    class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats at-ct-inline mt-ml">
+                        <div class="of-title">
+                            <label class="lb-title">
+                                {{'Onboarding Mode'}}<sup>*</sup> </label>
+                        </div>
+                        <div>
+                            <mat-radio-group aria-label="Select an option" formControlName="OnBordingMode">
+                                <mat-radio-button value="I">In-Person (F2F)
+                                </mat-radio-button>
+                                <mat-radio-button value="V">Virtual</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="ats-form-col hint-int"
+                        [ngClass]="UploadPosiApprMail.touched && UploadPosiApprMail.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file upload-file-inline">
+                            <label>Upload Position Approval E-Mail <sup *ngIf="!isPositionApprovalMailUploaded && getControl('status')?.value == 1  && !isConfidentialVpAbove">*</sup>
+                            </label>
+                            <input type="file" formControlName="UploadPosiApprMail"
+                                (change)="fileUpPosiApprMail($event, 'PA')"
+                                [required]="!isPositionApprovalMailUploaded && getControl('status')?.value == 1 && !isConfidentialVpAbove">
+                        </div>
+                        <div class="ul-action display-inline-block">
+                            <ul class="ul-action-style">
+                                <li>
+                                    <button type="button" [disabled]="!isPositionApprovalMailUploaded" class="btn-ey-v"
+                                        (click)="viewDownloadMandateEmail(data,'PA')">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ats-form-col hint-int"
+                        [ngClass]="UploadIntEvalSheet.touched && UploadIntEvalSheet.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file upload-file-inline">
+                            <label>Upload Interview Evaluation Sheet <sup *ngIf="!isIntEvalSheetUploaded && getControl('status')?.value == 1  && !isConfidentialVpAbove">*</sup>
+                            </label>
+                            <input type="file" formControlName="UploadIntEvalSheet"
+                                (change)="fileUpPosiApprMail($event, 'IE')" [required]="!isIntEvalSheetUploaded && getControl('status')?.value == 1  && !isConfidentialVpAbove">
+                        </div>
+                        <div class="ul-action display-inline-block">
+                            <ul class="ul-action-style">
+                                <li>
+                                    <button type="button" [disabled]="!isIntEvalSheetUploaded" class="btn-ey-v"
+                                        (click)="viewDownloadMandateEmail(data,'IE')">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ats-form-col hint-int"
+                        [ngClass]="UploadOfferLtrAccDoc.touched && UploadOfferLtrAccDoc.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file upload-file-inline">
+                            <label>Upload OL Acceptance E-Mail </label>
+                            <input type="file" formControlName="UploadOfferLtrAccDoc"
+                                (change)="fileUpPosiApprMail($event, 'OA')">
+                        </div>
+                        <div class="display-inline-block">
+                            <ul class="ul-action-style">
+                                <li>
+                                    <button type="button" [disabled]="!isOfferLtrAccDocUploaded" class="btn-ey-v"
+                                        (click)="viewDownloadMandateEmail(data,'OA')">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- || IsHrFinalSubmit -->
+                <div class="verfic-t-wrap" *ngIf="IsRecFinalSubmit">
+                    <div class="vrf-form-sec">
+                        <div class="form-on-ats form-fill-ats">
+                            <div class="form-on-col full-width">
+                                <div class="rad-bb-wrapper"
+                                    [ngClass]="getControl('status').touched  && getControl('status').invalid ? 'consent-error':'suc'">
+                                    <mat-radio-group aria-label="Select an option" formControlName="status"
+                                        (change)="consentUp($event)">
+                                        <mat-radio-button value="1">I have verified all above section of candidates
+                                            details are correct.</mat-radio-button>
+                                        <mat-radio-button value="0">I have verified all above section of candidates
+                                            details are <strong class="text-red">NOT</strong>
+                                            correct.</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="form-on-col remark-wt width-70" *ngIf="isEmail">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{'Add remarks for candidate.'}}</mat-label>
+                                    <textarea matInput formControlName="mailBody" placeholder="Enter Remarks..."
+                                        class="m-txtarea remark-ht-wt"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- this.isRecruiterAction=true; -->
+         <!-- || (IsHrFinalSubmit && data?.onboardStatus == 40) -->
+        <button class="btn btn-infocon" 
+            *ngIf="( (data?.onboardStatus == 20  || this.data?.onboardStatus == 50)) ">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+
+</form>

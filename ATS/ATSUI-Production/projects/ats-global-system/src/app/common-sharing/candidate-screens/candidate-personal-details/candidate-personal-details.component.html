@@ -1,0 +1,251 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Personal Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="form-can-wrap">
+            <form [formGroup]="personalDetailsForm">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>First Name</mat-label>
+                            <input matInput type="text" formControlName="FirstName" maxlength="250" appCapitalizeWords>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('FirstName').touched && getControl('FirstName').invalid">
+                        <div *ngIf="getControl('FirstName').errors.required">
+                            required
+                        </div>
+                    </mat-error> -->
+                        <!-- <mat-error>Please enter name.</mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Middle Name</mat-label>
+                            <input matInput type="text" formControlName="MiddleName" maxlength="250" appCapitalizeWords>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput type="text" formControlName="LastName" maxlength="250" appCapitalizeWords>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Father’s Name</mat-label>
+                            <input matInput type="text" formControlName="FatherName" maxlength="250" appCapitalizeWords>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="text" formControlName="Email" maxlength="250">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput type="text" formControlName="MobileNumber" maxlength="20">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Landline Number</mat-label>
+                            <input matInput type="text" formControlName="LandlineNumber" maxlength="20">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="dob">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Marital Status</mat-label>
+                            <mat-select formControlName="MaritalStatus">
+                                <mat-option *ngFor="let data of maritalStatusList" [value]="data?.id">{{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Nationality</mat-label>
+                            <mat-select formControlName="Nationality">
+                                <mat-option *ngFor="let data of nationalityList" [value]="data?.id">
+                                    {{data?.Nationality}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Total Exp. (Year)</mat-label>
+                                        <input matInput placeholder="Total Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="TotalExpYear" onlyNumber expYear
+                                            matTooltip="Total Experience in Year">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Total Exp. (Month)</mat-label>
+                                        <input matInput placeholder="Total Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="TotalExpMonth" onlyNumber expMonth
+                                            matTooltip="Total Experience in Month">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Relevant Exp. (Year)</mat-label>
+                                        <input matInput placeholder="Relevant Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="RelevantExpyear" onlyNumber expYear
+                                            matTooltip="Relevant Experience in Year">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Total Exp. (Month)</mat-label>
+                                        <input matInput placeholder="Total Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="RelevantExpMonth" onlyNumber expMonth
+                                            matTooltip="Total Experience in Month">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Blood Group</mat-label>
+                            <mat-select formControlName="BloodGroup">
+                                <mat-option *ngFor="let item of bloodGroupList" [value]="item?.value">{{item?.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>RH</mat-label>
+                            <mat-select formControlName="BloodGroupRh">
+                                <mat-option *ngFor="let item of bloodGroupListRh" [value]="item?.value">{{item?.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Passport No.</mat-label>
+                            <input matInput type="text" formControlName="PassportNo" maxlength="20">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="ats-radio-mat-flat">
+                            <label class="lb-title">Valid Visa</label>
+                            <mat-radio-group aria-label="Select an option" formControlName="ValidVisa"
+                                (change)="validVisa($event)">
+                                <mat-radio-button value="Y">Yes</mat-radio-button>
+                                <mat-radio-button value="N">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Valid Upto</mat-label>
+                            <input matInput [matDatepicker]="picker3" readonly formControlName="VisaValidUpto">
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Hobbies</mat-label>
+                            <input matInput type="text" formControlName="Hobbies">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col add-textarea">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Present Address</mat-label>
+                            <!-- <input matInput type="text" formControlName="PresentAddress"> -->
+                            <textarea matInput formControlName="PresentAddress" readonly></textarea>
+                            <mat-icon matSuffix (click)="addUpdateAddress('C')">edit_note</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Permanent Address</mat-label>
+                            <input matInput type="text" formControlName="PermanentAddress">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Contact Address in Emergency</mat-label>
+                            <input matInput type="text" formControlName="ContactAddressEmr">
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

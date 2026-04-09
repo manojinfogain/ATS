@@ -1,0 +1,105 @@
+<form [formGroup]="updateSalDetailsForm">
+    <div class="can-temp-body">
+        <!-- <div class="can-temp-h">
+            <div class="can-temp-h-t">
+                <h4>Salary Details</h4>
+            </div>
+            <div class="can-temp-h-t">
+                <div class="ul-action">
+                    <ul>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        <!-- end head -->
+        <div class="can-temp-b">
+            <div class="can-view-wrap">
+                <div class="can-list-view">
+                    <h5>Currency Type:</h5>
+                    <p>{{salaryDetails?.Currency || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Current CTC (Annual):</h5>
+                    <!-- <p>
+                        {{(salaryDetails?.CurrentCtc | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p> -->
+                    <p>
+                        {{((salaryDetails?.CurrentCtc?(salaryDetails?.CurrentCtc |
+                           customCurrency:salaryDetails?.CurrencyId): '-')|amountMask:candidateDetails?.StatusID)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Current Salary Type:</h5>
+                    <p>
+                        <ng-container [ngSwitch]="salaryDetails?.currentSalaryType">
+                            <ng-container *ngSwitchCase="'F'">Fixed</ng-container>
+                            <ng-container *ngSwitchCase="'V'">Variable</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <!-- end -->
+                <!-- <div class="can-list-view" *ngIf="salaryDetails?.currentSalaryType == 'V'">
+                    <h5>Variable:</h5>
+                    <p>
+                        {{this.getLabel(salaryDetails?.variableType)}}
+                    </p>
+                </div> -->
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>{{amountLabel}}</h5>
+                    <p>
+                        <!-- {{(salaryDetails?.salaryAmount | customCurrency:salaryDetails?.CurrencyId) || '-'}} -->
+                        {{((salaryDetails?.salaryAmount?(salaryDetails?.salaryAmount |
+                            customCurrency:salaryDetails?.CurrencyId): '-')|amountMask:candidateDetails?.StatusID)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Incentive/Perfomance Bonus/Ex-Gratia(if Any):</h5>
+                    <p>
+                        <!-- {{(salaryDetails?.bonus | customCurrency:salaryDetails?.CurrencyId) || '-'}} -->
+                        {{((salaryDetails?.bonus?(salaryDetails?.bonus |
+                            customCurrency:salaryDetails?.CurrencyId): '-')|amountMask:candidateDetails?.StatusID)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Monthly in Hand:</h5>
+                    <p>
+                        <!-- {{(salaryDetails?.salaryMonthlyInhand | customCurrency:salaryDetails?.CurrencyId) || '-'}} -->
+                        {{((salaryDetails?.salaryMonthlyInhand?(salaryDetails?.salaryMonthlyInhand |
+                            customCurrency:salaryDetails?.CurrencyId): '-')|amountMask:candidateDetails?.StatusID)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Salary Expectation:</h5>
+                    <p>
+                        <!-- {{(salaryDetails?.salaryExpected | customCurrency:salaryDetails?.CurrencyId) || '-'}} -->
+                        {{((salaryDetails?.salaryExpected?(salaryDetails?.salaryExpected |
+                            customCurrency:salaryDetails?.CurrencyId): '-')|amountMask:candidateDetails?.StatusID)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Expected Joining Date:</h5>
+                    <p>{{salaryDetails?.expJoiningDate | date:'mediumDate'|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Notice Period (in days):</h5>
+                    <p>{{salaryDetails?.noticePeriod+ ' days' || '-'}}</p>
+                </div>
+                <!-- end -->
+               
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+</form>

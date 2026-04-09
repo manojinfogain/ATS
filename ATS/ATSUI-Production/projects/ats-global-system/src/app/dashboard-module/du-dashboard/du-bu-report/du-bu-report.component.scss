@@ -1,0 +1,77 @@
+.tr-fx{
+    th{
+      top: 31px !important
+    };
+  }
+  .ats-dash-chart{
+    height: 350px;
+  }
+
+  :host::ng-deep .du-reports{
+    .table-mat-info{
+      th.mat-header-cell{
+        &.du-unit{
+          background: #fff;
+          color: #000;
+        }
+        &.duP{
+          background: #fff;
+          color: #000;
+          // border-bottom-color: #fff;
+        }
+        &.du-bg-org{
+          background: #FFC000;
+          color: #000;
+        }
+        &.openUp{
+          background: #FFC000;
+          color: #000;
+        }
+        &.interviewsStatus{
+          background: #92D050;
+          color: #000;
+          text-transform: uppercase;
+        }
+        &.selectionStatus{
+          background: #ACB9CA;
+          color: #000;
+          text-transform: uppercase;
+        }
+        &.candidatesStatus{
+          background: #A9D08E;
+          color: #000;
+          text-transform: uppercase;
+        }
+        &.h-reject{
+          color: red;
+        }
+        &.h-hold{
+          color: yellow;
+        }
+        &.offergiven{
+          background: #92D050;
+          color: #000;
+        }
+        &.ytj-d{
+          background: yellow;
+          color: #000;
+        }
+        &.join-c{
+          background: #00B050;
+          color: #000;
+        }
+      }
+      td.mat-footer-cell{
+        &.ft-total{
+          background: #F4B084;
+          color: #000;
+        }
+        &.ft-bg{
+          background: #9BC2E6;
+          color: #000;
+        }
+      }
+    }
+  }
+  
+  

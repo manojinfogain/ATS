@@ -1,0 +1,100 @@
+<div class="ats-modal-header">
+    <h1>{{data?.title ? data?.title : 'Offer  Approval'}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="ApprovalActionForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+              <!-- Talent ID Details -->
+              <app-candidate-details-info  [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+              [detailsType]="'TD'" [allRoundList]="allRoundList" [talentDetails]="talentDetails"
+              >
+          </app-candidate-details-info>
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data" [detailsType]="'cd'"
+            [allRoundList]="allRoundList">
+            </app-candidate-details-info>
+            <!-- candidate Offer Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data" [detailsType]="'cod'"
+            [salaryGridShow]="true">
+            </app-candidate-details-info>
+
+            <div class="form-appr margin-top-10">
+                <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark box-shadow-c">
+
+
+                    <!-- end col -->
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                        <label class="lb-title">Action<sup>*</sup> </label>
+                        <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                            formControlName="status">
+                            <mat-radio-button value="A" [ngClass]="{'appr-reopen': data?.IsTidReopened == 1}">Approve</mat-radio-button>
+                            <mat-radio-button value="R" *ngIf="data?.IsTidReopened != 1"> Referred Back </mat-radio-button>
+                        </mat-radio-group>
+                        <!-- validate --><br>
+                        <mat-error *ngIf="getControl('status')?.touched && getControl('status')?.invalid">
+                            <div *ngIf="getControl('status')?.errors.required">
+                                Status is required.
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>{{remarksLabel}}</mat-label>
+                            <input matInput [placeholder]="remarksLabel" maxlength="500" disableInitialSpace
+                                formControlName="remarks" [required]="isRemarkRequired">
+                        </mat-form-field>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                            <div *ngIf="getControl('remarks')?.errors.required">
+                                 <span *ngIf="isRemarkRequired">{{remarksErrorLabel}}.</span>
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+
+                    <!-- end col -->
+                    <!--  -->
+                    <div class="ats-form-col" *ngIf="isVisibleForIndia">
+                        <div class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                            <div class="ats-form-col upload-file-ats"
+                                [ngClass]="getControl('fileBGV').touched && getControl('fileBGV').invalid ? 'error-file-input':'suc'">
+                                <div class="upload-file-input">
+                                    <label>Documents Upload ( Optional )
+                                        <sup *ngIf="isFileReq">*</sup>
+                                    </label>
+                                    <input type="file" #fileBGV (change)="fileUp($event)" multiple>
+                                </div>
+                                <div class="file-name-list" *ngIf="allFiles">
+                                    <ul>
+                                        <li *ngFor="let item of allFiles; let i= index"
+                                            [ngClass]="item.type == 'e' ? 'uploaded':'n'">{{i+1}}. {{item?.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

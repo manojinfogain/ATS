@@ -1,0 +1,55 @@
+  <div class="sl-vm-control">
+  <!-- <div class="form-row" *ngIf="!isMultiple"> -->
+    <mat-form-field  [appearance]="formFieldAppearance"  [floatLabel]="floatLabel" class="place-from-control">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+      <mat-select [formControl]="DivisionIdControl"   (selectionChange)="getDivisionId($event)">
+        <!-- <mat-option value="all">All</mat-option> -->
+        <mat-option *ngFor="let list of divisionList" [value]="list.ID">
+          {{list?.Name}}
+      </mat-option>
+      </mat-select>
+      <span matPrefix class="help-icon" *ngIf="isInfoIcon">
+    <mat-icon
+      (click)="onHelpClick($event)"
+      ngbPopover="To process candidates for Kochi location only, please select the 'Impaqtive' division from the list"
+      popoverClass="custom-popover"
+      [placement]="helpAlignment"
+      triggers="click:click"
+      >help</mat-icon
+    >
+  </span>
+    </mat-form-field>
+
+  <!-- </div> -->
+
+  <!-- <div class="select-ats-src" *ngIf="isMultiple">
+    <mat-form-field [appearance]="formFieldAppearance"  [floatLabel]="floatLabel">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+        <mat-select [formControl]="DivisionIdControl" [disableOptionCentering]="true" [required]="required" multiple
+            #select>
+            <mat-select-trigger>
+                {{multiSelectedVal.length !== 0 ? multiSelectedVal[0].viewValue : ''}}
+                <span *ngIf="DivisionIdControl?.value?.length > 1" class="example-additional-selection">
+                    (+{{multiSelectedVal.length - 1}} {{DivisionIdControl?.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+            </mat-select-trigger>
+            <br> -->
+            <!-- <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrllocStatus"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder"
+                    [clearSearchInput]="false">
+
+                </ngx-mat-select-search>
+            </mat-option> -->
+            <!-- <div class="select-all">
+                <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+            </div>           
+            <mat-option *ngFor="let list of divisionList" [value]="list.ID"  (click)="optionClick()">
+              {{list?.Name}}
+          </mat-option>
+          
+        </mat-select>
+
+    </mat-form-field>
+</div> -->
+</div>

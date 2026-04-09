@@ -1,0 +1,130 @@
+
+<!-- <form [formGroup]="ApprovalActionForm"> -->
+<div class="info-connect-right" *ngIf="isUserAuthorized; else unAuthorizedUser">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <button mat-stroked-button color="primary" (click)="back()">Back</button>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="can-view-wrap">
+                                <div class="can-list-view">
+                                    <h5>Candidate Name:</h5>
+                                    <p>
+                                        {{this.offerAprDt?.Name}}
+                                    </p>
+                                </div>
+                                <!-- end -->
+
+                                <div class="can-list-view">
+                                    <h5>Candidate Email:</h5>
+                                    <p>
+                                        {{this.offerAprDt?.Email}} </p>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Offer Status:</h5>
+                                    <p>
+                                        <app-all-status-id-visibility-shared [statusType]="'offer'" [statusId]="this.offerAprDt?.OfferStatusID"
+                                            [statusName]="this.offerAprDt?.OfferStatus">
+                                        </app-all-status-id-visibility-shared>
+                                    </p>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Approver Name:</h5>
+                                    <p>
+                                        <ng-container [ngSwitch]="this.offerAprDt?.OfferStatusID">
+                                            <ng-container *ngSwitchCase="20">
+                                                {{this.offerAprDt?.approverTagLeadName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="25">
+                                                {{this.offerAprDt?.approverTagHeadName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="40">
+                                                {{this.offerAprDt?.approverDHName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="45">
+                                                {{this.offerAprDt?.approverDHName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="80">
+                                                {{this.offerAprDt?.approverCOOName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="60">
+                                                {{this.offerAprDt?.approverSVPName}}
+                                            </ng-container>                                            
+                                            <ng-container *ngSwitchCase="65">
+                                                {{this.offerAprDt?.approverCDOName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="125">
+                                                {{this.offerAprDt?.approverHRName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="150">
+                                                {{this.offerAprDt?.approverFuncHeadName}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                {{'-'}}    
+                                            </ng-container>
+
+                                        </ng-container>
+                                </div>
+                                <!-- end -->
+                                <div class="can-list-view">
+                                    <h5>Action :</h5>
+                                    <div>
+                                        <div class="btn-action">
+                                            <div class="btn-act">
+                                                <button mat-button type="button" matTooltip="Offer Approval"
+                                                    (click)="approvalAction()"
+                                                    [disabled]="getDisabledStatus()">
+                                                    <span class="material-icons-outlined">
+                                                        fact_check
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <!-- end -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end -->
+                            </div>
+                            <!-- end -->
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+ <ng-template #unAuthorizedUser>
+    <div class="unauthorized-user">
+        <mat-icon>lock</mat-icon>
+        <!-- <h4>You are not authorized to view this page.</h4> -->
+        <h4>{{unAuthorizedMsg}}</h4>
+        
+        <div class="search-input float-left margin-top-15-left-24" *ngIf="isGoBackVisible">
+            <button type="button" class="btn btn-infocon" mat-stroked-button  (click)="back()">Redirect to Offer Approval Screen</button>
+        </div>
+              
+    </div>
+</ng-template>
+ <!-- </form> -->

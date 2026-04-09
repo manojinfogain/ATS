@@ -1,0 +1,129 @@
+<div class="form-card-wrapper">
+    <h2>{{data?.title}}</h2>
+    <div class="form-logo">
+        <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+    </div>
+    <p>
+        I
+        &nbsp;<span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+'
+                    '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+'
+                    '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}}
+                </span>
+            </span>
+        </span> &nbsp;
+        certify that below mentioned documents will be shared with HR as per the date specified.
+
+    </p><br>
+    <div class="table-o-at">
+        <table mat-table [dataSource]="data?.pendingDocList" class="pendTable">
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="docName">
+                <th mat-header-cell *matHeaderCellDef class="title-tb">
+                    Pending Documents
+                </th>
+                <td mat-cell *matCellDef="let element" class="title-tb">
+                    {{element?.DocumentName|| '-'}}
+                    <!-- {{element.formTypeId}} -->
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="orgName">
+                <th mat-header-cell *matHeaderCellDef class="title-tb">
+                    Organisation(if applicable)
+                </th>
+                <td mat-cell *matCellDef="let element" class="title-tb">
+                    {{element?.Organization|| '-'}}
+                    <!-- {{element.formTypeId}} -->
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="submissionDate">
+                <th mat-header-cell *matHeaderCellDef>
+                    Date of submission
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{(element?.SubmissionDate | date:'dd-MMM-yyyy')|| '-'}}
+                    <!-- {{element.formTypeId}} -->
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index">
+            </tr>
+        </table>
+    </div>
+    <div class="form-u-ct rm-u-t margin-bottom-10">
+        <h6>Remarks(If any):</h6>
+        <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{data?.pendingDocFormDetails?.Remarks}}
+                </span>
+            </span>
+        </span>
+    </div>
+    <br>
+    <p>
+        The information provided above is true to the best of my knowledge & I hold the responsibility for
+        any discrepancy in the same.
+    </p>
+    <div class="table-o-at">
+        <table class="table table-border-none">
+            <tbody>
+                <tr>
+                    <td class="title-tb">Employee Name</td>
+                    <td>
+                        <div class="td-colun-div">{{(data?.candidatePersonalDetails?.FirstName ?
+                            data?.candidatePersonalDetails?.FirstName : '')+'
+                            '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName :
+                            '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName
+                            : '')}}</div>
+                    </td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                    <td class="title-tb">Employee Code</td>
+                    <td> 
+                        <div class="td-colun-div">
+                            {{(data?.candidatePersonalDetails?.EmployeeCode ? data?.candidatePersonalDetails?.EmployeeCode : '-')}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">Employee signature </td>
+                    <td>
+                        <div class="td-colun-div">
+                            <div class="sign-wrap">
+                                <img [src]="signImage" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="title-tb">Date </td>
+                    <td>
+                        <div class="td-colun-div">{{data?.pendingDocFormDetails?.JoiningReportFillDate ? (data?.pendingDocFormDetails?.JoiningReportFillDate | date:'dd-MMM-YYYY') : '-'}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">H.R. Signature</td>
+                    <td class="td-colundd">
+                        <div class="td-colun-div">
+                            <button *ngIf="!signImageHR" type="button" class="btn btn-simple-ats mb-ml"
+                                (click)="signt(data)" [disabled]="(data?.onboardFormStatus != 120 && data?.Status != 'S')">
+                                Insert Sign
+                            </button>
+                            <div class="sign-wrap" *ngIf="signImageHR">
+                                <img [src]="signImageHR" />
+                                <mat-icon matSuffix class="margin-left-300" *ngIf="(data?.onboardFormStatus == 120 && (data?.Status != 'V' || data?.Status != 'R'))" (click)="signt(data)">edit_note
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

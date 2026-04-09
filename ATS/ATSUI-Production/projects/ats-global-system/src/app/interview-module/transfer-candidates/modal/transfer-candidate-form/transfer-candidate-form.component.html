@@ -1,0 +1,97 @@
+<form [formGroup]="formTransfer" (ngSubmit)="TransferTalent(formTransfer)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <input type="hidden" formControlName="telentId">
+            <div class="ats-forms ats-forms-horz">
+                <div class="ats-form-col search-input">
+                    <app-talent-id-control-all [isShowSearchIcon]="false"
+                        [talentIdControl]="formTransfer.get('talendIdControl')"
+                        (getDataTalentId)="getDataTalent($event)" ></app-talent-id-control-all>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col search-input" *ngIf="isVisibleForIndia && isDivsionShow">
+                    <app-division-control [DivisionIdControl]="getControl('DivisionID')" [required]="isDivsionShow"
+                    [title]="'Division'" [appearance]="formFieldAppearance" (getDataSource)="getDivisionID($event)">
+                    </app-division-control>
+                </div>
+                 <!-- employment-unit-type -->
+                 <div class="ats-form-col search-input" *ngIf="isVisibleForIndia && showCtrlForSchCand">
+                    <app-employment-unit-type [formControlOpt]="getControl('EmpUnitId')" [required]="showCtrlForSchCand"
+                    [title]="'Employee Unit'" [appearance]="formFieldAppearance" (getValFromControl)="getEmpUnitId($event)">
+                    </app-employment-unit-type>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                    <app-talent-cube-control [formControlOpt]="getControl('TCID')"
+                        [title]="'Talent Cube'" [appearance]="formFieldAppearance"
+                    [disabled]="isDisabled" [required]="showCtrlForSchCand" (getValFromControl)="getTCID($event)">
+                    </app-talent-cube-control>
+                </div>
+
+                <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                    <app-grade-id-control [formControlOpt]="getControl('gradeId')" [title]="'Grade'"
+                        [appearance]="formFieldAppearance"
+                        (getValFromControl)="getGradeId($event)"
+                        [required]="showCtrlForSchCand">
+                    </app-grade-id-control>
+                </div>
+                <!-- end col -->
+                <!--  -->
+                <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                    <app-comp-band-control [formControlOpt]="getControl('gradeBand')" [title]="'Grade Band'"
+                        [appearance]="formFieldAppearance" [required]="showCtrlForSchCand" [GradeId]="gradeId">
+                    </app-comp-band-control>
+                    <mat-error *ngIf="getControl('gradeBand')?.touched && getControl('gradeId')?.invalid">
+                        <span>Please select Grade first</span>
+                    </mat-error>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                    <mat-form-field>
+                        <mat-label>Cluster </mat-label>
+                        <input matInput placeholder="Cluster" formControlName="cluster" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                    <mat-form-field>
+                        <mat-label>Role </mat-label>
+                        <input matInput placeholder="Role" formControlName="role" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Remarks" maxlength="500" formControlName="remarksTransfer"
+                            disableInitialSpace required>></textarea>
+                        <!-- <input matInput placeholder="Remarks" maxlength="500" formControlName="remarksTransfer"
+                            disableInitialSpace required> -->
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+            <app-salary-grid-control *ngIf="isVisibleForIndia   && showCtrlForSchCand && showFieldsForDelivery"
+                            [gradeID]="getControl('gradeId')?.value"
+                            [gradeBand]="getControl('gradeBand')?.value? getControl('gradeBand')?.value : null"
+                            [ctc]="candidateData?.expectedSalary"
+                            [cubeClusterId]="getControl('cubeClusterId')?.value"
+                            [jfCateg]="null"
+                            [ExpYear]="candidateData?.totalExp"
+                            [ExpMonth]="candidateData?.totalExpMonth"
+                            [CandidateTypeID]="candidateData?.candidateTypeId"
+                            [divisionID]="getControl('DivisionID')?.value"
+                            [PracticeID]="null"
+                            [isVisibleForIndia]="isVisibleForIndia">
+                </app-salary-grid-control>
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

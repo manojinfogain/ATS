@@ -1,0 +1,37 @@
+<form [formGroup]="addSlotForm" (ngSubmit)="addSlot(addSlotForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}} </h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div>
+                <div class="box-v-body">
+                    <div class="">
+                        <app-timezone-list-control [IdControl]="getControl('timeZone')" [formFieldAppearance]="'outline'"
+                        [required]="true" [title]="'Select Timezone'"></app-timezone-list-control>
+                    </div>
+                    <div class="add-new-slot-form slot-add-new">
+                        <div class="slot-sec-v">
+                            <ngb-timepicker formControlName="startTime" required [minuteStep]="15" [size]="'small'" [readonlyInputs]="true" ></ngb-timepicker>
+                        </div>
+                        <div class="slot-sec-v">
+                            <span>To</span>
+                        </div>
+                        <div class="slot-sec-v">
+                            <ngb-timepicker formControlName="endTime" required [minuteStep]="15" [size]="'small'" [readonlyInputs]="true" ></ngb-timepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Add
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

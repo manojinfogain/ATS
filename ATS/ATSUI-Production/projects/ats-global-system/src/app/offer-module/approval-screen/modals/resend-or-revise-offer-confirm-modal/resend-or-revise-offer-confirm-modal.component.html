@@ -1,0 +1,24 @@
+<div class="ats-modal-header">
+    <h2>Please select an option to {{this.data?.isSupportHiring == 'N' ? 'Resend / Revise' : 'Revise' }} the Offer</h2>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="off-cnf-screen">
+            <mat-radio-group aria-label="Select an option" class="ats-b-rd-btn"
+             [formControl]="optionCtrl">
+                <mat-radio-button value="RS" *ngIf="this.data?.isSupportHiring == 'N'">Resend Offer For Approval</mat-radio-button>
+                <mat-radio-button value="RV">Revise Offer Approval</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+    </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="submit" class="btn btn-infocon" (click)="continue()">
+        Continue
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>

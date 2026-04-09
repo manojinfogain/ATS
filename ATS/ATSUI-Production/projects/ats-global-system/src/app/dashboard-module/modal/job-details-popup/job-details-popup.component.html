@@ -1,0 +1,158 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+  <h1>  {{data?.talent_id}}</h1>
+
+  <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+
+  <div class="ats-modal-body">
+    <div class="ats-job-wrapper">
+      <section class="ats-job-sc-rp">
+        <mat-accordion multi="true" class="ats-sc-accordion">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Job Description</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="rsm-exp-content">
+              <div class="jd-dt-dd">
+                <ul class="ul-list-dsc" *ngIf="data?.ISJDHTML == 'N'">
+                  <ng-container *ngFor="let Data of viewdatajobdes">
+                    <li *ngIf="Data" [innerHTML]="Data"></li>
+                  </ng-container>
+      
+                </ul>
+                <div *ngIf="data?.ISJDHTML == 'Y'" class="pre-view-s" [innerHTML]="jobDescHtml?(jobDescHtml| safeHtml): '-'">
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+           <mat-expansion-panel  hideToggle (opened)="panel.close()" #panel>
+            <mat-expansion-panel-header class="no-pointer-events">
+              <mat-panel-title>Fullfillment Date :   {{data?.initial_fullfilment_date != "null"?(data.initial_fullfilment_date | date: 'dd/MM/yyyy'):'-' }}
+              {{data?.initial_fullfilment_date === null?'NA':'' }}</mat-panel-title>
+            </mat-expansion-panel-header>
+         
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Upload & Screen Profiles </mat-panel-title>
+                <mat-panel-description>
+<div class="hd-hl-info">
+                <ul>
+                  <li *ngIf="data?.IsRenuTeam === 'N' && isIndiaLocation">
+                     <span class="checkbox-sch" (click)="$event.stopPropagation()">
+                     <button type="button" class="btn btn-primary btn-jb-innf"
+                      (click)="openModalAllProfileDetails(data)">
+                       View All Profiles <span class="badge text-bg-ccc">{{totalProfile}}</span>
+                    </button></span></li>
+                      <li *ngIf="data?.IsRenuTeam === 'Y' || !isIndiaLocation">
+                     <span class="checkbox-sch" (click)="$event.stopPropagation()">
+                     <button type="button" class="btn btn-primary btn-jb-innf"
+                      >
+                        Total Profiles <span class="badge text-bg-ccc">{{totalProfile}}</span>
+                    </button></span></li>
+                </ul>
+               
+               </div>
+                </mat-panel-description>
+               
+            </mat-expansion-panel-header>
+            <div class="rsm-exp-content">
+              <section class="ats-prf-sc-rp">
+                <div class="ats-prf-sc-rp-h"></div>
+                <div class="ats-prf-sc-rp-b">
+                  <div class="list-profile-count-wrap">
+                    <table class="table" *ngIf="isListProfile">
+                      <thead>
+                        <tr>
+                          <th>Profiles Source</th>
+                          <th >Total Profiles</th>
+                          <th *ngIf="data?.IsRenuTeam === 'N' && isIndiaLocation">Profiles assessed by AI</th>
+                          <th *ngIf="data?.IsRenuTeam === 'N' && isIndiaLocation">Pre-screened profiles</th>
+                          <th *ngIf="RequisionActionRight(data)">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let dataList of profilelistFrom; let i = index">
+                          <td> <span>{{dataList?.profile_name}}</span></td>
+                          <td>
+                            <div class="jb-count">
+                              <a href="javascript:void(0)" (click)="viewProfileList(dataList,'T')">
+                                {{dataList?.totalCount}}
+                              </a>
+                            </div>
+                          </td>
+                          <td *ngIf="data?.IsRenuTeam === 'N' && isIndiaLocation">
+                            <div class="jb-count">
+                              <a href="javascript:void(0)" (click)="viewProfileList(dataList,'A')">
+                                <!-- {{data?.id == 3?CSkillCount:data?.candidateCount}} -->
+                                {{dataList?.totalCountAI}}
+                              </a>
+                            </div>
+                          </td>
+                          <td *ngIf="data?.IsRenuTeam === 'N' && isIndiaLocation">
+                            <div class="jb-count">
+                              <a href="javascript:void(0)" (click)="viewProfileList(dataList,'P')">
+                                <!-- {{data?.id == 3?CSkillCount:data?.candidateCount}} -->
+                                {{dataList?.candidateCountScreened}}
+                              </a>
+                            </div>
+                          </td>
+                          <td *ngIf="RequisionActionRight(data)">
+                            <div class="jb-action">
+                              <ng-container [ngSwitch]="true">
+                                <ng-container *ngSwitchCase="dataList?.id == 4 && data?.IsRenuTeam == 'N'"></ng-container>
+                                <ng-container *ngSwitchCase="dataList?.id == 3 && data?.IsRenuTeam == 'N'"></ng-container>
+                                <ng-container *ngSwitchCase="dataList?.id == 5 && data?.IsRenuTeam == 'N'"></ng-container>
+                                <ng-container *ngSwitchCase="(dataList?.id == 15)"></ng-container>
+                                <ng-container *ngSwitchDefault>
+                                  <ng-container *ngIf="RequisionActionRight(data)">
+                                    <ng-container *ngIf="data?.IsRenuTeam === 'Y' || isUsLocation; else uploadBlock">
+                                      <button type="button" class="btn btn-infocon" (click)="openUploadProfileModal(dataList)">
+                                        Upload Profile
+                                        <i class="fa fa-plus"></i>
+                                      </button>
+                                    </ng-container>
+                                   <ng-template #uploadBlock>
+                                      <div class="resume-up">
+                                        <div class="input-group"
+                                          matTooltip="You can upload a maximum of 7 files at a time. Only PDF and Word (.docx) documents are allowed."
+                                          matTooltipPosition="left">
+                                          <input type="file" #fileInput class="form-control" (change)="onFilesSelected($event,dataList)" multiple
+                                            accept=".pdf,.docx" id="{{'inputGroupFile'+(i)}}">
+                                          <label class="input-group-text" for="{{'inputGroupFile'+(i)}}">Upload Profiles</label>
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                    
+                                    
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+                          </td>
+                        </tr>
+      
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </section>
+
+      
+      
+    </div>
+  </div>
+
+</div>
+
+<div class="ats-modal-footer"  *ngIf="data?.assign === true">
+  <button type="button" class="btn btn-infocon" (click)="openModalForJdPanel(data)">Interview Schedule
+  </button>
+</div>

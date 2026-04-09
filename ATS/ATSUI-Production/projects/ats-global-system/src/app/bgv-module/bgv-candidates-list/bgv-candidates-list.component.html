@@ -1,0 +1,371 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <!-- <div class="search-input float-left">
+                    <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true"
+                        [isSelectedRequisition]="true">
+                    </app-auto-complete-talentid>
+                </div> -->
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Name / CID'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By Name / CID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download"
+                                                        (click)="exportAsXLSX()">
+                                                        <i class="fas fa-file-download ex-icon"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                   <app-filter-sort (getSortFormData)="getSortData($event)"
+                                                        [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                                        [offerStatus]="true" [offrStatusMulti]="true"
+                                                        [offerStatusIds]="[140, 160, 200, 220,240,260]" [dateRangeStartToEnd]="true"
+                                                        [dateRangeTitle2]="'By Joining Date'" [companyLocation]="true"
+                                                        [LocationMulti]="true" [companyLocationIds]="[1,2,4,5,16,]"
+                                                        [bgvFinalStatus]="true" [bgvFinalStatusMulti]="true"></app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+                                    <!-- ReferenceId -->
+                                    <ng-container matColumnDef="ReferenceId">
+                                        <th mat-header-cell *matHeaderCellDef>Reference ID</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.ReferenceId || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Cid -->
+                                    <ng-container matColumnDef="Cid">
+                                        <th mat-header-cell *matHeaderCellDef>CID</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Cid || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- CandidateName -->
+                                    <ng-container matColumnDef="CandidateName">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.CandidateName || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- BGVInitiatedDate -->
+                                    <ng-container matColumnDef="BGVInitiatedDate">
+                                        <th mat-header-cell *matHeaderCellDef>BGV Initiated Date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.BGVInitiatedDate | date:'dd
+                                            MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report1Status -->
+                                    <ng-container matColumnDef="Report1Status">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report1Status || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report1ColorCode -->
+                                    <ng-container matColumnDef="Report1ColorCode">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Color</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <!-- {{element?.Report1ColorCode || '-'}}-->
+                                            <ng-container [ngSwitch]="element?.Report1ColorCode">
+                                                <ng-container *ngSwitchCase="'Red'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.Report1ColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Green'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.Report1ColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Orange'">
+                                                    <button class="btn-status-dg rv" type="button">
+                                                        {{element?.Report1ColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg" type="button">
+                                                        {{element?.Report1ColorCode || '-'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Location -->
+                                    <ng-container matColumnDef="location">
+                                        <th mat-header-cell *matHeaderCellDef>Location</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            {{element?.JoiningLocation || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Empl ID -->
+                                    <ng-container matColumnDef="employeeId">
+                                        <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.EmplID || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Designation -->
+                                    <ng-container matColumnDef="designation">
+                                        <th mat-header-cell *matHeaderCellDef>Designation</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Designation || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Grade -->
+                                    <ng-container matColumnDef="grade">
+                                        <th mat-header-cell *matHeaderCellDef>Grade</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Grade || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- DOJ -->
+                                    <ng-container matColumnDef="doj">
+                                        <th mat-header-cell *matHeaderCellDef>Date Of Joining</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DOJ | date:'dd MMM yyyy' ||
+                                            '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Joining Status -->
+                                    <ng-container matColumnDef="joiningStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Joining Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.JoiningStatus || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- BGV Type -->
+                                    <ng-container matColumnDef="bgvType">
+                                        <th mat-header-cell *matHeaderCellDef>BGV Type</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.BGVType || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Checks_Completed -->
+                                    <ng-container matColumnDef="checksCompleted">
+                                        <th mat-header-cell *matHeaderCellDef>Checks_Completed</th>
+                                        <!-- <td mat-cell *matCellDef="let element">{{element?.Checks_Completed || '-'}}</td>   -->
+                                        <td mat-cell *matCellDef="let element;" class="wht-break">
+                                            {{(element?.Checks_Completed| slice:0:12) || '-'}}{{
+                                            element?.Checks_Completed?.length > 12 ?'...' :
+                                            ''}}
+                                            <ng-container *ngIf="element?.Checks_Completed?.length > 12">
+                                                <a href="javascript:void(0)"
+                                                    (click)="openPop(element?.Checks_Completed,'Checks Completed')"
+                                                    popoverClass="list-popover-wrapper" [ngbPopover]="popContent"
+                                                    class="wht-more">More</a>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Checks_WIP -->
+                                    <ng-container matColumnDef="checksWIP">
+                                        <th mat-header-cell *matHeaderCellDef>Checks_WIP</th>
+                                         <!-- <td mat-cell *matCellDef="let element">{{element?.Checks_WIP || '-'}}</td> -->
+                                         <td mat-cell *matCellDef="let element;" class="wht-break">
+                                            {{(element?.Checks_WIP| slice:0:12) || '-'}}{{
+                                            element?.Checks_WIP?.length > 12 ?'...' :
+                                            ''}}
+                                            <ng-container *ngIf="element?.Checks_WIP?.length > 12">
+                                                <a href="javascript:void(0)"
+                                                    (click)="openPop(element?.Checks_WIP,'Checks in WIP')"
+                                                    popoverClass="list-popover-wrapper" [ngbPopover]="popContent"
+                                                    class="wht-more">More</a>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Report1Remark -->
+                                    <ng-container matColumnDef="Report1Remark">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Remark</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report1Remark || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report1ReceivedDate -->
+                                    <ng-container matColumnDef="Report1ReceivedDate">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Received Date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report1ReceivedDate | date:'dd
+                                            MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+
+
+                                    <!-- Report2Status -->
+                                    <ng-container matColumnDef="Report2Status">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report2Status || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report2ColorCode -->
+                                    <ng-container matColumnDef="Report2ColorCode">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Color</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report2ColorCode || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report2Remark -->
+                                    <ng-container matColumnDef="Report2Remark">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Remark</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report2Remark || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Report2ReceivedDate -->
+                                    <ng-container matColumnDef="Report2ReceivedDate">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Received Date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Report2ReceivedDate | date:'dd
+                                            MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- FinalReportStatus -->
+                                    <ng-container matColumnDef="FinalReportStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.FinalReportStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- FinalReportColorCode -->
+                                    <ng-container matColumnDef="FinalReportColorCode">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Color</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.FinalReportColorCode">
+                                                <ng-container *ngSwitchCase="'Red'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.FinalReportColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Green'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.FinalReportColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Orange'">
+                                                    <button class="btn-status-dg rv" type="button">
+                                                        {{element?.FinalReportColorCode}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg" type="button">
+                                                        {{element?.FinalReportColorCode || '-'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- FinalReportRemark -->
+                                    <ng-container matColumnDef="FinalReportRemark">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Remark</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.FinalReportRemark || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- FinalReportReceivedDate -->
+                                    <ng-container matColumnDef="FinalReportReceivedDate">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Received Date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.FinalReportReceivedDate |
+                                            date:'dd MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Action -->
+                                    <!--<ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            <div class="btn-action btn-action-centerz">
+                                                <div class="btn-act">
+                                                    <button mat-button type="button"
+                                                        matTooltip="View Candidate BGV Details"
+                                                        (click)="viewAllDetailsBGV(element)">
+                                                        <span class="material-icons-round">
+                                                            table_view
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </ng-container>-->
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            <div class="btn-action btn-action-centerz">
+                                                <div class="btn-act" *ngIf="element?.isTidDormant != 'D' && this.userData?.RoleId == 1">
+                                                    <button mat-button type="button"
+                                                        matTooltip="View Check Wise BGV Report History"
+                                                        (click)="openViewCheckWiseReportHistoryModal(element)">
+                                                        <span class="material-icons-round">
+                                                            visibility
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="btn-act"
+                                                    *ngIf="element?.isTidDormant != 'D' && element?.isAccessGivenToRM != 1 && (element?.FinalReportColorCode == 'Red' || element?.FinalReportColorCode == 'Orange')">
+                                                    <button mat-button type="button"
+                                                        matTooltip="Approve to Show Details to RM"
+                                                        (click)="approveToShowDetailsToRM(element)">
+                                                        <span class="material-icons-round">
+                                                            how_to_reg
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="candidateList?.length === 0 || candidateList?.length === null">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+
+<ng-template #popContent>
+  <div class="popover-wraps">
+    <div class="popover-wrap-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="popover-wrap-body">
+      <div class="list-chip">
+        {{dtData}}
+      </div>
+    </div>
+  </div>
+</ng-template>

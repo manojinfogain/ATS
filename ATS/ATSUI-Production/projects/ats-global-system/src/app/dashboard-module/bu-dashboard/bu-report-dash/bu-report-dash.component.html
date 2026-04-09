@@ -1,0 +1,270 @@
+<div class="ats-dash-chart" *ngIf="duChartData.length !=0 && !isTableView">
+    <ngx-charts-bar-vertical *ngIf="loaded" [scheme]="colorScheme" [animations]="true" [results]="duChartData"
+        [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showGridLines]="true" [roundDomains]="false"
+        [trimXAxisTicks]="false" [trimYAxisTicks]="false" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [noBarWhenZero]="false" [showDataLabel]="true"
+        [yAxisLabel]="yAxisLabel" [legendTitle]="legendTitle" (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+</div>
+<!-- end Chart Wrapper -->
+<div class="ats-dash-table du-reports" *ngIf="reportList.length !=0 && isTableView">
+    <table mat-table [dataSource]="reportList | buFilterOnDash:searchInput" class="table-mat-info" id="exportBUTable">
+
+        <ng-container matColumnDef="du">
+            <th mat-header-cell *matHeaderCellDef class="du-unit">
+                <!-- Delivery Unit -->
+            </th>
+            <td mat-cell *matCellDef="let element;">
+                {{element?.BusinessUnit}}
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="ft-total"> {{dashTableLabel['Total']}} </td>
+        </ng-container>
+
+        <!--  -->
+        <!-- <ng-container matColumnDef="TotalPositions">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['TotalPosition']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openTalentViewModal(element,'TP')">
+                    {{element?.Totalpositions}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                {{sumTotal(reportList,'Totalpositions')}}
+            </td>
+        </ng-container> -->
+        <!--  -->
+        <ng-container matColumnDef="OpenPositions">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['OpenPositions']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openTalentViewModal(element,'OP')">
+                    {{element?.OpenOpsitions}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                {{sumTotal(reportList,'OpenOpsitions')}}
+            </td>
+        </ng-container>
+        <!--  -->
+        <ng-container matColumnDef="NotScheduledYet">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['PendingForScreen']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openTalentViewModal(element,'NS')">
+                    {{element?.NotScheduled}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'NotScheduled')}}
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="ScreeningRound">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org" 
+            [innerHTML]="dashTableLabel['ScreeningRound']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'SC')">
+                    {{element?.ScreeningRound}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'ScreeningRound')}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="TechnicalRound">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['TechnicalRound']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'T1')">
+                    {{element?.techRound}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'techRound')}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TechnicalRound2">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['TechnicalRound2']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'T2')">
+                    {{element?.techRound2}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'techRound2')}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="ManagerialRound">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['ManagerialRound']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'MR')">
+                    {{element?.ManagerialRound}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'ManagerialRound')}}
+            </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="MgmtRound">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"
+            [innerHTML]="dashTableLabel['MgmtRound']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'MG')">
+                    {{element?.ManagementRound}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'ManagementRound')}}
+            </td>
+        </ng-container> -->
+        <ng-container matColumnDef="ClientRound">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org"> {{dashTableLabel['ClientRound']}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'CL')">
+                    {{element?.ClientRound}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'ClientRound')}}
+            </td>
+        </ng-container>
+    
+       
+    
+        <ng-container matColumnDef="HRSelected">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-select">{{dashTableLabel['Selected']}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'HS')">
+                    {{element?.HRSelected}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'HRSelected')}}
+            </td>
+        </ng-container>
+        <!-- mid way count drop -->
+        <ng-container matColumnDef="midwayDropCount">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-reject">{{dashTableLabel['midwayDropCount']}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'ID')">
+                    {{element?.MidWayDrop}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'MidWayDrop')}}
+            </td>
+        </ng-container>
+        <!-- ends -->
+        <ng-container matColumnDef="HRRejected">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-reject">{{dashTableLabel['Rejected']}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'HR')">
+                    {{element?.HRRejected}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'HRRejected')}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="HrOnHold">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-hold">{{dashTableLabel['Hold']}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'HH')">
+                    {{element?.HrOnHold}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'HrOnHold')}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="OfferedGiven">
+            <th mat-header-cell *matHeaderCellDef class="offergiven"
+            [innerHTML]="dashTableLabel['OfferedGiven']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center ">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'OD')">
+                    {{element?.OfferGiven}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'OfferGiven')}}
+            </td>
+        </ng-container>
+        <!-- drop after selection -->
+        <ng-container matColumnDef="dropAfterSelection">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-reject"
+            [innerHTML]="dashTableLabel['dropAfterSelection']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'DC')">
+                    {{element?.DropAfterSelection}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'DropAfterSelection')}}
+            </td>
+        </ng-container>
+        <!-- ends -->
+        <ng-container matColumnDef="OfferedDecline">
+            <th mat-header-cell *matHeaderCellDef class="du-bg-org h-reject"
+            [innerHTML]="dashTableLabel['OfferedDecline']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'DO')">
+                    {{element?.OfferDecline}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'OfferDecline')}}
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="YTJCandidates">
+            <th mat-header-cell *matHeaderCellDef class="ytj-d"
+            [innerHTML]="dashTableLabel['YTJCandidates']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'YT')">
+                    {{element?.YTJ}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'YTJ')}}
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="CandidatesJoined">
+            <th mat-header-cell *matHeaderCellDef class="join-c"
+            [innerHTML]="dashTableLabel['CandidatesJoined']"></th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <a href="javascript:void(0)" class="link-dsb" (click)="openCandidateInfoModal(element,'JO')">
+                    {{element?.Joined}}
+                </a>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                {{sumTotal(reportList,'Joined')}}
+            </td>
+        </ng-container>
+    
+        <!-- Header row first group -->
+        <ng-container *ngFor="let group of headGroup; let i = index">
+            <ng-container [matColumnDef]="group">
+                <ng-container class="grand-tot-wrap">
+                    <th mat-header-cell *matHeaderCellDef  class="grand-total"
+                        [attr.colspan]="clacRowSpan(i)?.num" [ngClass]="clacRowSpan(i)?.class">
+                        {{clacRowSpan(i)?.title}}
+    
+                    <th mat-header-cell *matHeaderCellDef  [attr.colspan]="clacRowSpan(i)?.num">
+                    </th>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tr-fx">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
+    </table>
+</div>

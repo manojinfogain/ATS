@@ -1,0 +1,213 @@
+<div class="form-card-wrapper">
+    <h2>{{data?.title}}</h2>
+    <div class="form-logo">
+        <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+    </div>
+
+    <p>
+        Whether you want to avail Sodexo Benefit <br>
+        <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{data?.sodexoFormDetails?.SudexoBenefit == 'Y' ? 'Yes' : 'No'}}
+                </span>
+            </span>
+        </span> <br>
+        <Strong>Name:
+            <span class="paragraphP">
+                <span class="span1">
+                    <span class="span2">
+                        {{(data?.candidatePersonalDetails?.FirstName ?
+                        data?.candidatePersonalDetails?.FirstName : '')+'
+                        '+(data?.candidatePersonalDetails?.MiddleName ?
+                        data?.candidatePersonalDetails?.MiddleName : '')+'
+                        '+(data?.candidatePersonalDetails?.LastName ?
+                        data?.candidatePersonalDetails?.LastName : '')}}
+                    </span>
+                </span>
+            </span>
+        </Strong>
+        <br>
+        <Strong *ngIf="data?.candidatePersonalDetails?.divisionid == 7">Employee Code:
+            <span class="paragraphP">
+                <span class="span1">
+                    <span class="span2">
+                        {{'-'}}
+                    </span>
+                </span>
+            </span>
+        </Strong>
+        <br>
+        To,<br>
+        The HR Department,<br>
+        <!-- {{data?.candidatePersonalDetails?.JoiningLocationID == 2 ? 'Infogain Solutions Pvt. Ltd.' : 'Infogain India Pvt. Ltd.'}}<br> -->
+        <ng-container *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+            <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 1 || data?.candidatePersonalDetails?.JoiningLocationID == 2 || data?.candidatePersonalDetails?.JoiningLocationID == 4 || data?.candidatePersonalDetails?.JoiningLocationID == 5">                            
+                {{data?.candidatePersonalDetails?.JoiningLocationID == 2 ? 'Infogain Solutions Pvt. Ltd.' : 'Infogain India Pvt. Ltd.'}}<br>
+            </ng-container>
+            <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 16">                            
+                {{'Infogain Software Solutions Private Limited'}}<br>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="data?.candidatePersonalDetails?.divisionid == 7">
+            {{'Infogain Software Solutions Private Limited'}}<br>
+        </ng-container>
+        {{joinLocAddr}}.<br><br>
+        I
+        <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{(data?.candidatePersonalDetails?.FirstName ?
+                    data?.candidatePersonalDetails?.FirstName : '')+'
+                    '+(data?.candidatePersonalDetails?.MiddleName ?
+                    data?.candidatePersonalDetails?.MiddleName : '')+'
+                    '+(data?.candidatePersonalDetails?.LastName ?
+                    data?.candidatePersonalDetails?.LastName : '')}}
+                </span>
+            </span>
+        </span>
+        want to avail Sodexo Benefit from the salary as mentioned below.
+        <br>
+    <div class="table-o-at">
+        <table class="table table-bordered" *ngIf="!data?.isEditable">
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Amount To be Availed For</th>
+                    <th>
+                        Yes/No
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                    <td class="title-tb">
+                        <div class="form-u-ct">
+                            1.
+                        </div>
+                    </td>
+                    <td>
+                        1500
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!data?.isEditable ">
+                            {{data?.sodexoFormDetails?.SudexoAmount?.toString() === '1500' ? 'Yes' : 'No'}}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                    <td class="title-tb">
+                        <div class="form-u-ct">
+                            2.
+                        </div>
+                    </td>
+                    <td>
+                        2500
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!data?.isEditable ">
+
+                            {{data?.sodexoFormDetails?.SudexoAmount?.toString() === '2500' ? 'Yes' : 'No'}}
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">
+                        <div class="form-u-ct">
+                            {{data?.candidatePersonalDetails?.divisionid == 1 ? '3.' : '1.'}}
+                        </div>
+                    </td>
+                    <td>
+                        3000
+                    </td>
+                    <td>
+                        <ng-container *ngIf="!data?.isEditable ">
+
+                            {{data?.sodexoFormDetails?.SudexoAmount?.toString() === '3000' ? 'Yes' : 'No'}}
+                        </ng-container>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <p *ngIf="data?.candidatePersonalDetails?.divisionid == 7">
+        If yes, please share number Linked with Paytm:
+        <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{data?.sodexoFormDetails?.PaytmMobileNumber || 'NA'}}
+                </span>
+            </span>
+        </span>
+    </p><br>
+    <div class="table-o-at">
+        <table class="table table-border-none">
+            <tbody>
+                <!-- <tr>
+                    <td class="title-tb">Name</td>
+                    <td>
+                        <div class="td-colun-div">{{(data?.candidatePersonalDetails?.FirstName ?
+                            data?.candidatePersonalDetails?.FirstName : '')+'
+                            '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName :
+                            '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName
+                            : '')}}</div>
+                    </td>
+                </tr> -->
+                <!-- <tr>
+                    <td class="title-tb">Father’s Name</td>
+                    <td>
+                        <div class="td-colun-div">{{data?.candidatePersonalDetails?.FatherName ?
+                            data?.candidatePersonalDetails?.FatherName : '-'}}</div>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td class="title-tb">Employee Signature </td>
+                    <td class="td-colundd">
+                        <div class="td-colun-div">
+                            <div class="sign-wrap">
+                                <img [src]="signImage" />
+                            </div>
+                        </div>
+
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="title-tb">Date</td>
+                    <td>
+                        <!-- <div class="td-colun-div">{{data?.sodexoFormDetails?.JoiningReportFillDate ?
+                            (data?.sodexoFormDetails?.JoiningReportFillDate | date:'dd-MMM-YYYY') : '-'}}</div> -->
+                        <div class="td-colun-div">{{data?.sodexoFormDetails?.actionTakenOn ?
+                            (data?.sodexoFormDetails?.actionTakenOn | date:'dd-MMM-YYYY') : '-'}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">Place </td>
+                    <td>
+                        <div class="td-colun-div">{{data?.candidatePersonalDetails?.JoiningLocation || '-'}}</div>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td class="title-tb">H.R. Signature</td>
+                    <td class="td-colundd">
+                        <div class="td-colun-div">
+                            <button *ngIf="!signImageHR" type="button" class="btn btn-simple-ats mb-ml"
+                                (click)="signt(data)">
+                                Insert Sign
+                            </button>
+                            <div class="sign-wrap" *ngIf="signImageHR">
+                                <img [src]="signImageHR" />
+                                <mat-icon matSuffix  *ngIf="data?.onboardFormStatus == 80 && (data?.Status != 'V' || data?.Status != 'R')" (click)="signt(data)">edit_note
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+</div>

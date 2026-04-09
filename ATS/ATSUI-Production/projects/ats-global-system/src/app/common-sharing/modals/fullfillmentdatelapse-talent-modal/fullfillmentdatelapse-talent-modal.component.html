@@ -1,0 +1,166 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h1 class="modal-title-normal">Please update fullfillment date from below listed talent id's. This is a mandatory step to access the application.</h1>
+    <!-- <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button> -->
+  </div>
+  <div mat-dialog-content>
+  
+    <div class="ats-modal-body">
+      <div class="profile-list-wrapper">
+        <div class="header-s">
+          <div class="left-s-av"></div>
+          <div class="search-bars">
+            <div class="filter-at-wrapper">
+              <div class="s-fil">
+                <div class="erp-search-input" >
+                  <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                    [placeHolder]="'Search'"
+                    [isReset]="isResetSearch" [searchServerSide]="false"></app-search-filter>
+                </div>
+              </div>
+              <div class="s-fil">
+                <div class="act-header-btn">
+                 
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-data-scroll-pop">
+          <table mat-table [dataSource]="dataSource" class="table-mat-info" matSort >
+  
+            <!-- Candidate Name Column -->
+            <ng-container matColumnDef="talentID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Talent ID</th>
+              <td mat-cell *matCellDef="let element;">
+                {{element?.talentID || '-'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="AccountName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Name</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.AccountName || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="ReqType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Requisition Type</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.ReqType || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="JoiningLocation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Joining Location</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.JoiningLocation || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let element;">
+                    <button class="btn-status-dg schedule" type="button">
+                        {{element?.SubStatus || '-'}}
+                      </button>
+                
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="FullfillmentDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fullfillment Date</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{(element?.FullfillmentDate | date:'d MMM y') || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="PrimaryRecruiter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary Recruiter</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.PrimaryRecruiter || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="SecondaryRecruiter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Secondary Recruiter</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.SecondaryRecruiter || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fullfillmentAge">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fullfillment Date Age (In Days)</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.TotalWorkingDaysLapse || '-'}}
+                </td>
+              </ng-container>
+          
+            <ng-container matColumnDef="action" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef>Action </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <div class="btn-action">
+                      <!-- update talent id details for tag -->
+                      <!-- <div class="btn-act">
+                        <button mat-button type="button" matTooltip="Update Details of Talent ID"
+                          (click)="updateTalentDetailsTag(element)">
+                          <span class="material-icons-outlined">
+                            manage_accounts
+                          </span>
+                        </button>
+                      </div> -->
+                      <div class="btn-act">
+                        <button mat-button type="button" matTooltip="Update Primary  And Secondary Recruiter."
+                          (click)="updateTalentAssigneeModal(element)">
+                          <span class="material-icons-outlined">
+                            manage_accounts
+                          </span>
+                        </button>
+                      </div>
+                       
+                       <!-- update fullfillment Datedetails for tag -->
+                       <div class="btn-act">
+                         <button mat-button type="button" matTooltip="Update Commitment Details"
+                           (click)="updateFullfillmentDateModal(element)">
+                           <span class="material-icons-outlined">
+                            work_history
+                            </span>
+                         </button>
+                       </div>
+                    <div class="btn-act" >
+                      <button mat-button type="button" matTooltip="Update Talent ID Status"
+                        (click)="updateTalentStatus(element)">
+                        <span class="material-icons-outlined">
+                          update
+                        </span>
+                      </button>
+                    </div>
+                </div>
+  
+              </td>
+            </ng-container>
+  
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+          </table>
+          <app-no-result-found [searchedValue]="searchInput" *ngIf="dataSource?.data?.length === 0">
+          </app-no-result-found>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ats-modal-footer">
+    <div class="ats-modal-footer-wrp">
+      <div class="ats-modal-footer-left-bt">
+        <button type="button" class="btn btn-infocon" (click)="logOut()">
+          Logout
+      </button>
+        <button type="button" class="btn btn-infocon" [disabled]="authFullFillmentDateLapse?.isLoginTalentDate == 'N'"
+        (click)="onNoClick()">
+          Skip
+      </button>
+      </div>
+      <div class="ats-paginator">
+        <mat-paginator  [pageSize]="pazeSize"
+            [pageSizeOptions]="pazeOption"
+            showFirstLastButtons="true">
+        </mat-paginator>
+    </div>
+    </div>
+   
+  </div>

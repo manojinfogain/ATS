@@ -1,0 +1,247 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+      <div class="page-container-inner">
+        <div class="page-container-header clearfix">
+          <div class="page-title-left float-left">
+            <app-breadcrumbs></app-breadcrumbs>
+          </div>
+          <div class="search-input float-left">
+            <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+            </app-auto-complete-talentid>
+          </div>
+          <!-- end search field -->
+        </div>
+        <!-- end content header -->
+        <div class="content-body">
+          <mat-card>
+            <div class="card">
+              <div class="card-header  card-header-flex">
+                <div class="ats-left-h"></div>
+                <div class="erp-search-input ats-right-h">
+                  <div class="filter-at-wrapper">
+                    <div class="s-fil">
+                      <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                        [placeHolder]="'Search By Name/Email/Phone'" [searchServerSide]="true" [isReset]="isResetSearch">
+                      </app-search-filter>
+                    </div>
+                    <div class="s-fil">
+                      <div class="act-header-btn">
+                        <ul>
+                          <li>
+                            <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                              [candidateStatus]="true" [interviewType]="true" [dateRange]="true" [prSkill]="true"
+                              (sendSortData)="getSortData($event)"></app-filter-sort>
+                          </li>
+                        </ul>
+                      </div>
+  
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="card-body">
+                <!-- matrial Table -->
+                <div class="table-scroll-bd">
+                  <table mat-table [dataSource]="candidateList" class="table-mat-info">
+  
+                    <ng-container matColumnDef="talentId">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Talent ID</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.talent_id || '-'}}</td>
+                    </ng-container>
+                    <!-- Candidate Name Column -->
+                    <ng-container matColumnDef="CandidateName">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie"></i> Candidate Name </th>
+                      <td mat-cell *matCellDef="let element;">
+                        {{element.Name || '-'}}
+                        <!-- {{element.recruiter || '-'}} -->
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="primarySkill">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa fa-tasks" aria-hidden="true"></i> Skill
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.primaryskill || '-'}}
+                      </td>
+                    </ng-container>
+  
+  
+                    <!-- Email ID Column -->
+                    <ng-container matColumnDef="EmailID">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-envelope"></i> Email ID </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.email || '-'}}
+                      </td>
+                    </ng-container>
+  
+                    <!-- Phone No. Column -->
+                    <ng-container matColumnDef="PhoneNo">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-mobile-alt"></i> Phone No. </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element?.phone || '-'}}
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="intDate">
+                      <th mat-header-cell *matHeaderCellDef><i class="fa fa-calendar"></i> Interview Date </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{(element?.interviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="recruiter">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Recruiter</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.recruiter || '-'}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="primaryInterviewer">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Primary Interviewer</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.Interviewer || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="additionalInterviewers">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Additional Interviewers</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.AdditionalInterviewer || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="InterviewType">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-bell"></i> Interview Type </th>
+                      <td mat-cell *matCellDef="let element;">
+                        {{element?.interviewType || '-'}}
+                        {{element?.IsPrimSecRecActive}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="CandidateStatus">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-thermometer-three-quarters"></i> Candidate
+                        Status</th>
+                      <td mat-cell *matCellDef="let element" class="text-left">
+                        <div [ngSwitch]="element?.statusid">
+                          <div *ngSwitchCase="1">
+                            <button class="btn-status-dg schedule" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="2">
+                            <button class="btn-status-dg cancelled" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="3">
+                            <button class="btn-status-dg reschedule" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="4">
+                            <button class="btn-status-dg selecteds" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="5">
+                            <button class="btn-status-dg rejects" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="6">
+                            <button class="btn-status-dg holds" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+                          <div *ngSwitchCase="7">
+                            <button class="btn-status-dg shortlisted" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+  
+                          <div *ngSwitchCase="10">
+                            <button class="btn-status-dg shortlisted" type="button">
+                              {{element?.StatusName}}
+                            </button>
+                          </div>
+  
+                        </div>
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="UpdateCurrentStatus" stickyEnd>
+                      <th mat-header-cell *matHeaderCellDef ><i class="fas fa-edit"></i> Action</th>
+                      <td mat-cell *matCellDef="let element" class="text-center">
+  
+                        <div class="btn-action btn-action-center">
+                          <div class="btn-act" *ngIf="element?.IsPrimSecRecActive === 0 || element?.statusid === 5">
+                            <button mat-button type="button" matTooltip="Transfer"
+                              (click)="transferCandidateToTalent(element)"
+                              >
+                              <i class="fas fa-exchange-alt"></i>
+                            </button>
+                          </div>
+  
+                          <!--  -->
+                          <div class="btn-act" *ngIf="element?.dateDiffInDays>5 && element?.statusid!=5">
+                            <button mat-button type="button" matTooltip="Request for Transfer Candidate"
+                              (click)="requestTransferCandidate(element)">
+  
+                              <!-- <span class="material-icons-outlined">
+                                      swap_horiz
+                                      </span> -->
+                              <span class="material-icons-outlined">
+                                arrow_forward_ios
+                              </span>
+                            </button>
+                          </div>
+                          <!--  -->
+                          <div class="btn-act">
+                            <button mat-button type="button" matTooltip="Approve  Transfered Candidate"
+                              (click)="approveTransferedCandidate(element)">
+                              <span class="material-icons-outlined">
+                                rule
+                              </span>
+                            </button>
+                          </div>
+                          <!--  -->
+                          <div class="btn-act">
+                            <button mat-button type="button" matTooltip="View All Feedback"
+                              (click)="openfeedbackInfoModal(element)">
+                              <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="transfer">
+                      <th mat-header-cell *matHeaderCellDef><i class="fas fa-exchange-alt"></i> Transfer Talent Id</th>
+                      <td mat-cell *matCellDef="let element" class="text-center">
+                        <button class="btn-reschedule btn-status" placement="left" ngbTooltip="Transfer Talent Id"
+                          (click)="transferCandidateToTalent(element)"
+                          [disabled]="element?.statusid == '2' || element?.statusid == '5'">
+                          <i class="fas fa-exchange-alt"></i> Transfer
+                        </button>
+                      </td>
+                    </ng-container>
+  
+  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                  </table>
+                  <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.length === 0">
+                  </app-no-result-found>
+                </div>
+                <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                  <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                </div>
+  
+              </div>
+  
+            </div>
+            <!-- end card sec -->
+          </mat-card>
+        </div>
+        <!-- end content body -->
+      </div>
+      <!-- end inner container -->
+  
+    </div>
+    <!-- end page content wrapper -->
+  </div>
+  <!-- end right wrapper -->

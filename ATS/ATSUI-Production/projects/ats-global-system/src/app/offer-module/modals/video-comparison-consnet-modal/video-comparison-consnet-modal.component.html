@@ -1,0 +1,42 @@
+<form [formGroup]="videoComConsentGroup" (ngSubmit)="submitvideoComConsent(videoComConsentGroup)">
+    <div class="ats-modal-header">
+        <h3>Video image  comparison processing in progress</h3>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+         <div class="v-com-t">
+            <p>Video comparison HR final round is in progress. Please check after sometime.</p>
+         </div>
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                   
+                    <div class="form-on-col full-width">
+                        <div class="rad-bb-wrapper">
+                            <mat-checkbox required formControlName="IsConsent"
+                                [ngClass]="getControl('IsConsent').touched  && getControl('IsConsent').invalid ? 'consent-error':'suc'">
+                                <ng-container>
+                                    <span>I confirm that the candidate in all uploaded videos across all interview rounds is the same.</span>
+                                </ng-container>
+                                <sup class="dangr">*</sup>
+                            </mat-checkbox>
+
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- [disabled]="!reasonForDropForm.dirty" -->
+        <button type="submit" class="btn btn-infocon" >
+            Proceed
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

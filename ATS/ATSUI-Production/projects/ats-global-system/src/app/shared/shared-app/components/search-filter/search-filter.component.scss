@@ -1,0 +1,32 @@
+.search-ats-filter {
+    position: relative;
+    padding-right: 4px;
+
+    .search-icon {
+        position: absolute;
+        border: none;
+        background: none;
+        outline: none;
+        top: 8px;
+        right: auto;
+        left: 10px;
+        color: #989898;
+        font-size: 12px;
+        z-index: 9;
+
+        &.clear-icon {
+            right: 8px;
+            left: auto;
+        }
+
+        .material-icons {
+            font-size: 20px;
+        }
+    }
+
+    .input-group {
+        .form-control {
+            padding: 0 18px 0px 3px !important;
+        }
+    }
+}

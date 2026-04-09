@@ -1,0 +1,73 @@
+<form>
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name Of the Course</mat-label>
+                            <mat-select>
+                                <mat-option value="option1">BSC</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>Duration</mat-label>
+                            <mat-date-range-input [rangePicker]="campaignOnePicker">
+                                <input matStartDate placeholder="Start date">
+                                <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Year of Passing</mat-label>
+                            <mat-select>
+                                <mat-option value="option1">2011</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of the Institute/Organization</mat-label>
+                            <input matInput type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Location</mat-label>
+                            <mat-select>
+                                <mat-option value="option1">India</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                   
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,55 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="preview-sec-offer">
+            <div class="pdf-container-stv">
+            <app-ats-pdf-viewer [pdfBlob]="pdfPreviewData" [fileName]="documentName">
+            </app-ats-pdf-viewer>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+    <!-- <div class="form-appr" *ngIf="data?.actionFor == 'A'">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark box-shadow-c">
+
+                <div class="ats-form-col mat-radio-ats mat-radio-btn-ats" >
+                    <label class="lb-title">Action<sup>*</sup> </label>
+                    <mat-radio-group aria-label="Select an option" >
+                        <mat-radio-button value="A">Approve</mat-radio-button>
+                        <mat-radio-button value="R"> Referred Back </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+               
+                <div class="ats-form-col">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>referring back to recruiter</mat-label>
+                        <input matInput [placeholder]="'referring back to recruiter'" maxlength="500" disableInitialSpace
+                            >
+                    </mat-form-field>
+                </div>
+            </div>
+        </div> -->
+    <div class="action-pf-s">
+        <button type="button" class="btn btn-infocon" (click)="sendOfferHandler('C')" *ngIf="data?.actionFor == 'C'">
+            Send Offer to {{data?.Name}}
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="sendOfferHandler('H')" *ngIf="data?.actionFor == 'H'">
+            Send Offer to HR
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="approveRejectOfferModal(element)"
+            *ngIf="data?.actionFor == 'A'">
+            Approve/ Reject Offer
+        </button>
+        <!-- <button type="button"  class="btn btn-infocon" (click)="sendOfferToBharti()"
+        *ngIf="data?.isOfferHr === 'Y'">
+            Send Offer to Bharti
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</div>

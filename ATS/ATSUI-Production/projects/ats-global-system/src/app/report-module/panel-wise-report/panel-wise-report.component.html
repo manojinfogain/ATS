@@ -1,0 +1,213 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h">
+                <div class="filter-txt-opt">
+                  Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                  <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                </div>
+              </div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/EmpID'"
+                      [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                          <li>
+                            <button mat-button class="act-button" matTooltip="Download Report" [disabled]="(panelList | panelWiseFilter:searchInput).length === 0"
+                                (click)="downloadReportAsExel()">
+                                <span class="material-icons-outlined">
+                                    download
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                          <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                            [DateStartDefaultValue]="this.selectedDate['startDate']" [dateRange]="true"
+                            (getSortFormData)="getSortData($event)" [maxDate]="maxDate" [dateRangeTitle]="'Interview Date'"
+                            (getDateOutput)="getDateRange($event)" [prSkill]="true" [deliveryUnits]="true"
+                            [account]="true" [skillMulti]="true" [accountMulti]="true" [duMulti]="true" [IsAccountByDu]="true" [minDate]="dateMin">
+                          </app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="panelList | panelWiseFilter:searchInput" class="table-mat-info" >
+                  <ng-container matColumnDef="SNum">
+                    <th mat-header-cell *matHeaderCellDef>S. <br>No.</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="text-center"> {{i+1}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="intEmpId">
+                    <th mat-header-cell *matHeaderCellDef>Panel <br> EmpID</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element?.interviewerEmpId || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="intName">
+                    <th mat-header-cell *matHeaderCellDef>Panel Name (Technical) </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.Name || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="DU">
+                    <th mat-header-cell *matHeaderCellDef>GDL</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.DU?'':'-'}}
+                      <mat-chip-list aria-label="DU" class="lable-mat" *ngIf="element?.DU">
+                        <ng-container *ngFor="let item of element?.DU.split(','); let i = index">
+                          <mat-chip *ngIf="item && (i < 2)">{{item}}</mat-chip>
+                        </ng-container> 
+                        <mat-chip class="more-btns" *ngIf="element?.DU.split(',').length > 2"
+                          (click)="openPop(element?.DU,'DU')" popoverClass="list-popover-wrapper"
+                          [ngbPopover]="popContent">More...</mat-chip>
+                      </mat-chip-list>
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="account">
+                    <th mat-header-cell *matHeaderCellDef>Account</th>
+                    <td mat-cell *matCellDef="let element;">
+                      <div class="clm-max-w">
+                        {{element?.Account?'':'-'}}
+                        <mat-chip-list aria-label="Account" class="lable-mat" *ngIf="element?.Account">
+                          <ng-container *ngFor="let item of element?.Account.split(','); let i = index">
+                            <mat-chip *ngIf="item && (i < 2)">{{item}}</mat-chip>
+                          </ng-container>
+                          <mat-chip class="more-btns" *ngIf="element?.Account.split(',').length > 2"
+                            (click)="openPop(element?.Account,'Account')" popoverClass="list-popover-wrapper"
+                            [ngbPopover]="popContent">More...</mat-chip>
+                        </mat-chip-list>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="skill">
+                    <th mat-header-cell *matHeaderCellDef>Hiring For Skills</th>
+                    <td mat-cell *matCellDef="let element;">
+                      <div class="clm-max-wd">
+                        {{element?.Skills?'':'-'}}
+                        <mat-chip-list aria-label="Skills" class="lable-mat" *ngIf="element?.Skills">
+                          <ng-container *ngFor="let item of element?.Skills.split(','); let i = index">
+                            <mat-chip *ngIf="item && (i < 2)">{{item}}</mat-chip>
+                          </ng-container>
+                          <mat-chip class="more-btns" *ngIf="element?.Skills.split(',').length > 2"
+                            (click)="openPop(element?.Skills,'Skills')" popoverClass="list-popover-wrapper"
+                            [ngbPopover]="popContent">More...</mat-chip>
+                        </mat-chip-list>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="intLenTaken">
+                    <th mat-header-cell *matHeaderCellDef class="taken">
+                      Number of <br>Interviews taken </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" matTooltipPosition="left" [class.disabled-link] = "element?.interviewTaken === 0"  matTooltip="View All"
+                       (click)="getPanelWiseReportDetails(element,'taken')">{{element?.interviewTaken}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="scheduled">
+                    <th mat-header-cell *matHeaderCellDef class="sch">Number of <br> Interviews Scheduled </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)"  [class.disabled-link] = "element?.shceduled === 0" matTooltipPosition="left" matTooltip="View All"
+                      (click)="getPanelWiseReportDetails(element,'scheduled')">{{element?.shceduled}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="cancel">
+                    <th mat-header-cell *matHeaderCellDef class="canc">Number of <br> Interviews Cancelled </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)"  [class.disabled-link] = "element?.cancelled === 0"  matTooltipPosition="left" matTooltip="View All"
+                      (click)="getPanelWiseReportDetails(element,'cancelled')">{{element?.cancelled}}</a>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="rejected">
+                    <th mat-header-cell *matHeaderCellDef class="rej">Number of <br> Candidates  Rejected </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)"  [class.disabled-link] = "element?.rejected === 0" matTooltipPosition="left" matTooltip="View All"
+                      (click)="getPanelWiseReportDetails(element,'rejected')">{{element?.rejected}}</a>
+                    </td>
+                  </ng-container>
+                 
+
+                  <ng-container matColumnDef="shortList">
+                    <th mat-header-cell *matHeaderCellDef class="short">Number of <br>Candidates  ShortListed</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)"  [class.disabled-link] = "element?.shortList === 0" matTooltipPosition="left" matTooltip="View All"
+                      (click)="getPanelWiseReportDetails(element,'shortList')">{{element?.shortList}}</a>
+                    </td>
+                  </ng-container>
+
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                  *ngIf="(panelList | panelWiseFilter:searchInput).length === 0">
+                </app-no-result-found>
+              </div>
+              <!-- <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                  (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+              </div> -->
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+
+<ng-template #popContent>
+  <div class="popover-wraps">
+    <div class="popover-wrap-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="popover-wrap-body">
+      <div class="list-chip">
+        <mat-chip-list aria-label="DU" class="lable-mat" *ngIf="dataList">
+          <ng-container *ngFor="let item of dataList">
+            <mat-chip *ngIf="item">{{item}}</mat-chip>
+          </ng-container>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+  <div class="pass-term">
+
+
+  </div>
+</ng-template>

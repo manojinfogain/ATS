@@ -1,0 +1,172 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <app-breadcrumbs [showBreadCrumb]="false"></app-breadcrumbs>
+        <div class="pag-welcome">
+            <h2 class="user-title align-left">Welcome {{userName}}</h2>
+        </div>
+
+        <div class="report-wrapper">
+            <div class="report-grid">
+                <div class="report-card">
+                    <div class="report-card-header">
+                        <h3>Delivery Wise Report</h3>
+                    </div>
+                    <!-- end header -->
+                    <div class="report-card-body">
+                        <div class="table-data-ats">
+                            <table mat-table [dataSource]="reportList" class="table-mat-info">
+
+                                <!-- Candidate Name Column -->
+                                <ng-container matColumnDef="du">
+                                    <th mat-header-cell *matHeaderCellDef class="du">Delivery Unit </th>
+                                    <td mat-cell *matCellDef="let element;">
+                                        {{element?.DeliveryUnit}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef> Total </td>
+                                </ng-container>
+
+                                <!--  -->
+                                <ng-container matColumnDef="OpenPositions">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Open <br>Positions</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.OpenOpsitions }}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'OpenOpsitions')}}
+                                    </td>
+                                </ng-container>
+                                <!--  -->
+                                <ng-container matColumnDef="NotScheduledYet">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Not Scheduled Yet</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.NotScheduled}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'NotScheduled')}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ScreeningRound">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Screening <br> Round</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.ScreeningRound}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'ScreeningRound')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="TechnicalRound">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Technical <br> Round</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.techRound}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'techRound')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="ManagerialRound">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Managerial <br> Round</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.ManagerialRound}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'ManagerialRound')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="MgmtRound">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Mgmt. Round</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.ManagementRound}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'ManagementRound')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="ClientRound">
+                                    <th mat-header-cell *matHeaderCellDef class="int">Client Round</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.ClientRound}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'ClientRound')}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="HRSelected">
+                                    <th mat-header-cell *matHeaderCellDef class="select">HR <br> Selected</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.HRSelected}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'HRSelected')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="HRRejected">
+                                    <th mat-header-cell *matHeaderCellDef class="rejected">HR <br> Rejected</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.HRRejected}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'HRRejected')}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="HrOnHold">
+                                    <th mat-header-cell *matHeaderCellDef class="hold">HR On Hold</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        {{element?.HrOnHold}}
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        {{sumTotal(reportList,'HrOnHold')}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="OfferedGiven">
+                                    <th mat-header-cell *matHeaderCellDef class="offergv">Offered <br> Given</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        -
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        -
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="YTJCandidates">
+                                    <th mat-header-cell *matHeaderCellDef class="ytj">YTJ <br> Candidates</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        -
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        -
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="CandidatesJoined">
+                                    <th mat-header-cell *matHeaderCellDef class="join">Candidates <br> Joined</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        -
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="text-center">
+                                        -
+                                    </td>
+                                </ng-container>
+
+
+
+
+                                <tr mat-header-row class="font-bold-type"
+                                    *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end body -->
+                </div>
+
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

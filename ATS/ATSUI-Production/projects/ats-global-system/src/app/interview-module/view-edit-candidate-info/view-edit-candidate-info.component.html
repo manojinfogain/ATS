@@ -1,0 +1,241 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <app-auto-complete-talentid [talentIdControl]="talentIdControl"
+                        (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+                    </app-auto-complete-talentid>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By CID/ Name/ Email/ Phone/ Talent ID'"
+                                            [searchServerSide]="true" [isReset]="isResetSearch"
+                                            matTooltip="Search By CID/ Name/ Email/ Phone/ Talent ID">
+                                        </app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+
+                                                <li>
+                                                    <!-- <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                              [candidateStatus]="true" [interviewType]="true" [dateRange]="true" [prSkill]="true"
+                              (sendSortData)="getSortData($event)"></app-filter-sort> -->
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+                                    <ng-container matColumnDef="Cid">
+                                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            <i class="fas fa-user-tie"></i> {{cidColName}}
+                                        </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Candidate Name Column -->
+                                    <ng-container matColumnDef="CandidateName">
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie"></i>
+                                            Candidate
+                                            Name </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element.Name || '-'}}
+                                        </td>
+                                    </ng-container>
+
+
+                                    <!-- Email ID Column -->
+                                    <ng-container matColumnDef="EmailID">
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-envelope"></i> Email
+                                            ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.email || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Phone No. Column -->
+                                    <ng-container matColumnDef="PhoneNo">
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-mobile-alt"></i>
+                                            Phone
+                                            No. </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.phone || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="UniqueIDType">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <i class="far fa-id-card"></i> Unique ID Type
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.UniqueId || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="UniqueIDNum">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <i class="far fa-id-card"></i> Unique ID No.
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.UniqueIdNumber || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="InterviewDate">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <i class="fa fa-tasks" aria-hidden="true"></i> Skill
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.primaryskill || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="interviewer">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <i class="fas fa-thermometer-three-quarters"></i>
+                                            Location
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <!-- {{element?.city_name+' ('+element?.country_name+')'}} -->
+                                            <ng-container *ngIf="element?.StateName">
+                                                {{element?.city_name || '-'}}( {{element?.StateName|| '-'}} )
+                                            </ng-container>
+                                            <ng-container *ngIf="element?.country_name">
+                                                {{element?.city_name || '-'}}( {{element?.country_name|| '-'}} )
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="dormantStatus">
+                                        <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                                            <br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.isTidDormant">
+                                                <ng-container *ngSwitchCase="'D'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{'DORMANT'}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'R'">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{'RE-ACTIVATED'}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{'ACTIVE'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="CandidateStatus">
+                                        <th mat-header-cell *matHeaderCellDef><i
+                                                class="fas fa-thermometer-three-quarters"></i> Candidate Status</th>
+                                        <td mat-cell *matCellDef="let element" class="text-left">
+                                            <ng-container *ngIf="element?.OfferStatusID; else cs">
+                                                <app-all-status-id-visibility-shared [statusType]="'offer'"
+                                                    [statusId]="element?.OfferStatusID"
+                                                    [statusName]="element?.OfferStatusName">
+                                                </app-all-status-id-visibility-shared>
+                                            </ng-container>
+                                            <ng-template #cs>
+                                                <app-all-status-id-visibility-shared [statusType]="'cs'"
+                                                    [statusId]="element?.statusid" [statusName]="element?.StatusName">
+                                                </app-all-status-id-visibility-shared>
+                                            </ng-template>
+                                            <!-- <app-all-status-id-visibility-shared [statusType]="'cs'"
+                                            [statusId]="element?.statusid" [statusName]="element?.StatusName"> -->
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-exchange-alt"></i>
+                                            Action
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            <div class="btn-action btn-action-center">
+
+                                                <div class="btn-act"
+                                                    *ngIf="element?.OfferStatusID !=200 && element?.isTidDormant != 'D'">
+                                                    <button mat-button type="button"
+                                                        [disabled]="disableBtnStatusWise(element)"
+                                                        matTooltip="Update Candidate Details"
+                                                        (click)="openCandidateForm(element)">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                                <!--  -->
+                                                <div class="btn-act"
+                                                    *ngIf="isdobSourceUpdate(element)">
+                                                    <button mat-button type="button"
+                                                        matTooltip="Update Source / DOB"
+                                                        (click)="updateProfileSourceModal(element)">
+                                                        <span class="material-icons-outlined">
+                                                            transfer_within_a_station
+                                                        </span>
+                                                        <!-- <span class="material-icons-outlined">
+                                                            boycott
+                                                        </span> -->
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                                <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

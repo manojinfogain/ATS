@@ -1,0 +1,61 @@
+<form [formGroup]="updatePrimaryInterviewer" (ngSubmit)="submitUpdateInterviewerHandler(updatePrimaryInterviewer)">
+    <div class="ats-modal-header">
+        <h1>
+            Update Primary Interviewer
+        </h1>
+
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="list-record-interview">
+                <ul>
+                    <li>
+                        <label><span>Name:</span>{{candidateData?.Name || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+                    </li>
+
+                    <li>
+                        <label><span>Talent Id:</span>
+                            {{candidateData?.THID || '-'}}</label>
+                    </li>
+
+
+                </ul>
+            </div>
+            <div class="ats-panel-wrap-feed">
+                <div class="ats-forms ats-forms-horz ats-forms-horz3">
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <mat-select placeholder="Select Interviwer" formControlName="InterviewerID"
+                                required="true">
+                                <mat-option *ngFor="let item of additionalIntList" [value]="item?.InterviewerEmpID">
+                                    {{item?.InterviewerName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Remarks" formControlName="Remarks" maxlength="500"
+                                disableInitialSpace>
+                        </mat-form-field>
+                    </div> -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+
+</form>

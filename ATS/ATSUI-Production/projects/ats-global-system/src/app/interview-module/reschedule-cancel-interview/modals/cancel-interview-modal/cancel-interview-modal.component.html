@@ -1,0 +1,89 @@
+<form [formGroup]="CancelInterviewForm" (ngSubmit)="CancelFormSubmit(CancelInterviewForm)">
+    <div class="ats-modal-header">
+        <h1>
+            Cancel Interview
+        </h1>
+
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+        <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="list-record-interview list-w-2">
+                <ul>
+                    <li>
+                        <label><span>Name:</span>{{candidateData?.Name || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+                    </li>
+
+                    <li>
+                        <label><span>Candidate Current Status:</span>
+                            {{candidteRoundDetails?.InterViewStatus?.Status || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Interview Type:</span>
+                            <span class="sp-highl">{{candidteRoundDetails?.interviewType?.Type || '-'}}</span></label>
+                    </li>
+                    <li>
+                        <label><span>Interview Mode:</span>
+                            {{candidteRoundDetails?.InterviewMode?.mode || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Current Interview Date:</span>
+                            {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Current Joining Date:</span>
+                            {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy') || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Primary Interviewer:</span>
+                            {{candidteRoundDetails?.interviewer?.Name|| '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Additional Interviewers:</span>
+                            {{candidteRoundDetails?.AdditionalInterviewer?.length === 0? '-':''}}
+                            <ng-container *ngFor ="let int of candidteRoundDetails?.AdditionalInterviewer;let isLast=last">
+                                {{int?.Name}}{{isLast ? '' : ', '}}
+                            </ng-container>
+                           </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="ats-panel-wrap-feed">
+                <div class="ats-forms ats-forms-horz ats-forms-horz3">
+                    <div class="ats-form-col width-50">
+                        <mat-form-field>
+                            <mat-label>Cancel Reason</mat-label>
+                            <mat-select placeholder="Cancel Reason" formControlName="cancelReason">
+                                <mat-option *ngFor="let reasons of cancelReasons" [value]="reasons?.ID">
+                                    {{reasons?.Name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col width-50">
+                        <mat-form-field>
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput placeholder="Type Remark here" formControlName="Remarks"
+                                disableInitialSpace ></textarea>
+                            <!-- <input matInput type="text" placeholder="Remarks" formControlName="Remarks" maxlength="500"
+                                disableInitialSpace> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+
+</form>

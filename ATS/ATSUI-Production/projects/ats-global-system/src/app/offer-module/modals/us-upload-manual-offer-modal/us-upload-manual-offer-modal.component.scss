@@ -1,0 +1,50 @@
+
+
+.warning-ctc{
+    font-size: 10px !important;
+}
+
+.row {
+    display: unset !important;
+   
+}
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 100% !important;
+}
+:host::ng-deep .checkbox-control{
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    .mat-checkbox-label{
+        color: #1a38a7;
+    }
+}
+.ats-forms.ats-form-dark .ats-form-col {
+    /* margin-bottom: 7px; */
+   // padding: 10px 10px !important;
+}
+
+.width-50-inline {
+    width: 50%;
+    display: inline-block;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.padding-7-0 {
+    padding: 7px 0px;
+}
+
+// .laptop-wrapper{
+//     justify-content: end !important;
+//     padding: 9px 7px !important;
+//     .ats-form-col {
+//        width: 284px !important;
+//       margin-bottom: 1px !important;
+       
+//     }
+
+// }

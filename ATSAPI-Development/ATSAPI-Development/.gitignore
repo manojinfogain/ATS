@@ -1,0 +1,61 @@
+# Ignore Visual Studio-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore Build and Bin/Obj folders
+bin/
+obj/
+Build/
+Backup/
+TestResults/
+*.suo
+*.cache
+*.pdb
+*.ilk
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+*.ldf
+*.mdf
+*.sqlite
+
+# Ignore NuGet Packages
+*.nupkg
+packages/
+!packages/repositories.config
+
+# Ignore Web.config Transformations
+# Uncomment if you don't want to track them
+# Web.*.config
+
+# Ignore Temporary ASP.NET files
+# Uncomment for ASP.NET development
+# ASPNETDB_log.ldf
+# ASPNETDB.mdf
+
+# Ignore Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# Ignore Rider IDE files
+.idea/
+
+# Ignore Publish-related files
+PublishScripts/
+*.publishproj
+*.log
+*.vspscc
+*.vssscc
+*.vspcc
+*.ncrunch*
+*.coverage
+*.testsettings
+*.vsmdi
+
+# Ignore IIS Express settings
+iisexpress/
+.config/

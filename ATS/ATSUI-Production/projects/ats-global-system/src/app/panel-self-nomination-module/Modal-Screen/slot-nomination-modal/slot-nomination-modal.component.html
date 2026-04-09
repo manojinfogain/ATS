@@ -1,0 +1,128 @@
+<div class="ats-modal-header">
+    <h2>
+        Add New Time Slot -  {{data?.talentId}} 
+    </h2>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="slot-section">
+                <div class="slot-calender">
+                    <!-- <ngb-datepicker #dp 
+                    outsideDays="hidden"
+                    navigation="arrows"
+                     class="youxta-datepicker-lg">
+                    </ngb-datepicker> -->
+                    <full-calendar #calendar [options]="calendarOptions">
+                        <!-- <ng-template #eventContent let-arg>
+                            <b>{{arg.date}}f</b>
+                            <i>{{arg.event.title}} f</i>
+                          </ng-template> -->
+                    </full-calendar>
+                </div>
+                <div class="slot-list">
+                    <div class="slot-list-wrap">
+                        <div class="slot-list-header">
+                            <div class="l-h-title">
+                                <h4> Slot List - {{selectedDateUTC | date}}</h4>
+                            </div>
+                            <div class="l-h-btn" *ngIf="isAddActionHidden">
+                                <!-- <button type="button" class="btn btn-infocon" (click)="addNewSlotModal()">
+                                    Add New Slot
+                                </button> -->
+                                <button mat-stroked-button type="button" (click)="addNewSlotModal()" >Add  Slot</button>
+                            </div>
+
+                        </div>
+                        <div class="slot-list-content">
+                            <div class="slo-accct" *ngIf="slotList?.length == 0">
+                                <p *ngIf="isAddActionHidden">
+                                    There are no slots added. Please click the 'Add Slot' button to create a new slot.
+                                </p>
+                                <p *ngIf="!isAddActionHidden">
+                                    Slot add option is  disabled for this requisition ID.
+                                </p>
+                                <button type="button" class="btn btn-infocon" (click)="addNewSlotModal()" *ngIf="isAddActionHidden">
+                                    Add  Slot
+                                </button>
+                            </div>
+                            <div class="list-slot-all" *ngIf="slotList?.length != 0">
+                                <table mat-table [dataSource]="slotList" class="mat-elevation-z8 table-mat-info">
+                                    <ng-container matColumnDef="SNum">
+                                        <th mat-header-cell *matHeaderCellDef class="max-width-55"> S No. </th>
+                                        <td mat-cell *matCellDef="let element;let i=index" class="max-width-55" >
+                                            <div class="max-width-55">{{i+1}}</div>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="SlotLocal">
+                                        <th mat-header-cell *matHeaderCellDef> Slots (Local TimeZone)</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.SlotStartDateUTC | dateTimezone:'h:mm A'}}
+                                            -
+                                            {{ element.SlotEndDateUTC | dateTimezone:'h:mm A'}}
+                                         </td>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="Slot">
+                                        <th mat-header-cell *matHeaderCellDef> Slots (Selected Timezone)</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.SlotStartDateUTC | dateTimezone:'h:mm A':element.TimeZone }}
+                                            -
+                                            {{ element.SlotEndDateUTC | dateTimezone:'h:mm A':element.TimeZone }}
+                                         </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="timezone">
+                                        <th mat-header-cell *matHeaderCellDef> Timezone </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.TimeZone }}
+                                             </td>
+                                    </ng-container>
+
+                                    <!-- Weight Column -->
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="btn-action btn-action-center btn-single">
+                                                <ng-container>
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button" matTooltip="Delete Slot"
+                                                        (click)="deleteSlot(element)">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <div class="slot-list-footer"  *ngIf="slotList?.length != 0 && isAddActionHidden">
+                            <button type="submit" class="btn btn-infocon" (click)="addNewSlotModal()">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- <button type="submit" class="btn btn-infocon">
+            Submit
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</form>

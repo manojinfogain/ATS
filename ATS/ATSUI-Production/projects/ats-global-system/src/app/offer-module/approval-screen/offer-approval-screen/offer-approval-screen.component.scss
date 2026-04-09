@@ -1,0 +1,85 @@
+
+
+.box-shadow-c{
+    
+    background: #ffffff;
+    box-shadow:0px 1px 8px #0000006b;
+    padding: 13px 3px;
+}
+
+
+    .space-top-botm{
+        margin: 25px 0 !important;
+    }
+.btn-ey-v{
+    border: none;
+    outline: none;
+    background: none;
+    color: #06417c;
+    font-size: 16px;
+    &:hover{
+        opacity: 0.6;
+    }
+}
+
+.upload-file-ats{
+    width: 100% !important;
+}
+
+
+.file-name-list{
+    ul{
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        list-style-type: none;
+        li{
+            font-size: 11px;
+            border: solid 1px #ddd;
+            border-bottom: none;
+            background: #f1fffe;
+            :last-child{
+                border-bottom: solid 1px #ddd; 
+            }
+            &.uploaded{
+                background: #eaffea;
+            }
+        }
+    }
+}
+
+.appr-reopen{
+    width: 250px;
+}
+
+.unauthorized-user {
+    display: flex;
+    flex-direction: column;         /* Stack icon and text vertically */
+    align-items: center;            /* Center horizontally */
+    justify-content: center;        /* Center vertically */
+    height: 100vh;                  /* Full screen height */
+    width: 100vw;                   /* Full screen width */
+    text-align: center;
+    position: fixed;                /* Stick to viewport */
+    top: 0;
+    left: 0;
+    background-color: #fafafa;      /* Optional: soft background */
+    color: #444;
+    padding: 1rem;
+  }
+  
+  .unauthorized-user mat-icon {
+    font-size: 48px;
+    color: #d32f2f;                 /* Optional: warning/red color */
+    margin-bottom: 1.5rem;
+  }
+  
+  .unauthorized-user h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+.margin-top-15-left-24 {
+    margin-top: 15px;
+    margin-left: 24px;
+}

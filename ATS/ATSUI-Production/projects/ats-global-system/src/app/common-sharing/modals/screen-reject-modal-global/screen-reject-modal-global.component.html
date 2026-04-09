@@ -1,0 +1,80 @@
+<form [formGroup]="screenRejectForm" (ngSubmit)="submitScreenRejectForm(screenRejectForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <!--  -->
+                    <!-- end col -->
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats reject-reason-field">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Screen Reject Reason </mat-label>
+                            <mat-select placeholder="Screen Reject Reason" formControlName="screenRejectId" (selectionChange)="getReason($event)" required>
+                                <mat-option *ngFor="let data of screenRejectReason" [value]="data?.id">
+                                    {{data?.Name}}
+                                </mat-option>
+                                <mat-option *ngIf="isLocationUS" [value]="0">Other</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- alert error -->
+                        <mat-error
+                            *ngIf="getControl('screenRejectId')?.touched && getControl('screenRejectId')?.invalid">
+                            <div>
+                                <span *ngIf="getControl('screenRejectId').errors.required">
+                                    Please select a reason.
+                                </span>
+                            </div>
+                        </mat-error>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Remark
+                            </mat-label>
+                            <textarea matInput placeholder="Remark" maxlength="500" disableInitialSpace
+                                formControlName="remark"> </textarea>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('remark')?.touched && getControl('remark')?.invalid">
+                            <div *ngIf="getControl('remark')?.errors.required">
+                                <span class="remarText">Remark is required</span>
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!screenRejectForm.dirty">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

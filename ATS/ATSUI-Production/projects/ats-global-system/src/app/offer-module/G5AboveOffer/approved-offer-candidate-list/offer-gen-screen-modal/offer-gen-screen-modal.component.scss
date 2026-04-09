@@ -1,0 +1,66 @@
+
+
+:host ::ng-deep.apr-list{
+    table{
+        tr{
+            &.trActive{
+                background: #f3f2f2ed;
+            }
+        }
+    }
+}
+
+//
+.form-appr{
+    margin-top: 10px;
+}
+
+.ats-forms-address{
+    .ats-form-col{
+        // margin-bottom: 4px;
+    }
+}
+
+:host::ng-deep .checkbox-control{
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    .mat-checkbox-label{
+        color: #1a38a7;
+    }
+}
+
+:host::ng-deep .rdn-ctrl{
+    display: flex;
+    .mat-radio-button{
+        padding-right: 5px;
+    }
+    .mat-radio-label-content{
+        padding-left: 2px;
+    }
+
+}
+
+.file-name-list{
+    ul{
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        list-style-type: none;
+        li{
+            font-size: 11px;
+            border: solid 1px #ddd;
+            border-bottom: none;
+            background: #f1fffe;
+            :last-child{
+                border-bottom: solid 1px #ddd; 
+            }
+            &.uploaded{
+                background: #eaffea;
+            }
+        }
+    }
+}
+
+.warning-ctc{
+    font-size: 10px !important;
+}

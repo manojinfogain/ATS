@@ -1,0 +1,130 @@
+.vnm-list{
+    list-style-type: decimal;
+    display: block;
+    margin-left: 16px;
+    li{
+    border: none;
+    width:100%;
+    }
+}
+
+.btn-action{
+    display: inline-block;
+}
+
+.btn-action .btn-act {
+    border: none !important;
+}
+
+.btn-action .btn-act:last-child {
+    border-right: none !important;
+}
+.disble{
+    cursor: not-allowed !important;
+    color: #757474 !important;
+    pointer-events: none !important;
+}
+
+.no-pic-error-msg{
+    color: red;
+    font-size: 12px;
+}
+
+.view-pic{
+    font-size: 17px !important;
+}
+
+.profile-pic-wp-main{
+    display: flex;
+    box-shadow: 0px 0px 3px #00000026;
+    margin-bottom: 8px;
+    .profile-pic-wp{
+        max-width: 120px;
+        max-height: 120px;
+        overflow: hidden;
+    }
+    .list-record-interview{
+        width:calc(100% - 200px);
+        box-shadow: none;
+    }
+}
+.profile-pic-wp-mains{
+    .profile-pic-wp{
+       display: none;
+    } 
+}
+
+.yes-t{
+    background: green;
+    color: #fff;
+    padding: 2px 4px;
+}
+.no-t{
+    background: red;
+    color: #fff;
+    padding: 2px 4px;
+}
+
+
+.v-comp{
+    background: #FFEB3B;
+    color: #524a08;
+    padding: 2px 4px;
+}
+
+.view-feedback-questionnaire-section{
+    margin-top: 14px !important;
+}
+
+.coderByte-report{
+    // padding-left: 4px !important;
+    padding-top: 3px !important;
+    padding-right: 56px !important;
+}
+
+.score-report-wrapper{
+    display: flex !important;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.quest-auto-view{
+    .q-ans-d{
+      //  max-width: 400px;
+        word-wrap: break-word;
+    }
+    .q-auto{
+       // max-width: 325px;
+        word-wrap: break-word;
+    }
+}
+
+:host::ng-deep .highlightAuto{
+  background-color: #f8f8f8;
+}
+
+.heading-sec {
+    padding: 9px 4px;
+    h3 {
+        font-size: 15px;
+       // text-align: center;
+        color: #0a71b9;
+        font-weight: 600;
+    }
+}
+
+.rating-width{
+ min-width: 80px!important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.display-block {
+  display: block;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
+}

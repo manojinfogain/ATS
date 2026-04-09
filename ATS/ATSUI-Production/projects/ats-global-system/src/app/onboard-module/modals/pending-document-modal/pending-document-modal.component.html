@@ -1,0 +1,175 @@
+<form>
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <!-- <div class="box-v-header">
+                    <h4>Candidate Details</h4>
+                </div> -->
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c mat-elevation-z8">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Division:</h4>
+                            <p>{{offerDetails?.Division || '-'}}</p>
+                        </div>
+                        <!-- end -->
+
+                        <!-- <div class="view-list-bx">
+                            <h4>Offered On:</h4>
+                            <p>{{(data?.DateOfOffer | date ) || '-'}}</p>
+                        </div> -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Type:</h4>
+                            <p>{{offerDetails?.CandidateType || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Joining Location</h4>
+                            <p>{{offerDetails?.JoiningLocation || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="pre-onb-list-table">
+                <ng-container  *ngIf="pendingDocList?.length !== 0 ">
+                    <table mat-table [dataSource]="pendingDocList" class="table-add-form-view mat-elevation-z8">
+
+                        <ng-container matColumnDef="SNum">
+                            <th mat-header-cell *matHeaderCellDef> SNo. </th>
+                            <td mat-cell *matCellDef="let element;let i =index" (click)="$event.stopPropagation()"> {{i+1}}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="docName">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Name
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.DocumentName|| '-'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="orgName">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Organisation Name
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.Organization|| '-'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="submissionDate">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Date of submission
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.SubmissionDate | date:'dd MMM YYYY'}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Status
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container [ngSwitch]="element?.ActionTaken">
+                                    <ng-container *ngSwitchCase="'D'">
+                                        <button class="btn-status-dg selecteds" type="button">
+                                            Saved
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'S'">
+                                        <button class="btn-status-dg shortlisted" type="button">
+                                            Submitted
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'P'">
+                                        <button class="btn-status-dg schedule" type="button">
+                                            Pending
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'R'">
+                                        <button class="btn-status-dg rejects" type="button">
+                                            Verification Failed
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'V'">
+                                        <button class="btn-status-dg shortlisted" type="button">
+                                            Verified
+                                        </button>
+                                    </ng-container>
+    
+                                    <ng-container *ngSwitchDefault>
+                                        -
+                                    </ng-container>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="action" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef> Action</th>
+                            <td mat-cell *matCellDef="let element" class="text-left">
+    
+                                <div class="btn-action btn-action-centers">
+                                    <div class="btn-act">
+                                        <button mat-button type="button" matTooltip="Download"
+                                        [disabled]="element?.ActionTaken == 'P'"
+                                            (click)="viewAndDwnloadFile(element)">
+                                            <span class="material-icons-outlined">
+                                                preview
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <!-- new view pdf -->
+                                    <!-- <div class="btn-act">
+                                        <button mat-button type="button" matTooltip="Download Ar"
+                                        [disabled]="element?.ActionTaken == 'P'"
+                                            (click)="viewAndDwnloadFile(element)">
+                                            <span class="material-icons-outlined">
+                                                preview
+                                            </span>
+                                        </button>
+                                    </div> -->
+                                    <div class="btn-act">
+                                        <button mat-button type="button" (click)="openVerificationModal(element)"
+                                            matTooltip="Verify"
+                                            [disabled]="element?.ActionTaken == 'V' || element?.ActionTaken == 'D' || element?.ActionTaken == 'P'|| element?.ActionTaken == 'R'">
+                                            <span class="material-icons-outlined">
+                                                rule
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+    
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </tr>
+                    </table>
+                </ng-container>
+               
+                <app-no-result-found 
+                  *ngIf="pendingDocList?.length === 0 || pendingDocList?.length === null">
+                </app-no-result-found>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

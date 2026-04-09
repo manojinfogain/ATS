@@ -1,0 +1,26 @@
+<!-- main wrapper start -->
+<div class="main-wrapper ats-main-wrapper">
+  <app-message></app-message>
+  <app-laoder></app-laoder>
+  <!-- header  start -->
+  <!-- <app-header></app-header> -->
+  <app-header-ats></app-header-ats>
+  <div class="info-connect-body-wrapper clearfix">
+      <div class="info-connect-inner-wrapper clearfix">
+          <!-- <div class="info-connect-left">
+              <app-left-sidebar></app-left-sidebar>
+          </div> -->
+          <app-sidebar-menu></app-sidebar-menu>
+          <!-- end left wrapper -->
+          <!-- <router-outlet></router-outlet> -->
+          <div class="ats-content-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+          
+      </div>
+      <!-- end inner wrapper -->
+  </div>
+  <!-- end body wrapper -->
+  <app-footer></app-footer>
+</div>
+<!-- end main wrapper -->

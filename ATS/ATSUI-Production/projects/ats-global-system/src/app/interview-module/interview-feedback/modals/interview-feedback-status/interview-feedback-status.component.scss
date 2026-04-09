@@ -1,0 +1,497 @@
+.prm-sk {
+    padding: 3px 11px;
+}
+
+.hint-int {
+    .mat-hint {
+        margin-top: 7px;
+        font-size: 10px;
+        background: #f2f2f2;
+        display: inline-block;
+        padding: 1px 6px;
+        color: black;
+    }
+}
+
+.hint-int-2 {
+    .mat-hint {
+        margin-top: 0px;
+        font-size: 6px;
+        background: #f2f2f2;
+        display: inline-block;
+        padding: -2px 6px;
+        color: black;
+    }
+}
+
+.hint-int-l {
+    position: relative;
+
+    .mat-hint-lb {
+        margin: 0;
+        margin-top: -2px;
+        font-size: 10px;
+        background: #f2f2f2;
+        display: inline-block;
+        padding: 1px 6px;
+        color: black;
+        position: absolute;
+        top: 100%;
+        right: 9px;
+        line-height: 12px;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+}
+
+:host::ng-deep .int-panel-selection .mat-form-field-infix {
+    padding-right: 1px !important;
+}
+
+// .btn-action {
+//     justify-content: center !important;
+// }
+
+.has-error {
+    background-color: red;
+}
+
+// .highlite-status{
+//     background-color: red;
+// }
+.status-wrap {
+    margin-top: 3px !important;
+}
+
+.dangr {
+    color: red;
+}
+
+
+.btn-action .btn-act {
+    border: none !important;
+}
+
+.btn-action .btn-act:last-child {
+    border-right: none !important;
+}
+
+.box-v-ats {
+    padding-bottom: 0 !important;
+}
+
+.mat-checkbox-inner-container {
+    height: 26px !important;
+    width: 26px !important;
+}
+
+//error
+.error-file-input {
+    input[type=file] {
+        border: 1px solid red;
+        //  box-shadow: 1px 1px 1px #fea79b;
+    }
+
+    input[type=file]::file-selector-button {
+        border: 1px solid red;
+        padding: .3em .4em;
+        background-color: red;
+        transition: 1s;
+        color: #fff;
+    }
+}
+
+.consent-error {
+    color: #ff0000c9;
+    border: solid 0.1px;
+    padding: 3px 9px;
+}
+
+.note {
+    color: red;
+}
+
+.consent-sched {
+    position: relative;
+    top: -50px;
+    height: 0px;
+}
+
+.note-sline {
+    width: auto;
+}
+
+
+.detail-feedback-sec {
+    .detail-feedback-wrapper {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        width: 166px;
+        padding: 8px 2px 0 0;
+
+        .detailed-feed-quesn {
+            padding: 5px 5px;
+            background: #1f6a9f;
+            color: white;
+            border-radius: 2px;
+        }
+
+        .icon-wrap {
+            display: inline-block;
+            padding: 0px 0px 0 7px;
+
+            .icon-edit {
+                // color:red;
+            }
+        }
+    }
+
+    &:hover {
+        opacity: 90%;
+    }
+
+    .error-question {
+        color: red;
+    }
+}
+
+
+.ats-int-round-wrapper {
+    margin-top: 10px !important;
+}
+
+.score-wrapp {
+    display: flex !important;
+    align-items: center !important;
+
+    .score-link {
+        width: 70% !important;
+    }
+
+    .report-link {
+        padding: 13px 0 0 9px !important;
+    }
+}
+
+.cheating-label {}
+
+.cheating-yes {
+    color: red;
+}
+
+.cheating-no {
+    color: green;
+}
+
+
+// <div class="btn-action btn-action-center">
+//   <div class="btn-act">
+//     <button mat-button type="button" matTooltip="View Report" (click)="openReportModal(element)">
+//       <span class="material-icons">
+//         preview
+//       </span>
+//     </button>
+//   </div>
+// </div>
+
+//   <!-- <div class="btn-action btn-action-centers">
+//   <div class="btn-act">
+//     <button mat-button type="button" class="btn-ey-v" matTooltip="View Report"
+//     (click)="openReportModal(element)">
+//       <i class="fa fa-eye" aria-hidden="true"></i>
+//     </button>
+//   </div>
+// </div>-->
+
+//   /  &&isApprovalAttachment
+
+
+:host::ng-deep .quest-ans {
+    p {
+        font-size: 12px;
+        padding: 10px;
+        margin: 0;
+    }
+}
+
+:host::ng-deep .txtarea-ans{
+    &.txtarea-ans-add{
+        height: 30px;
+    }
+    // height: 30px;
+    position: relative;
+    min-width: 250px;
+    padding-right: 11px;
+    .mat-form-field{
+        margin-bottom: 10px !important;
+        textarea.mat-input-element{
+            padding: 2px 4px;
+            border: none !important;
+        }
+    }
+    .mat-form-field-appearance-legacy .mat-hint {
+        margin-top: 10px;
+        color: #414040;
+        font-size: 11px;
+        &.error-mmmd{
+            color: red;
+            margin-left: 2px;
+        }
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-label{
+        padding: 0px 4px;
+    }
+    textarea.txt-ani {
+       resize: none;
+
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        height: 100%;
+        border: none;
+        width: 100%;
+        top: 0px;
+        padding: 4px 10px;
+        resize: none;
+
+        &:focus {
+            border: none;
+            outline: none;
+        }
+    }
+    &.errorField{
+        textarea{
+            border: 1px solid red;
+            &:focus {
+                border: 1px solid red;
+            }
+        }
+    }
+}
+
+.pr-nxt-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .action-view-nms {
+        padding-left: 15px;
+    }
+
+    .btn-ey-vst {
+        border: solid 1px #ddd;
+        line-height: 31px;
+        background: #c8e8ff;
+        font-size: 13px;
+        box-shadow: 0px 4px 4px #00000026;
+    }
+}
+
+.questionnaire-technical-sec {
+    .ats-forms.ats-form-dark .ats-form-col {
+        margin-bottom: 7px !important;
+        display: block !important;
+        width: 100% !important;
+        box-shadow: 0px 0px 4px #00000026 !important;
+        border: solid 1px #ddd !important;
+        padding: 18px 20px !important;
+
+        .ques-heading,
+        .quees-heading {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mat-form-field {
+            /* margin-bottom: 0px !important; */
+            width: 90% !important;
+
+            .mat-form-field-label {
+                font-size: 122px !important;
+            }
+        }
+
+    }
+
+
+    // .view-pic-hover:hover {
+    //     color: #1f6a9f !important;
+    //     font-size: 16px !important;
+    //     transition: 0.3s ease-out !important;
+    // }
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+
+        font-size: 12px !important;
+    }
+
+
+    .hint-wrap {
+        margin-top: 8px !important;
+        font-size: 10px !important;
+    }
+
+    .ats-forms.ats-forms-horz {
+       // padding: 22px 10px !important;
+       padding: 0px !important;
+    }
+
+    // .attchment-wrap {
+    //     display: flex;
+    //     align-items: center;
+    //     .ss-handle{
+    //         border:none !important;
+    //         box-shadow: unset !important;
+    //         padding-top: 17px;
+    //         width: 46%;
+    //         .upload-file-input{
+    //             .max-size{
+    //                 font-size: 11px;
+    //                 font-weight: 400;
+    //             }
+    //         }
+    //         .btn-act {
+    //             padding-top: 19px;
+    //         }
+    //     }
+    // }
+
+
+    :host::ng-deep .hdEroor {
+        .mat-expansion-panel-header-title {
+            color: red !important;
+        }
+    }
+
+
+    .ats-forms.form-outline-ats .mat-form-field-label {
+        font-size: 12px !important;
+    }
+
+    textarea {
+        font-size: 12px !important;
+    }
+
+    .ats-forms.form-outline-ats .mat-form-field-label-wrapper {
+        top: -1.3em !important;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+        padding-top: 9px !important;
+    }
+
+    // color: #1f6a9f;
+
+    .hint-msg {
+        background: #ebebeb;
+        color: #030303;
+        margin-top: 9px !important;
+        font-size: 11px !important;
+        padding: 2px 2px;
+        line-height: 11px;
+    }
+
+    .error-aprrove-Reject {
+        position: relative;
+    }
+
+    .ats-forms.ats-forms-horz {
+        display: flex;
+        flex-wrap: unset !important;
+        //background-color: red;
+        /* justify-content: center; */
+    }
+
+    .box-v-ats {
+        box-shadow: none;
+        border: none;
+
+        .ats-form-col {
+            margin-right: 5px;
+        }
+    }
+
+    // :host::ng-deep {
+    //     .mat-expansion-panel-body {
+    //         padding: 0 !important;
+    //     }
+    // }
+    :host::ng-deep .hdEroor{
+        .mat-expansion-panel-header-title{
+            color: red !important;
+        }
+    }
+   
+}
+
+.hdEr{
+    .mat-expansion-panel-header-title{
+        color: red !important;
+    } 
+}
+
+.min-length-cls {
+    color: red;
+    padding: 2px 9px;
+    font-size: 10px;
+}
+
+.min-length{
+    color: red;
+    font-size: 10px;
+}
+.delete-btn{
+    font-size: 13.73px;
+}
+.delete-questions{
+    margin: auto
+}
+
+.btn-action-t {
+    justify-content: center;
+    .btn-action .btn-act .mat-button {
+        font-size: 15px;
+    }
+}
+.delete-btn-q{
+    min-width: 62px;
+}
+
+
+.hint-msg-a{
+    background: #ebebeb;
+    color: #030303;
+    margin-top: 9px !important;
+    font-size: 11px !important;
+    padding: 2px 2px;
+    line-height: 11px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.width-200 {
+    width: 200px;
+}
+
+.width-120 {
+    width: 120px;
+}
+
+.float-left-47 {
+    width: 47%;
+    margin-left: 10px;
+    display: inline-block;
+    float: left;
+}
+
+.float-right-47 {
+    width: 47%;
+    margin-right: 10px;
+    display: inline-block;
+    float: right;
+}

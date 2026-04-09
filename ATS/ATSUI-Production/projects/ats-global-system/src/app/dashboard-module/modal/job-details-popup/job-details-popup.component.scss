@@ -1,0 +1,111 @@
+.job-detail .list-group-item {
+    position: relative;
+    display: flex;
+    padding: .25rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+.job-detail ul.list-group.no-profile {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: -12px;
+}
+.job-detail .profile-detail-show {
+    cursor: pointer;
+}
+.job-detail .profile-detail-show:hover {
+    background: #71a7ce;
+    color: #fff;
+}
+.job-detail .list-group-item .badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 95%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: right;
+    white-space: normal;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    width: 75%;
+    font-weight: normal;
+}
+.list-group-sec1 {
+    height: 300px;
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+.job-detail .list-group-item .badge.job-des{
+    width: 60%;
+    text-align: left;
+    line-height: 18px;
+    text-align: justify;
+    /*height: 61px;
+    overflow-y: visible;
+    overflow: visible;
+    overflow-x: hidden;*/
+    font-size: 13px;
+}
+
+
+// #more {display: none;}
+#myBtn{
+    font-size: 15px;
+    color: #007bff;
+    float: right;
+}
+#myBtn:hover{
+    cursor: pointer;
+}
+
+:host ::ng-deep .pre-view-s {
+    margin-top: 4px !important;
+    font-size: 13px !important;
+    word-spacing: 1px;
+    white-space: pre-wrap;
+    p{
+        // margin: 0;
+    }
+
+    ul{
+        list-style-type: unset;
+        margin-left: 20px;
+        li{
+            float: none;
+        }
+    }
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+// Fix expansion panel header alignment
+:host ::ng-deep .ats-sc-accordion {
+    .mat-expansion-panel-header {
+        .mat-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+        }
+
+        .mat-expansion-panel-header-title {
+            flex-grow: 0;
+            flex-basis: auto;
+            margin-right: auto;
+        }
+
+        .mat-expansion-panel-header-description {
+            flex-grow: 0;
+            flex-basis: auto;
+            margin-left: auto;
+            justify-content: flex-end;
+        }
+    }
+}

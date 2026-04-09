@@ -1,0 +1,169 @@
+<form [formGroup]="joineeStatusForm" (ngSubmit)="submitJoineeStatusForm(joineeStatusForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr view-list-dt-3 box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Tentative Joining date:</h4>
+                            <p>{{data?.joiningDate | date:'dd MMM YY'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats full-width">
+                        <mat-radio-group aria-label="Select an option" formControlName="joineeStatus"
+                            (change)="joineeStatusAction($event)">
+                            <mat-radio-button *ngFor="let item of joineeStatus" [value]="item?.value">
+                                {{item?.name}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <div class="rd-st-err"
+                            *ngIf="getControl('joineeStatus')?.touched && getControl('joineeStatus')?.invalid">
+                            <div *ngIf="getControl('joineeStatus')?.errors.required">
+                                <span class="remarText">Please select above status.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col full-width" *ngIf="isDojReq">
+                        <p class="h-ln">
+                            <a href="javascript:void(0)" title="" (click)="updateJoiningDateOffer(data)">
+                                Update Joining Date
+                            </a>
+                        </p>
+                    </div>
+                    <div class="ats-form-col" *ngIf="isConfirmed">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Confirm Joining Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" [min]="minDate" [max]="maxDate" formControlName="confirmJoinDate"
+                                [required]="isConfirmed"
+                                [matDatepickerFilter]="FilterDateWeekend" readonly (dateChange)="onDateChange($event)">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('confirmJoinDate').touched && getControl('confirmJoinDate').invalid">
+                                <div *ngIf="getControl('confirmJoinDate').errors.required">
+                                    Confirm Joining Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isConfirmed">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Billing Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker3" [min]="minDate" formControlName="billingStartDate"
+                            [required]="isConfirmed"
+                                [matDatepickerFilter]="FilterDateWeekend" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('confirmJoinDate').touched && getControl('billingStartDate').invalid">
+                                <div *ngIf="getControl('billingStartDate').errors.required">
+                                    Billing Start Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col int-panel-selection  int-cal-col" [hidden]="!isConfirmed">
+                        <app-employee-list [panelIdControl]="getControl('reportingManager')" [required]="isConfirmed" [isEmpListServerSide]="false" 
+                         [title]="'Reporting Manager'" [formFieldAppearance]="'outline'" 
+                         ></app-employee-list>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isConfirmed">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>OnBoarding Mode</mat-label>
+                            <mat-select formControlName="onboardMode">
+                              <mat-option value="V">Virtual</mat-option>
+                              <mat-option value="I">In-Person</mat-option>
+                            </mat-select>
+  
+                            <mat-error
+                                *ngIf="getControl('onboardMode').touched && getControl('onboardMode').invalid">
+                                <div *ngIf="getControl('onboardMode').errors.required">
+                                  OnBoarding Mode is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                     <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isDeclineCatgReq">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Declined categories</mat-label>
+                            <mat-select formControlName="declineCateg" [required]="isDeclineCatgReq"
+                                (selectionChange)="remarkRequireChange($event)">
+                                <mat-option *ngFor="let list of declineCategoryList" [value]="list?.DeclineCategoryId">
+                                    {{list?.DeclineCategory}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('declineCateg')?.touched && getControl('declineCateg')?.invalid">
+                            <div *ngIf="getControl('declineCateg')?.errors.required">
+                                Choose Declined Category.
+                            </div>
+                        </mat-error>
+                        <!-- validate ends-->
+
+                    </div>
+                    <div class="ats-form-col" *ngIf="isRemarkReq">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Remark
+                            </mat-label>
+                            <textarea matInput placeholder="Remark" maxlength="500" disableInitialSpace
+                                formControlName="remark"
+                                [required]="getControl('remark')?.errors?.required"> </textarea>
+                            <mat-error *ngIf="getControl('remark')?.touched && getControl('remark')?.invalid">
+                                <div *ngIf="getControl('remark')?.errors.required">
+                                    <span class="remarText">Remark is required</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </mat-form-field>
+                        <!-- validate -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" *ngIf="!IsDefferd" class="btn btn-infocon" [disabled]="!joineeStatusForm.valid">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

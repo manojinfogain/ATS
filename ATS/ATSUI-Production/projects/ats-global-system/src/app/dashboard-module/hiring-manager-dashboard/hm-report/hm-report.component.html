@@ -1,0 +1,15 @@
+<div class="ats-dash-chart" *ngIf="duChartData.length !=0 && !isTableView">
+    <ngx-charts-bar-vertical *ngIf="loaded" [scheme]="colorScheme" [animations]="true" [results]="duChartData"
+        [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showGridLines]="true" [roundDomains]="false"
+        [trimXAxisTicks]="false" [trimYAxisTicks]="false" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [noBarWhenZero]="false" [showDataLabel]="true"
+        [yAxisLabel]="yAxisLabel" [legendTitle]="legendTitle" (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+</div>
+<!-- end Chart Wrapper -->
+<div class="ats-dash-table du-reports" *ngIf="reportList.length !=0 && isTableView">
+    <app-visibilty-table-view-count [reportList]="reportList" [searchInput]="searchInput" [type]="'hm'"
+    [dataKeyObj]="dataKeyObj" [filteredDate]="filteredDate">
+    </app-visibilty-table-view-count>
+
+</div>

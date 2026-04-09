@@ -1,0 +1,944 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <!-- <div class="filter-txt-opt">
+                    Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                    <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                  </div> -->
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By CID/ Name'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <!-- <li>
+                                                    <div class="form-slv">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Year</mat-label>
+                                                            <mat-select [formControl]="formControlYear"
+                                                                (selectionChange)="MonthYear($event,1)">
+                                                                <mat-option *ngFor="let data of yearList"
+                                                                    [value]="data">
+                                                                    {{data}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="form-slv">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Month</mat-label>
+                                                            <mat-select [formControl]="formControlMonth"
+                                                                (selectionChange)="MonthYear($event,2)">
+                                                                <mat-option *ngFor="let data of MonthList"
+                                                                    [value]="data.value">
+                                                                    {{data?.name}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </li> -->
+                                                <li [ngClass]="{'disabled' : candidateList?.data?.length == 0}">
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter"
+                                                        (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                        [dateRangeStartToEnd]="true" [dateRangeTitle2]="'Date Of Offer'"
+                                                        [dateRangeTitle]="'Date Of Joining'" [recruiter]="true"
+                                                        [recMulti]="true">
+                                                    </app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info" id="exportTable">
+
+                                    <div class="producti-wrapper">
+                                        <div class="wrp-bx ">
+                                            <ng-container class="sNo-name">
+                                                <ng-container matColumnDef="sNo" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos">
+                                                        S. No
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element; let i=index"
+                                                        class="text-center ">
+                                                        {{i+1}}
+                                                    </td>
+                                                    <td mat-footer-cell *matFooterCellDef><strong> </strong> </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Cid" sticky>
+                                                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">{{cidColName}} </th>
+                                                    <td class="text-center" mat-cell *matCellDef="let element;">
+                                                        {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) :
+                                                        '-' }}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="candName" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Candidate Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.CandidateName}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="joiningDate" class="">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Date Of Joining
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.JoiningDate}} -->
+                                                        {{(element?.JoiningDate | date:'mediumDate' ) ||
+                                                        '-'}}
+
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="offerDate" class="">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos date-Column-Width">
+                                                        Date Of Offer
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        <!-- {{element?.offeredDate}} -->
+                                                        {{(element?.offeredDate | date:'mediumDate' ) ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="email" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos hide-col">
+                                                        Email
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"
+                                                        class="show-data-td hide-col">
+                                                        {{element?.Email}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="phone" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos hide-col">
+                                                        Mobile No.
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"
+                                                        class="show-data-td hide-col">
+                                                        {{element?.MobileNumber}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="pskills" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos hide-col">
+                                                        Primary Skill
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"
+                                                        class="show-data-td hide-col">
+                                                        {{element?.PrimarySkill}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="subskill" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos hide-col">
+                                                        Sub Skills
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"
+                                                        class="show-data-td hide-col">
+                                                        {{element?.SubSkill}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="experience" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos hide-col">
+                                                        Experience
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"
+                                                        class="show-data-td hide-col">
+                                                        {{element?.Experience + ' years'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="pRecruiter">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Primary Recruiter
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.primaryrecruiterName}}
+                                                    </td>
+                                                </ng-container>
+                                                <!-- new colum -->
+                                                <ng-container matColumnDef="sRecruiter">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="handl-colum color-white pos ">
+                                                        Secondary Recruiter
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.secondaryrecruiterName}}
+                                                    </td>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                        <!-- 15days -->
+                                        <div class="wrp-bx">
+
+                                            <div class="handl-colum">
+                                                <ng-container matColumnDef="statusUp15">
+
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.Status_Days_15 || '-'}}
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiringUp15">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.HiringManager_Name_Days_15 ||'-'}}
+                                                    </td>
+
+                                                </ng-container>
+                                                <ng-container matColumnDef="datedays15">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th lite-orange date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.ConnectedDate_Days_15 | date:'mediumDate' ) ||
+                                                        '-'}}
+                                                    </td>
+
+                                                </ng-container>
+
+                                            </div>
+                                            <!-- ends day1  -->
+                                        </div>
+
+                                        <!-- 15days end -->
+
+                                        <!-- 30days start -->
+                                        <div class="wrp-bx">
+                                            <ng-container matColumnDef="statusUp30">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                    Status <br> (Yes/No/ NA)
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    {{element?.H_Status_Days_30 ||'-'}}
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="hiringUp30">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                ">
+                                                    Hiring Manager <br> / Business Name
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                    {{element?.HiringManager_Name_Days_30 ||'-'}}
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="datedays30">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th lite-blue
+                                                date-Column-Width ">
+                                                    Date
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{(element?.H_ConnectedDate_Days_30| date:'mediumDate') || '-'}}
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="statusUp30R">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th dark-blue
+                                                ">
+                                                    Status <br> (Yes/No/ NA)
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                    {{element?.R_Status_Days_30 ||'-'}}
+                                                </td>
+
+                                            </ng-container>
+                                            <ng-container matColumnDef="hiringUp30R">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th dark-blue
+                                                ">
+                                                    Recruiter's <br> Follow up call
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                    {{element?.RecruitersFollowupcall_Days_30 ||'-'}}
+                                                </td>
+
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="datedays30R">
+                                                <th mat-header-cell *matHeaderCellDef class="highlight-th dark-blue
+                                                date-Column-Width ">
+                                                    Date
+                                                </th>
+                                                <td mat-cell *matCellDef="let element;">
+                                                    {{(element?.R_ConnectedDate_Days_30 | date:'mediumDate') || '-'}}
+                                                </td>
+
+                                            </ng-container>
+
+
+
+                                        </div>
+
+                                        <!--  30 days ends -->
+
+                                        <!-- 45days start -->
+                                        <div class="wrp-bx">
+                                            <div class="h1upto45">
+                                                <ng-container matColumnDef="h1statusUp45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-orange
+                                                    th-name">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H1_Status_Days_45 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiring1Up45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-orange
+                                                    th-name">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H1_HiringManager_Name_Days_45 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h1datedays45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-orange
+                                                    th-name date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H1_ConnectedDate_Days_45| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <div class="h2upto45">
+                                                <ng-container matColumnDef="statusUp45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R_Status_Days_45 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="recFollowUp45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.RecruitersFollowupcall_Days_45 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="datedays45R">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th lite-yellow
+                                                    th-name date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R_ConnectedDate_Days_45 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="statusUp45R">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H2_Status_Days_45 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h2hiringUp45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Hiring Manager <br>/ Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H2_HiringManager_Name_Days_45 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h2datedays45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H2_ConnectedDate_Days_45 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- ends  -->
+                                        </div>
+                                        <!-- 45days ends -->
+
+                                        <!-- upto 60 days starts -->
+                                        <div class="wrp-bx">
+                                            <div class="h1upto60">
+                                                <ng-container matColumnDef="h1statusUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H1_Status_Days_60 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiring1Up60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H1_HiringManager_Name_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h1Connecteddate60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H1_ConnectedDate_Days_60| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="h2upto60">
+                                                <ng-container matColumnDef="r1statusUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R1_Status_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r1FollowUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    ">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R1_RecruitersFollowupcall_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r1ConnectDate60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R1_ConnectedDate_Days_60 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="aStatusUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.A_Status_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="aProjDuHead60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        <!-- Account / Project/ <br> GDL Name -->
+                                                        Project / DP / PDL / <br>GDL
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.AccountProjectDUHead_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="aConnectDate60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.A_ConnectedDate_Days_60 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- end   -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="h2statusUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H2_Status_Days_60 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiring2Up60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    ">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H2_HiringManager_Name_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h2Connecteddate60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name dark-blue
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H2_ConnectedDate_Days_60| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- end   -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="r2statusUp60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R2_Status_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r2FollowUp45">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    ">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R2_RecruitersFollowupcall_Days_60 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r2ConnectDate60">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-blue
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R2_ConnectedDate_Days_60 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <!-- upto 60 days end -->
+
+                                        <!-- upto 90 days starts -->
+                                        <div class="wrp-bx">
+                                            <div class="h1upto60">
+                                                <ng-container matColumnDef="h1statusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H1_Status_Days_90 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiring1Up90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H1_HiringManager_Name_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h1Connecteddate90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H1_ConnectedDate_Days_90| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="h2upto60">
+                                                <ng-container matColumnDef="r1statusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R1_Status_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r1FollowUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R1_RecruitersFollowupcall_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r1ConnectDate90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R1_ConnectedDate_Days_90 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="aStatusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.A_Status_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="aProjDuHead90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        <!-- Account / Project/ <br> GDL Name -->
+                                                        Project / DP / PDL / <br>GDL
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.AccountProjectDUHead_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="aConnectDate90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.A_ConnectedDate_Days_90 | date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- end   -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="r2statusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R2_Status_Days_90 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r2FollowUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    ">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R2_RecruitersFollowupcall_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r2ConnectDate90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-orange
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R2_ConnectedDate_Days_90| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- end   -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="h2statusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.H2_Status_Days_90 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="hiring2Up90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    ">
+                                                        Hiring Manager <br> / Business Name
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.H2_HiringManager_Name_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="h2Connecteddate90">
+                                                    <th mat-header-cell *matHeaderCellDef class="highlight-th th-name lite-yellow
+                                                    date-Column-Width ">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.H2_ConnectedDate_Days_90| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+
+                                            <!-- end   -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="r3statusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-orange">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R3_Status_Days_90 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r3FollowUp90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-orange">
+                                                        Recruiter's <br> Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R3_RecruitersFollowupcall_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="r3ConnectDate90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-orange date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R3_ConnectedDate_Days_90| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                            <!-- end -->
+                                            <div class="recupto45">
+                                                <ng-container matColumnDef="rStatusUp90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-yellow">
+                                                        Status <br> (Yes/No/ NA)
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+
+                                                        {{element?.R_Status_Days_90 || '-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="rFollowUp90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-yellow">
+                                                        Recruiter's & Buddy <br> & HRBP Follow up call
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element" class="show-data-td">
+                                                        {{element?.R_RecruitersAndBuddyFollowupcall_Days_90 ||'-'}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="rConnectDate90">
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        class="highlight-th th-name lite-yellow date-Column-Width">
+                                                        Date
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element;">
+                                                        {{(element?.R_ConnectedDate_Days_90| date:'mediumDate') ||
+                                                        '-'}}
+                                                    </td>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Header row first group -->
+                                    <ng-container *ngFor="let group of headGroup; let i = index">
+                                        <ng-container [matColumnDef]="group">
+                                            <ng-container [ngSwitch]="i">
+                                                <ng-container *ngSwitchCase="0">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="7" class="dark-blue heading-main pos">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="7">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- //for hidden columns in export -->
+                                                <ng-container *ngSwitchCase="1">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="5" class="dark-blue heading-main pos hide-col">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="5">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="2">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3" class="dark-orange heading-main">
+                                                        Upto 15 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="3">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="3">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="6" class="dark-blue heading-main">
+                                                        Upto 30 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="6">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="4">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="9" class="dark-orange heading-main ">
+                                                        Upto 45 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="9">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="5">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="15" class="dark-blue heading-main">
+                                                        Upto 60 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="15">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchCase="6">
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="21" class="dark-orange heading-main">
+                                                        Upto 90 Days
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="21">
+                                                    </th>
+                                                </ng-container>
+                                                <!-- // -->
+                                                <ng-container *ngSwitchDefault>
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="2">
+                                                        {{i==0? '':(i)+' '}}
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        [attr.colspan]="2">
+                                                    </th>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="tr-fx">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                    <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr> -->
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="(candidateList?.data?.length === 0)">
+                                </app-no-result-found>
+
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [pageSizeOptions]="pazeOption"
+                                    [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

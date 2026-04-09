@@ -1,0 +1,18 @@
+.ats-auth-wrapper .auth-content-box{
+    width: 555px;
+    max-width: 700px;
+}
+
+.btn-infocon:disabled{
+    box-shadow: 0 3px 1px #a3a3a3 !important;
+}
+.btn-simple-ats{
+    &:hover{
+        opacity: 0.6;
+    }
+}
+
+
+.pdf-action-wrap{
+    display: flex;
+}

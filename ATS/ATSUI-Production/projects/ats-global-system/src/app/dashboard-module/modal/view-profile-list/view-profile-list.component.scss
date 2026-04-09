@@ -1,0 +1,17 @@
+.erp-search-input{
+    width: 240px;
+}
+
+.hide-col-ar{
+    display: none !important;
+}
+
+.disabled-row {
+  background-color: #f0f0f0;
+  color: #999;
+  pointer-events: none;
+}
+.highlight-row {
+  background-color: #d4edda; /* light green */
+  font-weight: bold;
+}

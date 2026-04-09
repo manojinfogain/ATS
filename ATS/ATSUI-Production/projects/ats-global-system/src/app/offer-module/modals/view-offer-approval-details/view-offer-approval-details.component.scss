@@ -1,0 +1,50 @@
+//code moved to common css file for eye icon
+
+
+
+:host ::ng-deep.apr-list{
+    table{
+        tr{
+            &.trActive{
+                background: #f3f2f2ed;
+            }
+        }
+    }
+}
+
+// .documents{
+//     width: 40% !important;
+// }
+
+.btn-action {
+    justify-content: center !important;
+}
+
+.btn-action .btn-act {
+    border: none !important;
+}
+
+.btn-action .btn-act:last-child {
+    border-right: none !important;
+}
+
+.disble{
+    cursor: not-allowed !important;
+    color: #757474 !important;
+    pointer-events: none !important;
+}
+
+.text-filter-alert {
+    padding: 26px 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #797979;
+}
+
+.max-height-200 {
+    max-height: 200px;
+}
+
+.display-none {
+    display: none;
+}

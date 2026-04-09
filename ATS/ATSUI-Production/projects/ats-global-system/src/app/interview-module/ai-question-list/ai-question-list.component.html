@@ -1,0 +1,100 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+
+                        <div class="card-body">
+                            <app-no-result-found *ngIf="!authorizedUser"
+                                [noRecordFound]="'You are not authorized to view  questions.'">
+                            </app-no-result-found>
+                            <app-no-result-found *ngIf="authorizedUser && !validScreen"
+                            [noRecordFound]="'Cannot preview the  question list. Questions have already been saved or feedback has been provided by the panel.'">
+                        </app-no-result-found>
+                            <div class="tt-plol" *ngIf="authorizedUser && validScreen">
+                                <h5>Please refresh the questions using the next or previous action buttons to receive a
+                                    new set. After submitting 10 questions, the set will be available for feedback on
+                                    the feedback screen.</h5>
+                            </div>
+                            <div class="table-ai-data table-scroll-bd" *ngIf="authorizedUser && validScreen">
+                                <table mat-table [dataSource]="dataSource" class="table-mat-info mat-elevation-z8">
+
+                                    <!-- Checkbox Column -->
+                                    <ng-container matColumnDef="select">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                                [checked]="selection.hasValue() && isAllSelected()"
+                                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                                [aria-label]="checkboxLabel()">
+                                            </mat-checkbox>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-checkbox (click)="$event.stopPropagation()"
+                                                (change)="$event ? selection.toggle(row) : null"
+                                                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                            </mat-checkbox>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="SNum">
+                                        <th mat-header-cell *matHeaderCellDef>Sr. No. </th>
+                                        <td mat-cell *matCellDef="let element; let i =index"> {{i+1}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="question">
+                                        <th mat-header-cell *matHeaderCellDef>Questions </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Question}} </td>
+                                    </ng-container>
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                        (click)="selection.toggle(row)">
+                                    </tr>
+                                </table>
+
+
+                                <!-- <mat-paginator #paginator [pageSizeOptions]="pageSizes"
+                                    showFirstLastButtons></mat-paginator>
+                                    <button (click)="submit()">ok</button> -->
+
+                            </div>
+
+                            <div class="ats-paging-sec atm-pgm-llb" *ngIf="authorizedUser && validScreen">
+
+                                <div class="ats-paginator atm-pgm">
+                                    <mat-paginator #paginator [pageSizeOptions]="pageSizes"
+                                        [showFirstLastButtons]="false"  [hidePageSize]="true"></mat-paginator>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-infocon" (click)="submit()"
+                                    *ngIf="isbuttonVisible">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

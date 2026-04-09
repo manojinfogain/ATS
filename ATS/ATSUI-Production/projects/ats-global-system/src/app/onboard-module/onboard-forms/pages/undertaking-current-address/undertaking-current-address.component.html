@@ -1,0 +1,94 @@
+<div class="form-card-wrapper">
+    <h2>{{data?.title}}</h2>
+    <div class="form-logo">
+        <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+    </div>
+    <p>
+        I
+        &nbsp; <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{(data?.candidatePersonalDetails?.FirstName ?
+                    data?.candidatePersonalDetails?.FirstName : '')+'
+                    '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName :
+                    '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName
+                    : '')}}
+                </span>
+            </span>
+        </span>&nbsp;
+        certify that I am currently living in a temporary accommodation & my current address is as mentioned
+        below. As soon as I will find a permanent accommodation I will provide the address proof for the
+        same.
+        <br>
+
+        <span class="paragraphP">
+            <span class="span1">
+                <span class="span2">
+                    {{addressLine1+','+addressLine2}}.
+                </span>
+            </span>
+        </span><br>
+        The information provided above is true to the best of my knowledge & I hold the responsibility for
+        any discrepancy in the same.
+    </p>
+
+    <div class="table-o-at">
+        <table class="table table-border-none">
+            <tbody>
+                <tr>
+                    <td class="title-tb">Employee Name</td>
+                    <td>
+                        <div class="td-colun-div">{{(data?.candidatePersonalDetails?.FirstName ?
+                            data?.candidatePersonalDetails?.FirstName : '')+'
+                            '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName :
+                            '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName
+                            : '')}}</div>
+                    </td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                    <td class="title-tb">Employee Code</td>
+                    <td> 
+                        <div class="td-colun-div">
+                            {{(data?.candidatePersonalDetails?.EmployeeCode ? data?.candidatePersonalDetails?.EmployeeCode : '-')}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">Employee signature </td>
+                    <td>
+                        <div class="td-colun-div">
+                            <div class="sign-wrap">
+                                <img [src]="signImage" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="title-tb">Date </td>
+                    <td>
+                        <div class="td-colun-div">{{data?.currAddrFormDetails?.JoiningReportFillDate ?
+                            (data?.currAddrFormDetails?.JoiningReportFillDate | date:'dd-MMM-YYYY') : '-'}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title-tb">H.R. Signature</td>
+                    <td class="td-colundd">
+                        <div class="td-colun-div">
+                            <button *ngIf="!signImageHR" type="button" class="btn btn-simple-ats mb-ml"
+                                (click)="signt(data)" [disabled]="(data?.onboardFormStatus != 120 && data?.Status != 'S')">
+                                Insert Sign
+                            </button>
+                            <div class="sign-wrap" *ngIf="signImageHR">
+                                <img [src]="signImageHR" />
+                                <mat-icon matSuffix class="margin-left-300" *ngIf="(data?.Status == 'S')" (click)="signt(data)">edit_note
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

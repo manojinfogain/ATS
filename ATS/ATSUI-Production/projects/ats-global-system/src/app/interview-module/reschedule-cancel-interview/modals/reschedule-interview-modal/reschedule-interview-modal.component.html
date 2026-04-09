@@ -1,0 +1,558 @@
+<form [formGroup]="intRescheduleForm" (ngSubmit)="submitReschuleData(intRescheduleForm)">
+    <div class="ats-modal-header">
+        <h1>
+            {{candidteRoundDetails?.InterViewStatus?.Id == 2 ? 'Interview Schedule':'Interview Reschedule'}}
+        </h1>
+
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+        <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="list-record-interview">
+                <ul>
+                    <li>
+                        <label><span>Name:</span>{{candidateData?.Name || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+                    </li>
+
+                    <li>
+                        <label><span>Scheduled Round:</span>
+                            {{candidteRoundDetails?.sequenceId || '-'}}</label>
+                    </li>
+
+                    <li>
+                        <label><span>Candidate Current Status:</span>
+                            {{candidteRoundDetails?.InterViewStatus?.Status || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Interview Type:</span>
+                            <span class="sp-highl">{{candidteRoundDetails?.interviewType?.Type || '-'}}</span></label>
+                    </li>
+                    <li>
+                        <label><span>Interview Mode:</span>
+                            {{candidteRoundDetails?.InterviewMode?.mode || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Current Interview Date:</span>
+                            {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Current Joining Date:</span>
+                            {{(candidteRoundDetails?.InterviewDate| date:'dd-MM-yyyy') || '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Primary Interviewer:</span>
+                            {{candidteRoundDetails?.interviewer?.Name|| '-'}}</label>
+                    </li>
+                    <li>
+                        <label><span>Additional Interviewers:</span>
+                            {{candidteRoundDetails?.AdditionalInterviewer?.length === 0? '-':''}}
+                            <ng-container
+                                *ngFor="let int of candidteRoundDetails?.AdditionalInterviewer;let isLast=last">
+                                {{int?.Name}}{{isLast ? '' : ', '}}
+                            </ng-container>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="ats-panel-wrap-feed">
+                <div class="ats-forms ats-forms-horz ats-forms-horz3">
+
+                    <div class="ats-form-col" *ngIf="isCancelledStatus">
+                        <!-- <app-master-global-form-control [title]="'Interview Type'" [type]="'inttype'"
+                            [required]="isCancelledStatus" [formControlOpt]="interviewTypeIdControl"
+                            (getValFromControl)="getSelectedIntTypeId($event)">
+                        </app-master-global-form-control> -->
+                        <mat-form-field>
+                            <mat-select placeholder="Interview Type" formControlName="interviewTypeId"
+                                (selectionChange)="getSelectedIntTypeId($event)" [required]="isCancelledStatus">
+                                <mat-option *ngFor="let list of listData" [value]="list.id">
+                                    {{list?.interviewType}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && locationData.isLocationUS(null)">
+
+                        <!-- <mat-form-field>
+                            <mat-select placeholder="Interview Type" formControlName="interviewTypeId"
+                                (selectionChange)="getSelectedIntTypeId($event)">
+                                <mat-option *ngFor="let list of listData" [value]="list.id">
+                                    {{list?.interviewType}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <mat-form-field>
+                            <mat-label>Entity</mat-label>
+                            <mat-select formControlName="EntityId" [(ngModel)]="EntityId"
+                                (selectionChange)="getENtity($event)" [required]="locationData.isLocationUS(null)">
+                                <mat-option *ngFor="let data of entityList" [value]="data.ID">
+                                    {{data?.Entity}}
+                                </mat-option>
+                                <!-- <mat-option [value]="'0'">
+                                    Other
+                                </mat-option> -->
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="ats-form-col" *ngIf="isIdProof">
+                        <mat-form-field>
+                            <mat-select placeholder="Government photo ID proof Type" formControlName="idType"
+                                [required]="idProofReq" (selectionChange)="getSelectedIdType($event?.value)">
+                                <mat-option *ngFor="let list of idTypeData" [value]="list?.id">{{list?.identity_name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isIdProof">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Government photo ID proof No."
+                                formControlName="idNumber" [required]="idProofReq" disableInitialSpace maxlength="22">
+                            <mat-error *ngIf="idNumberControl.touched && idNumberControl.invalid">
+                                <div *ngIf="idNumberControl.errors.pattern">
+                                    Please enter valid {{idTypeName}}.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="ats-form-col hint-int" *ngIf="isUploadIdShow"
+                        [ngClass]="UploadCandId.touched && UploadCandId.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file">
+                            <label>Upload Government photo ID proof Doc. <sup
+                                    *ngIf="isUploadIdShow  && flagScreeningIdPicVidMandat">*</sup> </label>
+                            <input type="file" formControlName="UploadCandId" (change)="fileUpCandId($event)">
+                            <!-- <mat-hint>Note: Only jpg/jpeg/png/pdf formats allowed.</mat-hint> -->
+                        </div>
+                        <!-- validate -->
+
+                        <!-- validate ends-->
+                    </div>
+                    <!-- end -->
+                    <div class="ats-form-col int-panel-selection int-cal-col" *ngIf="!isMettleSch">
+                        <app-timezone-list-control [IdControl]="interviewDateTimeZoneCtrl" [required]="!isMettleSch"
+                            [title]="'Select Timezone'"></app-timezone-list-control>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col int-panel-selection int-cal-col"
+                        *ngIf="!isMettleSch && locationData.isLocationIndia(null)">
+                        <button mat-button type="button" class="btn-ey-vst" matTooltip="View All Rounds"
+                            (click)="openSlotListModal()">View Panel Slot</button>
+                    </div>
+                    <!-- end col -->
+
+                    <!-- end col Interview By-->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isInterviewByVisible">
+                        <mat-form-field>
+                            <mat-select placeholder="Interview By" formControlName="interviewBy"
+                                (selectionChange)="interviewByType($event)">
+                                <mat-option *ngFor="let list of interviewByTypeList" [value]="list?.id">
+                                    {{list?.interviewByName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- showing this dropdwon when choose external agnecy option -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isExternalAgency">
+                        <mat-form-field>
+                            <mat-select placeholder="External Agency" formControlName="externalAgency">
+                                <mat-option *ngFor="let list of externalAgencyList" [value]="list?.id">{{list?.name
+                                    }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <!--  -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isCoderByteAssessment">
+                        <mat-form-field>
+                            <mat-label appRemoveAriaOwns>Assessments </mat-label>
+                            <mat-select formControlName="coderBytesAssesments"
+                                (selectionChange)="getCoderByteAssesmentID($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCoderBytAssesment"
+                                        [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                        [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let data of coderByteAssessmentList| coderBytePipe:searchInputCoderBytAssesment"
+                                    [value]="data?.test_id">
+                                    {{data?.display_name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isChangeDropdownAsses">
+                        <mat-form-field>
+                            <mat-label appRemoveAriaOwns>Reason To Change Interview By </mat-label>
+                            <mat-select formControlName="requirementChangeReason">
+                                <mat-option *ngFor="let data of changeTypeReason" [value]="data?.Id">
+                                    {{data?.Reason}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isTechInternal">
+                        <mat-form-field>
+                            <mat-label appRemoveAriaOwns>Reason (For Not Opting Online Assessment) </mat-label>
+                            <mat-select formControlName="techInternalPanel">
+                                <mat-option *ngFor="let data of reasonOptingNotOptingList" [value]="data?.id">
+                                    {{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isApprovalAttachment"
+                        [ngClass]="approvalFileUpCtrl?.touched && approvalFileUpCtrl?.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file">
+                            <label>Approval Attachment
+                                <sup *ngIf="isApprovalAttachment">*</sup>
+                            </label>
+                            <input type="file" formControlName="approvalFile" (change)="approvalFileUp($event)">
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="ats-form-col" *ngIf="isCancelledStatus && isTechExternal">
+                        <mat-form-field>
+                            <mat-label appRemoveAriaOwns>
+                                <!-- Reasons (For Opting External Panel)  -->
+                                Reason (For Not Opting Online Assessment And Internal Panel)
+                            </mat-label>
+                            <mat-select formControlName="techExternalPanel">
+                                <mat-option *ngFor="let data of externalReasonOptingNotOptingList" [value]="data?.id">
+                                    {{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end -->
+                    <div class="ats-form-col date-ats-sc hint-int" *ngIf="!isMettleSch">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="datepickerInfo" placeholder="New Interview Date" readonly
+                                [min]="minDate" formControlName="InterviewDate">
+                            <mat-datepicker-toggle matSuffix [for]="datepickerInfo">
+                                <mat-icon matDatepickerToggleIcon class="form-icon">
+                                    <i class="far fa-calendar-alt"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datepickerInfo></mat-datepicker>
+                            <mat-hint>Please select your local date and time.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="!isMettleSch">
+                        <div class="time-pick-ats">
+                            <div class="time-pick-call">
+                                <mat-form-field>
+                                    <!-- <input matInput (keyup)="timeValid($event)" type="text" placeholder="HH" maxlength="2" formControlName="interviewTimeHours" required> -->
+                                    <mat-select placeholder="HH" (selectionChange)="hoursValid($event)"
+                                        formControlName="interviewTimeHours" required>
+                                        <mat-option value="00">00</mat-option>
+                                        <mat-option value="1">01</mat-option>
+                                        <mat-option value="2">02</mat-option>
+                                        <mat-option value="3">03</mat-option>
+                                        <mat-option value="4">04</mat-option>
+                                        <mat-option value="5">05</mat-option>
+                                        <mat-option value="6">06</mat-option>
+                                        <mat-option value="7">07</mat-option>
+                                        <mat-option value="8">08</mat-option>
+                                        <mat-option value="9">09</mat-option>
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="11">11</mat-option>
+                                        <mat-option value="12">12</mat-option>
+                                        <mat-option value="13">13</mat-option>
+                                        <mat-option value="14">14</mat-option>
+                                        <mat-option value="15">15</mat-option>
+                                        <mat-option value="16">16</mat-option>
+                                        <mat-option value="17">17</mat-option>
+                                        <mat-option value="18">18</mat-option>
+                                        <mat-option value="19">19</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="21">21</mat-option>
+                                        <mat-option value="22">22</mat-option>
+                                        <mat-option value="23">23</mat-option>
+                                    </mat-select>
+                                    <mat-icon matSuffix>
+                                        <i class="far fa-clock"></i>
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="time-pick-call">
+                                <mat-form-field>
+                                    <mat-select placeholder="MM" formControlName="interviewTimeMint" required>
+                                        <mat-option value="00"
+                                            [ngStyle]="{'display': isTimeZero == true ? 'block' : 'none' }"
+                                            *ngIf="isTimeZero">00</mat-option>
+                                        <mat-option value="5">05</mat-option>
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="15">15</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="25">25</mat-option>
+                                        <mat-option value="30">30</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="45">45</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                        <mat-option value="55">55</mat-option>
+                                    </mat-select>
+                                    <mat-icon matSuffix>
+                                        <i class="far fa-clock"></i>
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col date-ats-sc" *ngIf="isHideJoinDate">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="datepickerInfo1" placeholder="New Tentative DOJ" readonly
+                                [min]="minDate" formControlName="JoiningDate" [required]="isHideJoinDate">
+                            <mat-datepicker-toggle matSuffix [for]="datepickerInfo1">
+                                <mat-icon matDatepickerToggleIcon class="form-icon">
+                                    <i class="far fa-calendar-alt"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datepickerInfo1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="ats-form-col" *ngIf="!isMettleSch">
+                        <app-master-global-form-control [title]="'Mode of Interview'" [type]="'intmode'"
+                            [formControlOpt]="interviewModeControl" (getValFromControl)="onSelectModeInt($event)"
+                            [required]="!isMettleSch">
+                        </app-master-global-form-control>
+                    </div>
+
+                    <div class="ats-form-col" *ngIf="isInterviewLocVisible">
+                        <mat-form-field>
+                            <mat-select placeholder="Interview Location" formControlName="InterviewLocationId"
+                                (selectionChange)="onSelectInterviewLoc($event?.value)">
+                                <mat-option *ngFor="let data of intLocationList"
+                                    [value]="data?.LocID">{{data?.LocName}}</mat-option>
+                                <mat-option [value]="'0'">Others</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="!isInterviewLocVisible">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Venue / Link" maxlength="500"
+                                formControlName="InterviewDetails" disableInitialSpace
+                                [readOnly]="this.getLocInfo.isLocationIndia(null) && interviewModeControl?.value == '2' && InterviewLocationId?.value != '0'">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isInterviewLocVisible">
+                        <mat-form-field class="ats-mat-form-field">
+                            <textarea matInput formControlName="InterviewDetails"
+                                [readonly]="this.getLocInfo.isLocationIndia(null) && IntModeType?.value == '2' && InterviewLocationId?.value != '0'"
+                                [placeholder]="isMettleFeedback?'Link':'Venue'" maxlength="500"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="ats-form-col" *ngIf="!isMettleSch">
+                        <mat-form-field>
+                            <mat-select placeholder="Interview Duration" formControlName="interviewDuration">
+                                <mat-option *ngFor="let duration of durationData" [value]="duration?.value">
+                                    {{duration?.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col int-panel-selection  int-cal-col">
+                        <app-employee-list [panelIdControl]="InterviewerControl" [required]="true"
+                            [isEmpListServerSide]="true" [showSelectedValue]="showSelectedValue"
+                            [defaultValue]="interviwerImpId" [title]="'Primary Interviewer'"></app-employee-list>
+                        <a href="javascript:void(0)" (click)="viewCalender()">View Interviewer Calender</a>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col int-panel-selection">
+                        <app-employee-list [panelIdControl]="adPanelControl" [isEmpListServerSide]="false"
+                            [isMultiple]="true" [title]="'Additional Interviewers'" (getEmpList)="getEmpList($event)">
+                        </app-employee-list>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isHRDocVisible"
+                        [ngClass]="fileUploadHRCtrl?.touched && fileUploadHRCtrl?.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file">
+                            <label>{{uploadDocLabelHR}}
+                                <sup>*</sup>
+                            </label>
+                            <input type="file" formControlName="fileUploadHR" (change)="fileUpHR($event)"
+                                [required]="HRDocReq" multiple>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isHRDocVisible">
+                        <mat-form-field>
+                            <mat-select placeholder="Offer In Hand" formControlName="isOfferInHand"
+                                (selectionChange)="getOfferId($event)">
+                                <mat-option value="Y">
+                                    Yes
+                                </mat-option>
+                                <mat-option value="N">
+                                    No
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="IsDocOption">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Offer in Hand (CTC)"
+                                formControlName="OfferInHandAmount" disableInitialSpace onlyNumber maxlength="9">
+                            <mat-error *ngIf="OfferInHandAmountCtrl?.touched && OfferInHandAmountCtrl?.invalid">
+                                <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.required">
+                                    Offer in Hand (CTC) is required.
+                                </ng-container>
+                                <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.min">
+                                    Please enter min
+                                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    <!-- {{(this.salRange.inrMin |
+                    customCurrency:1)}} -->
+                                </ng-container>
+                                <ng-container *ngIf="OfferInHandAmountCtrl?.errors?.max">
+                                    You can not enter greater than
+                                    <ng-container [ngSwitch]="candidateData.currency.Id">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    <!-- {{(this.salRange.inrMax |
+                    customCurrency:1)}} -->
+                                </ng-container>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="ats-form-col" *ngIf="IsDocOption">
+                        <mat-form-field>
+                            <mat-select placeholder="Document Available" formControlName="docOpt"
+                                (selectionChange)="getDocumentVailabel($event)">
+                                <mat-option value="Y">
+                                    Yes
+                                </mat-option>
+                                <mat-option value="N">
+                                    No
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="IsDocOfferVis"
+                        [ngClass]="fileUploadOfferCtrl?.touched && fileUploadOfferCtrl?.invalid ? 'error-file-input':'suc'">
+                        <div class="upload-file">
+                            <label>Upload Documents (Offer)
+                                <sup *ngIf="HRDocOfferReq">*</sup>
+                            </label>
+                            <input type="file" formControlName="fileUploadHR" (change)="fileUpHROffer($event)"
+                                [required]="HRDocOfferReq">
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="IsDocOption">
+                        <app-company-master-control [formControlOpt]="offerCompnayCtrl" [title]="'Company Name'"
+                            [isOther]="true">
+                        </app-company-master-control>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col full-width" *ngIf="IsConsentVis">
+                        <div class="checkbox-wrapper">
+                            <mat-checkbox
+                                [ngClass]="offerConsnetCtrl.touched  && offerConsnetCtrl.invalid ? 'consent-error':'suc'"
+                                formControlName="offerConsnet" (change)="changeCheckHROffer($event)">
+                                <ng-container>
+                                    <span>
+                                        I give consent that candidate has Offer in hand.
+                                    </span>
+                                </ng-container>
+                                <sup class="dangr" *ngIf="isConsentSign">*</sup>
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <!-- interviewStatus Id 1 for scheduled and 3 for reschedule -->
+                    <div class="ats-form-col" *ngIf="candidteRoundDetails?.InterViewStatus?.Id == 1 ||
+                    candidteRoundDetails?.InterViewStatus?.Id == 3">
+                        <mat-form-field>
+                            <mat-select placeholder="Reschedule Reason" formControlName="recheduleReason" [required]="candidteRoundDetails?.InterViewStatus?.Id == 1 ||
+                    candidteRoundDetails?.InterViewStatus?.Id == 3">
+                                <mat-option *ngFor="let reasons of rescheduleReasons" [value]="reasons?.ID">
+                                    {{reasons?.Name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Remarks" formControlName="Remarks" maxlength="500"
+                                disableInitialSpace>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+
+</form>

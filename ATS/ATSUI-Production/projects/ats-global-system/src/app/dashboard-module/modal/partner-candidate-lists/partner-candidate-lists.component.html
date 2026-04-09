@@ -1,0 +1,298 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+  <h1>{{data?.list?.profile_name}} - ({{data?.thIds?.talent_id}})</h1>
+
+  <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+  <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+
+  <div class="ats-modal-body">
+    <div class="profile-list-wrapper">
+      <div class="header-s">
+        <div class="left-s-av"></div>
+        <div class="search-bars">
+          <div class="filter-at-wrapper">
+            <div class="s-fil">
+              <div class="erp-search-input" matTooltipPosition="above"
+                matTooltip="Search By Name/ Email/ Phone/ Skill">
+                <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                  [placeHolder]="'Search By Name/ Email/ Phone/ Skill'"
+                  [searchServerSide]="true"></app-search-filter>
+              </div>
+            </div>
+            <div class="s-fil">
+              <div class="act-header-btn">
+                <ul>
+                  <li>
+                    <button [disabled]="candidateList?.data?.length === 0" mat-button class="act-button" matTooltip="Download All Record" (click)="exportAsXLSX()">
+                      <i class="fas fa-file-download ex-icon"></i>
+                    </button>
+                  </li>
+                  <li>
+                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" [dateRange]="true"
+                      [statusAssign]="true" [statusData]="statusData" [statusAssignTitle]="'Candidate Status'"
+                      (sendSortData)="getSortData($event)" [dateRangeTitle]="'Date'"
+                      [candidateStatus]="true" [candidateStatusTitle]="'Candidate Interview Status'"
+                      [checkboxFun]="true"  [isRangeSlider]="data?.isAIVisible == 1"
+                      [rangeSliderLabel]="'Profile Match (%)'" 
+                      [rangeSliderLabelHover]="''" [rangeSliderceil]="100" [rangeSliderfloor]="1"></app-filter-sort>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-data-scroll-pop" *ngIf="candidateList">
+        <table mat-table [dataSource]="candidateList" class="table-mat-info" matSort (matSortChange)="sortData($event)">
+          <ng-container matColumnDef="candidateName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidate Name</th>
+            <td mat-cell *matCellDef="let element"> {{element?.name || '-'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="candidateEmail" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidate Email</th>
+            <td mat-cell *matCellDef="let element"> {{element?.email || '-'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidate Phone</th>
+            <td mat-cell *matCellDef="let element"> {{element?.mobile_number || '-'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="contractName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Type</th>
+            <td mat-cell *matCellDef="let element"> {{element?.contractName || '-'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="PartnerName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Name </th>
+            <td mat-cell *matCellDef="let element"> {{element?.PartnerName || '-'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="totalExp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Experience</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.totalExpInYear+' Year' || ''}}
+              {{element?.totalExpInMonth+' Month' || ''}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="relExp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Relevent Experience</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.releventExpInYear+' Year' || ''}}
+              {{element?.releventExpInMonth+' Month' || ''}}
+            </td>
+          </ng-container>
+             <!--end -->
+             <ng-container  matColumnDef="dob">
+              <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
+              <td mat-cell *matCellDef="let element" >
+                {{(element?.dob | date:"mediumDate")|| '-'}}
+              </td>
+            </ng-container>
+              <!--end -->
+          <ng-container matColumnDef="primaryskill">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Skill</th>
+            <td mat-cell *matCellDef="let element"> {{element?.pSkillName || '-'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="notice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Notice Period</th>
+            <td mat-cell *matCellDef="let element"> {{element?.noticePeriod?element?.noticePeriod+' Days':'-'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+            <td mat-cell *matCellDef="let element">
+                 <ng-container *ngIf="element?.country_name">
+                  {{element?.cityName+'('+element?.country_name+')'}}
+                </ng-container>
+                <ng-container *ngIf="element?.stateName">
+                  {{element?.cityName+'('+element?.stateName+')'}}
+                </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="interviewRound">
+            <th mat-header-cell *matHeaderCellDef>Interview Round </th>
+            <td mat-cell *matCellDef="let element"> {{element?.interviewRound || '-'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="interviewStatus">
+            <th mat-header-cell *matHeaderCellDef>Interview Status</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element?.interviewStatus === null;else intStatus">
+                <ng-container [ngSwitch]="element?.statusid">
+                  <ng-container *ngSwitchCase="7">
+                    <button class="btn-status-dg shortlisted" type="button">
+                      {{element?.statusName || '-'}}
+                    </button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="11">
+                    <button class="btn-status-dg new" type="button">
+                      {{element?.statusName || '-'}}
+                    </button>
+                  </ng-container>
+                </ng-container>
+
+              </ng-container>
+              <ng-template #intStatus>
+                <div [ngSwitch]="element?.interviewStatus">
+                  <div *ngSwitchCase="1">
+                    <button class="btn-status-dg schedule" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="2">
+                    <button class="btn-status-dg cancelled" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="3">
+                    <button class="btn-status-dg reschedule" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="4">
+                    <button class="btn-status-dg selecteds" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="5">
+                    <button class="btn-status-dg rejects" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="6">
+                    <button class="btn-status-dg holds" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="7">
+                    <button class="btn-status-dg shortlisted" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+
+                  <div *ngSwitchCase="10">
+                    <button class="btn-status-dg shortlisted" type="button">
+                      {{element?.interviewStatusName}}
+                    </button>
+                  </div>
+
+                </div>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="CanStatus">
+            <th mat-header-cell *matHeaderCellDef>Candidate Status</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element?.PartnerID === null">-</ng-container>
+              <ng-container *ngIf="element?.PartnerID">
+                <div [ngSwitch]="element?.isWithdrawn">
+                  <div *ngSwitchCase="1">
+                    <button class="btn-status-dg rejects" type="button">
+                      Withdrawn
+                    </button>
+                  </div>
+                  <div *ngSwitchCase="0">
+                    <button class="btn-status-dg shortlisted" type="button">
+                      Active
+                    </button>
+                  </div>
+
+                </div>
+              </ng-container>
+
+            </td>
+          </ng-container>
+           <!-- new column -->
+           <ng-container matColumnDef="ScreenStatus">
+            <th mat-header-cell *matHeaderCellDef>Screen Status</th>
+            <td mat-cell *matCellDef="let element;">
+              <ng-container *ngIf="element.isScreenRejected === 1; else newDeb">
+                <span class="btn-status-dg rejects">Screen Rejected </span>
+              </ng-container>
+              <ng-template #newDeb>
+               -
+              </ng-template>
+            </td>
+          </ng-container>
+         <ng-container matColumnDef="ScreenRejectReason">
+            <th mat-header-cell *matHeaderCellDef>Reject Reason</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.isScreenRejected === 1 ? element?.ScreenRejectReason : '-'}}
+
+            </td>
+          </ng-container> 
+          <ng-container matColumnDef="Rating">
+            <th mat-header-cell *matHeaderCellDef>{{labelResumeRating?.gridRatingLabel}}</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.OverallRating || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="btn-action">
+                <div class="btn-act">
+                  <button mat-button [disabled]="element?.isScreenRejected === 1 || element?.interviewStatusName != null" type="button" (click)="screenRejectMethod(element)"    matTooltip="Screen Reject"
+                  >
+                    <!-- <i class="fa fa-ban" aria-hidden="true"></i>  -->
+                    <i class="fas fa-user-slash"></i>
+                  </button>
+              </div>
+                <div class="btn-act">
+                  <a mat-button href="javascript:void(0)" (click)="dwnloadFileSingle(element)"
+                    matTooltip="View/Download Resume">
+                    <i class="fas fa-download"></i>
+                  </a>
+                </div>
+                <!-- end -->
+                <div class="btn-act">
+                  <a mat-button href="javascript:void(0)" (click)="viewDetails(element)"
+                    matTooltip="View Candidate Details">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                </div>
+                <!-- end -->
+
+                <div class="btn-act"
+                  *ngIf="data?.assign === true && element?.PartnerID == null">
+                  <a mat-button href="javascript:void(0)" (click)="openUpdateProfileModal(element)"
+                    matTooltip="Update Candidate Details">
+                    <i class="fa fa-pencil-square"></i>
+                  </a>
+                </div>
+                <!-- end -->
+                <div class="btn-act" *ngIf="data?.assign === true">
+                  <button mat-button type="button" [disabled]="element?.isWithdrawn == 1 || element?.isScreenRejected === 1 || element?.interviewStatusName != null"
+                    matTooltip="Schedule Interview" (click)="scheduleIntHandler(element)">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+
+                <div class="btn-act" *ngIf="data?.isAIVisible == 1">
+                  <button mat-button type="button" [matTooltip]="labelResumeRating?.tooltipResumeRatingAction"
+                    (click)="openCandidateRatingDetailsModal(element)">
+                    <span class="material-icons-outlined">
+                      calculate
+                      </span>
+                  </button>
+                </div>
+              </div>
+
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+        </table>
+        <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList?.data?.length === 0"></app-no-result-found>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ats-modal-footer">
+  <app-custom-paginator #paginatorRef [total]="paginationData?.Total" (sendPagingData)="getPagingData($event)"
+    [pageSizeOptions]="pazeOption" [pageSize]="pazeSize" [jumpFirstPage]="jumpFirstPage"></app-custom-paginator>
+</div>

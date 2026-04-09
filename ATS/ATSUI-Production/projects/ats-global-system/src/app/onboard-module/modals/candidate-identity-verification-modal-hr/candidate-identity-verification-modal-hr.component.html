@@ -1,0 +1,853 @@
+<form [formGroup]="HrVerificationForm" (ngSubmit)="submitRequest(HrVerificationForm)">
+  <div class="ats-modal-header">
+    <h1>{{this.data?.title}} - {{this.data?.Name}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+  </div>
+
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+
+      <div class="view-all-screen-dt">
+        <div class="ct-tab-screen  candidate-screen ct-tab-screen-vrf">
+          <mat-accordion class="candidate-ats-hr-rec">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    settings_accessibility
+                  </span> Candidate Details <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <div class="can-view-wrap">
+                  <div class="can-list-view">
+                    <h5>Name:</h5>
+                    <p>
+                      {{data?.Name || '-'}}
+                    </p>
+                  </div>
+                  <!-- end -->
+                  <div class="can-list-view">
+                    <h5>Email:</h5>
+                    <p>
+                      {{data?.email || '-'}}
+                    </p>
+                  </div>
+                  <!-- end -->
+                  <div class="can-list-view">
+                    <h5>Mobile Number:</h5>
+                    <p>
+                      {{data?.phone || '-'}}
+                    </p>
+                  </div>
+                  <!-- end -->
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <!-- end personal Details -->
+            <mat-expansion-panel *ngIf="data?.IsLeadership !=1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    photo_camera
+                  </span> Candidate Pictures <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <section *ngIf="profilePics" class="img-grid-sec">
+                  <div class="grid-wrap-vf">
+                    <app-no-result-found *ngIf="profilePics?.length === 0">
+                    </app-no-result-found>
+                    <div class="card-decker" *ngFor="let data of profilePics">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          <app-file-img-view [fileData]="data"></app-file-img-view>
+
+                        </div>
+                      </div>
+                      <div class="card-deck-f">
+                        <h5>{{data?.interviewType || '-'}}</h5>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+
+
+                </section>
+              </div>
+            </mat-expansion-panel>
+            <!-- end Family Details -->
+            <mat-expansion-panel *ngIf="data?.IsLeadership !=1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    video_call
+                  </span> Candidate Videos <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <section *ngIf="profileVid" class="img-grid-sec">
+                  <div class="grid-wrap-vf">
+                    <app-no-result-found *ngIf="profileVid?.length === 0">
+                    </app-no-result-found>
+                    <div class="card-decker" *ngFor="let data of profileVid">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          <app-file-img-view [fileData]="data"></app-file-img-view>
+                        </div>
+                      </div>
+                      <div class="card-deck-f">
+                        <h5>{{data?.interviewType || '-'}}</h5>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+
+
+                </section>
+              </div>
+            </mat-expansion-panel>
+            <!-- picture g7 and above Leadershipp - g7 and above showing picture -->
+
+            <mat-expansion-panel *ngIf="data?.IsLeadership == 1 && this.data?.IsG7andAbove ==1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    photo_camera
+                  </span> Candidate Pictures 
+                  <!-- (From all Verification stage)  -->
+                  <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <section *ngIf="profileVid" class="img-grid-sec">
+                  <div class="grid-wrap-vf">
+                    <app-no-result-found *ngIf="profileVid?.length === 0">
+                    </app-no-result-found>
+                    <div class="card-decker" *ngFor="let data of profileVid">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          <app-leadership-file-img-view [fileData]="data"></app-leadership-file-img-view>
+
+                        </div>
+                      </div>
+                      <div class="card-deck-f">
+                        <h5>{{data?.VideoUploadBy || '-'}}</h5>
+                      </div>
+                    </div>
+                    <!-- <div class="card-decker" *ngFor="let data of profileVid">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          
+                          <app-leadership-file-img-view [fileData]="data"></app-leadership-file-img-view>
+                        </div>
+                      </div>
+                      <div class="card-deck-f">
+                        <h5>{{data?.VideoUploadBy || '-'}} Picture</h5>
+                      </div>
+                    </div> -->
+                    <!-- end -->
+                  </div>
+
+
+                </section>
+              </div>
+            </mat-expansion-panel>
+            <!-- video leadership - g6 and below showing video-->
+            <mat-expansion-panel *ngIf="data?.IsLeadership == 1 &&this.data?.IsG7andAbove ==0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    video_call
+                  </span> Candidate Videos <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <section *ngIf="profileVid" class="img-grid-sec">
+                  <div class="grid-wrap-vf">
+                    <app-no-result-found *ngIf="profileVid?.length === 0">
+                    </app-no-result-found>
+                    <!-- <div class="card-decker">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          <app-leadership-file-img-view [fileData]="HrVrfData"></app-leadership-file-img-view>
+
+                        </div>
+                      </div>
+                    
+                    </div> -->
+                    <div class="card-decker" *ngFor="let data of profileVid">
+                      <div class="card-deck-b">
+                        <div class="img-over">
+                          <a class="view-l-at" href="javascript:void(0)" title=""><span class="material-icons-outlined">
+                              visibility
+                            </span></a>
+                          <!-- <app-file-img-view [fileData]="data"></app-file-img-view> -->
+                          <app-leadership-file-img-view [fileData]="data"></app-leadership-file-img-view>
+                        </div>
+                      </div>
+                      <div class="card-deck-f">
+                        <h5>{{data?.VideoUploadBy || '-'}} Video</h5>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+                </section>
+              </div>
+            </mat-expansion-panel>
+            <!-- video leaddership ends -->
+            <!-- -->
+            <mat-expansion-panel *ngIf="data?.IsLeadership !=1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    badge
+                  </span> Candidate Government photo ID proof <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <app-no-result-found *ngIf="profileIds?.length === 0">
+                </app-no-result-found>
+                <div class="can-view-wrap" *ngFor="let data of profileIds">
+                  <ng-container>
+                    <div class="can-list-view">
+                      <h5>interview Type</h5>
+                      <p>
+                        {{data?.interviewType || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Government photo ID proof Type:</h5>
+                      <p>
+                        {{data?.identity_name || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Government photo ID proof Number:</h5>
+                      <p> {{data?.IdNumber || '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Download Government photo ID proof:</h5>
+                      <p><a href="javascript:void(0)" class="idDown" (click)="downloadId(data)">
+                          <span class="material-icons-outlined">
+                            file_download
+                          </span>
+                        </a></p>
+                    </div>
+                    <!-- end -->
+                  </ng-container>
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="HrVrfData?.IsConsent">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    badge
+                  </span> HR Candidate Verification Details (Day 1) <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <div class="can-view-wrap">
+                  <ng-container>
+                    <div class="can-list-view">
+                      <h5>Onboarding Mode:</h5>
+                      <p>
+                        <span class="s-vm2" *ngIf="HrVrfData?.OnboardingMode == 1"> In-Person (F2F) </span>
+                        <span class="s-vm2" *ngIf="HrVrfData?.OnboardingMode == 2">Virtual</span>
+                        <span class="s-vm2"
+                          *ngIf="HrVrfData?.OnboardingMode != 1 && HrVrfData?.OnboardingMode != 2">NA</span>
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>HR Verification Status</h5>
+                      <ng-container *ngIf="HrVrfData?.OnboardingMode == 2">
+                        <ng-container [ngSwitch]="HrVrfData?.IsConsent">
+                          <ng-container *ngSwitchCase="'Y'">
+                            <p class="vrf-suc"> <span>Verified</span></p>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'N'">
+                            <p class="vrf-fail"> <span> Verification Failed (pictures/videos/government id not aligned
+                                with the candidate) </span> </p>
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <p> -</p>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="HrVrfData?.OnboardingMode == 1">
+                        <ng-container [ngSwitch]="HrVrfData?.HRFinalConsent">
+                          <ng-container *ngSwitchCase="'Y'">
+                            <p class="vrf-suc"> <span>Verified</span></p>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'N'">
+                            <p class="vrf-fail"> <span> Verification Failed (pictures/videos/government id not aligned
+                                with the candidate) </span> </p>
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <p> -</p>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+
+                      <ng-container *ngIf="HrVrfData?.OnboardingMode != 2 && HrVrfData?.OnboardingMode != 1">
+                        <ng-container [ngSwitch]="HrVrfData?.IsConsent">
+                          <ng-container *ngSwitchCase="'Y'">
+                            <p class="vrf-suc"> <span>Verified</span></p>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'N'">
+                            <p class="vrf-fail"> <span> Verification Failed (pictures/videos/government id not aligned
+                                with the candidate) </span> </p>
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <p> -</p>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified On:</h5>
+                      <p>{{(HrVrfData?.AddedOn | date:'mediumDate')|| '-'}} </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified By:</h5>
+                      <p>
+                        {{HrVrfData?.addedByName || '-'}}
+                      </p>
+                    </div>
+                    <!-- end anayt-->
+                    <div class="can-list-view"
+                      *ngIf="data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <h5>Video:</h5>
+                      <p><a href=" javascript:void(0)" class="idDown" (click)="viewVideoHr(HrVrfData,'O')">
+                          <span class="material-icons-outlined">
+                            play_circle
+                          </span>
+                        </a></p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Remarks:</h5>
+                      <p>
+                        {{HrVrfData?.Remarks || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <ng-container
+                      *ngIf="data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <div class="can-list-view">
+                        <h5>Video Match:</h5>
+                        <p>
+                          <span class="s-vm2" *ngIf="HrVrfData?.VideoMatch == 'Y'"> {{HrVrfData?.VideoMatchPercent >=
+                            50?'Yes':'No'}}</span>
+                          <span class="s-vm2" *ngIf="HrVrfData?.VideoMatch != 'Y'"> -</span>
+                        </p>
+                      </div>
+                      <!-- end -->
+
+                      <div class="can-list-view">
+                        <h5>Video Match Percent:</h5>
+                        <p>
+                          <span class="s-vm2"> {{HrVrfData?.VideoMatchPercent ? HrVrfData?.VideoMatchPercent+'%' :
+                            '-'}}</span>
+                        </p>
+                      </div>
+                    </ng-container>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Onboarding Spoc Consent(F2F):</h5>
+                      <p>
+                        <span class="s-vm2"> {{HrVrfData?.HRFinalConsent ? 'Yes' : 'NA'}}</span>
+                      </p>
+                    </div>
+                    <!-- end -->
+                  </ng-container>
+
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="HrVrfData?.RMIsConsent">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    badge
+                  </span> RM CONNECT - Employee Verification <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <div class="can-view-wrap">
+                  <ng-container>
+                    <div class="can-list-view">
+                      <h5>Verification Mode:</h5>
+                      <p>
+                        <span class="s-vm2" *ngIf="HrVrfData?.RMVerificationMode == 1"> In-Person (F2F) </span>
+                        <span class="s-vm2" *ngIf="HrVrfData?.RMVerificationMode == 2">Virtual</span>
+                        <span class="s-vm2"
+                          *ngIf="HrVrfData?.RMVerificationMode != 1 && HrVrfData?.RMVerificationMode != 2">NA</span>
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>RM Verification Status</h5>
+                      <ng-container [ngSwitch]="HrVrfData?.RMIsConsent">
+                        <ng-container *ngSwitchCase="'Y'">
+                          <p class="vrf-suc"> <span>Verified</span></p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'N'">
+                          <p class="vrf-fail"> <span> Verification Failed (pictures/videos are not aligned
+                              with the employee) </span> </p>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <p> -</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified On:</h5>
+                      <p>{{(HrVrfData?.RMFinalVerificationDate | date:'mediumDate')|| '-'}} </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified By:</h5>
+                      <p>
+                        {{HrVrfData?.RMVerifiedByName || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="can-list-view"
+                      *ngIf="HrVrfData?.RMVerificationMode == 2 && data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <h5>Video:</h5>
+                      <p><a href="javascript:void(0)" class="idDown" (click)="viewVideoHr(HrVrfData,'RM')">
+                          <span class="material-icons-outlined">
+                            play_circle
+                          </span>
+                        </a></p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Remarks:</h5>
+                      <p>
+                        {{HrVrfData?.RMRemark || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <ng-container
+                      *ngIf=" data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <div class="can-list-view" *ngIf="HrVrfData?.RMVerificationMode == 2">
+                        <h5>Video Match:</h5>
+                        <p>
+                          <span class="s-vm2" *ngIf="HrVrfData?.RMVideoMatch == 'Y'"> {{HrVrfData?.RMVideoMatchPercent
+                            >=
+                            50?'Yes':'No'}}</span>
+                          <span class="s-vm2" *ngIf="HrVrfData?.RMVideoMatch != 'Y'"> -</span>
+                        </p>
+                      </div>
+                      <!-- end -->
+
+                      <div class="can-list-view" *ngIf="HrVrfData?.RMVerificationMode == 2">
+                        <h5>Video Match Percent:</h5>
+                        <p>
+                          <span class="s-vm2"> {{HrVrfData?.VideoMatchPercent ? HrVrfData?.VideoMatchPercent+'%' :
+                            '-'}}</span>
+                        </p>
+                      </div>
+                    </ng-container>
+                    <!-- end -->
+                  </ng-container>
+
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="HrVrfData?.ISSIsConsent">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    badge
+                  </span> ISS CONNECT <span class="bs-inf">- {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <div class="can-view-wrap">
+                  <ng-container>
+                    <div class="can-list-view">
+                      <h5>Verification Mode:</h5>
+                      <p>
+                        <span class="s-vm2" *ngIf="HrVrfData?.ISSVerificationMode == 1"> In-Person (F2F) </span>
+                        <span class="s-vm2" *ngIf="HrVrfData?.ISSVerificationMode == 2">Virtual</span>
+                        <span class="s-vm2"
+                          *ngIf="HrVrfData?.ISSVerificationMode != 1 && HrVrfData?.ISSVerificationMode != 2">NA</span>
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>ISS Verification Status</h5>
+                      <ng-container [ngSwitch]="HrVrfData?.ISSIsConsent">
+                        <ng-container *ngSwitchCase="'Y'">
+                          <p class="vrf-suc"> <span>Verified</span></p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'N'">
+                          <p class="vrf-fail"> <span> Verification Failed (pictures/videos are not aligned
+                              with the employee interacted regarding company assets allotment). </span> </p>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <p> -</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified On:</h5>
+                      <p>{{(HrVrfData?.ISSFinalVerificationDate | date:'mediumDate')|| '-'}} </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified By:</h5>
+                      <p>
+                        {{HrVrfData?.ISSVerifiedByName || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view"
+                      *ngIf="HrVrfData?.ISSVerificationMode == 2 && data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <h5>Video:</h5>
+                      <p><a href="javascript:void(0)" class="idDown" (click)="viewVideoHr(HrVrfData,'IS')">
+                          <span class="material-icons-outlined">
+                            play_circle
+                          </span>
+                        </a></p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Remarks:</h5>
+                      <p>
+                        {{HrVrfData?.ISSRemark || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <ng-container
+                      *ngIf=" data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <div class="can-list-view" *ngIf="HrVrfData?.ISSVerificationMode == 2">
+                        <h5>Video Match:</h5>
+                        <p>
+                          {{HrVrfData?.ISSVideoMatch}}
+                        </p>
+                      </div>
+                      <!-- end -->
+
+                      <div class="can-list-view" *ngIf="HrVrfData?.ISSVerificationMode == 2">
+                        <h5>Video Match Percent:</h5>
+                        <p>
+                          <span class="s-vm2"> {{HrVrfData?.ISSVideoMatchPercent ? HrVrfData?.ISSVideoMatchPercent+'%' :
+                            '-'}}</span>
+                        </p>
+                      </div>
+                    </ng-container>
+                    <!-- end -->
+                  </ng-container>
+
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="HrVrfData?.EmpIsConsent">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="material-icons-outlined">
+                    badge
+                  </span> HR Employee Verification Details (After 7 days)<span class="bs-inf">-
+                    {{this.data?.Name}}</span>
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+              <div class="panel-content">
+                <div class="can-view-wrap">
+                  <ng-container>
+
+                    <div class="can-list-view">
+                      <h5>HR Verification Status</h5>
+                      <ng-container [ngSwitch]="HrVrfData?.EmpIsConsent">
+                        <ng-container *ngSwitchCase="'Y'">
+                          <p class="vrf-suc"> <span>Verified</span></p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'N'">
+                          <p class="vrf-fail"> <span> Verification Failed ( Employee is not the same as
+                              the one who was onboarded) </span> </p>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <p> -</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified On:</h5>
+                      <p>{{(HrVrfData?.HRFinalVerificationDate | date:'mediumDate')|| '-'}} </p>
+                    </div>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Verified By:</h5>
+                      <p>
+                        {{HrVrfData?.addedByName || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <ng-container
+                      *ngIf="data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <div class="can-list-view">
+                        <h5>Video:</h5>
+                        <p><a href="javascript:void(0)" class="idDown" (click)="viewVideoHr(HrVrfData,'E')">
+                            <span class="material-icons-outlined">
+                              play_circle
+                            </span>
+                          </a></p>
+                      </div>
+                    </ng-container>
+                    <!-- end -->
+                    <div class="can-list-view">
+                      <h5>Remarks:</h5>
+                      <p>
+                        {{HrVrfData?.empRemark || '-'}}
+                      </p>
+                    </div>
+                    <!-- end -->
+                    <ng-container
+                      *ngIf="data?.IsLeadership == 0 || data?.IsLeadership ==1 && this.data?.IsG7andAbove == 0">
+                      <div class="can-list-view">
+                        <h5>Video Match:</h5>
+                        <p>
+                          <span class="s-vm2" *ngIf="HrVrfData?.EmpVideoMatch == 'Y'"> {{HrVrfData?.EmpVideoMatchPercent
+                            >=
+                            50?'Yes':'No'}}</span>
+                          <span class="s-vm2" *ngIf="HrVrfData?.EmpVideoMatch != 'Y'"> -</span>
+                        </p>
+                      </div>
+                      <!-- end -->
+
+                      <div class="can-list-view">
+                        <h5>Video Match Percent:</h5>
+                        <p>
+                          <span class="s-vm2"> {{HrVrfData?.EmpVideoMatchPercent ? HrVrfData?.EmpVideoMatchPercent+'%' :
+                            '-'}}</span>
+                        </p>
+                      </div>
+                    </ng-container>
+                    <!-- end -->
+                    <!-- <div class="can-list-view">
+                      <h5>Onboarding Spoc Consent(F2F):</h5>
+                      <p>
+                        <span class="s-vm2"> {{HrVrfData?.HRFinalConsent ? 'Yes' : 'NA'}}</span>
+                      </p>
+                    </div> -->
+                    <!-- end -->
+                  </ng-container>
+
+
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div class="voice-imprint-status" *ngIf="!isCandidateVerificationForm && VoiceMatchData?.isVoiceMatch == 'Y'">
+          <ul>
+            <li>
+              <label>
+                <span class="s-vm">Video Match:</span>
+                <span class="s-vm2"> {{VoiceMatchData?.videoMatchPercent >= 50?'Yes':'No'}}</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <span class="s-vm">Video Match Percent:</span>
+                <span class="s-vm2"> {{VoiceMatchData?.videoMatchPercent+'%'}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+        <!-- end -->
+        <div class="voice-imprint-status"
+          *ngIf="(!isEmpVerificationForm || !isRMVerificationForm) && VoiceMatchData?.isVoiceMatch == 'Y'">
+          <ul>
+            <li>
+              <label>
+                <span class="s-vm">Video Match:</span>
+                <span class="s-vm2"> {{VoiceMatchData?.videoMatchPercent >= 50?'Yes':'No'}}</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <span class="s-vm">Video Match Percent:</span>
+                <span class="s-vm2"> {{VoiceMatchData?.videoMatchPercent+'%'}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+        <!-- end -->
+        <div
+          *ngIf="isCandidateVerificationForm || isEmpVerificationForm || isRMVerificationForm ||isIssVerificationForm"
+          class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+          <div class="ats-form-col mat-radio-ats mat-radio-btn-ats at-ct-inline mt-ml"
+            *ngIf="isCandidateVerificationForm || isRMVerificationForm ||isIssVerificationForm">
+            <div class="of-title">
+              <label class="lb-title">
+                {{isCandidateVerificationForm?'Onboarding Mode':' Verification Mode'}}<sup>*</sup> </label>
+            </div>
+            <div>
+              <mat-radio-group aria-label="Select an option" formControlName="onboardingMode"
+                (change)="getOnboardingMode($event)">
+                <mat-radio-button value="I">In-Person (F2F)
+                </mat-radio-button>
+                <mat-radio-button value="V">Virtual</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+     
+
+        <div class="checkbox-wrapper mt22-ml16" *ngIf="(isCandidateVerificationForm) &&
+        isInPerson">
+          <mat-checkbox
+            [ngClass]="getControl('onboardingConsent').touched  && getControl('onboardingConsent').invalid ? 'consent-error-check':'suc'"
+            formControlName="onboardingConsent">
+            <ng-container>
+              <span>
+                I confirm that employee being onboarded matches with candidate in available video.
+              </span>
+            </ng-container>
+            <sup class="dangr">*</sup>
+          </mat-checkbox>
+          <div *ngIf="getControl('onboardingConsent')?.invalid && getControl('onboardingConsent').touched"
+            class="invalid-feedback">Please provide Consent. </div>
+        </div>
+        <!-- </div> -->
+        <div class="vrf-form-sec"
+          *ngIf="(isCandidateVerificationForm || isEmpVerificationForm || isRMVerificationForm || isIssVerificationForm)">
+          <div class="form-on-ats form-fill-ats">
+            <div class="form-on-col upload-file-onb" *ngIf="isVirtual"
+              [ngClass]="getControl('file').touched && getControl('file').invalid ? 'error-file-input':'suc'">
+              <div class="upload-file-input">
+                <!-- <label *ngIf="data?.IsLeadership == 1 &&this.data?.IsG7andAbove ==0">Please Upload Candidate Video
+                  <sup>*</sup>
+                </label>
+                <label *ngIf="data?.IsLeadership == 1 && this.data?.IsG7andAbove ==1">Please Upload Candidate Picture
+
+                  <sup>*</sup>
+                </label> -->
+                <ng-container *ngIf=" data?.IsLeadership== 1 && this.data?.IsG7andAbove==1; else idElse">
+                  <label>Please Upload Candidate Picture
+                    <sup>*</sup>
+                  </label>
+
+                </ng-container>
+                <ng-template #idElse>
+                  <label>Please Upload Candidate Video
+                    <sup>*</sup>
+                  </label>
+                </ng-template>
+                <input type="file" formControlName="file"
+                  (change)="videoPicUploadHandle($event, data?.IsLeadership == 1 && this.data?.IsG7andAbove ==1 ? 'P': 'V')"
+                  required>
+                <!-- <input type="file" formControlName="file"
+                  (change)="videoUpload($event)"
+                  required> -->
+              </div>
+              <ng-container *ngIf="data?.IsLeadership == 1 &&this.data?.IsG7andAbove ==0">
+                <label class="hlt">Note: Video length
+                  should not exceed 5 minutes.</label>
+                <div class="guidline-action">
+                  <ul>
+                    <li>
+                      <a href="javascript:void(0)" title="Click here to view" (click)="VideoUploadGuideline(data)"
+                        class="guid">Video Recording Guidelines</a>
+                    </li>
+                    <!-- <li>
+                        <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline(data)" class="guid">View video Trim & Upload guidelines</a>  
+                    </li> -->
+                  </ul>
+                </div>
+                <div class="vide-title-p">Video image processing will take time ( 2 – 5 minutes).Thanks for your
+                  patience.
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="form-on-col full-width"
+              *ngIf="isVirtual || (isRMVerificationForm && isInPerson) || (isIssVerificationForm && isInPerson)">
+              <div class="rad-bb-wrapper"
+                [ngClass]="getControl('IsConsent').touched  && getControl('IsConsent').invalid ? 'consent-error':'suc'">
+                <!-- *ngIf="VoiceMatchData?.isVoiceMatch == 'Y' && VoiceMatchData?.voiceMatchPercent < 80" -->
+                <mat-radio-group aria-label="Select an option" [required]="isVirtual" formControlName="IsConsent"
+                  (change)="consentUp($event)">
+
+                  <!-- <mat-radio-button value="Y">{{consenttextOk}}</mat-radio-button>
+                  <mat-radio-button value="N"><span [innerHTML]="consenttextNotOk"></span></mat-radio-button> -->
+                  <ng-container *ngIf=" data?.IsLeadership== 1 && this.data?.IsG7andAbove==1; else idElse">
+                    <mat-radio-button value="Y">{{leaderConsenttextOk}}</mat-radio-button>
+                    <mat-radio-button value="N"><span [innerHTML]="leaderConsenttextNotOk"></span></mat-radio-button>
+                  </ng-container>
+                  <ng-template #idElse>
+                    <mat-radio-button value="Y">{{consenttextOk}}</mat-radio-button>
+                    <mat-radio-button value="N"><span [innerHTML]="consenttextNotOk"></span></mat-radio-button>
+                  </ng-template>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!-- end col -->
+            <div class="form-on-col">
+              <mat-form-field appearance="fill">
+                <mat-label>Remarks</mat-label>
+                <textarea matInput [ngClass]="{'rmrk-ft-100' :isInPerson}" formControlName="remarks"
+                  placeholder="Enter Remarks..."></textarea>
+              </mat-form-field>
+            </div>
+            <!-- end col -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="ats-modal-footer text-center">
+    <button class="btn btn-infocon"
+      *ngIf="isCandidateVerificationForm || isEmpVerificationForm ||isRMVerificationForm || isIssVerificationForm">
+      Submit
+    </button>
+
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Close
+    </button>
+  </div>
+</form>

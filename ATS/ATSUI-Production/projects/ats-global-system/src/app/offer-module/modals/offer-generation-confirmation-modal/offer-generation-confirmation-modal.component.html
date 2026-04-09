@@ -1,0 +1,24 @@
+<div class="ats-modal-header">
+    <h2>Please select an option to generate offer letter.</h2>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="off-cnf-screen">
+            <mat-radio-group aria-label="Select an option" class="ats-b-rd-btn"
+             [formControl]="optionCtrl">
+                <mat-radio-button value="A">ATS</mat-radio-button>
+                <mat-radio-button value="M">Manual</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+    </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="submit" class="btn btn-infocon" (click)="continue()">
+        Continue
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>

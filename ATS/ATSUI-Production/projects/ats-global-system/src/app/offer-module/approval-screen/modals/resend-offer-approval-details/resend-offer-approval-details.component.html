@@ -1,0 +1,391 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<form [formGroup]="resendForApprovalForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <!-- candidate Basic Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cd'" [allRoundList]="allRoundList">
+            </app-candidate-details-info>
+            <!-- candidate Offer Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cod'" [salaryGridShow]="true">
+            </app-candidate-details-info>
+
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Approver Details</h4>
+                </div>
+                <div class="box-v-body table-body">
+                    <div class="apr-list aprover-dt-list max-height-200">
+                        <table mat-table [dataSource]="approvalData" class="table-mat-info">
+                            <ng-container matColumnDef="approverType">
+                                <th mat-header-cell *matHeaderCellDef>Approver Type</th>
+                                <td mat-cell *matCellDef="let element">
+
+                                    <div [ngSwitch]="element?.ApproverType">
+                                        <div *ngSwitchCase="1">
+                                            Tag Lead
+                                        </div>
+                                        <div *ngSwitchCase="2">
+                                            <ng-container *ngIf="getDiff(element)">Delivery Head</ng-container>
+                                            <ng-container *ngIf="!getDiff(element)">DP/PDL/SDP</ng-container>
+                                            <!-- DP/PDL/SDP -->
+                                        </div>
+                                        <div *ngSwitchCase="3">
+                                            <!-- Senior Vice president -->
+                                            <!-- /President & COO -->
+                                            Global Delivery Leader
+                                        </div>
+                                        <div *ngSwitchCase="6">
+                                            Function Head
+                                        </div>
+
+                                        <div *ngSwitchCase="4">
+                                            President & COO
+                                        </div>
+                                        <div *ngSwitchCase="5">
+                                            Tag Head
+                                         </div>
+                                         <div *ngSwitchCase="7">
+                                             CDO
+                                          </div>
+
+                                        <div *ngSwitchCase="'S'">
+                                            <button class="btn-status-dg holds" type="button">
+                                                Sent
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            Recruiter
+                                        </div>
+
+                                    </div>
+
+                            </ng-container>
+                            <ng-container matColumnDef="approverName">
+                                <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.approverName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="ActionTaken">
+                                <th mat-header-cell *matHeaderCellDef>Action Taken</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <!-- {{element?.ActionTaken || '-'}} -->
+
+                                    <div [ngSwitch]="element?.ActionTaken">
+                                        <div *ngSwitchCase="'D'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                Draft
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchCase="'A'">
+                                            <button class="btn-status-dg selecteds" type="button">
+                                                Approved
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchCase="'R'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                Referred Back
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'S'">
+                                            <button class="btn-status-dg holds" type="button">
+                                                Submitted
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchCase="'P'">
+                                            <button class="btn-status-dg holds" type="button">
+                                                {{(offerAprDt?.StatusID == 240 || offerAprDt?.StatusID == 260) &&
+                                                element?.ActionTaken == 'P'?'NA':'Pending' }}
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'V'">
+                                            <button class="btn-status-dg rv" type="button">
+                                                Revised
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchCase="'RE'">
+                                            <button class="btn-status-dg rv" type="button">
+                                                Re-Initiated
+                                            </button>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            NA
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ActionTakenOn">
+                                <th mat-header-cell *matHeaderCellDef>Action Taken On</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <ng-container *ngIf="element?.ActionTaken">
+                                        {{element?.ModifiedOn | date:'dd-MMM-YYYY, h:mm a'}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ActionTakenBy">
+                                <th mat-header-cell *matHeaderCellDef>Action Taken By</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <ng-container *ngIf="element?.ActionTaken">
+                                        {{element?.ModifiedbyName || '-'}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!element?.ActionTaken">-</ng-container>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="remarks">
+                                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.Remarks || '-'}}</td>
+                            </ng-container>
+
+                            <ng-container class="documents" matColumnDef="documents">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <!-- <i class="fas fa-edit"></i> -->
+                                    Documents
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    <div class="btn-action btn-action-centers">
+                                        <div class="btn-act">
+                                            <button [ngClass]="{'disble' : element?.IsAttachmentPresent=='N'}"
+                                                mat-button type="button" class="btn-ey-v" matTooltip="View Documents "
+                                                (click)="documentsDownload(element)">
+                                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                                <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+                                            </button>
+                                        </div>
+                                        <!-- ends -->
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+            <div class="box-v-ats display-none">
+                <div class="box-v-header">
+                    <h4>Offer Status History</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="apr-list aprover-dt-list max-height-200">
+                        <table mat-table [dataSource]="candStatusHistory" class="table-mat-info">
+
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef>Status</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.offerStatusName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="updatedBy">
+                                <th mat-header-cell *matHeaderCellDef>Satus Updated By</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.Modified_ByName || '-'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="updatedOn">
+                                <th mat-header-cell *matHeaderCellDef>Satus Updated On</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.ModifiedOn | date:'dd-MMM-YYYY, h:mm a'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="declineCatg">
+                                <th mat-header-cell *matHeaderCellDef>Decline Category</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.DeclineCategoryName || '-'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="remarks">
+                                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.Remarks || '-'}}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;let i = index"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+            <div class="box-v-ats box-v-ats-form" *ngIf="isApproversVisible">
+                <div class="box-v-header">
+                    <h4>Approvers List</h4>
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col" *ngIf="isTag_ApproverShow">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >TAG Lead Approver</mat-label>
+                                <mat-select formControlName="TAGLead_Approver" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlTAG" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <!-- <mat-option *ngFor="let list of tagLeadList | panelFilter:searchInput"
+                                        [value]="list.empnewid">
+                                        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                    </mat-option> -->
+                                    <mat-option *ngFor="let list of tagLeadList | panelFilter:searchInput"
+                                        [value]="list.empnewid">
+                                        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('TAGLead_Approver')?.touched && getControl('TAGLead_Approver')?.invalid">
+                                    <div *ngIf="getControl('TAGLead_Approver')?.errors.required">
+                                        TAG Lead Approver is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="isTagHead_ApproverShow">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >TAG Head Approver</mat-label>
+                                <mat-select formControlName="TAGHead_Approver" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlTAGhead" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let list of tagHeadList | tahHeadSearchFilter:searchInputTagHead"
+                                        [value]="list.empnewid">
+                                        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('TAGHead_Approver')?.touched && getControl('TAGHead_Approver')?.invalid">
+                                    <div *ngIf="getControl('TAGHead_Approver')?.errors.required">
+                                        TAG Head Approver is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="isDH_ApproverShow">
+
+                            <app-approver-list [panelIdControl]="getControl('DH_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'DP/PDL/SDP Approver'" [type]="'dh'"
+                                [formFieldAppearance]="'outline'" [IsApprDataParent]="true"
+                                [getAllEmpParent]="DPApproverList">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('DH_Approver')?.touched && getControl('DH_Approver')?.invalid">
+                                <div *ngIf="getControl('DH_Approver')?.errors.required">
+                                    DP/PDL/SDP Approver is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isFunctionHeadApproverShow">
+                            <app-approver-list [panelIdControl]="getControl('FunctionHead')" [required]="true"
+                                [placeholder]="'Search'" [title]="'Function Head Approver'"
+                                [formFieldAppearance]="'outline'" [type]="'svp'" [IsApprDataParent]="true"
+                                [getAllEmpParent]="funcHeadLevelApproverList">
+                            </app-approver-list>
+                            <mat-error
+                            *ngIf="getControl('FunctionHead')?.touched && getControl('FunctionHead')?.invalid">
+                            <div *ngIf="getControl('FunctionHead')?.errors.required">
+                                Function Head Approver is required.
+                            </div>
+                        </mat-error>
+        
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="isSvp_ApproverShow">
+                            <app-approver-list [panelIdControl]="getControl('SVP_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'Global Delivery Leader'"
+                                [formFieldAppearance]="'outline'" [type]="'svp'" [IsApprDataParent]="true"
+                                [getAllEmpParent]="GDLApproverList">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('SVP_Approver')?.touched && getControl('SVP_Approver')?.invalid">
+                                <div *ngIf="getControl('SVP_Approver')?.errors.required">
+                                    Global Delivery Leader is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->                         
+                        <div class="ats-form-col" *ngIf="isCDOApprShow">
+                            <app-approver-list [panelIdControl]="getControl('CDO_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'CDO Approver'"
+                                [formFieldAppearance]="'outline'" [type]="'cdo'" [IsApprDataParent]="true"
+                                [getAllEmpParent]="CDOApproverList">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('CDO_Approver')?.touched && getControl('CDO_Approver')?.invalid">
+                                <div *ngIf="getControl('CDO_Approver')?.errors.required">
+                                    CDO Approver is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isPresidentCOOApprShow">
+
+                            <app-approver-list [panelIdControl]="getControl('COO_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'President & COO'" [formFieldAppearance]="'outline'"
+                                [type]="'svp'" [IsApprDataParent]="true" [getAllEmpParent]="COOLApproverList">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('COO_Approver')?.touched && getControl('COO_Approver')?.invalid">
+                                <div *ngIf="getControl('COO_Approver')?.errors.required">
+                                    President & COO Approver is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <div class="ats-form-col" *ngIf="isRemarkReq">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                    formControlName="remarks" [required]="isRemarkReq">
+                                <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                    <div *ngIf="getControl('remarks')?.errors.required">
+                                        Remarks is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" *ngIf="isApproversVisible"
+            (click)=" this.data.callType == 1 ? resendApprovalSubmit(resendForApprovalForm) : changeApproverSubmit(resendForApprovalForm)">
+            {{this.data.callType == 1 ? 'Send' : 'Submit'}}
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

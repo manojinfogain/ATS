@@ -1,0 +1,91 @@
+<div class="ats-modal-header">
+    <h1>{{data?.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <ng-container [ngSwitch]="data?.formTypeId">
+            <ng-container *ngSwitchCase="13">
+                <lib-acceptable-use-of-asset-policy [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-acceptable-use-of-asset-policy>
+            </ng-container>
+            <ng-container *ngSwitchCase="14">
+                <lib-anti-corrupt-anti-policy [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-anti-corrupt-anti-policy>
+            </ng-container>
+            <ng-container *ngSwitchCase="15">
+                <lib-code-conduct-business-ethics-policy [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-code-conduct-business-ethics-policy>
+            </ng-container>
+            <ng-container *ngSwitchCase="18">
+                <lib-nda-lateral [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-nda-lateral>
+            </ng-container>
+            <ng-container *ngSwitchCase="16">
+                <lib-conflictof-interes-policy [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-conflictof-interes-policy>
+            </ng-container>
+            <ng-container *ngSwitchCase="17">
+                <lib-lateral-nda-emp-nnt [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-lateral-nda-emp-nnt>
+            </ng-container>
+            <ng-container *ngSwitchCase="23">
+                <lib-posh-doc [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-posh-doc>
+            </ng-container>
+            <ng-container *ngSwitchCase="19">
+                <lib-netapp-nda  
+                [signPrevData]="signPrevData" [candidatePersonalDetails]="data?.candidatePersonalDetails" [Day1FormData]="data"></lib-netapp-nda>
+            </ng-container>
+            <ng-container *ngSwitchCase="20">
+                <lib-posh-doc-banglore [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-posh-doc-banglore>
+            </ng-container>
+            <ng-container *ngSwitchCase="31">
+                <lib-posh-doc-nnt-banglore [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-posh-doc-nnt-banglore>
+            </ng-container>
+            <ng-container *ngSwitchCase="21">
+                <lib-posh-doc-mumbai [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-posh-doc-mumbai>
+            </ng-container>
+            <ng-container *ngSwitchCase="22">
+                <lib-posh-doc-pune [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-posh-doc-pune>
+            </ng-container>
+            <ng-container *ngSwitchCase="24">
+                <lib-trainees-dcthird-party-contractual-nda-nnt [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-trainees-dcthird-party-contractual-nda-nnt>
+            </ng-container>
+            <ng-container *ngSwitchCase="25">
+                <lib-trainees-dcthird-party-contractual-nda [candidatePersonalDetails]="data?.candidatePersonalDetails"
+                [signPrevData]="signPrevData"
+                [Day1FormData]="data"></lib-trainees-dcthird-party-contractual-nda>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                -
+            </ng-container>
+        </ng-container>
+
+    </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-infocon" (click)="printForm()">
+        Print / Save as PDF
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Close
+    </button>
+</div>

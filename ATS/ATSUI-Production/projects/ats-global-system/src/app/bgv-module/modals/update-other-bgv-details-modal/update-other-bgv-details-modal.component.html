@@ -1,0 +1,92 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} For {{data?.CandidateName}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+
+        <!-- end -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Update Details</h4>
+            </div>
+
+            <div class="form-appr">
+                <form [formGroup]="updateTalentForm">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Penalty Month</mat-label>
+                                <mat-select formControlName="PenaltyMonth">
+                                    <mat-option *ngFor="let month of monthNamesList"
+                                        [value]="month?.MonthName">{{month?.MonthName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>YTR Amount</mat-label>
+                                <input matInput placeholder="YTR Amount" maxlength="10" disableInitialSpace onlyNumber
+                                    formControlName="YTRAmount">
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col" *ngIf="data?.DTRequired == 'Yes'">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Drug Test Amount ( In INR )</mat-label>
+                                <input matInput placeholder="Drug Test Amount ( In INR )" maxlength="10" onlyNumber
+                                    disableInitialSpace formControlName="DTAmount">
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>YTR Paid Month</mat-label>
+                                <mat-select formControlName="YTRPaidMonth">
+                                    <mat-option *ngFor="let month of monthNamesList"
+                                        [value]="month?.MonthName">{{month?.MonthName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Status Paid / Unpaid Amount</mat-label>
+                                <mat-select formControlName="StatusPaidUnpaidAmount">
+                                    <mat-option value="Paid">Paid</mat-option>
+                                    <mat-option value="Unpaid">Unpaid</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Final Report Paid Month</mat-label>
+                                <!-- <input matInput placeholder="Final Report Paid Month" maxlength="250" disableInitialSpace
+                                    formControlName="FinalReportPaidMonth"> -->
+                                <mat-select formControlName="FinalReportPaidMonth">
+                                    <mat-option *ngFor="let month of monthNamesList"
+                                        [value]="month?.MonthName">{{month?.MonthName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </form>
+            </div>
+            <!-- end -->
+        </div>
+        <!-- end -->
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon"
+            (click)="updateTalentHandler(updateTalentForm)"
+            [disabled]="!hasAnyValue()">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

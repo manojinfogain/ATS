@@ -1,0 +1,53 @@
+<form [formGroup]="assingIssDelegator" (ngSubmit)="assingDelegatorHandler(assingIssDelegator)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}} - {{data?.Name ? data?.Name : '-'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns >Select ISS Spoc  </mat-label>
+                        <mat-select formControlName="issDelegateId" required>
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                    [formControl]="filterCtrlISS"
+                                    [noEntriesFoundLabel]="'No record Found'"
+                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of issList |delegateListISSfilterPipe:searchCtrlIss" [value]="data?.ISS_SpocId">
+                                {{data?.ISS_SpocName}} ({{data?.ISS_SpocId}})
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+               
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns>Remarks </mat-label>
+                        <textarea  matInput placeholder="Remarks" maxlength="150"
+                        formControlName="remarks" disableInitialSpace></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'">
+                        <textarea class="remark-field" matInput placeholder="Remarks" maxlength="150"
+                            formControlName="remarks" disableInitialSpace></textarea>
+                    </mat-form-field>
+                   
+                </div> -->
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button> -->
+    </div>
+</form>

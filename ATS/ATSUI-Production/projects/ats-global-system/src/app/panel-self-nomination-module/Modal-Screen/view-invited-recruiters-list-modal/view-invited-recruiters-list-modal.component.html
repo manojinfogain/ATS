@@ -1,0 +1,64 @@
+<div class="ats-modal-header">
+    <h1>{{'Notification Employee List'}} - {{data?.talentId}}</h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av"></div>
+                <div class="search-bars">
+                    <div class="filter-at-wrapper">
+                        <div class="s-fil">
+                        </div>
+                        <div class="s-fil">
+                            <div class="act-header-btn">
+                                <ul>
+                                    <!-- <li class="dash-dnld-icon">
+                                        
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-data-scroll-pop min-height-200">
+                <table mat-table [dataSource]="NotificationEmployeeList" class="table-mat-info" id="exportTable">
+                    <ng-container matColumnDef="srNo">
+                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="PanelEmpId">
+                        <th mat-header-cell *matHeaderCellDef>Panel Employee ID</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.PanelEmpId || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="PanelMemberName">
+                        <th mat-header-cell *matHeaderCellDef>Panel Member Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.PanelMemberName || '-'}} ( {{element?.PanelEmpId}} )</td>
+                    </ng-container>
+                    <ng-container matColumnDef="NotificationSentOn">
+                        <th mat-header-cell *matHeaderCellDef>Notification Sent On</th>
+                        <td mat-cell *matCellDef="let element">
+                             <!-- {{element?.MODIFIED_ON ? (element?.MODIFIED_ON | date:'d MMM y') : '-'}} -->         
+                            {{element?.NotificationSentOn ? (element?.NotificationSentOn | date: 'MMM d, y, h:mm a') : '-'}}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                    *ngIf="NotificationEmployeeList?.length === 0"></app-no-result-found>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="ats-modal-footer">
+      <app-custom-paginator [total]="paginationData?.Total" (sendPagingData)="getPagingData($event)"
+        [pageSizeOptions]="pazeOption" [pageSize]="pazeSize"></app-custom-paginator>
+    </div>  -->

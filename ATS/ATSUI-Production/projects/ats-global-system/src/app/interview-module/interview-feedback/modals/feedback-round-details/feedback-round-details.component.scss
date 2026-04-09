@@ -1,0 +1,26 @@
+.form-list-wrap{
+    width: 250px;
+}
+.list-record-interview ul{
+    // align-items: center;
+}
+.list-record-interview ul li{
+   &.select{
+    
+   }
+}
+
+
+.profile-pic-wp {
+    width: 120px;
+    height: 120px;
+  //  overflow: hidden;
+}
+.bth-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+:host ::ng-deep .h-check .mat-checkbox-frame {
+    border-color: rgb(255 255 255) !important;
+}

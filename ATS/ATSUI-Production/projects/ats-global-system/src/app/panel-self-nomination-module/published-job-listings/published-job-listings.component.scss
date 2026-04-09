@@ -1,0 +1,16 @@
+:host ::ng-deep.btn-action .btn-act{
+
+ &.act-count{
+    .mat-button .material-icons {
+        font-size: 28px;
+    }
+    .mat-button{
+        color: green;
+    }
+   
+ }
+}
+
+// .btn-action .btn-act .mat-button .material-icons {
+//     font-size: 28px;
+// }

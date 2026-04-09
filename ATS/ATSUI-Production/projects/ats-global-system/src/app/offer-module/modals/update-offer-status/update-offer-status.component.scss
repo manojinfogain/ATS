@@ -1,0 +1,48 @@
+.view-list-dt-appr .view-list-bx {
+    width: 33.3%;
+    padding: 10px;
+}
+.box-v-ats {
+    padding-bottom: 0px !important;
+}
+.form-appr{
+    margin-top: 10px;
+ 
+}
+.disable-pointer{
+    pointer-events: none !important;
+    cursor: not-allowed;
+    cursor: no-drop !important;
+   
+  }
+.warning-notes-wrap{
+    width: 65% !important;
+    .notes-wrap{
+        background: yellow;
+        color: #060606;
+        font-weight: 500;
+        padding: 4px 9px;
+        border-radius: 3px;
+        font-family: monospace !important;
+        .title{
+            margin: 0 5px 0 0 !important;
+            display: inline;
+        }
+        .description{
+            display: inline;
+        }
+    }
+}
+
+.width-50-inline {
+    width: 50%;
+    display: inline-block;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.max-height-200 {
+    max-height: 200px;
+}

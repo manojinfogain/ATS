@@ -1,0 +1,47 @@
+.form-appr{
+    margin-top: 24px;
+    background: #ffffff;
+    // box-shadow:0px 1px 8px #0000006b;
+    padding: 13px 3px;
+}
+
+.btn-ey-v{
+    border: none;
+    outline: none;
+    background: none;
+    color: #06417c;
+    font-size: 16px;
+    &:hover{
+        opacity: 0.6;
+    }
+}
+
+.upload-file-ats{
+    width: 100% !important;
+}
+
+
+.file-name-list{
+    ul{
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        list-style-type: none;
+        li{
+            font-size: 11px;
+            border: solid 1px #ddd;
+            border-bottom: none;
+            background: #f1fffe;
+            :last-child{
+                border-bottom: solid 1px #ddd; 
+            }
+            &.uploaded{
+                background: #eaffea;
+            }
+        }
+    }
+}
+
+.error-red-center {
+    color: red;
+    text-align: center;
+}

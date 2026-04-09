@@ -1,0 +1,57 @@
+<div class="info-connect-right ats-connect-h-auto ats-tl-wrapper">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header page-container-header-ats">
+                <div class="page-title-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <button type="button" (click)="offshoreNav()" class="btn btn-infocon">
+                    Back To Home
+                </button>
+            </div>
+            <!-- end header -->
+            <div class="content-body ats-tab-main-wrapper">
+                <mat-card>
+                    <div class="card">
+                        <!-- <div class="card-header">
+                            <div class="erp-search-input float-right">
+                                <app-search-filter (sendKeyValue)="getSearchValueKey($event)"></app-search-filter>
+                            </div>
+                        </div> -->
+                        <div class="card-body">
+                            <div class="ats-tab-wrapper">
+                                <mat-tab-group class="ats-tab" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChanged($event.index);">
+                                    <mat-tab>
+                                        <ng-template mat-tab-label>
+                                            <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
+                                            OffShore 
+                                        </ng-template>
+                                        <ng-template matTabContent>
+                                            <app-shared-talentid-listing [offshore]="true" [filter]="true"
+                                            [totalPosition]="true"></app-shared-talentid-listing>
+                                        </ng-template>
+   
+                                    </mat-tab>
+
+                                    <mat-tab>
+                                        <ng-template mat-tab-label>
+                                            <!-- <mat-icon class="example-tab-icon">thumb_up</mat-icon> -->
+                                            OnShore
+                                        </ng-template>
+                                        <ng-template matTabContent>
+                                            <app-shared-talentid-listing [offshore]="false"  [filter]="true"
+                                            [totalPosition]="true"></app-shared-talentid-listing>
+                                        </ng-template>
+                                    </mat-tab>
+
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end right wrapper -->

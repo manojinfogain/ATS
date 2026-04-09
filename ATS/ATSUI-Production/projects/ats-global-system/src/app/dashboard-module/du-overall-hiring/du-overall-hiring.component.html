@@ -1,0 +1,322 @@
+<div class="info-connect-right">
+    <div class="dashboard-ats">
+        <div class="dashboard-ats-header">
+            <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <!-- end header -->
+        <div class="dashboard-ats-body">
+            <section class="ats-dash-report-sec">
+                <div class="ats-dash-report-sec-h">
+                    <div class="left-h-d filter-date-text">
+                        <!-- <h3>DU Overall Report {{isTableView?'':'- '+accountName}} <span> (From {{(selectedDate?.startDate| date:'dd MMM yyyy') || (defaultFromDate| date:'dd MMM yyyy')}} 
+                            To {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}})</span>
+                        </h3> -->
+                    </div>
+                    <div class="right-h-d">
+                        <div class="dash-action-s">
+                            <ul>
+                                <!-- <li class="s-d-b">
+                                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                        [placeHolder]="'Search By DU'">
+                                    </app-search-filter>
+                                </li>                                 -->
+                                <li>
+                                    <div class="form-slv">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label appRemoveAriaOwns >Financial Year</mat-label>
+                                            <mat-select [formControl]="formControlYear"
+                                                (selectionChange)="MonthYear($event)">
+                                                <mat-option *ngFor="let data of yearList" [value]="data?.Value">
+                                                    {{data?.FinicialYear}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)" (click)="exportAsXLSX()">
+                                        <span class="material-icons-outlined" matTooltip="Download Report">
+                                            download
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="dash-header-icon">
+                                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                        (getSortFormData)="getSortData($event)" [deliveryUnits]="true" [duMulti]="true">
+                                    </app-filter-sort>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-dash-report-sec-b">
+                    <!-- *ngIf="reportList.length !=0 && isTableView" -->
+                    <div class="ats-dash-table du-reports">
+                        <table mat-table [dataSource]="duOverallList | accountFilterOnDash:searchInput"
+                            class="table-mat-info" id="duHiringExport">
+                            <ng-container matColumnDef="duHiringTot">
+                                <th mat-header-cell *matHeaderCellDef class="du-unit">
+                                    <!-- Delivery Unit -->
+                                </th>
+                                <td mat-cell *matCellDef="let element;" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    {{element?.MonthName}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="ft-total"> Total (Q1-Q2-Q3) </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- [ngClass]="{'bgcolorGreen': DummyDuOverAllHiringList?.type =='Q'}" -->
+                            <ng-container matColumnDef="w1">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w1']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center "
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.W1_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(duOverallList,'W1_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w2">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w2']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'NS')">
+                                        {{element?.W2_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W2_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w3">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w3']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'SC')">
+                                        {{element?.W3_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W3_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w4">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w4']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T1')">
+                                        {{element?.W4_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W4_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w5">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w5']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.W5_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W5_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="total">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'MR')">
+                                        {{element?.Total_Joined}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'Total_Joined')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="joiningPercent">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    {{dashTableLabel['JoiningPercent']}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'CL')">
+                                        {{element?.Per_Joined ? element?.Per_Joined : 0}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{TotalJoinDeclinePer(duOverallList,'Total_Joined', 'GrandTotal')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- w1 decline sec starts -->
+                            <ng-container matColumnDef="w1Decline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w1']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'OP')">
+                                        {{element?.W1_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center ft-bg">
+                                    {{sumTotal(duOverallList,'W1_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w2Decline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w2']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openTalentViewModal(element,'NS')">
+                                        {{element?.W2_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W2_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w3Decline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w3']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'SC')">
+                                        {{element?.W3_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W3_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w4Decline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w4']"></th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T1')">
+                                        {{element?.W4_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W4_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="w5Decline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['w5']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.W5_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'W5_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="totalDecline">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['total']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.Total_Decline}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'Total_Decline')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <ng-container matColumnDef="declinePercent">
+                                <th mat-header-cell *matHeaderCellDef [innerHTML]="dashTableLabel['declinePercent']">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.Per_Decline ? element?.Per_Decline : 0}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    <!-- {{sumTotal(DummyDuOverAllHiringList,'declinePercent')}} -->
+                                    {{TotalJoinDeclinePer(duOverallList,'Total_Decline', 'GrandTotal')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- decline sec ends -->
+                            <!-- grand total  -->
+                            <ng-container matColumnDef="grandTotal">
+                                <th mat-header-cell *matHeaderCellDef>
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"
+                                    [ngClass]="{'type-quarter': element?.Type=='Q'}">
+                                    <a href="javascript:void(0)" class="link-dsb"
+                                        (click)="openCandidateInfoModal(element,'T2')">
+                                        {{element?.GrandTotal}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center  ft-bg">
+                                    {{sumTotal(duOverallList,'GrandTotal')}}
+                                </td>
+                            </ng-container>
+                            <!-- ends -->
+                            <!-- Header row first group -->
+                            <ng-container *ngFor="let group of headGroup; let i = index">
+                                <ng-container [matColumnDef]="group">
+                                    <ng-container class="grand-tot-wrap">
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            class="grand-total" [attr.colspan]="clacRowSpan(i)?.num"
+                                            [ngClass]="clacRowSpan(i)?.class">
+                                            {{clacRowSpan(i)?.title}}
+                                        <th mat-header-cell *matHeaderCellDef 
+                                            [attr.colspan]="clacRowSpan(i)?.num">
+                                        </th>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="headGroup;sticky: true"></tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tr-fx">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                            <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
+                        </table>
+                    </div>
+                    <app-no-result-found *ngIf="duOverallList?.length === 0"></app-no-result-found>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+</div>
+<!-- end right wrapper -->

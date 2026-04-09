@@ -1,0 +1,215 @@
+<form [formGroup]="submitPreOnbForms" (ngSubmit)="submitHandler(submitPreOnbForms)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <!-- <div class="box-v-header">
+                    <h4>Candidate Details</h4>
+                </div> -->
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c mat-elevation-z8">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Division:</h4>
+                            <p>{{offerDetails?.Division || '-'}}</p>
+                        </div>
+                        <!-- end -->
+
+                        <!-- <div class="view-list-bx">
+                            <h4>Offered On:</h4>
+                            <p>{{(data?.DateOfOffer | date ) || '-'}}</p>
+                        </div> -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Type:</h4>
+                            <p>{{offerDetails?.CandidateType || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Joining Location</h4>
+                            <p>{{offerDetails?.JoiningLocation || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                        <!-- <div class="view-list-bx" *ngIf="this.data?.formType == 1 && this.selection.selected.length === 0">
+                            <h4>Onboarding Mode</h4>
+                            <p *ngIf="this.data?.OnBoardingModeFromRec == 'I'">In-Person (F2F)</p>
+                            <p *ngIf="this.data?.OnBoardingModeFromRec == 'V'">Virtual</p>
+                        </div> -->
+                        <!-- validate ends-->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-v-ats" *ngIf="this.data?.formType == 1">
+                <!-- <div class="box-v-header">
+                    <h4></h4>
+                </div> -->
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap wrap-mode-itnery-file view-list-dt-appr2 box-shadow-c mat-elevation-z8">
+                        <div class="view-list-bx2">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div class="ats-form-col mat-radio-ats mat-radio-btn-ats at-ct-inline mt-ml">
+                                    <div class="of-title">
+                                        <label class="lb-title">
+                                            {{'Onboarding Mode'}}<sup>*</sup> </label>
+                                    </div>
+                                    <div>
+                                        <mat-radio-group aria-label="Select an option"
+                                            [disabled]="this.selection.selected.length === 0"
+                                            formControlName="OnBoardingMode"
+                                            (change)="getItineraryDoc(offerDetails?.divisionid,offerDetails?.JoiningLocationID)">
+                                            <mat-radio-button value="I">In-Person (F2F)
+                                            </mat-radio-button>
+                                            <mat-radio-button value="V">Virtual</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- itnery upload - when day1 status null -->
+                        <div class="view-list-bx2 view-list-bx23" *ngIf="(data?.day1FormStatus == null ) && (data?.candidateTypeLead =='LS') ">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div class="form-on-ats form-fill-ats">
+                                    <div class="form-on-col upload-file-onb width-330"
+                                        [ngClass]="getControl('fileControlItnery').touched && getControl('fileControlItnery').invalid ? 'error-file-input':'suc'">
+                                        <div class="upload-file-input">
+                                            <label>Please Upload Itinerary Document - (Optional)
+                                                <!-- <sup>*</sup> -->
+                                            </label>
+                                            <input type="file" formControlName="fileControlItnery" (change)="fileUploadIternery($event)"
+                                                >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c mat-elevation-z8">
+                        <div class="vrf-form-sec">
+                            <div class="form-on-ats form-fill-ats">
+
+                                <div  class="form-on-col upload-file-onb"
+                                    [ngClass]="getControl('fileControl').touched && getControl('fileControl').invalid ? 'error-file-input':'suc'">
+                                    <div class="upload-file-input">
+                                        <label>Please Upload Itinerary Document
+                                            <sup>*</sup>
+                                        </label>
+                                        <input type="file" formControlName="fileControl" (change)="fileUpload($event)"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="pre-onb-list-table">
+                <table mat-table [dataSource]="dataSource" class="table-add-form-view mat-elevation-z8">
+
+                    <ng-container matColumnDef="SNum">
+                        <th mat-header-cell *matHeaderCellDef> SNo. </th>
+                        <td mat-cell *matCellDef="let element;let i =index" (click)="$event.stopPropagation()"> {{i+1}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.Name}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                            <ng-container [ngSwitch]="element.IsEnable">
+                                <ng-container *ngSwitchCase="1">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        Enabled
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="0">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        Disabled
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <button class="btn-status-dg schedule" type="button">
+                                        Not Assigned
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+                            <div class="actiob-checkd">
+                                <div class="clp6" *ngIf="row?.IsEnable == null">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                    </mat-checkbox>
+                                </div>
+                                <div class="clp6" *ngIf="row?.IsEnable != null">
+                                    <mat-slide-toggle class="mat-togglt-act"
+                                        [matTooltip]="row?.IsEnable == 1 ? 'Disable' : 'Enable'"
+                                        [checked]="row?.IsEnable === 1"
+                                        (change)="confirmAlertActiveDeactive($event,row)">
+                                    </mat-slide-toggle>
+                                </div>
+
+                            </div>
+
+
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+            </div>
+            <!-- <div class="box-v-ats ats-connect-bx">
+                <mat-selection-list #formsList formControlName="formsList">
+                    <mat-list-option *ngFor="let forms of onbFormsList" [value]="forms?.Id">
+                      {{forms.Name}}
+                    </mat-list-option>
+                  </mat-selection-list>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button type="submit" [disabled]="this.selection.selected.length === 0" class="btn btn-infocon">
+            Submit
+        </button>
+        <ng-container *ngIf="(data?.onboardFormStatus == 130 || data?.onboardFormStatus == 110) && data?.formType == 2">       
+            <button type="button" class="btn btn-simple-ats btn-resend" (click)="ResendDay1FormEmail(data)" >Resend Day1 Form
+            </button>
+        </ng-container>
+        <ng-container *ngIf="(data?.onboardFormStatus == 130 || data?.onboardFormStatus == 110) && data?.formType == 1">       
+            <button type="button" class="btn btn-simple-ats btn-resend" (click)="ResendPreOnbFormEmail(data)" >Resend  Pre-Onboarding Email
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+
+    </div>
+</form>

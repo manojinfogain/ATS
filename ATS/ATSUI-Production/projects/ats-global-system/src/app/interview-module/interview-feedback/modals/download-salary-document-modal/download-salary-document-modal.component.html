@@ -1,0 +1,55 @@
+<div class="ats-modal-header">
+    <h1>{{data?.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <!-- <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar> -->
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="fd-list-wrap">
+            <div class="table-data-scroll-pop22">
+
+                <!-- bgv code start -->
+                <div class="box-v-ats bgv-wrapper">
+                    <div class="box-v-body">
+                        <div class="apr-list aprover-dt-list">
+                            <table mat-table [dataSource]="dataSource" class="table-mat-info bgv-table">
+                                <ng-container matColumnDef="fileName" class="colm">
+                                    <th mat-header-cell class="th-mat-h" *matHeaderCellDef>File Name</th>
+                                    <td mat-cell *matCellDef="let element">{{(removeAdditionalExtension(element?.fileName)) || '-'}}</td>
+                                </ng-container>
+                                <!-- end -->
+                                <ng-container matColumnDef="action" class="colm">
+                                    <th mat-header-cell class="th-mat-h" *matHeaderCellDef><i class="fas fa-edit"></i>
+                                        Action</th>
+                                    <td mat-cell *matCellDef="let element" class="text-center">
+                                        <div class="btn-action btn-action-centerz">
+                                            <div class="btn-act">
+                                                <button mat-button type="button"
+                                                    matTooltip="Download - {{element?.fileName}}"
+                                                    (click)="downloadDocument(element)">
+                                                    <span class="material-icons-outlined">
+                                                        download
+                                                    </span>
+                                                </button>
+                                            </div>
+
+
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="bgvDataColum; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: bgvDataColum;let i = index"
+                                    [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- bgv code end -->
+
+
+            </div>
+        </div>
+    </div>
+</div>

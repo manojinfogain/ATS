@@ -1,0 +1,77 @@
+.ats-model-wrap .mat-dialog-container .mat-dialog-content {
+    min-height: 47vh !important; 
+}
+
+.table-mat-info th .mat-header-cell {
+  text-align: none !important;
+}
+
+
+
+.view-list-dt-appr .view-list-bx {
+  width: 33.3%;
+}
+.mx-h-200{
+   max-height:220px !important;
+}
+
+
+// .ats-forms.form-outline-ats .mat-form-field-appearance-outline .mat-form-field-wrapper {
+//     overflow: hidden;
+// }
+
+.ats-forms{
+  padding-top: 10px;
+}
+.box-v-ats{
+  padding-bottom: 0px;
+}
+
+.table-body{
+  margin-bottom: 20px !important;
+}
+
+td{
+  text-align: center !important;
+}
+
+.bg-clor1{
+  background: #008000b8;
+  color: white;
+}
+.ats-connect-bx{
+  border: unset !important;
+}
+.bg-clor2{
+  background: red;
+  color: #ffffff;
+}
+.connct-status{
+  padding: 4px !important;
+  .connect-wrap{
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    .wid-wrp{
+      padding: 1px 7px;
+    border-radius: 2px;
+    }
+  }
+}
+
+table.mat-table {
+  border-spacing: 0;
+}
+.connect-calls-details-sec{
+  p{
+    margin: 0 !important;
+  }
+  .width-seque-action{
+    max-width: 43px !important;
+  }
+}
+
+.aprover-dt-list .table-mat-info td.mat-cell, .aprover-dt-list .table-mat-info td.mat-footer-cell, .aprover-dt-list .table-mat-info th.mat-header-cell {
+  font-size: 0.6rem;
+  padding: 3px 5px !important;
+}

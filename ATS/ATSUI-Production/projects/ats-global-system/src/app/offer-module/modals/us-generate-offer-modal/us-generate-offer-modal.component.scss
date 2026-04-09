@@ -1,0 +1,96 @@
+
+
+:host ::ng-deep.apr-list{
+    table{
+        tr{
+            &.trActive{
+                background: #f3f2f2ed;
+            }
+        }
+    }
+}
+
+//
+.form-appr{
+    margin-top: 10px;
+}
+
+.ats-forms-address{
+    .ats-form-col{
+        // margin-bottom: 4px;
+    }
+}
+
+:host::ng-deep .checkbox-control{
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    .mat-checkbox-label{
+        color: #1a38a7;
+    }
+}
+
+:host::ng-deep .rdn-ctrl{
+    display: flex;
+    .mat-radio-button{
+        padding-right: 5px;
+    }
+    .mat-radio-label-content{
+        padding-left: 2px;
+    }
+
+}
+
+.file-name-list{
+    ul{
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        list-style-type: none;
+        li{
+            font-size: 11px;
+            border: solid 1px #ddd;
+            border-bottom: none;
+            background: #f1fffe;
+            :last-child{
+                border-bottom: solid 1px #ddd; 
+            }
+            &.uploaded{
+                background: #eaffea;
+            }
+        }
+    }
+}
+
+.warning-ctc{
+    font-size: 10px !important;
+}
+
+.row {
+    display: unset !important;
+   
+}
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 100% !important;
+}
+
+.padding-7-0 {
+    padding: 7px 0px;
+}
+
+
+
+// .box-v-ats .box-v-header.box-header-lf {
+//    // display: flex;
+    
+// }
+// .laptop-wrapper{
+//     justify-content: end !important;
+//     padding: 9px 7px !important;
+//     .ats-form-col {
+//        width: 284px !important;
+//       margin-bottom: 1px !important;
+       
+//     }
+  
+// }

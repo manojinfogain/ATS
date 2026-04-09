@@ -1,0 +1,18 @@
+<div class="ats-modal-header">
+    <h1>Alert</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+  </div>
+  <div mat-dialog-content>
+   <div class="ats-modal-body">
+      <p>Video Match score less than 50%. Do you want to send it to IT Team?</p>
+  </div>
+  </div>
+  <div class="ats-modal-footer text-center">
+    <button class="btn btn-infocon">
+        Yes
+      </button>
+  
+      <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+        No
+      </button>
+  </div>

@@ -1,0 +1,105 @@
+<form [formGroup]="verificationForm" (ngSubmit)="submitRequest(verificationForm)">
+    <div class="ats-modal-header">
+        <h1>
+            View Accept Offer
+        </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="view-all-screen-dt">
+                <!-- <div class="adt-info-wrap adt-info-wrap-roles">
+                    <ul>
+                        <li class="vrfPen">
+                            <span></span>
+                            Verification Pending
+                        </li>
+                      
+                    </ul>
+                </div> -->
+                <div class="ct-tab-screen  candidate-screen">
+                    <mat-accordion class="candidate-ats-hr-rec">
+
+                        <!-- end personal Details -->
+                        <!-- <mat-expansion-panel [expanded]="userData?.RoleId != 1 ? true : false " (opened)="userData?.RoleId != 1 ? setStep(0) : setStep(1)">
+                            
+                            
+                        </mat-expansion-panel> -->
+
+                        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span> Offer Letter
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <!-- <app-offer-fte [appearance]="formAppearance" [formClass]="formClass">
+                                </app-offer-fte> -->
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                    </div>
+                                </div>
+                                <!-- end -->
+
+                            </ng-template>
+                        </mat-expansion-panel>
+                        <!-- end offer letter  -->
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        history_edu
+                                    </span>Employee Agreement
+                                </mat-panel-title>
+                                <mat-panel-description>
+
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-template matExpansionPanelContent>
+                                <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div [innerHTML]="EmployeeAgreementHTml | safeHtml"></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="offer-letter-section">
+                                    <div class="letter-wrapper">
+                                        <div [innerHTML]="OfferHTml | safeHtml"></div>
+                                    </div>
+                                </div> -->
+
+                            </ng-template>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+
+        <button class="btn btn-infocon">
+            Submit
+        </button>
+        <!-- <button type="button" class="btn btn-infocon" (click)="prevStep()" *ngIf="step>0 && step<8">
+            Prev
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="nextStep()" *ngIf="step>=0 && step<7">
+            Next
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="confirmMailSendToCandidate(data)">
+            Test
+        </button> -->
+    </div>
+
+</form>

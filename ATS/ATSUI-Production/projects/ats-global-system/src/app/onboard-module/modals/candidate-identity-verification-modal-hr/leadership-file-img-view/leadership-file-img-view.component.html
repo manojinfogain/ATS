@@ -1,0 +1,17 @@
+<ng-container *ngIf="fileData?.fileType == 'P'">
+    <a href="javascript:void(0)" title="">
+        <img [src]="pathSrc | safeUrl">
+    </a>
+    <div class="img-overlays">
+        <a href="javascript:void(0)" (click)="previewImageVideo(fileData)" title="" class="view-l-wt">View</a>
+    </div>
+</ng-container>
+<!--  -->
+<ng-container *ngIf="fileData?.fileType == 'V'">
+    <a href="javascript:void(0)" title="">
+        <img src="../../../../../assets/images/banner/video-player-banner.png">
+    </a>
+    <div class="img-overlays">
+        <a href="javascript:void(0)" (click)="previewVideo()" title="" class="view-l-wt">Watch/Download Video</a>
+    </div>
+</ng-container>

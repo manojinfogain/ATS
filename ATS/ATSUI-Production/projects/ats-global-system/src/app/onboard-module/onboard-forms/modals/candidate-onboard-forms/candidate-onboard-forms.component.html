@@ -1,0 +1,284 @@
+<form [formGroup]="verificationForm" (ngSubmit)="submitRequest(verificationForm)">
+    <div class="ats-modal-header">
+        <h1>Onboarding Forms - {{this.data?.Name}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="view-all-screen-dt">
+                <div class="onb-day-scren">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c mat-elevation-z8d">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email || '-'}}</p>
+                        </div>
+                        <!-- end -->
+
+                        <!-- <div class="view-list-bx">
+                            <h4>Offered On:</h4>
+                            <p>{{(data?.DateOfOffer | date ) || '-'}}</p>
+                        </div> -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Joining Date:</h4>
+                            <p>{{(data?.DateOfJoining | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Onboarding Status:</h4>
+                            <p>{{data?.onboardStatusName || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                        <div class="view-list-bx">
+                            <h4>Pre Onboarding Forms Status:</h4>
+                            <p>{{data?.onboardFormStatusName || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                        <div class="view-list-bx">
+                            <h4>Day 1 Forms Status:</h4>
+                            <p>{{data?.day1FormStatusName || '-'}}</p>
+                        </div>
+                        <!-- validate ends-->
+                    </div>
+
+                </div>
+              
+              
+                <div class="ct-tab-screen  candidate-screen ">
+                    <mat-accordion class="candidate-ats-hr-rec">
+                        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        assignment_ind
+                                    </span>Pre Onboarding Form
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="panel-content" >
+                                <div class="onboarding-form-list">
+                                    <div class="cand-ot-table">
+                                        <table mat-table [dataSource]="onBoardCandidateList"
+                                            class="onb-list-table mat-elevation-z8">
+                                            <!-- Checkbox Column -->
+                                            <ng-container matColumnDef="Name">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Name
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.Name|| '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Current Status
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <!-- {{element?.Status}} -->
+                                                    <ng-container [ngSwitch]="element?.Status" *ngIf="candidatePersonalDetails?.onboardFormStatus != 100">
+                                                        <ng-container *ngSwitchCase="'D'">
+                                                            <button class="btn-status-dg selecteds" type="button">
+                                                                Saved
+                                                            </button>
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'S'">
+                                                            <button class="btn-status-dg shortlisted" type="button">
+                                                                Submitted
+                                                            </button>
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'P'">
+                                                            <button class="btn-status-dg schedule" type="button">
+                                                                Pending
+                                                            </button>
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'R'">
+                                                            <button class="btn-status-dg rejects" type="button">
+                                                                Verification Failed
+                                                            </button>
+                                                        </ng-container>
+                                                        <ng-container *ngSwitchCase="'V'">
+                                                            <button class="btn-status-dg shortlisted" type="button">
+                                                                Verified
+                                                            </button>
+                                                        </ng-container>
+
+                                                        <ng-container *ngSwitchDefault>
+                                                            -
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="candidatePersonalDetails?.onboardFormStatus == 100">
+                                                        <button class="btn-status-dg shortlisted" type="button">
+                                                            Verified
+                                                        </button>
+                                                    </ng-container>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="updateBy">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Action Taken By
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.Status == 'V' || element?.Status == 'R' ?  element?.actionTakenBy : '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="updateOn">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Action Taken Date
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.Status == 'V' || element?.Status == 'R' ?  (element?.actionTakenOn | date:'dd-MMM-yyyy') : '-'}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="verifyRem">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Remarks
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{ element?.Remark || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action" stickyEnd>
+                                                <th mat-header-cell *matHeaderCellDef> Action</th>
+                                                <td mat-cell *matCellDef="let element" class="text-left">
+
+                                                    <div class="btn-action btn-action-centers">
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button" [matTooltip]="isDwnload(element)?'Download Form':'Preview Form'" 
+                                                                (click)="openFormModal(element)">
+                                                                <ng-container *ngIf="isDwnload(element)">
+                                                                    <span class="material-icons-outlined">
+                                                                        download
+                                                                    </span>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="!isDwnload(element)">
+                                                                    <span class="material-icons-outlined">
+                                                                        preview
+                                                                    </span>
+                                                                </ng-container>
+                                                            </button>
+                                                        </div>
+                                                        <!-- candidatePersonalDetails?.onboardFormStatus != 120 || ((element?.Status == 'V' || element?.Status == 'D' || element?.Status == 'P') && candidatePersonalDetails?.onboardFormStatus == 120) -->
+                                                        <div class="btn-act" >
+                                                            <button mat-button type="button" [disabled]="getVerifyStatus(candidatePersonalDetails?.onboardFormStatus,element?.Status)"
+                                                                (click)="openVerificationModal(element)"
+                                                                matTooltip="Verify">
+                                                                <span class="material-icons-outlined">
+                                                                    rule
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                                [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                        <!-- end personal Details -->
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="material-icons-outlined">
+                                        money
+                                    </span>Supporting  Document List
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div>
+                                <app-document-details-sc [appearance]="formAppearance"
+                                    [formClass]="formClass"
+                                    [uploadedDocumentLists]="uploadedDocumentLists">
+                                </app-document-details-sc>
+
+                               
+                            </div>
+
+                        </mat-expansion-panel>
+                        <!--  Salary Details -->
+
+
+                    </mat-accordion>
+                </div>
+                <div class="verfic-t-wrap" *ngIf="(getControl('formSelection').value == 1 || getControl('formSelection').value == 0) && candidatePersonalDetails?.onboardFormStatus == 120">
+                    <div class="vrf-form-sec">
+                        <div class="form-on-ats form-fill-ats">
+            
+                            <div class="form-on-col full-width">
+                                <div class="rad-bb-wrapper"
+                                    [ngClass]="getControl('status').touched  && getControl('status').invalid ? 'consent-error':'suc'">
+                                    
+                                    <mat-radio-group aria-label="Select an option" formControlName="status"
+                                        (change)="consentUp($event)">
+                                        <mat-radio-button value="1"  [disabled]="isOnboardVerificationPending ||
+                                        (isOnboardVerificationFailed && !isOnboardVerificationSuccess)">I have verified the onboarding forms submitted by you and no discrepancy was found.</mat-radio-button>
+                                        <mat-radio-button value="0" [disabled]="isOnboardVerificationPending || 
+                                        (!isOnboardVerificationFailed && isOnboardVerificationSuccess)">I have verified the onboarding forms submitted by you and <strong class="text-red">discrepancy</strong> was found.</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <!-- <div class="form-on-col"  *ngIf="isEmail">
+                                <h6 class="mail-title">Send Email to Candidate <span >( Note: This remark will be part of mail body. )</span></h6>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Email Subject</mat-label>
+                                    <input matInput type="text" formControlName="mailSubject">
+                                </mat-form-field>
+                            </div> -->
+                            <!-- end col -->
+            
+                            <div class="form-on-col width-50" *ngIf="isEmail">
+                                <mat-form-field appearance="fill">>
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput formControlName="mailBody" placeholder="Enter Remarks..."
+                                        class="m-txtarea"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="ats-modal-footer text-center">
+
+        <button type="submit" *ngIf="candidatePersonalDetails?.onboardFormStatus == 120" [disabled]="verificationForm.invalid || isOnboardVerificationPending" class="btn btn-infocon">
+            Submit
+        </button>
+         <ng-container *ngIf="(candidatePersonalDetails?.onboardFormStatus == 130 || candidatePersonalDetails?.onboardFormStatus == 110)">       
+            <button type="button" class="btn btn-simple-ats btn-resend" (click)="ResendPreOnbFormEmail(data)" >Resend Referredback Email
+            </button>
+        </ng-container>
+        <!-- <button type="button" class="btn btn-infocon" (click)="prevStep()" *ngIf="step>0 && step<8">
+            Prev
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="nextStep()" *ngIf="step>=0 && step<7">
+            Next
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="confirmMailSendToCandidate(data)">
+            Test
+        </button> -->
+    </div>
+
+</form>

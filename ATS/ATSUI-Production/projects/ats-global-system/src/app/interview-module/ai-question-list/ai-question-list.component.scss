@@ -1,0 +1,54 @@
+:host ::ng-deep .atm-pgm  {
+    .mat-icon-button{
+        color: #fff;
+    padding: 13.5px 18px;
+    background: #1f6a9f;
+    border: solid 1px #2370a7;
+    box-shadow: 0 3px 1px #0b466f;
+    -webkit-box-shadow: 0 3px 1px #0b466f;
+    -moz-box-shadow: 0 3px 1px #0b466f;
+    -o-box-shadow: 0 3px 1px #0b466f;
+    -ms-box-shadow: 0 3px 1px #0b466f;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    border-radius: 5px !important;
+    width: auto !important;
+    height: auto !important;
+    line-height: 0;
+        .mat-button-wrapper{
+            .mat-paginator-icon{
+                display: none;
+            }
+            &::after{
+                font-size: 1.5em;
+                color: #000;
+            }
+        }
+        &.mat-paginator-navigation-next{
+            &::after{
+                content: 'Next';
+            }
+        }
+        &.mat-paginator-navigation-previous{
+            &::after{
+                content: 'Prev';
+            }
+        }
+    }
+   
+   
+}
+.atm-pgm-llb{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.tt-plol{
+    h5{
+        margin: 0;
+        font-size: 14px;
+        padding: 8px 4px;
+        padding-bottom: 11px;
+    }
+}

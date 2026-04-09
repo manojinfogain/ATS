@@ -1,0 +1,784 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+          <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true"
+            [isSelectedRequisition]="true">
+          </app-auto-complete-talentid>
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h"></div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                      [placeHolder]="'Search By Name/ Email/ Talent ID'" [searchServerSide]="true"
+                      [isReset]="isResetSearch" matTooltip="Search By Name/ Email/ Talent ID"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <!-- <li>
+                            <button mat-button class="act-button" (click)="exportAsXLSX()" matTooltip="Download Tracker">
+                              <i class="fas fa-file-download ex-icon"></i>
+                            </button>
+                          </li> -->
+                        <!-- <li *ngIf="this.userData?.RoleId == 1">
+                            <button mat-button class="act-button delegate-btn" (click)="openModalForItinerary()"
+                                matTooltip="Upload Itinerary">Upload Itinerary Document
+                            
+                            </button>
+                        </li> -->
+                        <li>
+                          <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter"
+                            [isResetForm]="isResetFilter" [onboardStatus]="true" [onboardStatusMulti]="true"
+                            [onboardStatusTitle]="'Candidate Status'" [onboardSubStatus]="true"
+                            [onboardSubStatusMulti]="true" [onboardSubStatusTitle]="'Pre Onboarding Forms Status'"
+                            [day1SubStatus]="true" [day1SubStatusMulti]="true"
+                            [day1SubStatusTitle]="'Day 1 Forms Status'" [recruiter]="true" [recMulti]="true"
+                            [dateRangeStartToEnd]="true" [dateRangeTitle2]="'By Joining Date'" [companyLocation]="true"
+                            [LocationMulti]="true"></app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+                  <ng-container matColumnDef="talentId">
+                    <th mat-header-cell *matHeaderCellDef> Talent ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.talentID || '-'}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Cid">
+                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                      {{cidColName}} </th>
+                    <td class="text-center" mat-cell *matCellDef="let element;">
+                      {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Candidate Name Column -->
+                  <ng-container matColumnDef="CandidateName">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Name </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.Name || '-'}}
+                      <!-- {{element.OfferModifiedOn |date}} -->
+                    </td>
+                  </ng-container>
+
+                  <!-- Candidate EMployee ID Column -->
+                  <ng-container matColumnDef="EmployeeID">
+                    <th mat-header-cell *matHeaderCellDef>Employee ID </th>
+                    <td class="text-center" mat-cell *matCellDef="let element;">
+                      {{element.EmployeeId || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <!-- Candidate Officail Emailid Column -->
+                  <ng-container matColumnDef="OfficialEmailID">
+                    <th mat-header-cell *matHeaderCellDef>Official Email ID </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.OfficialEmailId || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="primarySkill">
+                    <th mat-header-cell *matHeaderCellDef> Skill
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.skillName || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="EmailID">
+                    <th mat-header-cell *matHeaderCellDef>Personal Email ID </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.email || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <!-- Phone No. Column -->
+                  <ng-container matColumnDef="PhoneNo">
+                    <th mat-header-cell *matHeaderCellDef> Phone No. </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.phone || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="candidateType">
+                    <th mat-header-cell *matHeaderCellDef> Employee Type
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ContractType || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="priRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Primary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.primaryrecruiterName ? element?.primaryrecruiterName : '' }}
+                      ({{ element?.primaryrecruiter ? element?.primaryrecruiter : '-'}})
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="secondRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Secondary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.secondaryrecruiterName ? element?.secondaryrecruiterName : '' }}
+                      ({{ element?.secondaryrecruiter ? element?.secondaryrecruiter : '-'}})
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="offerDate">
+                    <th mat-header-cell *matHeaderCellDef> Date Of Offer</th>
+                    <td mat-cell *matCellDef="let element"> {{(element?.DateOfOffer | date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="joiningDate">
+                    <th mat-header-cell *matHeaderCellDef> Date Of Joining</th>
+                    <td mat-cell *matCellDef="let element"> {{(element?.DateOfJoining | date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="joiningLocation">
+                    <th mat-header-cell *matHeaderCellDef>Joining Location</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.JoiningLocationName || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="onboardingMode">
+                    <th mat-header-cell *matHeaderCellDef>Mode of Onboarding</th>
+                    <td mat-cell *matCellDef="let element">
+                      <span *ngIf="element?.OnboardingMode == 1">{{'In-Person ( F2F )' || '-'}}</span>
+                      <span *ngIf="element?.OnboardingMode == 2">{{'Virtual' || '-'}}</span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="appStatusProg">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Candidate <br>CIF Progress
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.profileCompletionPercent != null?element?.profileCompletionPercent+'%': '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="isBGVSubmitted">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Is BGV Submitted <br> By Candidate
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.isBGVSubmittedByCandidate == 1 ? 'Yes' : 'No'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="isCaseInitiated">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Is BGV Initiated <br> By HR
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.isBGVApprovedByHR == 1 ? 'Yes' : 'No'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="cifStatus">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Candidate Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+
+                      <ng-container [ngSwitch]="element?.onboardStatus">
+                        <ng-container *ngSwitchCase="10">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="20">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="30">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="40">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="50">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="60">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="70">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="80">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="90">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+
+
+                        <ng-container *ngSwitchDefault>
+                          {{element?.onboardStatusName || '-'}}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="candiSubStatus">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Pre Onboarding Forms Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+
+                      <ng-container [ngSwitch]="element?.onboardFormStatus">
+
+                        <ng-container *ngSwitchCase="110">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardFormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="120">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardFormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="130">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardFormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.onboardFormStatusName}}
+                          </button>
+                        </ng-container>
+
+
+                        <ng-container *ngSwitchDefault>
+                          {{element?.onboardFormStatusName || '-'}}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="day1Status">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Day 1 Forms Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+
+                      <ng-container [ngSwitch]="element?.day1FormStatus">
+
+                        <ng-container *ngSwitchCase="110">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.day1FormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="120">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.day1FormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="130">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.day1FormStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.day1FormStatusName}}
+                          </button>
+                        </ng-container>
+
+
+                        <ng-container *ngSwitchDefault>
+                          {{element?.day1FormStatusName || '-'}}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="recVerification">
+                    <th mat-header-cell *matHeaderCellDef>Recruiter <br> Verification Status</th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="element?.onboardStatus == 20">
+                          <button class="btn-status-dg schedule" type="button">
+                            Pending
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="element?.onboardStatus == 30">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            Done
+                          </button>
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault>
+                          NA
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="hrVerification">
+                    <th mat-header-cell *matHeaderCellDef>HR <br> Verification Status </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="element?.onboardStatus == 40">
+                          <button class="btn-status-dg schedule" type="button">
+                            Pending
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="element?.onboardStatus == 50">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            Done
+                          </button>
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault>
+                          NA
+                        </ng-container>
+                      </ng-container>
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="dormantStatus">
+                    <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.isTidDormant">
+                        <ng-container *ngSwitchCase="'D'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'DORMANT'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'R'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'RE-ACTIVATED'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'ACTIVE'}}
+                          </button>
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="approveStatus">
+                    <th mat-header-cell *matHeaderCellDef> Offer Status</th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.StatusID">
+                        <ng-container *ngSwitchCase="20">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="40">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="60">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="80">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="30">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="50">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="70">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="90">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="110">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="120">
+                          <button class="btn-status-dg offergen" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="4">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="10">
+                          <button class="btn-status-dg holds" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="140">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="160">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="180">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="200">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="220">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <!-- new -->
+                        <ng-container *ngSwitchCase="240">
+                          <!-- <button class="btn-status-dg drops" type="button">
+                            {{element?.offerPrevStatus?element?.offerPrevStatus + ' / ': '' }}
+                            {{ element?.OfferStatusName}}
+                          </button> -->
+                          <button class="btn-status-dg drops" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="260">
+                          <!-- <button class="btn-status-dg drops" type="button">
+                            {{element?.offerPrevStatus?element?.offerPrevStatus + ' / ': '' }}
+                            {{ element?.OfferStatusName}}
+                          </button> -->
+                          <button class="btn-status-dg drops" type="button">
+                            {{element?.StatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          {{element?.StatusName || '-'}}
+                        </ng-container>
+                      </ng-container>
+
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="action" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <div class="btn-action btn-action-centerz">
+                         <!-- BGV Action button-->
+                        <div class="btn-act" *ngIf="element?.isTidDormant != 'D' && (userData?.RoleId == 1 || userData?.otherRoles?.IsHRAccess == 'Y') && element?.isBGVSubmittedByCandidate == 1
+                        && (element?.isBGVApprovedByHR == 0 && element?.isBGVApprovedByRecruiter == 1) && (element?.onboardStatus == 60 || element?.onboardStatus == 70 || element?.onboardStatus == 80 || element?.onboardStatus == 90 || element?.onboardStatus == 100)">
+                          <button mat-button type="button" matTooltip="View / Approve BGV Details"
+                            (click)="viewAllDetailsBGV(element)">
+                            <span class="material-icons-round">
+                              verified_user
+                            </span>
+                          </button>
+                        </div>
+                        <!-- <div class="btn-act"  *ngIf="showviewAllDetailsOnboardButton(element)"></div> -->
+                        <div class="btn-act" *ngIf="showviewAllDetailsOnboardButtonRec(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="View / Verify Candidate EAF"
+                            (click)="viewAllDetailsOnboardRec(element)">
+                            <span class="material-icons-round">
+                              visibility
+                              </span>
+                          </button>
+                        </div>
+                        <!-- hr -->
+                        <div class="btn-act" *ngIf="showviewAllDetailsOnboardButtonHr(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="View / Verify Back Papers"
+                            (click)="viewAllDetailsOnboardHr(element)">
+                            <span class="material-icons-round">
+                              table_view
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="(!element?.IsConsent &&  (userData?.RoleId == 1 || userData?.otherRoles?.IsHRAccess == 'Y')) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Candidate Verification"
+                            (click)="empVerificationOnboardPic(element,'C')">
+                            <span class="material-icons-outlined">
+                              domain_verification
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end  -->
+                          <div class="btn-act" *ngIf="(element?.Is7daysCompleted ==1 && element?.IsFinalVideoUploaded ==0 && (userData?.RoleId == 1 || userData?.otherRoles?.IsHRAccess == 'Y')) && element?.isTidDormant != 'D'">
+                            <button mat-button type="button" matTooltip="Employee Verification (Post Joining)"
+                              (click)="empVerificationOnboardPic(element,'E')">
+                              <span class="material-icons-outlined">
+                                camera_front
+                                </span>
+                            </button>
+                          </div>
+                          <!-- end -->
+                          <div class="btn-act" *ngIf="element?.IsConsent && userData?.RoleId != 9">
+                            <button mat-button type="button" matTooltip="View Candidate Verification Details"
+                              (click)="viewAllDetailsOnboardPic(element)">
+                              <span class="material-icons-outlined">
+                                preview
+                                </span>
+                            </button>
+                          </div>
+                          
+                          <!-- end -->
+                        <!-- <div class="btn-act" *ngIf="!element?.IsConsent &&  userData?.RoleId == 1">
+                          <button mat-button type="button" matTooltip="Candidate Verification"
+                            (click)="viewAllDetailsOnboardPic(element)">
+                            <span class="material-icons-outlined">
+                              domain_verification
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <!-- <div class="btn-act" *ngIf="((element?.IsConsent && userData?.RoleId == 1) || userData?.RoleId == 5)">
+                          <button mat-button type="button" matTooltip="View Candidate Verification Details"
+                            (click)="viewAllDetailsOnboardPic(element)">
+                            <span class="material-icons-outlined">
+                              preview
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="showSendPreOnbFormsButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Enable/Disable Pre-Onboarding Forms"
+                            (click)="openModalToSendPreOnbForms(element)">
+                            <span class="material-icons-outlined">
+                              assignment_ind
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="showVerifOnbFormsButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="View/Verification Onboarding Forms "
+                            (click)="viewAllDetailsOnboardForms(element)">
+                            <span class="material-icons-outlined">
+                              checklist
+                            </span>
+                          </button>
+                        </div>
+                        <!-- <div class="btn-act" *ngIf="showVerifOnbFormsButton(element) && element?.isTidDormant != 'D' && (element?.onboardFormStatus == 100)">
+                          <button mat-button type="button" matTooltip="View/Verification Onboarding Forms "
+                            (click)="viewAllDetailsOnboardForms(element)">
+                            <span class="material-icons-outlined">
+                              checklist
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="showReferBackActionButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Refer Back to Candidate"
+                            (click)="openModalToReferBack(element)">
+                            <span class="material-icons-outlined">
+                              reply_all
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act"
+                          *ngIf="showUploadOLAcceptDocButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Upload/View OL Acceptance Doc"
+                            (click)="openModalUploadOLAcceptDocModal(element)">
+                            <span class="material-icons-outlined">
+                              upload
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="showSendDay1FormsButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Enable/Disable Day1 Forms"
+                            (click)="openModalToSendDay1OnbForms(element)">
+                            <span class="material-icons-outlined">
+                              follow_the_signs
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="showVerifDay1FormsButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="View/Verification Day1 Forms "
+                            (click)="viewAllDetailsDay1Forms(element)">
+                            <span class="material-icons-outlined">
+                              library_add_check
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <!-- <div class="btn-act"  *ngIf="element.onboardStatus==70" >
+                          <button mat-button type="button" matTooltip="Resend Day1 Form "
+                            (click)="ResendDay1FormEmail(element)">
+                            <span class="material-icons-outlined">
+                              <mat-icon> mail</mat-icon>
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <div class="btn-act"
+                          *ngIf="showCreateEmployeeIdButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Create Employee ID"
+                            (click)="openModalCreateEmpId(element)">
+                            <span class="material-icons-outlined">
+                              person_add
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+
+                        <div class="btn-act" *ngIf="userData?.RoleId === 9 && element?.IsOfferVisibile == 1">
+                          <button mat-button type="button" matTooltip="View  Offer / Approver Details"
+                            (click)="openofferApprovalDetailsModal(element)">
+                            <span class="material-icons-outlined">
+                              preview
+                            </span>
+                          </button>
+                        </div>
+                        <!-- ends -->
+
+                        <div class="btn-act" *ngIf="userData?.RoleId === 9 && element?.IsOfferVisibile == 1">
+                          <button mat-button type="button" matTooltip="Preview  Offer / Sodexo Form"
+                            (click)="previewandSendOffer(element)">
+                            <span class="material-icons-outlined">
+                              picture_as_pdf
+                            </span>
+                          </button>
+                        </div>
+                        <div class="btn-act" *ngIf="showSendAppointLtrButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Upload Appointment Letter"
+                            (click)="openModalToSendAppointLetter(element)">
+                            <span class="material-icons-outlined">
+                              cloud_sync
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+
+                        <div class="btn-act" *ngIf="showSendAppointLtrPreview(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button"
+                            [matTooltip]="element?.isEnableAppointmentLetter == 'Y'?'Preview and Resend Appointment Letter':'Preview and Send Appointment Letter'"
+                            (click)="previewandSendAppointmentLetter(element)">
+                            <span class="material-icons-outlined"> receipt_long </span>
+                          </button>
+                        </div>
+
+                        <!-- <div class="btn-act" *ngIf="showAccountLinkSendButton(element)">
+                          <button mat-button type="button" matTooltip="Send Account Link"
+                            (click)="openModalToSendAccountLink(element)">
+                            <span class="material-icons-outlined">
+                              link
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <div class="btn-act"
+                          *ngIf="showVerifyPendingDocButton(element) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Candidate Pending Documents"
+                            (click)="openModalPendingDocs(element)">
+                            <span class="material-icons-outlined">
+                              folder_shared
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+
+                        <!-- <div class="btn-act" *ngIf="showVSendInductionInviteButton(element)">
+                          <button mat-button type="button" matTooltip="Send / Resend Invites For Induction"
+                            (click)="openModaltoSendInvite(element)">
+                            <span class="material-icons-outlined">
+                              calendar_month
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                        <!-- <div class="btn-act" *ngIf="showUpdateOnboardingModeButton(element)">
+                          <button mat-button type="button" matTooltip="Update Onboarding Mode"
+                            (click)="openModalUpdateOnboardingMode(element)">
+                            <span class="material-icons-outlined">
+                              autorenew
+                              </span>
+                          </button>
+                        </div> -->
+                        <!-- end -->
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                  *ngIf="candidateList?.length === 0 || candidateList?.length === null">
+                </app-no-result-found>
+              </div>
+              <div class="ats-paging-sec">
+                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                  (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,65 @@
+<div class="ats-modal-header">
+    <h1>Approve & Initiate BGV - {{data?.candidate?.Name}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+        <div class="box-v-ats">
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                    <div class="view-list-bx">
+                        <h4>Talent ID:</h4>
+                        <p>{{data?.candidate?.talentID || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Candidate Name:</h4>
+                        <p>{{data?.candidate?.Name || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Email:</h4>
+                        <p>{{data?.candidate?.email || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Mobile Number:</h4>
+                        <p>{{data?.candidate?.phone || '-'}}</p>
+                    </div>
+                    <!-- <div class="view-list-bx">
+                        <h4>Date of Birth:</h4>
+                        <p>{{data?.candidate?.DateOfBirth ? (data?.candidate?.DateOfBirth | date:'mediumDate') : '-'}}</p>
+                    </div> -->
+                    <div class="view-list-bx">
+                        <h4>Candidate Type:</h4>
+                        <p>{{data?.candidate?.ContractType || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Hiring Location:</h4>
+                        <p>{{data?.candidate?.JoiningLocationName || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Account Name:</h4>
+                        <p>{{data?.candidate?.AccountName || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Date of Joining:</h4>
+                        <p>{{data?.candidate?.DateOfJoining ? (data?.candidate?.DateOfJoining | date:'mediumDate') : '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Offer Status:</h4>
+                        <p>{{data?.candidate?.StatusName || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Is Approved by Recruiter:</h4>
+                        <p>{{data?.candidate?.isBGVApprovedByRecruiter == 1 ? 'Yes' : 'No'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+    <button class="btn btn-infocon" (click)="submitAction()">
+        Approve & Initiate BGV
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>

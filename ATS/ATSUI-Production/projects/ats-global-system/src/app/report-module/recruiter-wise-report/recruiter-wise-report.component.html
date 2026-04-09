@@ -1,0 +1,235 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h">
+                <div class="filter-txt-opt">
+                  Data showing from <span>{{(selectedDate?.startDate| date:'dd MMM yyyy')}}</span> to
+                  <span> {{(selectedDate?.endDate| date:'dd MMM yyyy') || (todayDate| date:'dd MMM yyyy')}}</span>
+                </div>
+              </div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/EmpID'"
+                      [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <li>
+                          <button mat-button class="act-button" matTooltip="Download Report"
+                              (click)="downloadReportAsExel()">
+                              <span class="material-icons-outlined">
+                                  download
+                              </span>
+                          </button>
+                      </li>
+                        <li>
+                          <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                            [DateStartDefaultValue]="this.selectedDate['startDate']" [dateRange]="true"
+                            (sendSortData)="getSortData($event)" [maxDate]="maxDate" [dateRangeTitle]="'Date'"
+                            (getDateOutput)="getDateRange($event)">
+                          </app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="RecruiterList | recruiterWiseFilter:searchInput" class="table-mat-info">
+                  <ng-container matColumnDef="SNum">
+                    <th mat-header-cell *matHeaderCellDef>S. <br>No.</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="text-center"> {{i+1}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="recEmpId">
+                    <th mat-header-cell *matHeaderCellDef>Recruiter <br> EmpID</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> 
+                      {{element?.RecruiterEmpId}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="recName">
+                    <th mat-header-cell *matHeaderCellDef>Recruiter <br> Name </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.RecruiterName || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="recLocation">
+                    <th mat-header-cell *matHeaderCellDef>Recruiter <br> Location</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element?.Location}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="intLenTaken">
+                    <th mat-header-cell *matHeaderCellDef class="">
+                      ATS Last Login <br> Date/Time</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      {{(element?.LastLoginDate| date:'dd MMM yyyy, h:mm a') || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="talentIdAssign">
+                    <th mat-header-cell *matHeaderCellDef class="sch">Talent <br>id's <br>Assigned </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.THIDAssignedCount === 0"
+                       matTooltipPosition="left"
+                       (click)="openDetailsPanelWise(element,'thidassigned',null,null,'Talent ID')" matTooltip="View All">{{element?.THIDAssignedCount}}</a>
+                    </td>
+                  </ng-container> 
+
+                  <ng-container matColumnDef="THIDAssignedBefore30daysCount">
+                    <th mat-header-cell *matHeaderCellDef class="sch">THID <br>Assigned <br>Before 30 Days <br>Count</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.THIDAssignedBefore30daysCount === 0"
+                       matTooltipPosition="left"
+                       (click)="openDetailsPanelWise(element,'thidassignedbefore30days',null,null,'THID Assigned Before 30 Days')" matTooltip="View All">{{element?.THIDAssignedBefore30daysCount}}</a>
+                    </td>
+                  </ng-container> 
+                  <ng-container matColumnDef="candAddAgainstTalent">
+                    <th mat-header-cell *matHeaderCellDef class="sch">Candidates <br> Added <br> against <br> talent Id's
+                      <br>assigned </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.CandidateAssignedToThidCount === 0"
+                        matTooltipPosition="left"
+                        (click)="openDetailsPanelWise(element,'thidcandidates',null,null,'Candidates list')" matTooltip="View All">{{element?.CandidateAssignedToThidCount}}</a>
+                    </td>
+                  </ng-container> 
+                  <ng-container matColumnDef="sechInterviewCount">
+                    <th mat-header-cell *matHeaderCellDef class="canc">Scheduling <br> Interviews <br> Count </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.ScheduledInterviewCount === 0"
+                       (click)="openDetailsPanelWise(element,'interviewstatus',0,null,'Scheduling Interviews')" matTooltipPosition="left" matTooltip="View All">
+                       {{element?.ScheduledInterviewCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="reschInterviewCount">
+                    <th mat-header-cell *matHeaderCellDef class="canc">Rescheduling <br> Interviews <br> Count</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.RescheduleInterviewCount === 0"
+                      (click)="openDetailsPanelWise(element,'interviewstatus',3,null,'Rescheduling Interviews')" matTooltipPosition="left" matTooltip="View All">
+                      {{element?.RescheduleInterviewCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="canceldInterview">
+                    <th mat-header-cell *matHeaderCellDef class="rej">Cancelled <br> Interviews </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.CancleInterviewCount === 0"
+                      (click)="openDetailsPanelWise(element,'interviewstatus',2,null,'Cancelled Interviews')" matTooltipPosition="left" matTooltip="View All">{{element?.CancleInterviewCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="screeningRoundFeedBack">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Screening <br> Round <br> Feedback</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.ScreeningRoundFeedbackCount === 0"
+                      (click)="openDetailsPanelWise(element,'screeningroundfb',null,null,'Screening Round Feedback')"  matTooltipPosition="left" matTooltip="View All">{{element?.ScreeningRoundFeedbackCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="hrFinalRoundFeedback">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">HR Final <br> Round <br> Feedback</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.HRFinalRoundFeedback === 0"
+                      (click)="openDetailsPanelWise(element,'hrfinalroundfb',null,null,'HR Final Round Feedback')"  matTooltipPosition="left" matTooltip="View All">{{element?.HRFinalRoundFeedback}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="screenRejctCountSkil">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Screen <br> Reject <br> Count- <br> Cskill</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.ScreenRejectCount === 0"
+                      (click)="openDetailsPanelWise(element,'cskillsregected',null,null,'Screen Reject Count Cskill')"  matTooltipPosition="left" matTooltip="View All">{{element?. ScreenRejectCount}}</a>
+                    </td>
+                  </ng-container>]
+                  <ng-container matColumnDef="screenRejctCountReferal">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Screen <br> Reject <br> Count <br> Referral</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.referralRejectCount === 0"
+                      (click)="openDetailsPanelWise(element,'referralregected',null,null,'Screen Reject Count Referral')"  matTooltipPosition="left" matTooltip="View All">{{element?.referralRejectCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="profAddCountNaukri">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Profile Add <br> Count- Naukri</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.NaukariProfileCount === 0"
+                      (click)="openDetailsPanelWise(element,'profile',null,2,'Profile  Naukri ')"   matTooltipPosition="left" matTooltip="View All">{{element?.NaukariProfileCount}}</a>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="profAddCountLinkedin">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Profile Add <br> Count- Linkedin</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.LinkedinProfileCount === 0"
+                      (click)="openDetailsPanelWise(element,'profile',null,1,' Linkedin Profile')" matTooltipPosition="left" matTooltip="View All">{{element?.LinkedinProfileCount}}</a>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="profAddCountSocialMedia">
+                    <th mat-header-cell *matHeaderCellDef class="short clr-blc">Profile Add <br> Count- Social <br> Media Source
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <a href="javascript:void(0)" [class.disabled-link]="element?.SocialMediaProfileCount === 0"
+                      (click)="openDetailsPanelWise(element, 'profile', null,6, 'Profile AddCount- Social Media Source')"  matTooltipPosition="left" matTooltip="View All">{{element?.SocialMediaProfileCount}}</a>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                  *ngIf="(RecruiterList | recruiterWiseFilter:searchInput).length === 0">
+                </app-no-result-found>
+              </div>
+              <!-- <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                  <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                </div> -->
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+
+<ng-template #popContent>
+  <div class="popover-wraps">
+    <div class="popover-wrap-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="popover-wrap-body">
+      <div class="list-chip">
+        <mat-chip-list aria-label="DU" class="lable-mat" *ngIf="dataList">
+          <ng-container *ngFor="let item of dataList">
+            <mat-chip *ngIf="item">{{item}}</mat-chip>
+          </ng-container>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+  <div class="pass-term">
+
+
+  </div>
+</ng-template>

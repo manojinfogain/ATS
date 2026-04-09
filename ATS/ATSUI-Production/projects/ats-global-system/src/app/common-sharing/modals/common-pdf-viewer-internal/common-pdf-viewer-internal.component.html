@@ -1,0 +1,19 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>    
+    <div class="ats-modal-body">
+      <app-ats-pdf-viewer [pdfBlob]="pdfPreviewData" [fileName]="documentName">
+            </app-ats-pdf-viewer>
+    </div>
+</div>
+    <!-- <div class="ats-modal-footer text-center">
+        <button type="button"  class="btn btn-infocon" (click)="sendOfferHandler()"
+        *ngIf="data?.OfferStatusID === 120">
+            Send Offer to {{data?.Name}}
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->

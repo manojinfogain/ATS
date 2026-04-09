@@ -1,0 +1,53 @@
+<div class="form-row" *ngIf="!isMultiple">
+    <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel" class="place-from-control">
+        <mat-label appRemoveAriaOwns >{{interviewByTitle}}</mat-label>
+        <mat-select [formControl]="interviewByControlOpt" (selectionChange)="getSelectId($event)">
+            <mat-option value="all">All</mat-option>
+            <mat-option *ngFor="let list of interviewByList"
+                [value]="list?.id">{{list?.interviewByName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</div>
+
+<!-- <div class="form-row" *ngIf="isMultiple">
+    <mat-form-field appearance="outline" class="place-from-control">
+      <mat-label>{{companyLocationTitle}}</mat-label>
+      <mat-select formControlName="location"   (selectionChange)="getSelectId($event)">
+        <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let list of locationData" [value]="list?.LocID">{{list?.LocName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div> -->
+
+<div class="select-ats-src" *ngIf="isMultiple">
+    <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+        <mat-label appRemoveAriaOwns >{{interviewByTitle}}</mat-label>
+        <mat-select [formControl]="interviewByControlOpt" [disableOptionCentering]="true" [required]="required"
+            multiple #select>
+            <mat-select-trigger>
+                {{multiSelectedVal.length !== 0 ? multiSelectedVal[0].viewValue : ''}}
+                <span *ngIf="interviewByControlOpt?.value?.length > 1" class="example-additional-selection">
+                    (+{{multiSelectedVal.length - 1}} {{interviewByControlOpt?.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+            </mat-select-trigger>
+            <br>
+            <!-- <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlCandiStatus"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder"
+                    [clearSearchInput]="false">
+
+                </ngx-mat-select-search>
+            </mat-option> -->
+            <div class="select-all">
+                <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+            </div>
+            <mat-option *ngFor="let list of interviewByList" [value]="list.id"
+                (click)="optionClick()">
+                {{list?.interviewByName}}
+            </mat-option>
+        </mat-select>
+
+    </mat-form-field>
+</div>

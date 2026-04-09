@@ -1,0 +1,63 @@
+<form [formGroup]="addCompanyForm" (ngSubmit)="addCompanyHandler(addCompanyForm)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <input type="hidden" >
+            <div class="ats-forms ats-forms-horz">
+                <div class="ats-form-col search-input">
+                    <mat-form-field class="place-from-control">
+                        <mat-label>Company Name</mat-label>
+                        <input matInput placeholder="Add Company" disableInitialSpace maxlength="100"
+                        minlength="4"
+                            formControlName="newCompany" disableInitialSpace required appCapitalizeWords>
+                       
+                        <mat-error *ngIf="getControl('newCompany').touched && getControl('newCompany').invalid">
+                            <div *ngIf="getControl('newCompany').errors.required">
+                               Please enter new company name.
+                            </div>
+                            <div *ngIf="getControl('newCompany').errors.minlength">
+                                Minimum 4 characters required.
+                             </div>
+                        </mat-error>
+                    </mat-form-field>
+              
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col">
+                    <mat-form-field >
+                        <mat-label appRemoveAriaOwns >Tier Type</mat-label>
+                        <mat-select formControlName="tierType" required>
+                            <!-- <mat-option
+                                *ngFor="let data of tierTypeList"
+                                [value]="data?.name">
+                               {{data?.name}} - {{ data?.tierDescr}} 
+                            </mat-option> -->
+                            <mat-option value="Tier 1">Tier 1 - 10 named competitor companies</mat-option>
+                            <mat-option value="Tier 2">Tier 2 - Companies with $200M revenue and above</mat-option>
+                            <mat-option value="Others">Other - Rest of the companies</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="getControl('tierType').touched && getControl('tierType').invalid">
+                            <div *ngIf="getControl('tierType').errors.required">
+                               Please select a tier.
+                            </div>  
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+                
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Add Company
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

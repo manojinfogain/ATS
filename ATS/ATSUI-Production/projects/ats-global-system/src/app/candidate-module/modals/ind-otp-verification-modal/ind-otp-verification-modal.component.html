@@ -1,0 +1,63 @@
+<form (ngSubmit)="submitOtpForm(offerSubmitFormGroup)" [formGroup]="offerSubmitFormGroup">
+    <div class="ats-modal-header">
+        <h1>OTP</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-otp-wrap">
+                <div class="sm-text welcms">
+                    <p *ngIf="isOtpSent" class="p-can">We have sent an OTP on your registered Email ID
+                        <strong>{{hiddenEmail}}</strong> to accept the offer.
+                        Please enter OTP in below given field.
+                    </p>
+                </div>
+                <div class="sm-text">
+
+                    <p class="p-can1" *ngIf="isExpShow">OTP will expire in <label class="timer-ui">
+                            <span class="tm">{{expMM}}</span>
+                            <span class="dot-t">:</span>
+                            <span class="tm">{{expSS}}</span>
+                        </label> Minutes.</p>
+                    <p class="p-can1" *ngIf="!isExpShow && isResendShow">OTP has been expired.
+                        Please click on resend button to get OTP.</p>
+                </div>
+
+                <div class="auth-form-row">
+                    <div class="otp-wrapper">
+                        <div class="input-wrap" formGroupName="item" *ngIf="t.length != 0">
+                            <ng-container *ngFor="let  items of t.controls; let i=index" [formGroupName]="i">
+                                <input class="form-control" type="text" formControlName="otpInput" onlyNumber
+                                    class="form-control" maxlength="1" (keyup)="keyUpEvent($event, i)"
+                                    [ngClass]="{ error: t.controls[i].controls['otpInput'].touched && t.controls[i].controls['otpInput'].invalid || submit && t.controls[i].controls['otpInput'].invalid }">
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-text">
+                    <p *ngIf="isResendText" class="p-can1"><strong>Didn't received OTP !</strong>
+                        .Resend OTP option
+                        will visible in <label class="timer-ui">
+                            <span class="tm">{{resendMM}}</span>
+                            <span class="dot-t">:</span>
+                            <span class="tm">{{resendSS}}</span>
+                        </label> Minutes.</p>
+                    <div class="resend">
+                        <a (click)="resendOtp()" href="javascript:void(0)"
+                            *ngIf="isResendShow">{{isError?'Send':'Resend'}} OTP</a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button  class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

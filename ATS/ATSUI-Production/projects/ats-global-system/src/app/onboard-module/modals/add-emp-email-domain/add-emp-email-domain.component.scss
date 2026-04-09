@@ -1,0 +1,19 @@
+:host ::ng-deep.prefix-inp{
+  .mat-form-field-outline-start{
+    width:53px !important
+  }
+  .mat-form-field-prefix{
+    position: static !important;
+  }
+}
+
+:host ::ng-deep.mat-hint-p{
+  .mat-hint{
+    font-size: 10px;
+    display: inline-block;
+    padding: 2px 5px;
+    background: #aeddff;
+    margin-top: 4px;
+    color: #0c4c79;
+  }
+}

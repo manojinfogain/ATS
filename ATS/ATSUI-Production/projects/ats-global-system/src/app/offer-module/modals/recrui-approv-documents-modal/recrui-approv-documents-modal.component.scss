@@ -1,0 +1,34 @@
+.btn-action {
+    justify-content: center !important;
+}
+
+
+
+.btn-action .btn-act {
+    border: none !important;
+}
+
+.btn-action .btn-act:last-child {
+    border-right: none !important;
+}
+
+.no-documents-msg-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+    p{
+        color: #ff00009c;
+    }
+}
+
+.box-v-ats {
+    padding-bottom: 0 !important;
+}
+
+.myColor{
+    background: red;
+}
+
+.ats-model-wrap .bgv-modal .mat-dialog-content {
+    min-height: 14vh !important;
+}

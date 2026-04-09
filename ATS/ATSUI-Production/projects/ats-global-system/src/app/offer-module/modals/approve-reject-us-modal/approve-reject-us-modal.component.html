@@ -1,0 +1,59 @@
+<form [formGroup]="approveRejectForm" (ngSubmit)="submitApproveRejectForm(approveRejectForm)">
+    <div class="ats-modal-header ata-text-cap">
+        <!-- <h1>{{data?.title}}</h1> -->
+        <h1>Approve/ Reject Offer - {{data?.Name}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz">
+                <!-- *ngIf="data?.actionFor == 'A'" -->
+                <div class="form-appr margin-top-4">
+                    <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark box-shadow-c">
+
+                        <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                            <label class="lb-title">Action<sup>*</sup> </label>
+                            <mat-radio-group aria-label="Select an option"
+                                formControlName="actionTaken">
+                                <mat-radio-button value="A">Approve</mat-radio-button>
+                                <mat-radio-button value="R"> Referred Back </mat-radio-button>
+                            </mat-radio-group>
+                            <!-- validate --><br>
+                            <mat-error class="error-aprrove-Reject"
+                                *ngIf="getControl('actionTaken')?.touched && getControl('actionTaken')?.invalid">
+                                <div *ngIf="getControl('actionTaken')?.errors.required">
+                                    Action is required.
+                                </div>
+                            </mat-error>
+                        </div>
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Remark</mat-label>
+                                <!-- <input matInput [placeholder]="'referring back to recruiter'" maxlength="500" disableInitialSpace
+                                    > -->
+                                <textarea matInput placeholder="'Referring back to recruiter" maxlength="500"
+                                    formControlName="remarks" disableInitialSpace>></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="ats-form-col">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Remarks" maxlength="500" formControlName="remarks"
+                        disableInitialSpace required>></textarea>
+                    </mat-form-field>
+                </div> -->
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

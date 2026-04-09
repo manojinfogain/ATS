@@ -1,0 +1,19 @@
+ .ats-modal-header {
+    height: 45px;
+}
+
+:host ::ng-deep.form-card-wrapper{
+    padding: 0px 100px;
+}
+
+:host ::ng-deep.paragraphP{
+    border-bottom: 1px solid black;
+    text-align: justify;
+}
+:host ::ng-deep.span1 {
+    display: inline-block;
+    margin-bottom: -1px;
+}
+:host ::ng-deep.span2 {
+    border-bottom: 1px solid black;
+}

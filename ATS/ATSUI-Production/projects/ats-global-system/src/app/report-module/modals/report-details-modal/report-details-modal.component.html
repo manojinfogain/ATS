@@ -1,0 +1,275 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="rep-can-wrap">
+            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                <div class="view-list-bx">
+                    <h4>Talent ID :</h4>
+                    <p>{{candiData?.TalentId || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>CID :</h4>
+                    <p>{{candiData.cid ? cidPrefix+candiData.cid : '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Name :</h4>
+                    <p>{{candiData?.CandidateName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Email :</h4>
+                    <p>{{candiData?.Email || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Primary Skill :</h4>
+                    <p>{{candiData?.PrimarySkill || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Sub Skill :</h4>
+                    <p>{{candiData?.SubSkill || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Account Name :</h4>
+                    <p>{{candiData?.AccountName || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Global Delivery Lead :</h4>
+                    <p>{{candiData?.DU || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Marked to External Hiring :</h4>
+                    <p>{{(candiData?.MarkToExternalHiringDate | date:'dd MMM yyyy') || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>JD Clarification :</h4>
+                    <p>{{(candiData?.JDClarificationDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Panel Available :</h4>
+                    <p>{{(candiData?.PanelAvailableDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Sourcing Date :</h4>
+                    <p>{{(candiData?.SourcingDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Screening Round :</h4>
+                    <p>{{(candiData?.ScreeningDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Screening Round Status :</h4>
+                    <p>{{candiData?.ScreeningRoundStatus || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Technical Round 1 :</h4>
+                    <p>{{(candiData?.TechanicalRound1Date | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Technical Round 1 Status :</h4>
+                    <p>{{candiData?.TechanicalRound1Status || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Technical Round 2 :</h4>
+                    <p>{{(candiData?.TechanicalRound2Date | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Technical Round 2 Status :</h4>
+                    <p>{{candiData?.TechanicalRound2Status || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Technical Round 3 :</h4>
+                    <p>{{(candiData?.TechanicalRound3Date | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Technical Round 3 Status :</h4>
+                    <p>{{candiData?.TechanicalRound3Status || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Customer Round 1 :</h4>
+                    <p>{{(candiData?.CustomerRound1Date | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Customer Round 1 Status :</h4>
+                    <p>{{candiData?.CustomerRound1Status || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Customer Round 2 :</h4>
+                    <p>{{(candiData?.CustomerRound2Date | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Customer Round 2 Status :</h4>
+                    <p>{{candiData?.CustomerRound2Status || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Managerial Round :</h4>
+                    <p>{{(candiData?.ManagialRoundDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Managerial Round Status :</h4>
+                    <p>{{candiData?.ManagialRoundStatus || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>HR Round :</h4>
+                    <p>{{(candiData?.HRRoundDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>HR Round Status :</h4>
+                    <p>{{candiData?.HRRoundStatus || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Offer Approval Sent :</h4>
+                    <p>{{(candiData?.OfferApprovalSentDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Approval Received TAG :</h4>
+                    <p>{{(candiData?.ApprovalReceivedTAGDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Rejection TAG :</h4>
+                    <p>{{(candiData?.ApprovalRejectionByTAG | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Received DP / PDL / SDP :</h4>
+                    <p>{{(candiData?.ApprovalReceivedDHDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Rejection DP / PDL / SDP :</h4>
+                    <p>{{(candiData?.ApprovalRejectionByDH | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Received GDL :</h4>
+                    <p>{{(candiData?.ApprovalReceivedSVPDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Rejection GDL :</h4>
+                    <p>{{(candiData?.ApprovalRejectionBySVP | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Approval Received COO :</h4>
+                    <p>{{(candiData?.ApprovalReceivedCOODate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Approval Rejection COO :</h4>
+                    <p>{{(candiData?.ApprovalRejectionByCOO | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Offer Generation :</h4>
+                    <p>{{(candiData?.OfferGenerationDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Reason for Drop :</h4>
+                    <ng-container *ngIf="candiData?.status == 240 || candiData?.status == 260 ;else candidateNotDrop">
+                        <p>{{candiData?.ResonforDrop}}</p>
+                    </ng-container>
+                    <ng-template #candidateNotDrop>
+                        {{'-'}}
+                    </ng-template>
+                   
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" >
+                    <h4>Drop Remark :</h4>
+                    <ng-container *ngIf="candiData?.status == 240 || candiData?.status == 260 ; else candidateNotDrop">
+                        <p>{{candiData?.DropRemark || '-'}}</p>
+                    </ng-container>
+                    <ng-template #candidateNotDrop>
+                        {{'-'}}
+                    </ng-template>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Recruiter :</h4>
+                    <p>{{candiData?.RectruiterName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Recruiter's Lead Name :</h4>
+                    <p>{{candiData?.RectruiterRMName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Source Type :</h4>
+                    <p>{{candiData?.Source || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Source Name :</h4>
+                    <p>{{candiData?.SourceName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Offer Acceptance Date :</h4>
+                    <p>{{(candiData?.OfferAcceptanceDate | date:'dd MMM yyyy')|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Status :</h4>
+                    <p>{{candiData?.CandiadteStatus || '-'}}</p>
+                </div>
+                <!-- end -->
+            
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->

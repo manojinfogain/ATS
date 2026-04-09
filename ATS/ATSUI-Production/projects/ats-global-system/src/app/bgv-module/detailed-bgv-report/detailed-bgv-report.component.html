@@ -1,0 +1,403 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <!-- <div class="search-input float-left">
+                    <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true"
+                        [isSelectedRequisition]="true">
+                    </app-auto-complete-talentid>
+                </div> -->
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Name / Employee ID'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By Name / Employee ID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportAsXLSX()">
+                                                        <i class="fas fa-file-download ex-icon"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort (getSortFormData)="getSortData($event)"
+                                                        [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                                        [offerStatus]="true" [offrStatusMulti]="true"
+                                                        [offerStatusIds]="[140, 160, 200, 220,240,260]" [dateRangeStartToEnd]="true"
+                                                        [dateRangeTitle2]="'By Joining Date'" [companyLocation]="true"
+                                                        [LocationMulti]="true" [companyLocationIds]="[1,2,4,5,16,]"
+                                                        [bgvFinalStatus]="true" [bgvFinalStatusMulti]="true"></app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <!-- Employee Code -->
+                                    <ng-container matColumnDef="employeeCode">
+                                        <th mat-header-cell *matHeaderCellDef>Employee Code</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.EmployeeCode || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Type of Offer -->
+                                    <ng-container matColumnDef="typeOfOffer">
+                                        <th mat-header-cell *matHeaderCellDef>Type of Offer</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.TypeOfOffer || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- DOJ -->
+                                    <ng-container matColumnDef="doj">
+                                        <th mat-header-cell *matHeaderCellDef>Date Of Joining </th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DOJ | date:'dd MMM yyyy' ||
+                                            '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Interim Report 1 Received -->
+                                    <ng-container matColumnDef="interimReport1Received">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Received</th>
+                                        <td mat-cell *matCellDef="let element">{{(element?.InterimReport1Received | date:'dd MMM yyyy') || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Interim Report 1 Status -->
+                                    <ng-container matColumnDef="interimReport1Status">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 1 Status</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.InterimReport1Status">
+                                                <ng-container *ngSwitchCase="'Red'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.InterimReport1Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Green'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.InterimReport1Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Orange'">
+                                                    <button class="btn-status-dg rv" type="button">
+                                                        {{element?.InterimReport1Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg" type="button">
+                                                        {{element?.InterimReport1Status || '-'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- SLA_Interim 1 (From Date of Joining) -->
+                                    <ng-container matColumnDef="slaInterim1FromDoj">
+                                        <th mat-header-cell *matHeaderCellDef>SLA_Interim 1 (From Date of Joining)</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.SLA_Interim1_FromDOJ || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- SLA_Interim 2(From Date of Initiation) -->
+                                    <ng-container matColumnDef="slaInterim2FromInitiation">
+                                        <th mat-header-cell *matHeaderCellDef>SLA_Interim 2(From Date of Initiation)
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element?.SLA_Interim2_FromInitiation ||
+                                            '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Walson ID -->
+                                    <ng-container matColumnDef="walsonId">
+                                        <th mat-header-cell *matHeaderCellDef>Walson ID</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.WalsonID || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Offer No. -->
+                                    <ng-container matColumnDef="offerNo">
+                                        <th mat-header-cell *matHeaderCellDef>Offer No.</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.OfferNo || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Candidate Name -->
+                                    <ng-container matColumnDef="candidateName">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.CandidateName || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Candidate joining location -->
+                                    <ng-container matColumnDef="joiningLocation">
+                                        <th mat-header-cell *matHeaderCellDef>Joining Location</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.JoiningLocation || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Date of Offer -->
+                                    <ng-container matColumnDef="dateOfOffer">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Offer</th>
+                                        <td mat-cell *matCellDef="let element">{{(element?.DateOfOffer | date:'dd MMM yyyy') || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Date of Initiation -->
+                                    <ng-container matColumnDef="dateOfInitiation">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Initiation</th>
+                                        <td mat-cell *matCellDef="let element">{{(element?.DateOfInitiation | date:'dd MMM yyyy') || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Expected Date For Interim Report -->
+                                    <ng-container matColumnDef="expectedDateForInterimReport">
+                                        <th mat-header-cell *matHeaderCellDef>Expected Date For Interim Report 2</th>
+                                        <td mat-cell *matCellDef="let element">{{(element?.ExpectedDateForInterimReport | date:'dd MMM yyyy') || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Interim Report 2 Received -->
+                                    <ng-container matColumnDef="interimReport2Received">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Received</th>
+                                        <td mat-cell *matCellDef="let element">{{(element?.InterimReport2Received | date:'dd MMM yyyy') || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Interim Report 2 Status -->
+                                    <ng-container matColumnDef="interimReport2Status">
+                                        <th mat-header-cell *matHeaderCellDef>Interim Report 2 Status</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.InterimReport2Status">
+                                                <ng-container *ngSwitchCase="'Red'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.InterimReport2Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Green'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.InterimReport2Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Orange'">
+                                                    <button class="btn-status-dg rv" type="button">
+                                                        {{element?.InterimReport2Status}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg" type="button">
+                                                        {{element?.InterimReport2Status || '-'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- YTR Initiation Date -->
+                                    <ng-container matColumnDef="ytrInitiationDate">
+                                        <th mat-header-cell *matHeaderCellDef>YTR Initiation Date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.YTRInitiationDate | date:'dd MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Expected Final Closer date -->
+                                    <ng-container matColumnDef="expectedFinalCloserDate">
+                                        <th mat-header-cell *matHeaderCellDef>Expected Final Closer date</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.ExpectedFinalCloserDate | date:'dd MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Date of Final Report Received -->
+                                    <ng-container matColumnDef="dateOfFinalReportReceived">
+                                        <th mat-header-cell *matHeaderCellDef>Date of Final Report Received</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DateOfFinalReportReceived | date:'dd MMM yyyy' || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Status of Final Report -->
+                                    <ng-container matColumnDef="statusOfFinalReport">
+                                        <th mat-header-cell *matHeaderCellDef>Status of Final Report</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <ng-container [ngSwitch]="element?.StatusOfFinalReport">
+                                                <ng-container *ngSwitchCase="'Red'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.StatusOfFinalReport}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Green'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.StatusOfFinalReport}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="'Orange'">
+                                                    <button class="btn-status-dg rv" type="button">
+                                                        {{element?.StatusOfFinalReport}}
+                                                    </button>
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    <button class="btn-status-dg" type="button">
+                                                        {{element?.StatusOfFinalReport || '-'}}
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- SLA Calculation -->
+                                    <ng-container matColumnDef="slaCalculation">
+                                        <th mat-header-cell *matHeaderCellDef>SLA Calculation</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.SLACalculation || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Joining Status -->
+                                    <ng-container matColumnDef="joiningStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Joining Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.JoiningStatus || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Remarks -->
+                                    <ng-container matColumnDef="remarks">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Remarks</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.Remarks || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Penalty Month (If any) -->
+                                    <ng-container matColumnDef="penaltyMonth">
+                                        <th mat-header-cell *matHeaderCellDef>Penalty Month (If any)</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.PenaltyMonth || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Insuff Document -->
+                                    <ng-container matColumnDef="insuffDocument">
+                                        <th mat-header-cell *matHeaderCellDef>Insuff Document</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.InsuffDocument || '-'}}</td>
+                                    </ng-container>
+                                     <ng-container matColumnDef="extraCostAppr">
+                                        <th mat-header-cell *matHeaderCellDef>Extra Cost Approval</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.extraCostApproval || '-'}}</td>
+                                    </ng-container>
+
+
+
+                                    <!-- Drug Test -->
+                                    <ng-container matColumnDef="drugTest">
+                                        <th mat-header-cell *matHeaderCellDef>Drug Test Required</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DTRequired || '-'}}</td>
+                                    </ng-container>
+
+                                     <!-- Drug Test Status-->
+                                    <ng-container matColumnDef="drugTestStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Drug Test Status</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DTStatus || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Drug Test Cost -->
+                                    <ng-container matColumnDef="drugTestCost">
+                                        <th mat-header-cell *matHeaderCellDef>Drug Test Cost</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.DTAmount || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- YTR (Amount) -->
+                                    <ng-container matColumnDef="ytrAmount">
+                                        <th mat-header-cell *matHeaderCellDef>YTR (Amount)</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.YTRAmount || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Paid Month -->
+                                    <ng-container matColumnDef="paidMonth1">
+                                        <th mat-header-cell *matHeaderCellDef>YTR Paid Month</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.YTRPaidMonth || '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Status (Paid /Unpaid) Amount -->
+                                    <ng-container matColumnDef="statusPaidUnpaidAmount">
+                                        <th mat-header-cell *matHeaderCellDef>Status (Paid /Unpaid) Amount</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.StatusPaidUnpaidAmount ||
+                                            '-'}}</td>
+                                    </ng-container>
+
+                                    <!-- Paid Month -->
+                                    <ng-container matColumnDef="paidMonth2">
+                                        <th mat-header-cell *matHeaderCellDef>Final Report Paid Month</th>
+                                        <td mat-cell *matCellDef="let element">{{element?.FinalReportPaidMonth || '-'}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            <div class="btn-action btn-action-centerz">
+                                                <div class="btn-act" *ngIf="userData?.RoleId === 1 && element?.IsPenaltyMonthDetailsSaved != 1">
+                                                    <button mat-button type="button"
+                                                        matTooltip="Update Other BGV Details"
+                                                        (click)="updateOtherBGVDetailsModal(element)">
+                                                        <span class="material-icons-round">
+                                                            edit
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                                 <!--  -->
+                                                  <div class="btn-act" *ngIf="userData?.RoleId === 1 && element?.IsInterim1Available == 'Y'">
+                                                    <button mat-button type="button"
+                                                        matTooltip="View / Download Interim Report 1"
+                                                        (click)="viewDownloadInterimReport1(element,'I1')">
+                                                        <span class="material-icons-round">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                                 <div class="btn-act" *ngIf="userData?.RoleId === 1 && element?.IsInterim2Available == 'Y'">
+                                                    <button mat-button type="button"
+                                                        matTooltip="View / Download Interim Report 2"
+                                                        (click)="viewDownloadInterimReport1(element,'I2')">
+                                                        <span class="material-icons-round">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                                 <div class="btn-act" *ngIf="userData?.RoleId === 1 && element?.IsFinalReportAvailable == 'Y'">
+                                                    <button mat-button type="button"
+                                                        matTooltip="View / Download Final Report"
+                                                        (click)="viewDownloadInterimReport1(element,'F')">
+                                                        <span class="material-icons-round">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="candidateList?.length === 0 || candidateList?.length === null">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

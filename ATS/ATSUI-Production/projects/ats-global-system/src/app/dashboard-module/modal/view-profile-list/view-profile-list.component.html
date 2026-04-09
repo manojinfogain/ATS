@@ -1,0 +1,324 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+  <h1>{{data?.title}}</h1>
+
+  <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+
+  <div class="ats-modal-body">
+    <div class="profile-list-wrapper">
+      <div class="header-s">
+        <div class="left-s-av"></div>
+        <div class="search-bars">
+          <div class="filter-at-wrapper">
+            <div class="s-fil">
+              <div class="erp-search-input" >
+                <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/ Email/ Phone'"
+                [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+              </div>
+            </div>
+            <div class="s-fil">
+              <div class="act-header-btn">
+                <ul>
+                  <!-- <li>
+                    <button mat-button class="act-button" matTooltip="Download Cskill" (click)="exportAsXLSX()">
+                      <i class="fas fa-file-download ex-icon"></i>
+                    </button>
+                  </li> -->
+                  <li *ngIf="data?.isAIVisible == 1">
+                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter" 
+                       [isRangeSlider]="data?.isAIVisible == 1"
+                       (getSortFormData)="getSortData($event)"
+                      [rangeSliderLabel]="'Profile Match (%)'" 
+                      [rangeSliderLabelHover]="''" [rangeSliderceil]="100" [rangeSliderfloor]="1"
+                      ></app-filter-sort>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="table-data-scroll-pop" *ngIf="candidateList">
+        <table mat-table [dataSource]="candidateList" class="table-mat-info">
+          <!-- Candidate Name Column -->
+          <ng-container matColumnDef="Candidate Name">
+            <th mat-header-cell *matHeaderCellDef> Candidate Names </th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.name}}
+            </td>
+          </ng-container>
+
+          <!-- Email ID Column -->
+          <ng-container matColumnDef="Email ID">
+            <th mat-header-cell *matHeaderCellDef>Email ID </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.email}}
+            </td>
+          </ng-container>
+          <!-- Phone No. Column -->
+          <ng-container matColumnDef="Phone No.">
+            <th mat-header-cell *matHeaderCellDef> Phone No. </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.CountryCode?'+'+element?.CountryCode + '-':''}} {{element?.mobile_number}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="primarySkill">
+            <th mat-header-cell *matHeaderCellDef>Skill </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.pSkillName}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="secondarySkill">
+            <th mat-header-cell *matHeaderCellDef>Additional Skill</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.sSkillName}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalExperience">
+            <th mat-header-cell *matHeaderCellDef> Total Experience </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.totalExpInYear+' Year' || ''}}
+              {{element?.totalExpInMonth+' Month' || ''}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="releventExperience">
+            <th mat-header-cell *matHeaderCellDef> Relevent Experience</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.releventExpInYear+' Year' || ''}}
+              {{element?.releventExpInMonth+' Month' || ''}}
+            </td>
+          </ng-container>
+          <!-- [ngClass]="{'hide-col': isDobVisible == true}" -->
+          <!-- <ng-container  matColumnDef="dob">
+            <th mat-header-cell *matHeaderCellDef >Date of Birth</th>
+            <td mat-cell *matCellDef="let element" >
+              <ng-container *ngIf="isDobVisible == true; else newDeb"  >
+                <span > {{(element?.dob | date:"mediumDate") || '-'}} </span>
+              </ng-container>
+              <ng-template #newDeb>
+               NA
+              </ng-template>
+            </td>
+          </ng-container> -->
+          <!-- [ngClass]="hideByLoc()?.class"
+          [ngClass]="{'hide-col' : isDobVisible}" -->
+          <ng-container matColumnDef="dob">
+            <ng-container >
+              <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
+              <td mat-cell *matCellDef="let element">
+                {{(element?.dob | date:"mediumDate")|| '-'}}
+              </td>
+            </ng-container>
+
+          </ng-container>
+          <ng-container matColumnDef="Rating">
+            <ng-container >
+              <th mat-header-cell *matHeaderCellDef>{{labelResumeRating?.gridRatingLabel}}</th>
+              <td mat-cell *matCellDef="let element">
+                {{element?.OverallPercentage == null ?' - ' : element?.OverallPercentage + '%'}}
+              </td>
+            </ng-container>
+
+          </ng-container>
+          <!-- <ng-container matColumnDef="Status">
+              <th mat-header-cell *matHeaderCellDef>Status </th>
+              <td mat-cell *matCellDef="let element">
+                {{element?.STATUS}}
+              </td>
+            </ng-container> -->
+          <ng-container matColumnDef="referedBy">
+            <th mat-header-cell *matHeaderCellDef>Referred By</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.referredBy || '-'}}
+            </td>
+          </ng-container>
+
+          <!-- end column -->
+          <ng-container matColumnDef="referedOn">
+            <th mat-header-cell *matHeaderCellDef>Referred On</th>
+            <td mat-cell *matCellDef="let element;">
+              {{(element?.referredOn| date:'dd MMM yyyy') || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ScreenStatus">
+            <th mat-header-cell *matHeaderCellDef>Screen Status</th>
+            <td mat-cell *matCellDef="let element;">
+              <!-- {{element?.isScreenRejected === 1? 'Screen Rejected':'-'}} -->
+              <ng-container *ngIf="element.isScreenRejected === 1; else newDeb">
+                <span class="btn-status-dg rejects">Screen Rejected </span>
+                <!-- Screen Rejected  -->
+              </ng-container>
+              <ng-template #newDeb>
+                -
+              </ng-template>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ScreenRejectReason">
+            <th mat-header-cell *matHeaderCellDef>Reject Reason</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element.isScreenRejected === 1 ? element?.ScreenRejectReason : '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef>Approver</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.ApproverName || '-'}}
+            </td>
+          </ng-container>
+           <ng-container matColumnDef="dumpedOn">
+            <ng-container >
+              <th mat-header-cell *matHeaderCellDef>Profile Added On</th>
+              <td mat-cell *matCellDef="let element">
+                {{ (element?.AppicantDate | date:"mediumDate") || '-' }}
+              </td>
+            </ng-container>
+              <ng-container matColumnDef="CandidateStatus">
+            <th mat-header-cell *matHeaderCellDef>Candidate Status</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.CandidateStatus || '-'}}
+            </td>
+          </ng-container>
+
+          </ng-container>
+          <ng-container matColumnDef="approvalStatus">
+            <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+            <td mat-cell *matCellDef="let element;">
+              <ng-container [ngSwitch]="element?.StatusApr">
+                <ng-container *ngSwitchCase="'P'">
+                  <button class="btn-status-dg schedule" type="button">
+                    Pending
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'R'">
+                  <button class="btn-status-dg rejects" type="button">
+                    Rejected
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'A'">
+                  <button class="btn-status-dg shortlisted" type="button">
+                    Approved
+                  </button>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  -
+                </ng-container>
+                </ng-container>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef>Action </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <div class="btn-action">
+                
+                  <div class="btn-act" *ngIf="(element?.IsFromNaukriAPI === 'Y')">
+                  <button mat-button type="button" matTooltip="View Applicant Details" (click)="openApplicantDetailsModal(element)">
+                    <!-- <i class="fas fa-user"></i> -->
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <ng-container *ngIf="element?.IsProfilesAI == 0">
+                  <div class="btn-act"  *ngIf="data.list.id == 4 || (element?.IsFromNaukriAPI === 'Y' && isRenuIntSchedule(element))">
+                    <button mat-button type="button" (click)="screenRejectMethod(element)"
+                      [ngClass]="{'forScreenRejectColor': element?.isScreenRejected === 0}"
+                      [matTooltip]="element?.CandidateStatusId == 20?'Pre Screen Select' : 'Screen Reject'">
+                      <i class="fas fa-user-slash"></i>
+                    </button>
+                  </div>
+                   <!-- <div class="btn-act" *ngIf="isEditable(element)">
+                  <button mat-button type="button" [matTooltip]="toolTip(element)" (click)="openUpdateProfileModal(element,isView(element)?'View Profile':'Update Profile')">
+                    <i class="fas fa-eye" *ngIf="isView(element)"></i>
+                    <i class="fa fa-pencil-square" aria-hidden="true" *ngIf="!isView(element)"></i>
+                  </button>
+                </div> -->
+                <ng-container  *ngIf="data?.isAIVisible == 1">
+                   <div class="btn-act" *ngIf="isEditable(element) && data?.list?.id != 15">
+                  <button mat-button type="button" [matTooltip]="'Update Profile'" (click)="openUpdateProfileModalFull(element)">
+                 
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                  </button>
+                </div>
+                 <div class="btn-act" *ngIf="isEditable(element) && data?.list?.id == 15">
+                  <button mat-button type="button" [matTooltip]="'Update Profile'" (click)="openUpdateProfileModal(element,isView(element)?'View Profile':'Update Profile')">
+                 
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                  </button>
+                </div>
+                </ng-container>
+                 <ng-container  *ngIf="data?.isAIVisible == 0">
+                   <div class="btn-act" *ngIf="isEditable(element)">
+                  <button mat-button type="button" [matTooltip]="toolTip(element)" 
+                  (click)="openUpdateProfileModal(element,isView(element)?'View Profile':'Update Profile')">
+                 
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                  </button>
+                </div>
+                </ng-container>
+                 
+                <div class="btn-act" *ngIf="isRenuIntSchedule(element)">
+                  <button mat-button type="button" matTooltip="Schedule Interview"
+                    [disabled]="element?.isScreenRejected === 1" (click)="scheduleIntHandler(element)">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+                </ng-container>
+                
+                <div class="btn-act">
+                  <a mat-button href="javascript:void(0)" (click)="dwnloadFileSingle(element)"
+                    matTooltip="View/Download Resume">
+                    <i class="fas fa-download"></i>
+                  </a>
+                </div>
+                <!-- end -->
+
+               
+                <div class="btn-act" *ngIf="data?.isAIVisible == 1">
+                  <button mat-button type="button" [matTooltip]="labelResumeRating?.tooltipResumeRatingAction"
+                    (click)="openCandidateRatingDetailsModal(element)">
+                    <span class="material-icons-outlined">
+                      calculate
+                      </span>
+                  </button>
+                </div>
+
+                <div class="btn-act" *ngIf="element?.IsProfilesAI == 1 && data?.isAIVisible == 1">
+                  <button mat-button type="button" [matTooltip]="'Screen Profile'" (click)="screenprofilesUn(element)">
+                    <span class="material-icons-outlined">
+                      contact_emergency
+                    </span>
+                  </button>
+                </div>
+                </div>
+              <!-- <button class="btn-edit-info" placement="left" ngbTooltip="Edit" (click)="openUpdateProfileModal(element)">
+                   <i class="fas fa-pencil-alt"></i>
+                </button> -->
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+            [ngClass]="{
+            'disabled-row': row?.IsProfileScreened == 1 && row?.IsProfilesAI == 1,
+            'highlight-row':row?.IsProfileScreened == 0 && row?.IsProfilesAI == 1
+          }"></tr>
+        </table>
+
+        <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList?.length === 0"></app-no-result-found>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ats-modal-footer">
+  <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+    (sendPagingData)="getPagingData($event)" [pageSizeOptions]="pazeOption" [pageSize]="pazeSize">
+  </app-custom-paginator>
+</div>

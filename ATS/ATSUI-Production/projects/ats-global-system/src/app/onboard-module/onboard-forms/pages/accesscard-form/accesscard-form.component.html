@@ -1,0 +1,65 @@
+<div class="form-card-wrapper">
+    <h2>{{data?.title}}</h2>
+    <div class="form-logo">
+        <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+    </div>
+    <div class="table-o-at">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td class="title-tb">Name</td>
+                    <td>  {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+' '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}}</td>
+                </tr>
+                <tr>
+                    <td class="title-tb">Emergency Contact Number</td>
+                    <td> {{data?.accCardFormDetails?.EmergContactNumberAccessCard || '-'}}</td>
+                </tr>
+                <tr>
+                    <td class="title-tb">Blood Group</td>
+                    <td>{{(data?.candidatePersonalDetails?.BloodGroup ? data?.candidatePersonalDetails?.BloodGroup : '')}}
+                        <ng-container [ngSwitch]="data?.candidatePersonalDetails?.BloodGroupRh">
+                            <ng-container *ngSwitchCase="'P'">
+                                (+Positive)
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'N'">
+                                (-Negative)
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'U'">
+                                Unknown
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                
+                            </ng-container>
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                    <td class="title-tb">Employee Code</td>
+                    <td>-</td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2">
+                    <td class="title-tb">Current Address</td>
+                    <td>
+                        {{(data?.candidatePersonalDetails?.AddressLine1 ? data?.candidatePersonalDetails?.AddressLine1 : '')+' '+
+                        (data?.candidatePersonalDetails?.AddressLine2 ? data?.candidatePersonalDetails?.AddressLine2 : '')+' '+
+                        (data?.candidatePersonalDetails?.AddressLine3 ? data?.candidatePersonalDetails?.AddressLine3 : '')+','+
+                        (data?.candidatePersonalDetails?.cr_city ? data?.candidatePersonalDetails?.cr_city : '')+','+
+                        (data?.candidatePersonalDetails?.cr_state ? data?.candidatePersonalDetails?.cr_state : '')+','+
+                        (data?.candidatePersonalDetails?.cr_countryName ? data?.candidatePersonalDetails?.cr_countryName : '')+','+
+                        (data?.candidatePersonalDetails?.cr_postalCode ? data?.candidatePersonalDetails?.cr_postalCode : '')}}
+                    </td>
+                </tr>
+                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2">
+                    <td class="title-tb">Phone No.</td>
+                    <td>
+                        {{data?.candidatePersonalDetails?.phone || '-'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  
+
+
+
+</div>

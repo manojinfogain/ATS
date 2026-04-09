@@ -1,0 +1,35 @@
+.act-header-btn ul > li .act-button.delegate-btn {
+   font-size: 12px;
+}
+
+:host ::ng-deep.wht-break{
+    white-space: nowrap !important;
+
+}
+::ng-deep .mat-sort-header-container:not(.mat-sort-header-sorted) .mat-sort-header-arrow {
+    opacity: 0.54 !important;
+    transform: translateY(0px) !important;
+  }
+:host ::ng-deep.wht-more{
+    white-space: nowrap !important;
+    color: #fbfbfb !important;
+    background: #1f6a9f;
+    font-size: 11px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 1px;
+    border-radius: 2px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.7;
+    }
+
+}
+:host ::ng-deep.flat-boxes-wrap{
+    display: flex;
+    align-items: center;
+    .search-input{
+        width:auto !important;
+    }
+
+}

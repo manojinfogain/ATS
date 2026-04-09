@@ -1,0 +1,68 @@
+.contract-radio {
+    width: 180px !important;
+    //   width: 406px !important;
+
+}
+
+.start-end-date-wrap {
+    width: 203px;
+}
+
+.width-200 {
+    width: 200px;
+}
+
+.disable-pointer {
+    pointer-events: none !important;
+    cursor: not-allowed;
+    cursor: no-drop !important;
+
+}
+
+.block-area-last {
+    //  display: block;
+    //width: 84% !important;
+}
+
+
+.partner-registration-section {
+    width: 100%;
+    .partner-details-section {
+        border: solid 1px #80808021;
+        padding: 3px 6px;
+
+        .heading-wrapper {
+            padding: 3px 10px;
+            font-size: 14px;
+    padding: 4px 0;
+    border-bottom: solid 1px #ddd;
+            h4 {
+                font-size: 14px;
+                padding: 4px 0;
+            }
+        }
+
+        .partner-details-form-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            padding-top: 8px;
+        }
+    }
+
+    .partner-multi-contracts-sec {
+        width: 100%;
+        border: solid #80808026 1px;
+        margin-top: 8px;
+        
+    }
+    // .heading-wrapper-p{
+    //     h3 {
+    //         font-size: 16px;
+    //     }
+    // }
+}
+
+// .contract-width{
+   
+//      width: 402px !important;
+//  }

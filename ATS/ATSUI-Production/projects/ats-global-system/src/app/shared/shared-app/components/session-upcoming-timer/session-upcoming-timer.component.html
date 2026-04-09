@@ -1,0 +1,5 @@
+<!-- <div *ngIf="!IsPrivateSession" class="countdown-timer"><countdown [config]="{ leftTime: leftTime, formatDate:formatTimer }"></countdown></div>
+<span *ngIf="IsPrivateSession" class="countdown-timer"><countdown [config]="{ leftTime: leftTime, format: 'mm:ss' }" (event)="handleEvent($event)"></countdown></span> -->
+<div class="countdown-timer">
+    <countdown [config]="{ leftTime: leftTime, formatDate:formatTimer }"></countdown>
+</div>

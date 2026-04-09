@@ -1,0 +1,93 @@
+image-cropper {
+    max-height: 50vh;
+  }
+  .upload-input-sec{
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+ 
+  .width-1000 {
+    width: 1000px;
+  }
+ 
+  input[type=file] {
+   border: 1px solid #088d7a;
+   box-shadow: 1px 3px 4px rgb(162 155 254);
+ }
+ input[type=file]::file-selector-button {
+   border: 1px solid #088d7a;
+   padding: .3em .4em;
+   background-color: #088d7a;
+   transition: 1s;
+   color: #fff;
+ }
+ 
+ input[type=file]::file-selector-button:hover {
+   background-color: #1d4794;
+   border: 1px solid #1d4794;
+ }
+:host ::ng-deep.mat-progress-bar-fill::after {
+  background-color: #3F51B5;
+  background: repeating-linear-gradient(45deg, #3F51B5, transparent 15px);
+}
+.mat-progress-bar{
+  height: 9px;
+}
+
+ .voice-imprint-loader{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #0000009e;
+  top: 0;
+  left: 0;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    .imprint-inner{
+      background: #fffffff2;
+    padding: 4px 0;
+    padding-top: 1px;
+    border-radius: 4px;
+    }
+    p{
+      color: #000000;
+      font-size: 13px;
+      margin: 0;
+      padding: 3px 4px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      &.ptn{
+        color: red;
+      }
+    }
+ }
+ .voice-imprint-status{
+    ul{
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      justify-content: space-around;
+    margin-bottom: 10px;
+      li{
+        padding: 7px 21px;
+        /* background: red; */
+        border: solid 1px #ddd;
+         label{
+          margin: 0;
+          font-weight: bold;
+          font-family: Arial, Helvetica, sans-serif;
+          .s-vm{
+             color: #000000;
+          }
+          .s-vm2{
+            color: #098188;
+         }
+         }
+      }
+    }
+ }

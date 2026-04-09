@@ -1,0 +1,340 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+          <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true"
+            [isSelectedRequisition]="true">
+          </app-auto-complete-talentid>
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h"></div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                      [placeHolder]="'Search By CID/ Name/ Email/ Talent ID'" [searchServerSide]="true"
+                      [isReset]="isResetSearch" matTooltip="Search By CID/ Name/ Email/ Talent ID"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <li>
+                          <button mat-button class="act-button" matTooltip="Download" (click)="exportAsXLSX()">
+                            <i class="fas fa-file-download ex-icon"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter"
+                            [isResetForm]="isResetFilter" [offerStatus]="true" [offrStatusMulti]="true"
+                            [dateRangeStartToEnd]="true" [dateRangeTitle2]="'By Joining Date'" [companyLocation]="true"
+                            [LocationMulti]="true"></app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+                  <!-- <ng-container matColumnDef="IsLeadership">
+                      <th mat-header-cell *matHeaderCellDef> IsLeadership</th>
+                      <td mat-cell *matCellDef="let element"> {{element?.IsLeadership == 1 ? 'Leadership': ''}}</td>
+                    </ng-container> -->
+                  <ng-container matColumnDef="talentId">
+                    <th mat-header-cell *matHeaderCellDef> Talent ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.talentID || '-'}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Cid">
+                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                      {{cidColName}} </th>
+                    <td class="text-center" mat-cell *matCellDef="let element;">
+                      {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Candidate Name Column -->
+                  <ng-container matColumnDef="CandidateName">
+                    <th mat-header-cell *matHeaderCellDef>Candidate Name </th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.Name || '-'}}
+                      <!-- {{element.OfferModifiedOn |date}} -->
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="primarySkill">
+                    <th mat-header-cell *matHeaderCellDef> Skill
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.skillName || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="EmailID">
+                    <th mat-header-cell *matHeaderCellDef> Email ID </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.email || '-'}}
+                    </td>
+                  </ng-container>
+
+                  <!-- Phone No. Column -->
+                  <ng-container matColumnDef="PhoneNo">
+                    <th mat-header-cell *matHeaderCellDef> Phone No. </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.phone || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="priRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Primary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.primaryrecruiterName ? element?.primaryrecruiterName : '' }}
+                      ({{ element?.primaryrecruiter ? element?.primaryrecruiter : '-'}})
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="secondRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Secondary Recruiter</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.secondaryrecruiterName ? element?.secondaryrecruiterName : '' }}
+                      ({{ element?.secondaryrecruiter ? element?.secondaryrecruiter : '-'}})
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="offerDate">
+                    <th mat-header-cell *matHeaderCellDef> Date Of Offer</th>
+                    <td mat-cell *matCellDef="let element"> {{(element?.DateOfOffer | date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="joiningDate">
+                    <th mat-header-cell *matHeaderCellDef> Date Of Joining</th>
+                    <td mat-cell *matCellDef="let element"> {{(element?.DateOfJoining | date:'dd MMM yyyy') || '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef>Joining Location</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.JoiningLocationName ? element?.JoiningLocationName : '-' }}
+
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="issReason">
+                    <th mat-header-cell *matHeaderCellDef>Delay Reason (ISS)</th>
+                    <td mat-cell *matCellDef="let element">
+                       {{ element?.DelayIssReason ? element?.DelayIssReason : '-'}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="issVerificationStatus">
+                    <th mat-header-cell *matHeaderCellDef>ISS Verification Status</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element?.ISSStatus ? element?.ISSStatus : '-' }}
+                    </td>
+                  </ng-container>
+                  <!-- <ng-container matColumnDef="issVerificationStatus">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Candidate Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+
+                      <ng-container [ngSwitch]="element?.onboardStatusId">
+                        <ng-container *ngSwitchCase="10">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="20">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="30">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="40">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="50">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="60">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="70">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="80">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="90">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.onboardStatusName}}
+                          </button>
+                        </ng-container>
+
+
+                        <ng-container *ngSwitchDefault>
+                          {{element?.onboardStatusName || '-'}}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="dormantStatus">
+                    <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.isTidDormant">
+                        <ng-container *ngSwitchCase="'D'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'DORMANT'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'R'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'RE-ACTIVATED'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'ACTIVE'}}
+                          </button>
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="approveStatus">
+                    <th mat-header-cell *matHeaderCellDef> Offer Status</th>
+                    <td mat-cell *matCellDef="let element">
+                      <app-all-status-id-visibility-shared [statusType]="'offer'" [statusId]="element?.StatusId"
+                        [statusName]="element?.StatusName">
+                      </app-all-status-id-visibility-shared>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="action" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <div class="btn-action btn-action-centerz">
+                        <div class="btn-act"
+                          *ngIf="(!element?.IsConsent &&  userData?.RoleId == 1 || userData?.otherRoles?.IsHRAccess == 'Y') && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Candidate Verification"
+                            (click)="empVerificationOnboardPic(element,'C')">
+                            <span class="material-icons-outlined">
+                              domain_verification
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end  -->
+                        <!-- *ngIf="(!element?.RMIsConsent && element?.IsConsent &&  userData?.otherRoles?.IsRM == 'Y') && element?.isTidDormant != 'D'
+                         && (ignoreTidCheck || element?.isTidDormant != 'D')" -->
+                        <div class="btn-act"
+                          *ngIf="(!element?.RMIsConsent && element?.IsConsent &&  userData?.otherRoles?.IsRM == 'Y') && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Employee Verification (RM)"
+                            (click)="empVerificationOnboardPic(element,'RM')">
+                            <span class="material-icons-outlined">
+                              social_distance
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act"
+                          *ngIf="(element?.IsConsent && !element?.ISSIsConsent &&  userData?.RoleId == 7) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Employee Verification (ISS)"
+                            (click)="empVerificationOnboardPic(element,'IS')">
+                            <span class="material-icons-outlined">
+                              how_to_reg
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act"
+                          *ngIf="(element?.Is7daysCompleted ==1 && element?.IsFinalVideoUploaded ==0 && userData?.RoleId == 1 || userData?.otherRoles?.IsHRAccess == 'Y') && element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Employee Verification (Post Joining)"
+                            (click)="empVerificationOnboardPic(element,'E')">
+                            <span class="material-icons-outlined">
+                              camera_front
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <div class="btn-act" *ngIf="element?.IsConsent">
+                          <button mat-button type="button" matTooltip="View Candidate Verification Details"
+                            (click)="viewAllDetailsOnboardPic(element)">
+                            <span class="material-icons-outlined">
+                              preview
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <!-- && !element?.ISSIsConsent -->
+                        <div class="btn-act"
+                          *ngIf="(element?.IsConsent  &&  userData?.RoleId == 7) && element?.isTidDormant != 'D'">
+                          <button mat-button type="button"
+                            [matTooltip]="!element?.ISSIsConsent ? 'Add Pending Remarks (ISS)' : 'View Remarks (ISS)'"
+                            (click)="addIssRemarks(element,'IS')">
+                            <span class="material-icons-outlined">
+                              add_comment
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end -->
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                    [ngClass]="{'highlight-confirm': row.IsConsent}"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                  *ngIf="candidateList?.length === 0 || candidateList?.length === null">
+                </app-no-result-found>
+              </div>
+              <div class="ats-paging-sec">
+                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                  (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

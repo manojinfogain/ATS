@@ -1,0 +1,42 @@
+<div class="form-row" *ngIf="!isMultiple">
+    <mat-form-field appearance="outline" class="place-from-control">
+        <mat-label appRemoveAriaOwns >Contract Type</mat-label>
+        <mat-select [disableOptionCentering]="true" required  [formControl]="contractTypeControlOpt">
+          <mat-option value="all">All</mat-option>
+          <mat-option *ngFor="let list of contactList" [value]="list.ID">
+            {{list?.ContractType}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+ </div>
+
+ <div class="form-row" *ngIf="isMultiple">
+    <mat-form-field [appearance]="formFieldAppearance"  [floatLabel]="floatLabel">
+        <mat-label appRemoveAriaOwns >{{ContractTypeTitle}}</mat-label>
+        <mat-select [formControl]="contractTypeControlOpt" [disableOptionCentering]="true" [required]="required" multiple
+            #select>
+            <mat-select-trigger>
+                {{multiSelectedVal.length !== 0 ? multiSelectedVal[0].viewValue : ''}}
+                <span *ngIf="contractTypeControlOpt?.value?.length > 1" class="example-additional-selection">
+                    (+{{multiSelectedVal.length - 1}} {{contractTypeControlOpt?.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+            </mat-select-trigger>
+            <br>
+            <!-- <mat-option>
+                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder"
+                    [clearSearchInput]="false">
+
+                </ngx-mat-select-search>
+            </mat-option> -->
+            <div class="select-all">
+                <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+            </div>
+            <mat-option *ngFor="let list of contactList | emplListRecFilter:searchInput" [value]="list.ID"
+                (click)="optionClick()">
+                {{list?.ContractType}} 
+            </mat-option>
+        </mat-select>
+
+    </mat-form-field>
+ </div>

@@ -1,0 +1,80 @@
+<div class="mat-header">
+    <h3 mat-dialog-title> {{data?.headerText}}</h3>
+</div>
+<mat-dialog-content>
+	<p [innerHTML]="data?.message">
+	</p>
+    <br>
+    <div class="ats-modal-body">
+            
+        <div class="form-up">
+            <div div class="box-v-ats bx-v-appr box-v-ats-form">
+            <div class="box-v-body approval-dp-wrap">
+            <div
+                class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                
+                <div class="ats-form-col width-45-percent"  *ngIf="isLocationAvailable">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Location</mat-label>
+                        <input matInput placeholder="Location"
+                            [value]="selectedLocation"
+                            readonly>
+                    </mat-form-field>
+                    <input type="hidden" [formControl]="locationId" required>
+                </div>
+                <div class="ats-form-col width-45-percent"  *ngIf="!isLocationAvailable">
+                    <mat-form-field appearance="outline" class="place-from-control" >
+                        <mat-label>Location</mat-label>
+                        <mat-select [formControl]="locationId" [required]="true" (selectionChange)="onLocationChange($event)">
+                            <mat-option *ngFor="let list of locationList" [value]="list?.LocID">
+                                {{list?.LocName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col  width-50-percent">
+                    <mat-form-field appearance="outline" class="place-from-control" [ngClass]="{'disable-field': this.data?.BGVVender || this.data?.freezeVendor ==1}">
+                        <mat-label appRemoveAriaOwns>Select Vendor</mat-label>
+                                <mat-select [formControl]="vendorIdCtrl" [required]="true"
+                                (selectionChange)="onVendorChange($event)">
+                                    <mat-option *ngFor="let list of vendorList" [value]="list?.Id">
+                                        {{list?.Name}}</mat-option>
+                                        
+                                </mat-select>
+                    </mat-form-field>
+                </div>
+            <ng-container *ngIf="!isOnGridSelected">
+                <div class="ats-form-col"  *ngIf="isPackageAvailable">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>BGV Package</mat-label>
+                        <input matInput placeholder="BGV Package"
+                            [value]="selectedPackage"
+                            readonly
+                            [required]="data?.IsNewCaseForBGV == 'Y'">
+                    </mat-form-field>
+                    <input type="hidden" [formControl]="PackageId" >
+                    <!-- [required]="data?.IsNewCaseForBGV == 'Y'  && !isOnGridSelected" -->
+                </div>
+                <div class="ats-form-col width-50-percent"  *ngIf="!isPackageAvailable">
+                    <mat-form-field appearance="outline" class="place-from-control" >
+                        <!-- [required]="data?.IsNewCaseForBGV == 'Y' && !isOnGridSelected" -->
+                        <mat-label appRemoveAriaOwns>BGV Package</mat-label>
+                                <mat-select [formControl]="PackageId" >
+                                    <mat-option *ngFor="let list of statusList" [value]="list?.Id">
+                                        {{list?.PackageName}}</mat-option>
+                                </mat-select>
+                    </mat-form-field>
+                </div>
+                </ng-container>
+            </div></div></div>
+        </div>
+    </div>    
+    <p *ngIf="!isLocationAvailable" class="text-red-small"><i>* Please note that the location entered can't be changed later.</i></p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button type="submit" class="btn btn-infocon" tabindex="1" (click)="submitDialog()">
+        {{data?.buttonText?.ok}}
+    </button>
+    <button *ngIf="isHideCancel" type="button" class="btn btn-simple-ats"  tabindex="-1" mat-dialog-close>
+        {{data?.buttonText?.cancel}}
+    </button>
+</mat-dialog-actions>

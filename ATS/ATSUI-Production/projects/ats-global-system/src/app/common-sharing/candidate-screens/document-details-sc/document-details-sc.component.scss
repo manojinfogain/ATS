@@ -1,0 +1,121 @@
+.ul-action {
+    li {
+        position: relative;
+
+        .mandatory {
+            color: red;
+            font-weight: bold;
+            position: absolute;
+            top: 17px;
+            right: 10px;
+            font-size: 19px;
+        }
+    }
+}
+
+.mandatoryls{
+    color:red;
+    font-size: 15px !important;
+}
+
+.width-220 {
+    width: 220px;
+}
+
+// Document upload table styles
+.table-doc-list {
+    width: 100%;
+    table-layout: fixed;
+    
+    thead {
+        th {
+            &:nth-child(1) { width: 35%; }
+            &:nth-child(2) { width: 35%; }
+            &:nth-child(3) { width: 30%; }
+        }
+    }
+    
+    tbody {
+        td {
+            vertical-align: middle;
+            padding: 6px;
+            
+            // Prevent text overflow in table cells
+            overflow: hidden;
+            
+            &:nth-child(3) {
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+// Fix mat-form-field width expansion
+.form-on-col {
+    max-width: 100%;
+    
+    .ats-mat-form-field {
+        width: 100%;
+        max-width: 100%;
+        
+        ::ng-deep {
+            .mat-form-field-wrapper {
+                width: 100%;
+            }
+            
+            .mat-form-field-flex {
+                width: 100%;
+            }
+            
+            .mat-form-field-infix {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .mat-select {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            // Prevent mat-select-value from expanding
+            .mat-select-value {
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            .mat-select-value-text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            // Ensure trigger stays within bounds
+            .mat-select-trigger {
+                max-width: 100%;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+// Ensure form wrapper doesn't expand
+.form-on-ats-fluid {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+// Action buttons alignment
+.btn-up-add {
+    margin-right: 4px;
+    white-space: nowrap;
+}
+
+// Ensure action column buttons stay in line
+td {
+    button {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}

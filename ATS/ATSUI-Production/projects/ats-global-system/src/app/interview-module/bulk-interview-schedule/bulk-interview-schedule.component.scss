@@ -1,0 +1,79 @@
+.result-bulk{
+    margin-top: 10px;
+}
+.upload-file-input-lg{
+  label{
+    padding: 2px 0px;
+    font-size: 14px;
+  }
+  input{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+.table-bulk-form{
+    box-shadow: 1px 3px 4px rgb(162 155 254);
+    margin: 4px 0px 0px 0px;
+    max-height: calc(100vh - 320px);
+    overflow: auto;
+    .table-infoconnect td, .table-infoconnect th{
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+input[type=file] {
+    border: 1px solid #088d7a;
+    box-shadow: 1px 3px 4px rgb(162 155 254);
+  }
+input[type=file]::file-selector-button {
+    border: 1px solid #088d7a;
+    padding: .3em .4em;
+    background-color: #088d7a;
+    transition: 1s;
+    color: #fff;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background-color: #1d4794;
+    border: 1px solid #1d4794;
+  }
+
+    :host::ng-deep .error-file-input{
+        input[type=file] {
+            border: 1px solid red;
+            box-shadow: 1px 3px 4px rgb(162 155 254);
+          }
+        input[type=file]::file-selector-button {
+            border: 1px solid #088d7a;
+            padding: .3em .4em;
+            background-color: red;
+            transition: 1s;
+            color: #fff;
+          }
+    }
+    :host::ng-deep .error-msg-blk{
+         td{
+            background: #f1051b !important;
+            color: #fff;
+         }
+    }
+    :host::ng-deep .suc-msg-blk{
+        td{
+            background: #14b338 !important;
+            color: #fff;
+        }
+   }
+
+   .cl-ic{
+     li a{
+       font-size: 32px;
+       padding: 3px 3px;
+       box-shadow: 1px 3px 4px rgb(162 155 254);
+     }
+   }
+
+.upload-width-300 {
+  width: 300px;
+}

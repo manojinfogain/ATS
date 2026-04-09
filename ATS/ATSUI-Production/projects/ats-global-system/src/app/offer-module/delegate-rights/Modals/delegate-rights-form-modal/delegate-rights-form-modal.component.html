@@ -1,0 +1,120 @@
+<form [formGroup]="delegationForm">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats" *ngIf="isVisibleApprover">
+                        <app-approver-list [panelIdControl]="getControl('Approver')" [required]="getControl('Approver')?.errors?.required"
+                            [placeholder]="'Search'" [title]="'Approver'" [type]="'dh'"
+                            [formFieldAppearance]="'outline'" [isDelegatorList]="true">
+                        </app-approver-list>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('Approver')?.touched && getControl('Approver')?.invalid">
+                            <div *ngIf="getControl('Approver')?.errors.required">
+                                Approver is required.
+                            </div>
+                        </mat-error>
+
+                        <!-- <mat-error *ngIf="getControl('dropType')?.touched && getControl('dropType')?.invalid">
+                            <div>
+                                <span *ngIf="getControl('dropType').errors.required">
+                                    Please select drop type.
+                                </span>
+                            </div>
+                        </mat-error> -->
+
+
+                    </div>
+                    <div class="ats-form-col mat-radio-ats mat-radio-btn-ats">
+                        <app-approver-list [panelIdControl]="getControl('DelegateTo')" [required]="true"
+                            [placeholder]="'Search'" [title]="'Delegate to'" [type]="'dh'"
+                            [formFieldAppearance]="'outline'" [isDelegatorList]="true">
+                        </app-approver-list>
+                        <!-- validate -->
+                        <mat-error *ngIf="getControl('DelegateTo')?.touched && getControl('DelegateTo')?.invalid">
+                            <div *ngIf="getControl('DelegateTo')?.errors.required">
+                                Delegate To is required.
+                            </div>
+                        </mat-error>
+
+                        <!-- <mat-error *ngIf="getControl('dropType')?.touched && getControl('dropType')?.invalid">
+                            <div>
+                                <span *ngIf="getControl('dropType').errors.required">
+                                    Please select drop type.
+                                </span>
+                            </div>
+                        </mat-error> -->
+
+
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" >
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="picker2"  [min]="minFromDate" (dateInput)="setMinToDate($event)" formControlName="FromDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('FromDate').touched && getControl('FromDate').invalid">
+                                <div *ngIf="getControl('FromDate').errors.required">
+                                    Choose From Date.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col" >
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="picker3"  [min]="minToDate" formControlName="ToDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                            <mat-error
+                                *ngIf="getControl('ToDate').touched && getControl('ToDate').invalid">
+                                <div *ngIf="getControl('ToDate').errors.required">
+                                    Choose To Date.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Remarks
+                            </mat-label>
+                            <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                formControlName="Remarks"> </textarea>
+                        </mat-form-field>
+                        <!-- validate -->
+                        <!-- <mat-error *ngIf="getControl('remark')?.touched && getControl('remark')?.invalid">
+                            <div *ngIf="getControl('remark')?.errors.required">
+                                <span class="remarText">Remark is required</span>
+                            </div>
+                        </mat-error> -->
+                        <!-- validate ends-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- [disabled]="!reasonForDropForm.dirty" -->
+        <button type="submit" class="btn btn-infocon"  (click)="addDelegationHandler(delegationForm)">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

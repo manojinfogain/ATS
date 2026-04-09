@@ -1,0 +1,509 @@
+<div class="ats-modal-header">
+    <h3>{{data?.title}}</h3>
+    <button class="btn-m-close" type="button" (click)="hideModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="resumeForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <!-- <app-view-match-skill-rating [dataResume]="{data:any}"></app-view-match-skill-rating> -->
+            <div class="ats-resume-ass-content">
+                <div class="ats-resume-ass-forms">
+                    <mat-accordion multi="false" formArrayName="resumes" class="ats-sc-accordion">
+                        <mat-expansion-panel *ngFor="let resume of resumes.controls; let i = index" [formGroupName]="i"
+                            [ngClass]="{ 'resume-invalid': resume.invalid && resume.touched }">
+                            <mat-expansion-panel-header>
+
+                                <mat-panel-title>
+                                    {{(i + 1) }} &nbsp;
+                                    {{ resumesRaw[i]?.firstName }}
+                                    {{ resumesRaw[i]?.middleName ? resumesRaw[i]?.middleName + ' ' : '' }}
+                                    {{ resumesRaw[i]?.lastName || '' }}
+                                    <!-- {{ resume.get('name')?.value || 'Candidate ' + (i + 1) }} -->
+                                </mat-panel-title>
+
+
+                                <span class="checkbox-sch" (click)="$event.stopPropagation()">
+                                    <mat-checkbox formControlName="selected"
+                                        (change)="checkboxClick($event, i)"></mat-checkbox>
+
+                                </span>
+                                <mat-panel-description>
+                                    <div class="ul-rsm-dssm">
+                                        <ul>
+                                            <li (click)="$event.stopPropagation()">
+                                                <button type="button" class="btn btn-infocon btn-sbn"
+                                                    (click)="viweTalentFullDetailsModal({})">
+                                                    Talent ID Details
+                                                </button>
+                                            </li>
+                                            <li (click)="$event.stopPropagation()">
+                                                <button type="button" class="btn btn-infocon btn-sbn"
+                                                    (mouseenter)="openCandidateRatingDetailsModal(resumesRaw[i])">
+                                                    Talent Skills Match Details
+                                                </button>
+                                            </li>
+                                            <!-- <li>
+                                                <button class="btn btn-infocon btn-sbn" [ngbPopover]="popoverContent"
+                                                    triggers="" #p="ngbPopover" (mouseenter)="onMouseEnter(p)"
+                                                    (mouseleave)="onMouseLeave(p)" container="body" placement="auto"
+                                                    popoverClass="custom-popover-tl">
+                                                    Talent Skills Match Details
+                                                </button>
+
+
+                                                <ng-template #popoverContent>
+                                                    <div (mouseenter)="isOverPopover = true"
+                                                        (mouseleave)="onMouseLeave(p)"
+                                                        (click)="$event.stopPropagation()">
+                                                        <app-view-match-skill-rating [dataResume]="resumesRaw[i]"
+                                                            [skillProficiencyLevel]="skillProficiencyLevel"></app-view-match-skill-rating>
+                                                    </div>
+                                                </ng-template>
+
+                                            </li> -->
+                                            <!-- <li>
+                                                <button type="button" class="btn btn-infocon btn-sbn"
+                                                    [matMenuTriggerFor]="hoverMenu" #menuTrigger="matMenuTrigger"
+                                                    (mouseenter)="onTriggerEnter(menuTrigger)"
+                                                    (mouseleave)="onTriggerLeave()">
+                                                    Talent Skills Match Details
+                                                </button>
+                                                <mat-menu #hoverMenu="matMenu" yPosition="below" class="ovl-modal-dgv"
+                                                    (mouseenter)="onMenuEnter()"
+                                                    (mouseleave)="onMenuLeave(menuTrigger)">
+                                                    <ng-template matMenuContent>
+                                                        <app-view-match-skill-rating [dataResume]="resumesRaw[i]"
+                                                            [skillProficiencyLevel]="skillProficiencyLevel"></app-view-match-skill-rating>
+                                                    </ng-template>
+                                                </mat-menu>
+                                            </li> -->
+                                            <li
+                                                [ngClass]="{ 'low-rating': resumesRaw[i]?.mandatoryRating >= 0 && resumesRaw[i]?.mandatoryRating <= 2 }">
+                                                <span>Mandatory Skill Rating : <label class="lbb1">{{
+                                                        resumesRaw[i]?.mandatoryRating }}</label>
+                                                </span>
+                                            </li>
+                                            <li
+                                                [ngClass]="{ 'low-rating': resumesRaw[i]?.goodToHaveRating >= 0 && resumesRaw[i]?.goodToHaveRating <= 2 }">
+                                                <span>Good To Have Skill Rating : <label class="lbb1">{{
+                                                        resumesRaw[i]?.goodToHaveRating }}</label>
+                                                </span>
+                                            </li>
+                                            <li
+                                                [ngClass]="{ 'low-rating': resumesRaw[i]?.overallRating >= 0 && resumesRaw[i]?.overallRating <= 2 }">
+                                                <span>Overall Rating :<label class="lbb1">{{
+                                                        resumesRaw[i]?.overallRating }}</label>
+                                                </span>
+                                            </li>
+                                            <li> <span>Profile Match (%) : <label class="lbb1">{{
+                                                        resumesRaw[i]?.overallPercentage }} %</label>
+                                                </span></li>
+                                        </ul>
+                                    </div>
+
+                                </mat-panel-description>
+
+                            </mat-expansion-panel-header>
+                            <div class="rsm-exp-content">
+                                <section class="rsm-content-sec">
+                                    <div class="rsm-content-header">
+                                        <h3>Resume Summary</h3>
+                                    </div>
+                                    <div class="rsm-content-body">
+                                        <div class="basic-details-rsm">
+                                            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                <!-- <div class="view-list-bx tabl-sec-nms" >
+                                                 
+                                                    <div class="quest-auto-view">
+                                                        <button type="button" class="btn btn-outline-primary btn-mth"
+                                                            (click)="openCandidateRatingDetailsModal(resumesRaw[i])">
+                                                            View Talent Skills Match Score
+                                                        </button>
+                                                    </div>
+                                                </div> -->
+                                                <!-- end -->
+                                                <div class="view-list-bx ovlsc">
+                                                    <h4>Skills (From Resume) :</h4>
+                                                    <p> {{resumesRaw[i]?.skills}}</p>
+                                                </div>
+                                                <!-- end -->
+
+                                                <div class="view-list-bx ovlsc">
+                                                    <h4>Recommendation :</h4>
+                                                    <p> {{resumesRaw[i]?.Recommendation}}</p>
+                                                </div>
+                                                <!-- end -->
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </section>
+
+                                <section class="rsm-content-sec">
+                                    <div class="rsm-content-header">
+                                        <h3>Profile Details Form</h3>
+                                    </div>
+                                    <div class="rsm-content-body">
+                                        <div class="resume-form-group ats-form-ux-up">
+                                            <div class="row mb-3">
+                                                <div class="col-md-4 at-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>First Name</mat-label>
+                                                        <input matInput placeholder="First Name" maxlength="200"
+                                                            disableInitialSpace onlyAlphabets
+                                                            formControlName="firstName">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Middle Name</mat-label>
+                                                        <input matInput placeholder="Middle Name" maxlength="200"
+                                                            disableInitialSpace onlyAlphabets
+                                                            formControlName="middleName">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Last Name</mat-label>
+                                                        <input matInput placeholder="Last Name" maxlength="200"
+                                                            disableInitialSpace onlyAlphabets
+                                                            formControlName="lastName">
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col mob-num-wrap">
+                                                    <div class="mb-col code-mobile">
+                                                        <app-country-list-code [formFieldAppearance]="'outline'"
+                                                            [countryCode]="true"
+                                                            [parentIdControl]="resume.get('countryCode')"
+                                                            [title]="'Country Code'" [placeholder]="'Search'">
+                                                        </app-country-list-code>
+                                                    </div>
+                                                    <div class="mb-col">
+                                                        <mat-form-field appearance="outline" class="place-from-control">
+                                                            <mat-label>Phone No.</mat-label>
+                                                            <input matInput placeholder="Phone No." maxlength="15"
+                                                                formControlName="phone" disableInitialSpace onlyNumber>
+
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4 at-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Email ID</mat-label>
+                                                        <input matInput placeholder="Email ID" maxlength="250"
+                                                            formControlName="email" disableInitialSpace
+                                                            emailContainInfogain>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>DOB (MM/dd/YYYY)</mat-label>
+                                                        <input matInput [matDatepicker]="datepickerInfo2"
+                                                            placeholder="DOB" formControlName="dob" readonly
+                                                            [max]="maxDate"
+                                                            (dateChange)="onDateChange($event, 'dob', i)">
+                                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo2">
+                                                            <mat-icon matDatepickerToggleIcon
+                                                                class="form-icon date-icon-spac">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </mat-icon>
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #datepickerInfo2></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4 at-form-col">
+                                                    <div class="exp-section-control-main">
+                                                        <div class="exp-section-control-ds">
+                                                            <div class="exp-cols">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control"
+                                                                    matTooltip="Total Experience in Year">
+                                                                    <mat-label>Total Exp. (Year)</mat-label>
+                                                                    <input matInput placeholder="Total Exp."
+                                                                        maxlength="2" disableInitialSpace
+                                                                        formControlName="totalExpYear" onlyNumber
+                                                                        expYear>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                            <div class="exp-cols">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control"
+                                                                    matTooltip="Total Experience in Month">
+                                                                    <mat-label>Total Exp. (Month)</mat-label>
+                                                                    <input matInput placeholder="Total Exp."
+                                                                        maxlength="2" disableInitialSpace
+                                                                        formControlName="totalExpMonth" onlyNumber>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col">
+                                                    <div class="exp-section-control-main">
+                                                        <div class="exp-section-control-ds">
+                                                            <div class="exp-cols">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control"
+                                                                    matTooltip="Relevant Experience in Year">
+                                                                    <mat-label>Relevant Exp. (Year)</mat-label>
+                                                                    <input matInput placeholder="Relevant Exp."
+                                                                        maxlength="2" disableInitialSpace
+                                                                        formControlName="releventExpYear" onlyNumber
+                                                                        expYear>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                            <div class="exp-cols">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control"
+                                                                    matTooltip="Relevant Experience in Month">
+                                                                    <mat-label>Relevant Exp. (Month)</mat-label>
+                                                                    <input matInput placeholder="Relevant Exp."
+                                                                        maxlength="2" disableInitialSpace
+                                                                        formControlName="releventExpMonth" onlyNumber
+                                                                        expMonth>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col">
+                                                    <!-- <app-skill-set [panelIdControl]="resume.get('skill')"
+                                                        [formFieldAppearance]="'outline'"  [title]="' Skill'">
+                                                    </app-skill-set> -->
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Skill</mat-label>
+                                                        <mat-select formControlName="skill"
+                                                            [disableOptionCentering]="true">
+                                                            <mat-option>
+                                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                                    [formControl]="FilterCtrl"
+                                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                                    [placeholderLabel]="placeholder"
+                                                                    [clearSearchInput]="false">
+
+                                                                </ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option
+                                                                *ngFor="let list of skillDataList | skillFilter:searchInput"
+                                                                [value]="list.SkillId">
+                                                                {{list?.SKillName}}
+                                                            </mat-option>
+                                                        </mat-select>
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col">
+                                                    <!-- <app-skill-set [panelIdControl]="resume.get('additionalSkill')" 
+                                                        [title]="'Additional Skills'" [formFieldAppearance]="'outline'">
+                                                    </app-skill-set> -->
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Additional Skills</mat-label>
+                                                        <mat-select formControlName="additionalSkill"
+                                                            [disableOptionCentering]="true">
+                                                            <mat-option>
+                                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                                    [formControl]="FilterCtrlAd"
+                                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                                    [placeholderLabel]="'Search'"
+                                                                    [clearSearchInput]="false">
+
+                                                                </ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option
+                                                                *ngFor="let list of skillDataList | skillFilter:searchInputAd"
+                                                                [value]="list.SkillId">
+                                                                {{list?.SKillName}}
+                                                            </mat-option>
+                                                        </mat-select>
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col"  *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Gender</mat-label>
+                                                        <mat-select formControlName="gender">
+                                                            <mat-option *ngFor="let list of genderType"
+                                                                [value]="list?.ID">
+                                                                {{list?.Name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <app-education-master-control
+                                                        [formControlOpt]="resume.get('qualification')"
+                                                        [title]="'Education Qualification'"
+                                                        [formFieldAppearance]="'outline'">
+                                                    </app-education-master-control>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <app-company-master-control
+                                                        [formControlOpt]="resume.get('currCompany')"
+                                                        [title]="'Current Company'" [formFieldAppearance]="'outline'"
+                                                        [isDataParent]="true" [listData]="listData"
+                                                        [isClientSearch]="true">
+                                                    </app-company-master-control>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Tentative DOJ</mat-label>
+                                                        <input matInput [matDatepicker]="datepickerInfo9"
+                                                            placeholder="Tentative DOJ" formControlName="joinDate"
+                                                            readonly [min]="minDate"
+                                                            (dateChange)="onDateChange($event, 'joinDate', i)">
+                                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo9">
+                                                            <mat-icon matDatepickerToggleIcon
+                                                                class="form-icon date-icon-spac">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </mat-icon>
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #datepickerInfo9></mat-datepicker>
+                                                    </mat-form-field>
+
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <app-country-list-code [parentIdControl]="resume.get('countryID')"
+                                                        [country]="true" (getDataIdCountry)="getCountry($event)"
+                                                        [title]="'Country'" [formFieldAppearance]="'outline'">
+                                                    </app-country-list-code>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <app-city-list-code [parentIdControl]="resume.get('cityID')"
+                                                        [getId]="resume.get('countryID').value" [title]="'City'"
+                                                        [placeholder]="'Search City'" [formFieldAppearance]="'outline'"
+                                                        [required]="false" [filteryByCountry]="true">
+                                                    </app-city-list-code>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Currency Type</mat-label>
+                                                        <mat-select formControlName="currencyType">
+                                                            <mat-option *ngFor="let crr of currencyTypeData"
+                                                                [value]="crr?.id">
+                                                                {{crr?.currency_code}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Salary Type</mat-label>
+                                                        <mat-select formControlName="SalaryType">
+                                                            <mat-option *ngFor="let data of salaryTypeList"
+                                                                [value]="data.id">
+                                                                {{data?.name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Current Salary</mat-label>
+                                                        <input matInput placeholder="Current Salary" maxlength="10"
+                                                            disableInitialSpace formControlName="currentSalary"
+                                                            onlyNumber>
+                                                        <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                                            {{resume.get('currentSalary')?.value |convertToWord}}
+                                                        </mat-hint>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Expected Salary</mat-label>
+                                                        <input matInput placeholder="Expected Salary" maxlength="10"
+                                                            disableInitialSpace formControlName="expectedSalary"
+                                                            onlyNumber>
+                                                        <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                                            {{resume.get('expectedSalary')?.value |convertToWord}}
+                                                        </mat-hint>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                                        <mat-select formControlName="candidateType">
+                                                            <mat-option *ngFor="let candType of candidateTypeData"
+                                                                [value]="candType?.typeId">
+                                                                {{candType?.statusName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <!-- <pre>{{ finalData | json }}</pre> -->
+                                </section>
+
+
+
+                            </div>
+
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="hideModal()">Cancel
+        </button>
+    </div>
+</form>

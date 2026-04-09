@@ -1,0 +1,70 @@
+
+<div class="ats-modal-header">
+    <h1>{{profileDetails?.Name || '-'}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+       <div class="view-list-dt-wrap-ortho">
+           <div class="view-list-bx">
+               <h4>Candidate Name:</h4>
+               <p>{{profileDetails?.Name || '-'}}</p>
+           </div>
+           <!-- end -->
+           <div class="view-list-bx">
+            <h4>Candidate Email:</h4>
+            <p>{{profileDetails?.email || '-'}}</p>
+        </div>
+        <!-- end -->
+
+        <div class="view-list-bx">
+            <h4> Talent ID:</h4>
+            <p>{{profileDetails?.talent_id || '-'}}</p>
+        </div>
+        <!-- end -->
+        <div class="view-list-bx">
+            <h4>Total Experience:</h4>
+            <p>
+                {{profileDetails?.ExpinYear+' Year' || ''}} 
+                {{profileDetails?.ExpinMonth+' Month' || ''}} 
+            </p>
+        </div>
+        <!-- end -->
+        <div class="view-list-bx">
+            <h4>Relevent Experience:</h4>
+            <p>
+                {{profileDetails?.ReleventExpinYear+' Year' || ''}} 
+                {{profileDetails?.ReleventExpinMonth+' Month' || ''}} 
+            </p>
+        </div>
+        <!-- end -->
+        <div class="view-list-bx">
+            <h4>Skill:</h4>
+            <p>{{profileDetails?.Skill || '-'}}</p>
+        </div>
+        <!-- end -->
+   
+        <div class="view-list-bx">
+            <h4>Mobile Number :</h4>
+            <p>{{profileDetails?.phone?'+'+profileDetails?.CountryCode+'-'+profileDetails?.phone:'-'}}</p>
+        </div>
+        <!-- end -->
+        <div class="view-list-bx">
+            <h4>Date of Birth :</h4>
+            <p>
+                {{(profileDetails?.dob | date:"mediumDate")|| '-'}}</p>
+        </div>
+        <!-- end -->
+
+        <div class="view-list-bx">
+            <h4>Approver :</h4>
+            <p>
+                {{profileDetails?.ApproverName || '-'}}</p>
+        </div>
+        <!-- end -->
+       
+       
+       
+       </div>
+    </div>
+</div>

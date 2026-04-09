@@ -1,0 +1,30 @@
+<form >
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="checkbox-control">
+                <ng-container>
+                    <mat-checkbox>
+                        Same as current address
+                    </mat-checkbox>
+                </ng-container>
+            </div>
+            <div class="form-on-ats form-on-ats-horz-2 form-fill-ats form-on-ats-addrs">
+                <app-address-candidate [group]="group" [formColClass]="formColClass" [appearance]="appearance">
+                </app-address-candidate>
+            </div>
+           
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" (click)="saveAddress()">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

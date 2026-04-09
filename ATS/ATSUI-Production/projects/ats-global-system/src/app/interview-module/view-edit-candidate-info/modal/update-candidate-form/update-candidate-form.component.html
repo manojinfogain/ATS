@@ -1,0 +1,815 @@
+<form [formGroup]="updateCandidateForm" (ngSubmit)="submitCandidateForm(updateCandidateForm)">
+    <div class="ats-modal-header">
+        <h1>
+            Update Candidate Details
+        </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-panel-wrap-feed">
+                <div class="ats-forms ats-forms-horz ats-forms-horz3">
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="First Name" maxlength="250" required
+                                formControlName="firstName" disableInitialSpace onlyAlphabets appCapitalizeWords>
+                            <mat-error *ngIf="firstnameControl.touched && firstnameControl.invalid">
+                                <div *ngIf="firstnameControl.errors.required">
+                                    First  Name is required.
+                                </div>
+                                <div *ngIf="firstnameControl.errors.pattern">
+                                    Please enter valid First Name.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Middle Name" maxlength="250" 
+                                formControlName="middleName" disableInitialSpace onlyAlphabets appCapitalizeWords>
+                       
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Last Name" maxlength="250" 
+                                formControlName="lastName" disableInitialSpace onlyAlphabets appCapitalizeWords>
+                       
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Email" maxlength="250" formControlName="email"
+                                disableInitialSpace required>
+                            <mat-error *ngIf="emailControl.touched && emailControl.invalid">
+                                <div *ngIf="emailControl.errors.required">
+                                    Candidate Email is required.
+                                </div>
+                                <div *ngIf="emailControl.errors.pattern">
+                                    Please enter valid Email ID.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <!-- candidate gender  *ngIf="isGenderVisible" -->
+                    <div class="ats-form-col" *ngIf="isGenderVisible">
+                        <mat-form-field>
+                            <mat-select placeholder="Gender" formControlName="candidateGender"
+                                [required]="isGenderVisible">
+                                <mat-option *ngFor="let list of genderType" [value]="list?.ID">
+                                    {{list?.Name}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- <mat-select  formControlName="candidateGender" 
+                            [required]="formGroupControls[i]['controls'].candidateGender?.errors?.required">
+                                <mat-option *ngFor="let list of genderType" [value]="list?.ID">
+                                    {{list?.Name}}
+                                </mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </div>
+                    <!--end col-->
+                    <!-- *ngIf="isGenderVisible" -->
+                    <div class="ats-form-col date-ats-sc" *ngIf="isDobVisible && isDobNotNull">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="datepickerInfo1" placeholder="Date of Birth" readonly
+                                formControlName="dob" [max]="maxDate" [disabled]="true">
+                            <mat-datepicker-toggle matSuffix [for]="datepickerInfo1">
+                                <mat-icon matDatepickerToggleIcon class="form-icon date-icon-spac">
+                                    <i class="far fa-calendar-alt"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datepickerInfo1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="!isWithCountryCode">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Mobile Number" maxlength="15"
+                                formControlName="mobileNumber" disableInitialSpace mobNumber required>
+                            <mat-error
+                                *ngIf="getControl('mobileNumber')?.touched && getControl('mobileNumber')?.invalid">
+                                <ng-container *ngIf="getControl('mobileNumber')?.errors?.required">
+                                    Mobile Number is required.
+
+                                </ng-container>
+                                <ng-container *ngIf="getControl('mobileNumber')?.errors?.minlength">
+                                    Please enter 10 digit valid mobile number.
+                                </ng-container>
+
+                                <ng-container *ngIf="getControl('mobileNumber')?.errors?.maxlength">
+                                    Please enter 10 digit valid mobile number.
+                                </ng-container>
+
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    
+                    <div class="ats-form-col mob-num-wrap" *ngIf="isWithCountryCode">
+                        <div class="mb-col code-mobile">
+                          <app-country-list-code [countryCode]="true" [parentIdControl]="getControl('CountryCode')" [title]="'Country Code'" [placeholder]="'Search'" [required]="isWithCountryCode">
+                          </app-country-list-code>
+                        </div>
+                        <div class="mb-col">
+                            <mat-form-field>
+                                <mat-label>Phone No.</mat-label>
+                                <input matInput type="text" placeholder="Mobile Number" maxlength="15"
+                                formControlName="mobileNumber" disableInitialSpace mobNumber required>
+                            <!-- </mat-form-field> -->
+                                <mat-error
+                                    *ngIf="getControl('mobileNumber')?.touched && getControl('mobileNumber')?.invalid">
+                                    <ng-container *ngIf="getControl('mobileNumber')?.errors?.required">
+                                        Mobile Number is required.
+
+                                    </ng-container>
+                                    <ng-container *ngIf="getControl('mobileNumber')?.errors?.minlength">
+                                        Please enter 10 digit valid mobile number.
+                                    </ng-container>
+
+                                    <ng-container *ngIf="getControl('mobileNumber')?.errors?.maxlength">
+                                        Please enter 10 digit valid mobile number.
+                                    </ng-container>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+              
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col">
+                        <!-- [disabled]="data?.requirementTypeId ==6" -->
+                        <mat-form-field>
+                            <mat-select placeholder="Employment Type" formControlName="candidateTypeID" required>
+                                <mat-option *ngFor="let list of candidateTypeData" [value]="list?.typeId">
+                                    {{list?.statusName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <app-skill-set [panelIdControl]="getControl('primarySkill')" [required]="true"
+                            [title]="'Skill'">
+                        </app-skill-set>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field>
+                                        <input matInput type="text" placeholder="Total Exp (In Year)" maxlength="2"
+                                            formControlName="totalExp" disableInitialSpace onlyNumber required expYear
+                                            (blur)="TotalExp($event)">
+                                        <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in year.</mat-hint> -->
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="exp-cols">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Total Exp (In Month)"
+                                            formControlName="totalExpMonth" disableInitialSpace onlyNumber maxlength="2"
+                                            required expMonth (blur)="TotalExp($event)">
+                                        <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in month.</mat-hint> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ats-form-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field>
+                                        <input matInput type="text" placeholder="Relevant Exp (In Year)" maxlength="5"
+                                            formControlName="releventExp" disableInitialSpace onlyNumber required
+                                            expYear>
+                                        <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in year.</mat-hint> -->
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="exp-cols">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Relevant Exp (In Month)"
+                                            formControlName="relExpMonth" disableInitialSpace onlyNumber maxlength="2"
+                                            required expMonth>
+                                        <!-- <mat-hint align="start" class="mat-hind-lb"> Experience should be in month.</mat-hint> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ats-form-col" *ngIf="hideCountryCtrl">
+                        <app-country-list-code [country]="true" [parentIdControl]="countryControl" [title]="'Country'"
+                            [placeholder]="'Search'" [required]="countryControl?.errors?.required"
+                            (getDataIdCountry)="getCountryId($event)">
+                        </app-country-list-code>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="hideStateCtrl">
+                        <app-state-list-control [parentIdControl]="stateControl" [title]="'State'"
+                            [required]="hideStateCtrl" (getDataIdState)="getCountryId($event)">
+                        </app-state-list-control>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <app-city-list-code [getId]="country" [parentIdControl]="cityControl" [title]="'City'"
+                            [required]="true" [placeholder]="'Search'" [filteryByCountry]="filteryByCountry">
+                        </app-city-list-code>
+                    </div>
+                    <!-- end col -->
+                    <!-- hiding fields for c2h -->
+                    <ng-container *ngIf="!isC2hReqType">
+                        <div class="ats-form-col" *ngIf="isUniqueIdAndNumberVisible">
+                            <mat-form-field>
+                                <mat-select placeholder="Government photo ID proof Type" formControlName="identityId"
+                                    (selectionChange)="getSelectedIdType($event)">
+                                    <mat-option *ngFor="let list of idTypeData"
+                                        [value]="list?.id">{{list?.identity_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isUniqueIdAndNumberVisible">
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Government photo ID proof No." maxlength="22"
+                                    formControlName="identityNo" disableInitialSpace [required]="idProofReq">
+
+                                <mat-error *ngIf="identityNoControl.touched && identityNoControl.invalid">
+                                    <div *ngIf="identityNoControl.errors.pattern">
+                                        Please enter valid {{idTypeName}}.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field>
+                                <mat-select placeholder="Currency Type" formControlName="currencyTypeId" required
+                                    (selectionChange)="TotalExp($event)">
+                                    <mat-option *ngFor="let crr of currencyTypeData" [value]="crr?.id">
+                                        <ng-container [ngSwitch]="crr.currency_code">
+                                            <ng-container *ngSwitchCase="'INR'">
+                                                <i class="fs-icon">&#8377;</i> - {{crr?.currency_code}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'USD'">
+                                                <i class="fs-icon">&#36;</i> - {{crr?.currency_code}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'Euro'">
+                                                <i class="fs-icon">&#8364;</i> - {{crr?.currency_code}}
+                                            </ng-container>
+                                        </ng-container>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isSalaryTypeVisible">
+                            <mat-form-field>
+                                <mat-label appRemoveAriaOwns >Salary Type</mat-label>
+                                <mat-select formControlName="SalaryType" [required]="isSalaryTypeVisible"
+                                    (selectionChange)="TotalExp($event)">
+                                    <mat-option *ngFor="let data of salaryTypeList" [value]="data.id">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="getControl('SalaryType')?.touched && getControl('SalaryType')?.invalid">
+                                    <div *ngIf="getControl('SalaryType')?.errors.required">
+                                        Salary Type is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="hideCurrentSalaryCtrl">
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Current Salary" maxlength="9"
+                                    formControlName="curSalary" disableInitialSpace onlyNumber
+                                    [required]="hideCurrentSalaryCtrl" (blur)="TotalExp($event)">
+                                <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                    {{getControl('curSalary').value |convertToWord}}
+                                </mat-hint>
+                                <mat-error *ngIf="getControl('curSalary')?.touched && getControl('curSalary')?.invalid">
+                                    <div *ngIf="getControl('curSalary')?.errors.required">
+                                        Current Salary is required.
+                                    </div>
+                                    <ng-container *ngIf="getControl('curSalary')?.errors?.min">
+                                        Please enter min
+                                        <!-- <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+
+                                    </ng-container> -->
+                                        <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                            <ng-container *ngSwitchCase="1">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.usdMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.usdMonthlyMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.usdHrlyMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="getControl('curSalary')?.errors?.max">
+                                        You can not enter greater than
+                                        <!-- <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container> -->
+                                        <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                            <ng-container *ngSwitchCase="1">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.usdMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.usdMonthlyMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.usdHrlyMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Expected Salary" maxlength="9"
+                                    formControlName="expSalary" disableInitialSpace onlyNumber required
+                                    (blur)="TotalExp($event)">
+                                <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                    {{getControl('expSalary').value |convertToWord}}
+                                </mat-hint>
+                                <mat-error *ngIf="getControl('expSalary')?.touched && getControl('expSalary')?.invalid">
+                                    <div *ngIf="getControl('expSalary')?.errors.required">
+                                        Expected Salary is required.
+                                    </div>
+                                    <ng-container *ngIf="getControl('expSalary')?.errors?.min">
+                                        Please enter min
+                                        <!-- <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+                                    </ng-container> -->
+                                        <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                            <ng-container *ngSwitchCase="1">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.usdMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.usdMonthlyMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.usdHrlyMin |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMin)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMin)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMin)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="getControl('expSalary')?.errors?.max">
+                                        You can not enter greater than
+                                        <!-- <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container> -->
+                                        <ng-container [ngSwitch]="getControl('currencyTypeId').value">
+                                            <ng-container *ngSwitchCase="1">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax |
+                                                        customCurrency:1)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.usdMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.usdMonthlyMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.usdHrlyMax |
+                                                        customCurrency:2)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax |
+                                                        customCurrency:3)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                <ng-container [ngSwitch]="getControl('SalaryType')?.value">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        {{(this.salRange.inrMax)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        {{(this.salRange.inrMonthlyMax)}}
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        {{(this.salRange.inrHrlyMax)}}
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <!-- end col -->
+
+                    <div class="ats-form-col date-ats-sc">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="datepickerInfo1" placeholder="Tentative DOJ" readonly
+                                [min]="minDate" formControlName="JoiningDate" required>
+                            <mat-datepicker-toggle matSuffix [for]="datepickerInfo1">
+                                <mat-icon matDatepickerToggleIcon class="form-icon date-icon-spac">
+                                    <i class="far fa-calendar-alt"></i>
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datepickerInfo1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <app-education-master-control [formControlOpt]="getControl('eduQualification')"
+                            [title]="'Education'" [required]="getControl('eduQualification')?.errors?.required">
+                        </app-education-master-control>
+
+                        <!-- <mat-form-field>
+                            <input matInput type="text" placeholder="Education" maxlength="50" required
+                                formControlName="eduQualification" disableInitialSpace>
+                            <mat-error *ngIf="eduQualificationControl.touched && eduQualificationControl.invalid">
+                                <div *ngIf="eduQualificationControl.errors.required">
+                                    Education is required.
+                                </div>
+                                <div *ngIf="eduQualificationControl.errors.pattern">
+                                    Please enter valid Education.
+                                </div>
+                            </mat-error>
+                        </mat-form-field> -->
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col">
+                        <app-company-master-control [formControlOpt]="currOrganisationControl"
+                            [title]="'Current Company'" [required]="getControl('currentOrg')?.errors?.required">
+                        </app-company-master-control>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isDivisionVisible">
+                        <app-division-control [DivisionIdControl]="getControl('DivisionID')"
+                            [required]="isDivisionVisible" [title]="'Division'" [formFieldAppearance]="'legacy'"
+                            (getDataSource)="getDivisionID($event)">
+                        </app-division-control>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isEmpUnitVisible">
+                        <app-employment-unit-type [formControlOpt]="getControl('empUnitId')" [title]="'Employee Unit'"
+                            [formFieldAppearance]="'legacy'" [required]="isEmpUnitVisible"
+                            (getValFromControl)="getEmpUnitId($event)">
+                        </app-employment-unit-type>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isTCVisible">
+                        <app-talent-cube-control [formControlOpt]="getControl('TCID')" [title]="'Talent Cube'"
+                            [formFieldAppearance]="'legacy'" [required]="isTCVisible"
+                            (getValFromControl)="getTCID($event)"
+                            (getTalentCubeListFromControl)="getTalentCubeList($event)">
+                        </app-talent-cube-control>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isGradeVisible">
+                        <app-grade-id-control [formControlOpt]="getControl('gradeId')" [title]="'Grade'"
+                            [formFieldAppearance]="'legacy'" [required]="isGradeVisible"
+                            (getValFromControl)="getGradeId($event)">
+                        </app-grade-id-control>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isGradeBandVisible">
+                        <app-comp-band-control [formControlOpt]="getControl('gradeBand')" [title]="'Grade Band'"
+                            [formFieldAppearance]="'legacy'" [required]="isGradeBandVisible"
+                            [GradeId]="getControl('gradeId').value">
+                        </app-comp-band-control>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col" *ngIf="isClusterVisible">
+                        <mat-form-field>
+                            <mat-label>Cluster </mat-label>
+                            <input matInput placeholder="Cluster" formControlName="cluster" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col" *ngIf="isRoleVisible">
+                        <mat-form-field>
+                            <mat-label>Role </mat-label>
+                            <input matInput placeholder="Role" formControlName="role" readonly>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="ats-form-col">
+                        <div class="upload-file">
+                            <label>Upload 
+                                <sup *ngIf="data?.type === 1">*</sup>
+                            </label>
+                            <input type="file" (change)="fileUp($event)" formControlName="resume">
+                        </div>
+
+                    </div> -->
+                    <!-- end -->
+                    <div class="ats-form-col upload-file-ats">
+                        <div class="file-title">
+                            <label>Upload Resume
+                                <sup *ngIf="data?.type === 1">*</sup>
+                            </label>
+                        </div>
+                        <div class="upload-file-input">
+                            <input type="file" (change)="fileUp($event)" formControlName="resume">
+                            <!-- <input type="hidden" formControlName="resume"> -->
+                        </div>
+
+                    </div>
+                    <!-- end -->
+                </div>
+                <app-salary-grid-control *ngIf="isSalaryGridVisible" [gradeID]="getControl('gradeId')?.value"
+                    [gradeBand]="getControl('gradeBand')?.value? getControl('gradeBand')?.value : null"
+                    [ctc]="getControl('expSalary')?.value" [cubeClusterId]="getControl('cubeClusterId')?.value"
+                    [jfCateg]="null" [ExpYear]="getControl('totalExp')?.value"
+                    [ExpMonth]="getControl('totalExpMonth')?.value"
+                    [CandidateTypeID]="getControl('candidateTypeID')?.value"
+                    [divisionID]="getControl('DivisionID')?.value" [isVisibleForIndia]="isSalaryGridVisible"
+                    [PracticeID]="null">
+                </app-salary-grid-control>
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+
+</form>

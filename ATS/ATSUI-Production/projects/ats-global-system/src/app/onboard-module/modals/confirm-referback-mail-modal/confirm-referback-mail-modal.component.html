@@ -1,0 +1,61 @@
+<div class="mat-header">
+    <h3 mat-dialog-title> {{data?.headerText}}</h3>
+</div>
+<mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="box-v-ats">
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c rm-cen">
+                    <div class="view-list-bx">
+                        <h4>Candidate Name:</h4>
+                        <p>{{data?.Name|| '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Candidate Email:</h4>
+                        <p>{{data?.email|| '-'}}</p>
+                    </div>
+                    <!-- end -->
+                    <div class="view-list-bx">
+                        <h4>Candidate Mobile:</h4>
+                        <p>{{data?.phone|| '-'}}</p>
+                    </div>
+                    <!-- end -->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Mail Subject</h4>
+            </div>
+            <div class="box-v-body table-body">
+                <div class="apr-list aprover-dt-list connect-calls-details-sec">
+                    <p class="mail-prev-sign">{{data?.subject}} </p>
+                </div>
+            </div>
+        </div> -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Mail Body</h4>
+            </div>
+            <div class="box-v-body table-body">
+                <div class="apr-list aprover-dt-list connect-calls-details-sec" >
+                    <p class="mail-prev-sign">Dear {{data?.Name}},</p>
+                    <p class="mail-prev-body">{{data?.mailBody}}</p>
+                    <p class="mail-prev-sign-mt">Thanks & Regards:</p>
+                    <p class="mail-prev-sign">{{data?.userData?.FullName}}</p>
+                    <p class="mail-prev-sign">Talent Acquisition Group</p>
+                    <p class="mail-prev-sign">Infogain India Private Limited</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button type="submit" class="btn btn-infocon" tabindex="1" mat-dialog-close=true>
+        {{data?.buttonText?.ok}}
+    </button>
+    <button type="button" class="btn btn-simple-ats"  tabindex="-1" mat-dialog-close>
+        {{data?.buttonText?.cancel}}
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,212 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <!-- <app-auto-complete-talentid (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+                    </app-auto-complete-talentid> -->
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By CID/ Name/ Email/ Talent ID'"
+                                            [searchServerSide]="true" [isReset]="isResetSearch"
+                                            matTooltip="Search By CID/ Name/ Email/ Talent ID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button mat-button class="act-button" (click)="exportAsXLSX()"
+                                                        matTooltip="Download"
+                                                        [disabled]="candidateHistoryList?.data?.length === 0">
+                                                        <i class="fas fa-file-download ex-icon"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter"
+                                                        (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                                        [dateRangeTitle]="'Joining Date'" [companyLocation]="true"
+                                                        [LocationMulti]="true"></app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateHistoryList" class="table-mat-info">
+                                    <ng-container matColumnDef="talentId">
+                                        <th mat-header-cell *matHeaderCellDef>Talent ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.talentID || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Cid">
+                                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                                            CID
+                                        </th>
+                                        <td class="text-center" mat-cell *matCellDef="let element;">
+                                            {{element?.candidateId ? (element?.candidateId |
+                                            cidPrefix:element?.ProfileId) : '-' }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Candidate Name Column -->
+                                    <ng-container matColumnDef="CandidateName">
+                                        <th mat-header-cell *matHeaderCellDef> Candidate
+                                            Name </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element.Name || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Email ID Column -->
+                                    <ng-container matColumnDef="EmailID">
+                                        <th mat-header-cell *matHeaderCellDef>Candidate Personal <br> Email ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.email || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Email Sent On Column -->
+                                    <ng-container matColumnDef="EmailSentOn">
+                                        <th mat-header-cell *matHeaderCellDef>Email Sent On
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{(element?.EmailSentOn | date:'dd MMM YY') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="EmailStatus">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Email Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.EmailStatus || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Joining Location Column -->
+                                    <ng-container matColumnDef="doj">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Joining Date
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{(element?.joiningDate | date:'dd MMM YY') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="joiningLoc">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Joining Location
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.JoiningLocationName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <!-- Phone No. Column -->
+                                    <ng-container matColumnDef="PhoneNo">
+                                        <th mat-header-cell *matHeaderCellDef>Phone
+                                            No. </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.phone || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="offerNum">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Offer Number
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.OfferNo || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="isEmpCreated">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Is EmployeeId Created
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <span *ngIf="element?.IsEmployeeIdCreated == 1" class="cursor-s">Yes</span>
+                                            <span *ngIf="element?.IsEmployeeIdCreated == 0" class="cursor-s">No</span>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emailIdOrg">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Infogain Email ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <span [cdkCopyToClipboard]="element?.orgEmail" class="cursor-s">
+                                                {{element?.orgEmail || '-'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="primaryrecruiter">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Primary Recruiter
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.primaryrecruiterName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef> Action</th>
+                                        <td mat-cell *matCellDef="let element" class="text-left">
+                                            <div class="btn-action btn-action-centers"
+                                                *ngIf="element?.isTidDormant != 'D'">
+                                                <div class="btn-act">
+                                                    <button mat-button type="button" (click)="downloadDocument(element)"
+                                                        matTooltip="Exception Onboarding Approval"
+                                                        [disabled]="element?.AttachmentFileName == null || element?.AttachmentFileName == ''">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                        [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                                    </tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="candidateHistoryList?.data?.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec ats-foot-tb">
+                                <div>
+                                </div>
+                                <div>
+                                    <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                        (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

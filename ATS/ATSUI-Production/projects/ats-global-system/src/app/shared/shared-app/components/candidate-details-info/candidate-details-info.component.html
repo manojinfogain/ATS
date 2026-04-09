@@ -1,0 +1,1305 @@
+<ng-container *ngIf="detailsType === 'TD'">
+    <div class="box-v-ats">
+        <div class="box-v-header">
+            <h4>Talent ID Details</h4>
+        </div>
+        <div class="box-v-body">
+            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+
+                <div class="view-list-bx">
+                    <h4> Talent ID :</h4>
+                    <p>{{candData?.talentId || '-'}}</p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Primary Recruiter:</h4>
+                    <p>{{candData?.primaryRecruiter || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Secondary Recruiter:</h4>
+                    <p>{{candData?.secondaryRecRecruiter || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Requirement Type :</h4>
+                    <p>{{talentDetails?.ReqTypeName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Business Unit:</h4>
+                    <p>{{candData?.BuName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Account Name:</h4>
+                    <p>{{candData?.accountName || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Project Name:</h4>
+                    <p>{{candData?.projectName || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="talentDetails?.TalentIdCreatedBy == 'TC'">
+                    <h4>Talent Cube:</h4>
+                    <p>{{talentDetails?.TalentCubeName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="talentDetails?.TalentIdCreatedBy == 'TC'">
+                    <h4>Role:</h4>
+                    <p>{{talentDetails?.TalentCubeRole || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="talentDetails?.TalentIdCreatedBy == 'TC'">
+                    <h4>Grade:</h4>
+                    <p>{{talentDetails?.TCGradeName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="talentDetails?.TalentIdCreatedBy != 'TC'">
+                    <h4>Grade:</h4>
+                    <p>{{talentDetails?.gradeLevel || '-'}}</p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Billing Hours:</h4>
+                    <p>{{talentDetails?.BillingHours || '-'}}</p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Studio / Practice</h4>
+                    <p>{{talentDetails?.Practice || '-'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="detailsType === 'cd'">
+    <div class="box-v-ats">
+        <div class="box-v-header">
+            <h4>Candidate Details</h4>
+        </div>
+        <div class="box-v-body">
+            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                <div class="view-list-bx">
+                    <h4>Candidate Name:</h4>
+                    <p>{{candData?.Name || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Email:</h4>
+                    <p>{{candData?.email || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Phone No:</h4>
+                    <p>{{candData?.phone || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx"
+                    *ngIf="isVisibleForUs && (userData?.RoleId == 5 || userData?.RoleId == 1 || userData?.otherRoles?.IsUSHrRole == 'Y')">
+                    <h4>Gender:</h4>
+                    <ng-container [ngSwitch]="candData?.Gender">
+                        <ng-container *ngSwitchCase="1">
+                            <p>Male</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                            <p>Female</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                            <p>Others</p>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <p>No record found</p>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="candData?.CubeName">
+                    <h4>Talent Cube:</h4>
+                    <p>{{candData?.CubeName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="candData?.gradeName">
+                    <h4>Grade:</h4>
+                    <p>{{candData?.gradeName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="candData?.ClusterName">
+                    <h4>Cluster:</h4>
+                    <p>{{candData?.ClusterName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="candData?.RoleName">
+                    <h4>Role:</h4>
+                    <p>{{candData?.RoleName || '-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="candData?.RequirementTypeId !=6">
+                    <h4> Profile Source:</h4>
+                    <p>{{candData?.ProfileSource || '-'}}</p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Total Experience:</h4>
+                    <p>
+                        {{candData?.totalExpYear + ' Year'+
+                        ' '+candData?.totalExpMonth +' Month'}}
+                    </p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Relevent Experience:</h4>
+                    <p>
+                        {{candData?.releventExpYear + ' Year'+
+                        ' '+candData?.releventExpMonth +' Month'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Skill:</h4>
+                    <p> {{candData?.skillName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Primary Skill :</h4>
+                    <p> {{candData?.skillParentName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="candData?.RequirementTypeId !=6">
+                    <h4>Candidate Location:</h4>
+                    <p> {{candData?.cityName}} ({{candData?.state_name}})</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="offerAprDt.OfferID === null">
+                    <h4>Employment type:</h4>
+                    <p>{{candData?.candidateTypeName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Selection Date:</h4>
+                    <p>{{candData?.offeredOn | date:'dd-MMM-yyyy'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia &&candData?.currentSalary">
+                    <h4>Current CTC :</h4>
+                    <p>
+                        <ng-container *ngIf="candData?.CurrencyId == 1">
+                            {{(((candData?.currentSalary | currency:
+                            'INR':true:'1.0') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                        <ng-container *ngIf="candData?.CurrencyId== 2">
+                            {{(((candData?.currentSalary| currency:'1.0') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                        <ng-container *ngIf="candData?.currency?.id == 3">
+                            {{(((candData?.salaryDetails?.current | currency:
+                            'EUR':true:'1.0') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="candData?.expectedSalary">
+                    <h4>Expected CTC :</h4>
+                    <p>
+                        <ng-container *ngIf="candData?.CurrencyId == 1">
+                            {{(((candData?.expectedSalary| currency:
+                            'INR':true:'1.0') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                        <ng-container *ngIf="candData?.CurrencyId == 2">
+                            {{(((candData?.expectedSalary | currency) ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                        <ng-container *ngIf="candData?.CurrencyId == 3">
+                            {{(((candData?.expectedSalary | currency:
+                            'EUR':true:'1.0') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                    </p>
+
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Current Company :</h4>
+                    <p>{{candData?.currentOrg || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Education Qualification :</h4>
+                    <p>{{candData?.eduQualification || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Interview Feedback Details :</h4>
+                    <p>
+                        <button type="button" class="btn-ey-v" (click)="openfeedbackInfoModal(data)">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </p>
+                </div>
+                <!-- end -->
+                <ng-container *ngIf="candData?.RequirementTypeId !=6">
+                    <div class="view-list-bx">
+                        <h4>L1 interview date :</h4>
+                        <p>{{(techL1Round | date:'dd-MMM-yyyy hh:mm a') ||
+                            '-'}}</p>
+                    </div>
+                    <!-- end -->
+
+                    <div class="view-list-bx">
+                        <h4> Download Resume:</h4>
+                        <p>
+                            <button type="button" class="btn-ey-v" (click)="dwnloadFileSingle(candData)">
+                                <span class="material-icons-outlined">
+                                    download_for_offline
+                                </span>
+                            </button>
+                            <!-- <ng-container [ngSwitch]="allRoundList?.sourceProfile?.Id">
+                                <ng-container *ngSwitchCase="3">
+                                    <ng-container *ngIf="isInfogainUrl(candData?.resume_path)">
+                                        <a mat-button class="btn-ey-v" [href]="candData?.resume_path | safeUrl"
+                                            target="_blank">
+                                            <span class="material-icons-outlined">
+                                                download_for_offline
+                                            </span>
+                                        </a>
+                                    </ng-container>
+                                    <ng-container *ngIf="!isInfogainUrl(candData?.resume_path)">
+                                        <button type="button" class="btn-ey-v" (click)="dwnloadFileSingle(candData)">
+                                            <span class="material-icons-outlined">
+                                                download_for_offline
+                                            </span>
+                                        </button>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <button type="button" class="btn-ey-v" (click)="dwnloadFileSingle(candData)">
+                                        <span class="material-icons-outlined">
+                                            download_for_offline
+                                        </span>
+                                    </button>
+                                </ng-container>
+                            </ng-container> -->
+                            <!-- <button type="button" class="btn-ey-v" (click)="dwnloadFileSingle(candData)">
+                            <span class="material-icons-outlined">
+                                download_for_offline
+                            </span>
+                        </button> -->
+                        </p>
+                    </div>
+                </ng-container>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && candData?.RequirementTypeId !=6">
+                    <h4>Source Date:</h4>
+                    <p>{{candData?.SourcingDate | date:'dd-MMM-yyyy'}}</p>
+                </div>
+                <!-- end -->
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="detailsType === 'cod'">
+    <div class="box-v-ats">
+        <div class="box-v-header">
+            <h4>Candidate Offer Details</h4>
+        </div>
+        <div class="box-v-body">
+            <div class="view-list-dt-wrap view-list-dt-appr">
+                <!-- end -->
+
+                <!-- for US  -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Joining Location:</h4>
+                    <p>{{offerAprDt?.JoiningLocation|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>State:</h4>
+                    <p>{{offerAprDt?.USJoiningStateName|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>City:</h4>
+                    <p>{{offerAprDt?.USJoiningCityName|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Legal First Name:</h4>
+                    <p>{{offerAprDt?.USFirstName|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Legal Last Name:</h4>
+                    <p>{{offerAprDt?.USLastNmae|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Preferred Name ( If diffrent ):</h4>
+                    <p>{{offerAprDt?.USPreferedName|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Work/ Visa Status:</h4>
+                    <p>{{offerAprDt?.USVisa|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y' && !isC2cFieldsActive">
+                    <h4>I9 Representative:</h4>
+                    <p>{{offerAprDt?.USI9RM|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx"
+                    *ngIf="isVisibleForUs && offerAprDt?.USI9RepresentativeId !=3 && !isC2cFieldsActive">
+                    <h4>I9 Representative Employee:</h4>
+                    <p>{{offerAprDt?.I9RepEmpName|| '-'}}</p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Legal Entity:</h4>
+                    <p>{{offerAprDt?.USLegalEntity|| '-'}}</p>
+                </div>
+
+                <div class="view-list-bx">
+                    <h4>Division:</h4>
+                    <p>{{data?.Division ? data?.Division : '-'}}</p>
+
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Date Of Joining:</h4>
+                    <p>{{offerAprDt?.DateOfJoining | date:'dd MMM yyyy' || '-'}}</p>
+
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Joining Location:</h4>
+                    <p>{{offerAprDt?.JoiningLocation|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="offerAprDt.OfferID">
+                    <h4>Employment type</h4>
+                    <p>{{offerAprDt?.CandidateType|| '-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Offer Type ( FTE ):</h4>
+                    <p>{{offerAprDt?.USOfferType|| '-'}}</p>
+                </div>
+                <!-- end  -->
+                <!-- corp to corp -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '14'">
+                    <h4>Vendor Name/ Refree Name:</h4>
+                    <p>{{offerAprDt?.USVenderName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '14'">
+                    <h4>Client State:</h4>
+                    <p>{{offerAprDt?.USStateName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '14'">
+                    <h4>Client City:</h4>
+                    <p>{{offerAprDt?.USCityName || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '14'">
+                    <h4>Is Billable?:</h4>
+                    <p>{{offerAprDt?.USIsBillable || '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID != '1010' 
+                && offerAprDt?.CandidateTypeID != '14'">
+                    <h4>Visa Expiry Date:</h4>
+                    <p>{{offerAprDt?.USVisaExpiryDate | date:'dd-MMM-yyyy' ||
+                        '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '14'">
+                    <h4>End Date ( C2C ):</h4>
+                    <p>{{offerAprDt?.USENDDATE | date:'dd-MMM-yyyy' || '-'}}</p>
+                </div>
+                <!-- corp to corp ends -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Department Code:</h4>
+                    <p>{{offerAprDt?.USDepartment|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Employee Unit:</h4>
+                    <p>{{offerAprDt?.USEmpUnit|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Resource Find:</h4>
+                    <p>{{offerAprDt?.USProfile|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs&& offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Title ( Internal ):</h4>
+                    <p>{{offerAprDt?.USDesignation|| '-'}}</p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Talent Cube Code:</h4>
+                    <p>{{offerAprDt?.UStalentCube|| '-'}}</p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Grade:</h4>
+                    <p>{{offerAprDt?.gradeName|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>New hire vs Rehire:</h4>
+                    <p>{{offerAprDt?.USNewHireOrRehire|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Working Remote Status:</h4>
+                    <p>{{offerAprDt?.USRemoteStatus|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Relocation ( Y/N ):</h4>
+                    <p>{{offerAprDt?.USRelocation|| '-'}}</p>
+                </div>
+
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Year Experience:</h4>
+                    <p>{{offerAprDt?.USExpYear|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Primary Skill:</h4>
+                    <p>{{offerAprDt?.USPskill|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Sub Skills:</h4>
+                    <p>{{offerAprDt?.USSubSill|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4> Years of experience with primary skills:</h4>
+                    <p>{{offerAprDt?.USPskillExp|| '-'}}</p>
+                </div> -->
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y' && !isC2cFieldsActive">
+                    <h4>FLSA Job Classification:</h4>
+                    <p>{{offerAprDt?.USFLSA|| '-'}}</p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Account Name & Location:</h4>
+                    <p>{{offerAprDt?.usAccountLocation|| '-'}}</p>
+                </div> -->
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Recruiter Name:</h4>
+                    <p>{{offerAprDt?.usRecruiter|| '-'}}</p>
+                </div> -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Reporting Manager:</h4>
+                    <p>{{offerAprDt?.USRM|| '-'}}</p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>TAG Lead Approver:</h4>
+                    <p>{{offerAprDt?.UsTagLeadApproer|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>DP/PDL/SDP Approver:</h4>
+                    <p>{{offerAprDt?.DH_Approver|| '-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Global Delivery Leader:</h4>
+                    <p>{{offerAprDt?.SVPApprover|| '-'}}</p>
+                </div>
+            
+             <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>President & COO:</h4>
+                    <p>{{offerAprDt?.COOApprover|| '-'}}</p>
+                </div>-->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Start Date:</h4>
+                    <!-- <p>{{offerAprDt?.USStartDate|| '-'}}</p> -->
+                    <p>{{offerAprDt?.USStartDate| date:'dd-MMM-yyyy'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Is Start Date Tentative or confirmed ?:</h4>
+                    <!-- <p>{{offerAprDt?.USStartDate|| '-'}}</p> -->
+                    <p *ngIf="offerAprDt?.isStartDateTentativeOrConfirmed == 'T'">Tentative</p>
+                    <p *ngIf="offerAprDt?.isStartDateTentativeOrConfirmed == 'C'">Confirmed</p>
+                    <p
+                        *ngIf="offerAprDt?.isStartDateTentativeOrConfirmed != 'C' && offerAprDt?.isStartDateTentativeOrConfirmed != 'T'">
+                        -</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs && offerAprDt?.CandidateTypeID == '2009'">
+                    <h4>Intern End Date:</h4>
+                    <!-- <p>{{offerAprDt?.USStartDate|| '-'}}</p> -->
+                    <p>{{offerAprDt?.USInternEndDate| date:'dd-MMM-yyyy'}}</p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Bill Rate (If Billable):</h4>
+                    <p>{{offerAprDt?.USbillingRate|| '-'}}</p>
+                </div> -->
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Per Hour Cost Rate:</h4>
+                    <p>{{offerAprDt?.USPerHourCostRateinUSD|| '-'}}</p>
+                </div> -->
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Margin:</h4>
+                    <p>{{offerAprDt?.USGrossMargin|| '-'}}</p>
+                </div> -->
+
+                <!-- anayt -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt.CandidateTypeID == 2">
+                    <h4>Partner</h4>
+                    <p>{{offerAprDt?.PartnerName|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx"
+                    *ngIf="isVisibleForIndia && offerAprDt.CandidateTypeID == 2 || offerAprDt.CandidateTypeID == 6 || offerAprDt.CandidateTypeID == 1">
+                    <h4>Contract Completion Date</h4>
+                    <p>{{(offerAprDt?.ContractCompletionDate |
+                        date:'dd-MMM-yyyy' )|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt.CandidateTypeID == 2">
+                    <h4>Service And Markup (%)</h4>
+                    <p>{{offerAprDt?.ServiceAndMarkup + '%'|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Designation:</h4>
+                    <p>{{offerAprDt?.Designation || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.PracticeId != null">
+                    <h4>Studio / Practice:</h4>
+                    <p>
+                        <ng-container [ngSwitch]="offerAprDt?.PracticeId">
+                            <ng-container *ngSwitchCase="0"> Others
+                                (Non-Data)</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                {{offerAprDt?.PracticeName}} (Data)
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <ng-container *ngIf="offerAprDt?.jobFamilyName">
+                    <div class="view-list-bx"
+                        *ngIf="isVisibleForIndia && userData?.RoleId == 5 || userData?.RoleId == 2">
+                        <h4>
+                            <!-- {{data?.DivisionID == 2 ? 'Classification:' : 'Job Family:'}} -->
+                            <!-- <ng-container [ngSwitch]="data?.DivisionID">
+                                <ng-container *ngSwitchCase="1">
+                                    Job Family
+                                </ng-container>
+                                <ng-container *ngSwitchCase="2">
+                                    Classification
+                                </ng-container>
+                                <ng-container *ngSwitchCase="7">
+                                    Classification
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    Job Family
+                                </ng-container>
+                            </ng-container> -->
+                            Job Family
+                        </h4>
+                        <p>{{offerAprDt?.jobFamilyName|| '-'}}</p>
+                    </div>
+                    <!-- end -->
+                </ng-container>
+
+                <div class="view-list-bx"
+                    *ngIf="(isVisibleForIndia && offerAprDt?.IsRenuTeam != 'Y') && (userData?.RoleId == 5 || userData?.RoleId == 2) && data?.PracticeId == 0">
+                    <h4>Job Family Category:</h4>
+                    <p>
+                        <ng-container [ngSwitch]="offerAprDt?.JobFamilyCategory">
+                            <ng-container *ngSwitchCase="'P'">{{JfCategList[0].name}}</ng-container>
+                            <ng-container *ngSwitchCase="'N'">{{JfCategList[1].name}}</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="offerAprDt?.SalaryGridType == 'TC'">
+                    <h4>
+                        Talent Cube
+                    </h4>
+                    <p>{{offerAprDt?.CubeName|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="offerAprDt?.SalaryGridType == 'TC' &&  offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>
+                        Cluster
+                    </h4>
+                    <p>{{offerAprDt?.ClusterName|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Grade:</h4>
+                    <p>{{offerAprDt?.gradeName|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Salary Type:</h4>
+                    <p *ngIf="isVisibleForIndia">
+                        <ng-container [ngSwitch]="offerAprDt?.SalaryType">
+                            <ng-container *ngSwitchCase="1">Yearly</ng-container>
+                            <ng-container *ngSwitchCase="2">Monthly</ng-container>
+                            <ng-container *ngSwitchCase="3">Hourly</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                    <p *ngIf="isVisibleForUs">
+                        <ng-container [ngSwitch]="offerAprDt?.USSalaryType">
+                            <ng-container *ngSwitchCase="1">Yearly</ng-container>
+                            <ng-container *ngSwitchCase="2">Monthly</ng-container>
+                            <ng-container *ngSwitchCase="3">Hourly</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>{{isC2cFieldsActive ? 'Approved Vendor Rate:' :
+                        'Approved Base Pay:' }}</h4>
+                    <p>{{offerAprDt?.USBasePay?(offerAprDt?.USBasePay |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>{{isC2cFieldsActive ? 'Final Vendor Rate:' :
+                        'Final Base Pay:'}}</h4>
+                    <p>{{offerAprDt?.USFinalBasePay?(offerAprDt?.USFinalBasePay
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Performance Bonus Pay:</h4>
+                    <p>{{offerAprDt?.USPerfomanceBonous|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Performance Bonus Pay:</h4>
+                    <p>{{offerAprDt?.USFinalPerformanceBonus|| '-'}}</p>
+                </div> -->
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Annual Variable Pay:</h4>
+                    <p>{{offerAprDt?.USAnnualVariablePay?(offerAprDt?.USAnnualVariablePay
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Annual Variable Pay:</h4>
+                    <p>{{offerAprDt?.USFinalAnnualVariablePay?(offerAprDt?.USFinalAnnualVariablePay
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Joining Bonus Pay:</h4>
+                    <p>{{offerAprDt?.USjoiningBonus?(offerAprDt?.USjoiningBonus
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Joining Bonus Pay:</h4>
+                    <p>{{offerAprDt?.USFinalJoiningBonus?(offerAprDt?.USFinalJoiningBonus
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Relocation Pay:</h4>
+                    <p>{{offerAprDt?.USRelocationPay?(offerAprDt?.USRelocationPay
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Relocation Pay:</h4>
+                    <p>{{offerAprDt?.USFinalRelocationPay?(offerAprDt?.USFinalRelocationPay
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Visa Cost:</h4>
+                    <p>{{offerAprDt?.USVisaPay?(offerAprDt?.USVisaPay |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Visa Cost:</h4>
+                    <p>{{offerAprDt?.USFinalVisaCost?(offerAprDt?.USFinalVisaCost
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Approved Incentive Bonus:</h4>
+                    <p>{{offerAprDt?.USIncentiveBonus?(offerAprDt?.USIncentiveBonus
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cAndDCActive">
+                    <h4>Final Incentive Bonus:</h4>
+                    <p>{{offerAprDt?.USFinalIncentiveBonus?(offerAprDt?.USFinalIncentiveBonus
+                        |
+                        customCurrency:2:2:2|amountMask:data?.OfferStatusID):'-'}}</p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Approved Relocation Allownces:</h4>
+                    <p>{{offerAprDt?.USRelocationAllowance|| '-'}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Final Relocation Allownces:</h4>
+                    <p>{{offerAprDt?.USFinalRelocationAllowance|| '-'}}</p>
+                </div> -->
+
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Other Pay:</h4>
+                    <p>{{offerAprDt?.legenlFirstName|| '-'}}</p>
+                </div> -->
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cFieldsActive">
+                    <h4>Medical Benefit Eligible:</h4>
+                    <p>{{offerAprDt?.USMedicalBenifits|| '-'}}</p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Local Currency:</h4>
+                    <p>
+                        {{location?.CurName || '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved CTC:</h4>
+                    <p>
+                        {{(offerAprDt?.CTC| customCurrency:location?.CurrencyId
+                        |amountMask:data?.OfferStatusID) ||
+                        '-'}}
+                    </p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4> CTC:</h4>
+                    <p>
+                        {{(offerAprDt?.FinalCTC|
+                        customCurrency:location?.CurrencyId
+                        |amountMask:data?.OfferStatusID) ||
+                        '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx"
+                    *ngIf="isVisibleForIndia && offerAprDt?.IsRenuTeam == 'N'">
+                    <h4> Variable Pay :</h4>
+                <p>
+                    {{ offerAprDt?.variablePayPercent !== null
+                    ? (offerAprDt?.variablePayPercent == 0
+                    ? '0'
+                    : (offerAprDt?.variablePayPercent | amountMask:data?.OfferStatusID)
+                    ) + '%'
+                    : '-' }}
+                </p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                    <h4> Variable Pay (%):</h4>
+                    <p>
+                        {{offerAprDt?.variablePayPercent !=null
+                        ?(offerAprDt?.variablePayPercent
+                        |amountMask:data?.OfferStatusID)+'%' : '-'}}
+                    </p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                    <h4> Variable Pay (Amount):</h4>
+                    <p>
+                        {{(offerAprDt?.VariablePay|
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div> -->
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                    <h4> Variable Pay Commitment:</h4>
+                    <p>
+                        <ng-container [ngSwitch]="offerAprDt?.variablePayDuration">
+                            <ng-container *ngSwitchCase="1">
+                                One Quarter
+                            </ng-container>
+                            <ng-container *ngSwitchCase="2">
+                                Two Quarters
+                            </ng-container>
+                            <ng-container *ngSwitchCase="3">
+                                Three Quarters
+                            </ng-container>
+                            <ng-container *ngSwitchCase="4">
+                                Four Quarters
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                    <h4> MIP:</h4>
+                    <p>
+                        {{(offerAprDt?.MIP| customCurrency:location?.CurrencyId|
+                        amountMask:data?.OfferStatusID) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="offerAprDt?.IsRenuTeam == 'Y'">
+                    <h4> SAR:</h4>
+                    <p>
+                        {{offerAprDt?.SAR?(offerAprDt?.SAR |
+                        amountMask:data?.OfferStatusID): '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved Joining bonus:</h4>
+                    <p>
+                        {{(offerAprDt?.joiningBonus |
+                        customCurrency:location?.CurrencyId |
+                        amountMask:data?.OfferStatusID) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Joining bonus:</h4>
+                    <p>
+                        {{(offerAprDt?.FinalJoiningBonus |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved Notice period buyout:</h4>
+                    <p>
+                        {{(offerAprDt?.NoticeBuyOut |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Notice period buyout:</h4>
+                    <p>
+                        {{(offerAprDt?.FinalNoticeBuyOut |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved Travel Expense:</h4>
+                    <p>
+                        {{(offerAprDt?.TravelExp |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Travel Expense:</h4>
+                    <p>
+                        {{(offerAprDt?.FinalTravelExp |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved Relocation Expense:</h4>
+
+                    <p>
+                        {{(offerAprDt?.RelocationExp |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Relocation Expense:</h4>
+
+                    <p>
+                        {{(offerAprDt?.FinalRelocationExp |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Approved Retention bonus:</h4>
+
+                    <p>
+                        {{(offerAprDt?.RetentionBonus |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Retention bonus:</h4>
+
+                    <p>
+                        {{(offerAprDt?.FinalRetentionBonus |
+                        customCurrency:location?.CurrencyId|amountMask:data?.OfferStatusID)
+                        || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.IsRenuTeam != 'Y'">
+                    <h4>Offer given by:</h4>
+                    <p>{{offerAprDt?.offerdByName|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Offer Released For:</h4>
+                    <p>{{offerAprDt?.OfferReleasedForName|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>NPS (%):</h4>
+                    <p>
+                        {{((offerAprDt?.NPS?offerAprDt?.NPS +' %':
+                        '-')|amountMask:data?.OfferStatusID)}}
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && IsHiringWithSalaryGrid">
+                    <h4>Billing Currency:</h4>
+                    <p>{{offerAprDt?.billingCurrecnyName|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && IsHiringWithSalaryGrid">
+                    <h4>Billing Rate/Hr in billing currency:</h4>
+                    <p>{{(offerAprDt?.billingRateHrCurrency|amountMask:data?.OfferStatusID)||
+                        '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && IsHiringWithSalaryGrid">
+                    <h4>Billable Hours/Day:</h4>
+                    <p>{{(offerAprDt?.billableHoursDay|amountMask:data?.OfferStatusID)||
+                        '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <!-- <div class="view-list-bx" *ngIf="data?.DivisionID == 7">
+                    <h4>Revenue:</h4>
+                    <p>{{(offerAprDt?.Revenue | customCurrency:1:0:1)|| '-'}}</p>
+                </div> -->
+                <!-- end -->
+
+                <!-- <div class="view-list-bx" *ngIf="data?.DivisionID == 7">
+                    <h4>Other Hiring Cost:</h4>
+                    <p>{{(offerAprDt?.OtherCost | customCurrency:1:0:1)|| '-'}}</p>
+                </div> -->
+                <!-- end -->
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && IsHiringWithSalaryGrid">
+                    <h4>DGM:</h4>
+                    <p>
+                        <!-- <ng-container [ngSwitch]="data?.DivisionID">
+                            <ng-container *ngSwitchCase="1">
+                                {{(offerAprDt?.dgmCostUsd | customCurrency:2:0:2) || '-'}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="7">
+                                {{offerAprDt?.DGMAmount ? (offerAprDt?.DGMAmount | customCurrency:1:0:1) : '-'}}
+                            </ng-container>
+                        </ng-container> -->
+                        {{((offerAprDt?.dgmCostUsd |
+                        customCurrency:2:0:2)|amountMask:data?.OfferStatusID) ||
+                        '-'}}
+                    </p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="data?.DivisionID == 2">
+                    <h4>Billing Amount (In USD:)</h4>
+                    <p>
+                        {{(offerAprDt?.BillingAmountInUSD | customCurrency:2:0) || '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="data?.DivisionID == 2">
+                    <h4>Client Approved Billing (In USD:)</h4>
+                    <p>
+                        {{(offerAprDt?.ClientApprovedBilling | customCurrency:2:0) || '-'}}
+                    </p>
+                </div> -->
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && IsHiringWithSalaryGrid">
+                    <h4>DGM (%):</h4>
+
+                    <p>
+                        <!-- <ng-container [ngSwitch]="data?.DivisionID">
+                            <ng-container *ngSwitchCase="1">
+                                {{offerAprDt?.dgmPercentUsd ? offerAprDt?.dgmPercentUsd+' %': '-'}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="2">
+                                {{offerAprDt?.dgmPercentUsd ? offerAprDt?.dgmPercentUsd+' %': '-'}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="7">
+                                {{offerAprDt?.DGMPer ? offerAprDt?.DGMPer+' %': '-'}}
+                            </ng-container>
+
+                        </ng-container> -->
+                        {{((offerAprDt?.dgmPercentUsd == null ? '':
+                        offerAprDt?.dgmPercentUsd+'
+                        %')|amountMask:data?.OfferStatusID)}}
+                    </p>
+                </div>
+                <ng-container *ngIf="IsHiringWithSalaryGrid">
+                    <div class="view-list-bx" *ngIf="!isC2cFieldsActive && offerAprDt?.IsRenuTeam != 'Y'">
+                        <h4>Variance (From Max Salary in %):</h4>
+                        <p>
+                            {{((offerAprDt?.VarienceMax !=null ?
+                            offerAprDt?.VarienceMax+' %' :
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </p>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="IsHiringWithSalaryGrid">
+                    <div class="view-list-bx" *ngIf="isVisibleForIndia && hideVarianceSal">
+                        <h4>Variance (From Median Salary in %):</h4>
+                        <p>
+                            {{((offerAprDt?.VarienceMid !=null ?
+                            offerAprDt?.VarienceMid+' %' :
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </p>
+                    </div>
+                </ng-container>
+
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Bill Rate:</h4>
+                    <p>{{((offerAprDt?.USbillingRate?(offerAprDt?.USbillingRate
+                        |
+                        customCurrency:2:2:2):'-')|amountMask:data?.OfferStatusID)}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cFieldsActive">
+                    <h4>Loading Cost in USD:</h4>
+                    <p>{{((offerAprDt?.USLoadingCostinUSD?(offerAprDt?.USLoadingCostinUSD
+                        |
+                        customCurrency:2:2:2):'-')|amountMask:data?.OfferStatusID)}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs && !isC2cFieldsActive">
+                    <h4>Gross Salary in USD:</h4>
+                    <p>{{((offerAprDt?.USGrossSalaryinUSD?(offerAprDt?.USGrossSalaryinUSD
+                        |
+                        customCurrency:2:2:2):'-')|amountMask:data?.OfferStatusID)}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Per Hour Cost Rate in USD:</h4>
+                    <p>{{((offerAprDt?.USPerHourCostRateinUSD?(offerAprDt?.USPerHourCostRateinUSD
+                        |
+                        customCurrency:2:2:2):'-')|amountMask:data?.OfferStatusID)}}</p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForUs">
+                    <h4>Gross Margin:</h4>
+                    <p>{{((offerAprDt?.USGrossMargin?(offerAprDt?.USGrossMargin
+                        +
+                        '%'):'0%')|amountMask:data?.OfferStatusID)}}</p>
+                </div>
+
+                <div class="view-list-bx">
+                    <h4>Current Status:</h4>
+                    <p>
+
+                        <app-all-status-id-visibility-shared [statusType]="'offer'" [statusId]="data?.OfferStatusID"
+                            [statusName]="data?.OfferStatusName">
+                        </app-all-status-id-visibility-shared>
+
+                    </p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Re-Hire:</h4>
+                    <p>
+                        <ng-container [ngSwitch]="offerAprDt?.reHire">
+                            <ng-container *ngSwitchCase="'Y'">Yes</ng-container>
+                            <ng-container *ngSwitchCase="'N'">No</ng-container>
+                            <ng-container *ngSwitchCase="'C'">Conversion</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Offer In Hand:</h4>
+                    <!-- <p>{{offerAprDt?.IsOfferInHand == 1 ? 'Yes' : 'No'}}</p> -->
+                    <p>
+                        <ng-container [ngSwitch]="offerAprDt?.IsOfferInHand">
+                            <span *ngSwitchCase="1">Yes</span>
+                            <span *ngSwitchCase="0">No</span>
+                            <span *ngSwitchDefault>-</span>
+                        </ng-container>
+                    </p>
+                </div>
+
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.IsOfferInHand ==1">
+                    <h4>Offer in Hand (Annual CTC):</h4>
+                    <p>
+                        {{(offerAprDt?.OfferInHandCTC| customCurrency:location?.CurrencyId
+                        |amountMask:data?.OfferStatusID) ||
+                        '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="(isVisibleForIndia && offerAprDt?.IsOfferInHand ==1) ||
+                (isVisibleForIndia && candData?.IsOfferInHandInt == 'Y') ">
+                    <h4> Download Document (Offer In Hand):</h4>
+                    <p>
+                        <button type="button" class="btn-ey-v" (click)="dwnloadFileOfferIn(candData)"
+                        [disabled]="!offerAprDt?.OfferInHandFileName && !candData?.OfferInHandFileName">
+                            <span class="material-icons-outlined">
+                                download_for_offline
+                            </span>
+                        </button>
+                    </p>
+                </div>
+                <!--<div class="view-list-bx"
+                    *ngIf="isVisibleForIndia && (hideshowBgv(data) && userData?.RoleId == 5 || hideshowBgv(data) && userData?.RoleId == 2)">
+                    <h4> Download BGV Confirmation Documents:</h4>
+                    <p>
+                        <button type="button" class="btn-ey-v" (click)="bgvDownldModal(data)">
+                            <span class="material-icons-outlined">
+                                cloud_download
+                            </span>
+                        </button>
+                    </p>
+                </div> -->
+                <div class="view-list-bx"
+                    *ngIf="isVisibleForIndia && (offerAprDt?.StatusID == 270 && userData?.RoleId == 5) || (offerAprDt?.StatusID ==270 && userData?.RoleId == 2)">
+                    <h4> Download Transfer Approval Document:</h4>
+                    <p>
+                        <button type="button" class="btn-ey-v" (click)="apprDocDownldModal(data)">
+                            <span class="material-icons-outlined">
+                                cloud_download
+                            </span>
+                        </button>
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.ContractExtensionRemarks">
+                    <h4>Justification (Contract duration above 6 month):</h4>
+
+                    <p>
+                        {{offerAprDt?.ContractExtensionRemarks || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.VarienceMid >0">
+                    <h4>Justification:</h4>
+                    <p>
+                        {{offerAprDt?.JustificationBucket || '-'}}
+                    </p>
+                </div> -->
+                <!-- <div class="view-list-bx" *ngIf="isVisibleForIndia && offerAprDt?.VarienceMid >0">
+                    <h4>Justification Remark:</h4>
+                    <p>
+                        {{offerAprDt?.JustificationRemark || '-'}}
+                       
+                    </p>
+                </div> -->
+
+            </div>
+            <ng-container *ngIf="IsHiringWithSalaryGrid">
+                <p class="tx-h" *ngIf="hideVarianceSal && offerAprDt?.isNewGrid == 1"><strong>Note: </strong> Variance is calculated Inclusive <strong>Joining Bonus</strong></p>
+                 <p class="tx-h" *ngIf="hideVarianceSal && offerAprDt?.isNewGrid == 2"><strong>Note: </strong>Variance is calculated inclusive of one-time payout such as <strong> ( Joining Bonus, Notice Period Buyout, Travel Expense, Relocation Expense, Retention Bonus ) </strong></p>
+            </ng-container>
+
+            <!-- <p class="tx-h" *ngIf="isVisibleForIndia && (hideVarianceSal && offerAprDt?.isNewGrid == 1)">
+                <strong>Note:</strong> Variance is calculated Inclusive <strong>Joining Bonus</strong>
+            </p> -->
+        </div>
+    </div>
+    <!-- end -->
+</ng-container>
+<ng-container *ngIf="IsHiringWithSalaryGrid">
+    <ng-container *ngIf="salaryGridShow === true && hideVarianceSal === true  && !isC2cFieldsActive">
+        <div class="dgm-track"
+            *ngIf="userData?.RoleId == 5 ||  userData?.RoleId == 2 || userData?.EmpNewId == offerAprDt?.PM_Approver">
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header">
+                    <h4>Salary Grid</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-body">
+
+                                <div class="dgm-track">
+                                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                        <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                                            <h4>Comp. Band</h4>
+                                            <p>{{offerAprDt?.gridCompBand ||
+                                                '-'}}</p>
+                                        </div>
+                                        <!-- end  -->
+
+                                        <div class="view-list-bx">
+                                            <h4>Minimum Salary</h4>
+                                            <p *ngIf="isVisibleForIndia">
+                                                {{((offerAprDt?.MinSalary?(offerAprDt?.MinSalary
+                                                |
+                                                customCurrency:1:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                            <p *ngIf="isVisibleForUs">
+                                                <!-- {{offerAprDt?.MinSalary?(offerAprDt?.MinSalary |
+                                                currency): '-'}} -->
+                                                {{((offerAprDt?.MinSalary?(offerAprDt?.MinSalary
+                                                |
+                                                customCurrency:2:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                        </div>
+                                        <!-- end -->
+
+                                        <div class="view-list-bx">
+                                            <h4>Median Salary</h4>
+                                            <p *ngIf="isVisibleForIndia">
+                                                {{((offerAprDt?.MedSalary?(offerAprDt?.MedSalary
+                                                |
+                                                customCurrency:1:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                            <p *ngIf="isVisibleForUs">
+                                                {{((offerAprDt?.MedSalary?(offerAprDt?.MedSalary
+                                                |
+                                                customCurrency:2:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                        </div>
+                                        <!-- end -->
+                                        <div class="view-list-bx">
+                                            <h4>Maximum Salary</h4>
+                                            <p *ngIf="isVisibleForIndia">
+                                                {{((offerAprDt?.MaxSalary?(offerAprDt?.MaxSalary
+                                                |
+                                                customCurrency:1:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                            <p *ngIf="isVisibleForUs">
+                                                {{((offerAprDt?.MaxSalary?(offerAprDt?.MaxSalary
+                                                |
+                                                customCurrency:2:0:2):
+                                                '-')|amountMask:data?.OfferStatusID)}}
+                                            </p>
+                                        </div>
+                                        <!-- end -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+    </ng-container>
+</ng-container>

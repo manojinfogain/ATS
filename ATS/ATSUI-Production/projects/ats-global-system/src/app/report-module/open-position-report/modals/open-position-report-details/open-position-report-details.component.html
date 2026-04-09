@@ -1,0 +1,131 @@
+
+<div class="ats-modal-header">
+  <h1>{{data?.PrimaryRecruiter}} - {{data?.title}} </h1>
+  <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+
+  <div class="ats-modal-body">
+    <div class="profile-list-wrapper">
+      <div class="header-s">
+        <div class="left-s-av"></div>
+        <div class="search-bars">
+          <!-- <div class="erp-search-input" matTooltipPosition="above" matTooltip="Search By Name/Email/Phone/Talent ID/Primary Skill/Secondary Skill">
+              <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+              [placeHolder]="'Search By Name/Email/Phone/Primary Skill/Secondary Skill'" [searchServerSide]="true"></app-search-filter>
+            
+            </div> -->
+          <div class="filter-at-wrapper">
+            <div class="s-fil">
+              <div class="erp-search-input" matTooltipPosition="above" matTooltip="Search By Name/Email">
+                <app-search-filter (sendKeyValue)="getSearchValueKey($event)" [placeHolder]="'Search By Name/Email'"
+                  [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+              </div>
+            </div>
+            <div class="s-fil">
+              <div class="act-header-btn">
+                <!-- <ul>
+                  <li>
+                    <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                      (sendSortData)="getSortData($event)">
+                    </app-filter-sort>
+                  </li>
+                </ul> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-data-scroll-pop" *ngIf="candidateList">
+        <table mat-table [dataSource]="candidateList" class="table-mat-info" matSort (matSortChange)="sortData($event)">
+          <!-- Candidate ID Column -->
+          <ng-container matColumnDef="Cid">
+            <th class="cid-col-width" mat-header-cell *matHeaderCellDef>{{cidColName}} </th>
+            <td class="text-center" mat-cell *matCellDef="let element;">
+              {{element.cid ? cidPrefix + element.cid : '-'}}
+            </td>
+          </ng-container>
+          
+          <!-- Candidate Name Column -->
+          <ng-container matColumnDef="CandidateName">
+            <th mat-header-cell *matHeaderCellDef> Candidate Name </th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.CandidateName || '-'}}
+            </td>
+          </ng-container>
+
+          <!-- Email ID Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email ID </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.CandidateEmail || '-'}}
+            </td>
+          </ng-container>
+          <!-- Phone No. Column -->
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone No. </th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.ContactNumber || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterViewDate">
+            <th mat-header-cell *matHeaderCellDef> Interview Date </th>
+            <td mat-cell *matCellDef="let element">
+              {{(element?.InterViewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterViewMode">
+            <th mat-header-cell *matHeaderCellDef>Interview Mode</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.InterViewMode || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterViewType">
+            <th mat-header-cell *matHeaderCellDef> Interview Type</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.InterViewType || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InterViewer">
+            <th mat-header-cell *matHeaderCellDef>Interviewer</th>
+            <td mat-cell *matCellDef="let element">
+              {{element?.InterViewer || '-'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef> Status</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.Status || '-'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="TotalExperience">
+            <th mat-header-cell *matHeaderCellDef>Total Experience</th>
+            <td mat-cell *matCellDef="let element;">
+              {{element?.TotalExperience || '-'}}
+            </td>
+          </ng-container>
+
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+        </table>
+
+        <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList?.data?.length === 0">
+        </app-no-result-found>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ats-modal-footer">
+  <app-custom-paginator #paginatorRef [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+    (sendPagingData)="getPagingData($event)" [pageSizeOptions]="pazeOption" [pageSize]="pazeSize">
+  </app-custom-paginator>
+</div>

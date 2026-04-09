@@ -1,0 +1,179 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h3>
+      {{data?.title}}
+    </h3>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av"></div>
+                <div class="search-bars">
+                    <div class="filter-at-wrapper"  *ngIf="this.data?.type == 'C' || this.data?.type == 'S'">
+                        <div class="s-fil"  *ngIf="this.data?.type == 'C'">
+                            <div class="erp-search-input" matTooltipPosition="above" matTooltip="Search By Name">
+                                <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                    [placeHolder]="'Search By Name'" [isReset]="isResetSearch">
+                                </app-search-filter>
+                            </div>
+                        </div>
+                        <div class="s-fil">
+                            <div class="act-header-btn"  *ngIf="this.data?.type == 'S'">
+                                <ul>
+                                    <!-- <li class="dash-dnld-icon">
+                                        <a href="javascript:void(0)" (click)="exportAsXLSX()">
+                                            <span class="material-icons-outlined" matTooltip="Download Report">
+                                                download
+
+                                            </span>
+                                        </a>
+                                    </li> -->
+                                    <li>
+                                        <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                            (getSortFormData)="getSortData($event)" [dateRange]="true"
+                                            [dateRangeTitle]="' Slot Date'"
+                                            [panelCtrl]="isPanelCtrl" [panelMulti]="true" [panelCtrlTitle]="'Panel'"
+                                            [PanelList]="panelList" [timeCtrl]="true">
+                                        </app-filter-sort>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-data-scroll-pop" *ngIf="candidateList">
+                <table mat-table [dataSource]="candidateList" matSort class="table-mat-info" id="exportDU1Table">
+                    <ng-container matColumnDef="thid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Talent ID
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.TalentId || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Panel">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Panel Name
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.PanelName}} ({{element?.PanelEmpId}})
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotCount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Total Slots 
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.SlotCount || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="FirstSlotDate">
+                        <th mat-header-cell *matHeaderCellDef>
+                            First Slot Date
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{(element?.FirstSlotDate | dateTimezone:'DD MMMM YYYY') || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="LastSlotDate">
+                        <th mat-header-cell *matHeaderCellDef>
+                           
+                           Last Slot Date
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{(element?.LastSlotDate | dateTimezone:'DD MMMM YYYY') || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotDate">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Date with Local Timezone
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{(element?.SlotDateUTC | dateTimezone:'DD MMMM YYYY') || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotDateUser">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Date with Panel Timezone
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{(element?.SlotDateUTC | dateTimezone:'DD MMMM YYYY') || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotTimeZone">
+                        <th mat-header-cell *matHeaderCellDef>
+                         Slot  Timezone
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.Timezone|| '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotRange">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Slot with Local Timezone
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            <!-- {{ element.SlotStartDateUTC | dateTimezone:'h:mm A':element.TimeZone }} -->
+                            {{(element?.SlotStartDateUTC | dateTimezone:'h:mm A') }}
+                            -
+                            {{element?.SlotEndDateUTC | dateTimezone:'h:mm A'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="slotRangeUser">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Slot with Panel Timezone  
+                        </th>
+                        <td mat-cell *matCellDef="let element;">
+                            
+                            {{(element?.SlotStartDateUTC | dateTimezone:'h:mm A':element.Timezone) }}
+                            -
+                            {{element?.SlotEndDateUTC | dateTimezone:'h:mm A':element.Timezone}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="action-td">
+
+                                <div class="btn-action btn-action-center btn-single">
+                                    <ng-container>
+
+                                        <div class="btn-act">
+                                            <button mat-button type="button" matTooltip="View Slot"
+                                                (click)="openSlotListModal(element)">
+                                                <span class="material-icons-outlined">
+                                                    preview
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.data?.length === 0">
+                </app-no-result-found>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ats-modal-footer">
+    <div class="ats-paginator-dash">
+        <mat-paginator showFirstLastButtons [pageSizeOptions]="[10,20, 50, 100]" aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>

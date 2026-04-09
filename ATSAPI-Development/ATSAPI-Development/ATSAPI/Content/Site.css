@@ -1,0 +1,166 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+body, h1 {
+    padding-top: 50px;
+    background-color: red;
+    padding-bottom: 20px;
+    color: pink;
+}
+
+body{
+   
+}
+
+.itext_Table tr th, .itext_Table tr td {
+    border: 1px solid #dee2e6;
+    border-collapse: collapse;
+}
+
+.itext_Table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .itext_Table tr th {
+        background: #3984ba;
+        color: #fff;
+        vertical-align: top;
+    }
+
+    .itext_Table tr td {
+        vertical-align: top;
+    }
+
+    .itext_Table tr th, .itext_Table tr td {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+
+
+.itext_header tr td {
+    /*padding: 10px;*/
+    padding: 2px 14px 6px;
+    font-size: 12px;
+    /*width: 33.33%;*/
+    border: 1px solid #3984ba;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
+    border-radius: 6px;
+    /* text-align:start;*/
+    height: 100px;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+    .itext_header tr td:nth-child(1) {
+        width: 40%;
+    }
+
+    .itext_header tr td:nth-child(2) {
+        width: 30%;
+    }
+
+    .itext_header tr td:nth-child(3) {
+        width: 20%;
+    }
+
+.itext_header tr {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.main-box{
+    background:#ddd;
+    border:solid 2px red;
+    box-shadow:6px 6px 6px #000;
+}
+
+.itext_round_title {
+    padding: 2px;
+    color: #3984ba;
+    padding-top:20px
+}
+
+.itext_header {
+    width: 100%;
+}
+
+.itext_title {
+    font-size: 15px;
+    text-align: center;
+    padding: 20px 0px;
+}
+
+
+
+
+.grid-container {
+    padding: 2px 16px;
+    /* border:1px solid lightgray;*/
+    padding: 5px;
+}
+
+.grid-item {
+    padding: 2px 14px 6px;
+    font-size: 15px;
+    width: 92%;
+    font-weight: 200;
+    font-family: 'Times New Roman';
+}
+
+.grid-item-namedate {
+    padding: 2px 14px 6px;
+    font-size: 15px;
+    width: 40%;
+    font-weight: 200;
+    font-family: 'Times New Roman';
+}
+
+.grid-item-cname {
+    padding: 2px 14px 6px;
+    font-size: 15px;
+    width: 30%;
+    font-weight: 200;
+    font-family: 'Times New Roman';
+    /* background-color: #f6f6f6;*/
+}
+
+.grid-container1 tr {
+    /* background-color: #f6f6f6;*/
+    /* width: 100%;*/
+}
+
+.grid-container tr {
+    /*background-color: #f6f6f6;*/
+    /*width: 100%;*/
+}
+/*.grid-container tr:nth-child(odd) {
+        background-color: red;
+        text-align:right;
+    }*/
+
+.grid-container-align tr td {
+    vertical-align: top;
+    padding: 5px;
+}
+
+    .grid-container-align tr td:nth-child(3) grid-item {
+        width: 31%;
+    }

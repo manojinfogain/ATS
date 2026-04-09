@@ -1,0 +1,280 @@
+<div class="can-temp-body">
+    <!-- <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Other Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div> -->
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="document-sc-vb">
+            <section class=" Questionnaire-sec">
+                <ng-container *ngIf="typeLeader != 'LS'">
+                    <div class="doc-up-l Questionnaire-wrapper">
+                        <div class="screen-mat-card">
+                            <div class="screen-mat-card-h">
+                                <h4>Questionnaire</h4>
+                            </div>
+                            <div class="screen-mat-card-b">
+                                <div class="questionare-view-wrap">
+                                    <div class="dcb-table">
+                                        <table mat-table [dataSource]="candidateQuestionareDetails"
+                                            class="table-mat-info">
+                                            <ng-container matColumnDef="quest">
+                                                <th mat-header-cell *matHeaderCellDef>Question</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.question || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="ans">
+                                                <th mat-header-cell *matHeaderCellDef> Answer </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.yesNo?element?.yesNo == 'Y'?'Yes':'No':''}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="comment">
+                                                <th mat-header-cell *matHeaderCellDef> Comment</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.details || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                                <td mat-cell *matCellDef="let element">
+
+                                                    <div class="btn-action btn-action-centers">
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button"
+                                                                matTooltip="Update Details">
+                                                                <span class="material-icons-outlined">
+                                                                    mode_edit_outline
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <!-- end view -->
+
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+
+                    <div class="screen-mat-card">
+                        <div class="screen-mat-card-h">
+                            <div class="screen-mat-card-h-t">
+                                <h4>Other Information</h4>
+                            </div>
+                            <div class="screen-mat-card-h-t">
+                                <div class="ul-action">
+                                    <ul>
+                                        <!-- <li>
+                                            <a href="javascript:void(0)" 
+                                                matTooltip="Update Details">
+                                                <span class="material-icons-outlined">
+                                                    mode_edit_outline
+                                                </span>
+                                            </a>
+                                        </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screen-mat-card-b">
+                        <!-- <div class="other_view_in">
+                            <div class="col-md-view">
+                                <div class="oth-b-ms">
+                                    <h4>Location preference: </h4>
+                                    <p>{{otherInformation?.locationPreferenceName || '-'}}</p>
+                                    <mat-checkbox  [checked]="otherInformation?.locationConsent == 1"><span class="consent-txt">I will be ready to work from the designated Infogain payroll location, Infogain
+                                        office or the  client office, depending on the role and business needs at the
+                                        time of my employment and in the future.</span></mat-checkbox>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="screen-mat-card-b">
+                            <div class="other_view_in">
+                                <div class="col-md-view">
+                                    <div class="oth-b-ms">
+                                        <h4>Location preference: </h4>
+                                        <p>{{otherInformation?.locationPreferenceName || '-'}}</p>
+                                    <mat-checkbox class="checkbox-margin-top-20"
+                                            [checked]="otherInformation?.locationConsent == 1"><span
+                                                class="consent-txt">I will be ready to work from the designated Infogain
+                                                payroll location,<br> Infogain
+                                                office or the client office, depending on the role and business
+                                                needs<br> at the
+                                                time of my employment and in the future.</span></mat-checkbox>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-view">
+                                <div class="oth-b-ms">
+                                    <h4><b>Consent : </b>I will be ready to work from the designated Infogain payroll location, Infogain
+                                        office or the  client office, depending on the role and business needs at the
+                                        time of my employment and in the future. </h4>
+                                    <p>{{otherInformation?.locationConsent == 1 ? 'Yes' : 'NA'}}</p>
+                                </div>
+                            </div> -->
+                                <div class="col-md-view">
+                                    <div class="oth-b-ms">
+                                        <h4>What are your specific strengths & Improvement Areas? </h4>
+                                        <p>{{otherInformation?.strengthsImprovementArea || '-'}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-view">
+                                    <div class="oth-b-ms">
+                                        <h4>What are the new technological areas you think you need to pick-up /
+                                            improve? </h4>
+                                        <p>{{otherInformation?.techAreaImprove || '-'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="other_view_in consent-wxv" *ngIf="otherInformation?.candidatePersonalDetails?.isConsentEAFVisible == 1">
+                            <div class="oth-b-ms">
+                                <h4>Consent: </h4>
+                                <mat-checkbox class="checkbox-margin-top-10" [checked]="otherInformation?.candidatePersonalDetails?.CandidateConsentEAF == 1">
+                                    <ng-container>
+                                        <ng-container *ngIf="otherInformation?.candidatePersonalDetails?.isConsentEAFPDFVisible == 0">
+                                            <span class="checkbox-content">
+                                                I, hereby give my consent to Infogain to collect, process, and
+                                                store my personal data for recruitment, employment and
+                                                administrative purposes, including assessment, background
+                                                verification, future employment opportunities, payroll
+                                                processing, benefits administration, and compliance with legal
+                                                and regulatory requirements. I understand that my information
+                                                may be shared cross-border within Infogain and its entities or
+                                                with relevant third parties, such as payroll providers and
+                                                government authorities, as necessary, and it will be handled in
+                                                accordance with applicable data protection laws. I believe that
+                                                my data will be kept confidential, and retained as required as
+                                                per the company policy and the legitimate interest of Infogain.
+                                                I believe that I have the right to access or request the
+                                                correction or deletion of my information as per company policy
+                                                and also, I have the right to withdraw my consent at any time by
+                                                contacting
+                                                <a href="mailto:DPO@infogain.com">DPO@infogain.com</a>,
+                                                understanding that such withdrawal may impact my employment
+                                                prospects.
+                                                <sup class="dangr">*</sup>
+                                            </span>
+                                            <br />
+                                            <span>
+                                                For further information on the processing of your personal data,
+                                                kindly refer the Privacy Policy available at Infogain's website
+                                                <a href="https://www.infogain.com/privacypolicy/" target="_blank" rel="noopener noreferrer">
+                                                    (https://www.infogain.com/privacypolicy/)</a>.</span>
+                                            <br />
+                                            <br />
+                                        </ng-container>
+                                     
+                                        <span
+                                          >By submitting this application and the accompanying documents,
+                                          I <b>{{otherInformation?.candidatePersonalDetails?.FullName}}</b>, hereby confirm that all the information provided is
+                                          accurate and complete to the best of my knowledge. I understand
+                                          that any discrepancy or false document found may lead to the
+                                          cancellation of my candidature or employment with
+                                          Infogain.</span
+                                        >
+                                      </ng-container>
+                                </mat-checkbox>
+                            </div> 
+                        </div>
+                        <div *ngIf="otherInformation?.candidatePersonalDetails?.isConsentEAFPDFVisible == 1">
+                            <button Type="button" class="btn btn-primary view-consent-doc"
+                                    (click)="viewConsentDocument(otherInformation?.candidatePersonalDetails)">
+                                View Consent Document
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                </ng-container>
+                <!-- new table start here -->
+                <div class="screen-mat-card">
+                    <div class="screen-mat-card-h">
+                        <h4>Professional References</h4>
+                    </div>
+                    <div class="screen-mat-card-b">
+                        <div class="reffrred-view-wrap">
+                            <div class="dcb-table">
+                                <table mat-table [dataSource]="candidateReferenceDetails" class="table-mat-info">
+                                    <ng-container matColumnDef="Name">
+                                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.name || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Email">
+                                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.email || ''}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Mobile">
+                                        <th mat-header-cell *matHeaderCellDef> Mobile No.</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.phone || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Designation">
+                                        <th mat-header-cell *matHeaderCellDef> Designation</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.designation || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Organization">
+                                        <th mat-header-cell *matHeaderCellDef> Organization</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.orgName || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+
+                                            <div class="btn-action btn-action-centers">
+                                                <div class="btn-act">
+                                                    <button mat-button type="button" matTooltip="Update Details">
+                                                        <span class="material-icons-outlined">
+                                                            mode_edit_outline
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="refrredTableColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: refrredTableColumns;"></tr>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- end view -->
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>

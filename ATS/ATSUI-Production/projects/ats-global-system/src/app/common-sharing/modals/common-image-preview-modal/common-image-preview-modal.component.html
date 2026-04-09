@@ -1,0 +1,33 @@
+<div class="ats-modal-header">
+    <h1>{{data?.title }}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="fd-list-wrap">
+            <div class="table-data-scroll-pop22">
+                <!--  code start -->
+                <div class="box-v-ats">
+                    <div class="box-v-body ">
+                        <div class="single-profile-pic" >
+                            <div class=" canidate-picture-wrapper">
+                                <div class="img-prf">
+                                    <ng-container>
+                                        <img [src]="image | safeUrl">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end signle -->
+                        <div class="download-button-wrapper">
+                        <button type="button" class="btn btn-infocon" (click)="downloadPic(this.data?.picSource)">
+                            Download Document
+                        </button>                        
+                    </div>
+                    </div>
+                </div>
+                <!--  code end -->
+            </div>
+        </div>
+    </div>
+</div>

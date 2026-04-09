@@ -1,0 +1,102 @@
+<div class="ats-modal-header">
+    <h1 *ngIf="data?.isLeadership !='Y'">{{data?.fileType == 'P'?'Picture':'Video'}}
+        {{data?.interviewType?'('+data?.interviewType+')':''}}</h1>
+    <h1 *ngIf="data?.isLeadership =='Y'">Video {{data?.VideoUploadBy ? '('+data?.VideoUploadBy+')': '-'}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <!-- <div class="upload-input-sec">
+            <div class="upload-file-input upload-file-input-lg">
+              <label>Choose another file
+              </label>
+              <input type="file" >
+            </div>
+          </div> -->
+        <div class="video-player-wrapper" *ngIf="data?.fileType == 'V'">
+            <div class="video-sec">
+                <video #videoPlayer class="video-js vjs-default-skin" width="640px" controls (play)="whenPlay()"
+                    (pause)="whenPlay()">
+                    <source [src]="data?.file |safeUrl" type="video/mp4" />
+                    Browser not supported
+                </video>
+            </div>
+        </div>
+
+        <div class="img-ptrview-up" *ngIf="data?.fileType == 'P'">
+            <img [src]="data?.file" alt="" class="width-1000" />
+        </div>
+    </div>
+
+    <div class="voice-imprint-status" *ngIf="isVoiceMatchStatus">
+        <ul>
+            <li>
+                <label>
+                    <span class="s-vm">Video Match:</span>
+                    <span class="s-vm2"> {{videoMatchPercent >= 50?'Yes':'No'}}</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <span class="s-vm">Video Match Percent:</span>
+                    <span class="s-vm2"> {{videoMatchPercent+'%'}}</span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+    <div class="video-controller" *ngIf="data?.fileType == 'V'">
+        <ul>
+            <li *ngIf="data?.srcType == 1">
+                <!-- <a href="javascript:void(0)" [mat-dialog-close]="true"><span class="material-icons"> upload </span></a> -->
+                <button type="button" class="btn btn-infocon" [mat-dialog-close]="true">Upload</button>
+            </li>
+            <li>
+                <a href="javascript:void(0)" (click)="playPause()">
+                    <ng-container *ngIf="!isVideoPaused">
+                        <span class="material-icons"> play_circle_filled
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="isVideoPaused">
+                        <span class="material-icons"> pause_circle_filled
+                        </span>
+                    </ng-container>
+                </a>
+            </li>
+            <!-- <li>
+                <a href="javascript:void(0)" (click)="playPause()"><span class="material-icons"> pause_circle_filled
+                    </span></a>
+            </li> -->
+            <li>
+                <a href="javascript:void(0)" (click)="restart();"><span class="material-icons"> replay </span></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" (click)="skip(-10)"><span class="material-icons"> replay_10 </span></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" (click)="skip(10)"><span class="material-icons"> forward_10 </span></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" (click)="onFullscreen()"><span class="material-icons"> fullscreen
+                    </span></a>
+            </li>
+            <li *ngIf="data?.srcType == 2 || data?.isDownload">
+                <a href="javascript:void(0)" (click)="downloadVideo(data)"><span class="material-icons"> get_app
+                    </span></a>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+<div class="voice-imprint-loader" *ngIf="IsLoaderVisible">
+    <div class="imprint-inner">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <p> Please wait...! Video comparison is in progress.
+        </p>
+        <p class="ptn">Video image processing will take time (2 – 5 minutes). Thanks for your patience.</p>
+    </div>
+</div>

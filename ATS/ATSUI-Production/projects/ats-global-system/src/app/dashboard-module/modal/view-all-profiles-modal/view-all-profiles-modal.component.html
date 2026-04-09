@@ -1,0 +1,297 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h1>{{data?.title}}</h1>
+
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <section class="ats-all-prf-modal">
+            <div class="ats-all-prf-modal-h action-all-pfc">
+                <div class="ats-all-prf-modal-h-l"></div>
+                <div class="ats-all-prf-modal-h-r">
+                    <div class="ats-all-prf-modal-h-r-acts act-header-btn">
+                        <ul>
+                            <li class="srh-li-vb">
+                                <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                    matTooltip="Search By Name/Email/Phone No./Company Name/CID/Candidate Location"
+                                    [placeHolder]="'Search By Name/Email/Phone No./Company Name/CID/Candidate Location'"
+                                    [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                            </li>
+                            <li>
+                                <button mat-button class="act-button" (click)="exportCandidateListAsXLSX()"
+                                    matTooltip="Download Tracker">
+                                    <i class="fas fa-file-download ex-icon"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter"
+                                    [isResetForm]="isResetFilter" [prSkill]="true" [skillMulti]="true"
+                                    [dateRange]="true" [dateRangeTitle]="'CV Submission Date'" [isRangeSlider]="true"
+                                    [rangeSliderLabel]="'Profile Match (%)'" [rangeSliderLabelHover]="''"
+                                    [rangeSliderToolTip]="'Profile Match (%)'" [rangeSliderceil]="100"
+                                    [rangeSliderfloor]="1" profileSoure="true" profileSourMulti="true"
+                                    [candidateStatusNew]="true" [candidateStatusMultiNew]="true"
+                                    [isExperinceSlider]="true" [isRangeSliderNP]="true"
+                                    [rangeSliderLabelNP]="'Notice Period'" [rangeSliderLabelHoverNP]="''"
+                                    [rangeSliderToolTipNP]="'Notice Period'" [rangeSliderceilNP]="90"
+                                    [rangeSliderfloorNP]="1">
+                                </app-filter-sort>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="ats-all-prf-modal-b">
+                <div class="ats-all-pf-table">
+                    <table mat-table [dataSource]="candidateList" class="table-mat-info">
+
+                        <!-- Talent ID Column -->
+                        <ng-container matColumnDef="TalentID">
+                            <th mat-header-cell *matHeaderCellDef>Talent ID</th>
+                            <td mat-cell *matCellDef="let element">{{element?.TalentID || '-'}}</td>
+                        </ng-container>
+
+                        <!-- CV Submission Date Column -->
+                        <ng-container matColumnDef="CVSubmissionDate">
+                            <th mat-header-cell *matHeaderCellDef>CV Submission Date</th>
+                            <td mat-cell *matCellDef="let element">{{element?.CVSubmissionDate | date}}</td>
+                        </ng-container>
+
+                        <!-- Profile Source Column -->
+                        <ng-container matColumnDef="ProfileSource">
+                            <th mat-header-cell *matHeaderCellDef>Profile Source</th>
+                            <td mat-cell *matCellDef="let element">{{element?.ProfileSource}}</td>
+                        </ng-container>
+
+                        <!-- Source Name Column -->
+                        <ng-container matColumnDef="SourceName">
+                            <th mat-header-cell *matHeaderCellDef>Source Name</th>
+                            <td mat-cell *matCellDef="let element">{{element?.SourceName}}</td>
+                        </ng-container>
+
+                        <!-- CID Column -->
+                        <ng-container matColumnDef="CID">
+                            <th mat-header-cell *matHeaderCellDef>CID</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- {{element?.CID}} -->
+                                {{element?.CID ? (element?.CID | cidPrefix:element?.ProfileSourceId) : '-' }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Candidate Name Column -->
+                        <ng-container matColumnDef="CandidateName" sticky>
+                            <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                            <td mat-cell *matCellDef="let element">{{element?.CandidateName || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Email ID Column -->
+                        <ng-container matColumnDef="EmailID" sticky>
+                            <th mat-header-cell *matHeaderCellDef>Email ID</th>
+                            <td mat-cell *matCellDef="let element">{{element?.EmailID || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Phone No Column -->
+                        <ng-container matColumnDef="PhoneNo">
+                            <th mat-header-cell *matHeaderCellDef>Phone No.</th>
+                            <td mat-cell *matCellDef="let element">{{element?.PhoneNo || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Skill Column -->
+                        <ng-container matColumnDef="Skill">
+                            <th mat-header-cell *matHeaderCellDef>Skill</th>
+                            <td mat-cell *matCellDef="let element">{{element?.Skill || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Total Experience Column -->
+                        <ng-container matColumnDef="TotalExperience">
+                            <th mat-header-cell *matHeaderCellDef>Total Experience</th>
+                            <td mat-cell *matCellDef="let element">{{element?.TotalExp || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Company Name Column -->
+                        <ng-container matColumnDef="CompanyName">
+                            <th mat-header-cell *matHeaderCellDef>Company Name</th>
+                            <td mat-cell *matCellDef="let element">{{element?.CompanyName || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Candidate Location Column -->
+                        <ng-container matColumnDef="CandidateLocation">
+                            <th mat-header-cell *matHeaderCellDef>Candidate Location</th>
+                            <td mat-cell *matCellDef="let element">{{element?.CandidateLocation || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Notice Period Column -->
+                        <ng-container matColumnDef="NoticePeriod">
+                            <th mat-header-cell *matHeaderCellDef>Notice Period (Days)</th>
+                            <td mat-cell *matCellDef="let element">{{element?.NoticePeriod || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Account Column -->
+                        <ng-container matColumnDef="Account">
+                            <th mat-header-cell *matHeaderCellDef>Account</th>
+                            <td mat-cell *matCellDef="let element">{{element?.Account || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Interview Date Column -->
+                        <ng-container matColumnDef="InterviewDate">
+                            <th mat-header-cell *matHeaderCellDef>Interview Date</th>
+                            <td mat-cell *matCellDef="let element">{{element?.InterviewDate | date: 'dd MM yyyy hh:mm a'
+                                }}</td>
+                        </ng-container>
+
+                        <!-- Interview Type Column -->
+                        <ng-container matColumnDef="InterviewType">
+                            <th mat-header-cell *matHeaderCellDef>Interview Type</th>
+                            <td mat-cell *matCellDef="let element">{{element?.InterviewType || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Candidate Status Column -->
+                        <ng-container matColumnDef="CandidateStatus">
+                            <th mat-header-cell *matHeaderCellDef>Candidate Status</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- {{element?.CandidateStatus || '-'}} -->
+                                <app-all-status-id-visibility-shared [statusType]="'ccs'"
+                                    [statusId]="element?.CandidateCureentStatusId"
+                                    [statusName]="element?.CandidateCurrentStatusName">
+                                </app-all-status-id-visibility-shared>
+                            </td>
+                        </ng-container>
+
+                        <!-- Primary Recruiter Column -->
+                        <ng-container matColumnDef="PrimaryRecruiter">
+                            <th mat-header-cell *matHeaderCellDef>Primary Recruiter</th>
+                            <td mat-cell *matCellDef="let element">{{element?.PrimaryRecruiter || '-'}}</td>
+                        </ng-container>
+
+                        <!-- Secondary Recruiter Column -->
+                        <ng-container matColumnDef="SecondaryRecruiter">
+                            <th mat-header-cell *matHeaderCellDef>Secondary Recruiter</th>
+                            <td mat-cell *matCellDef="let element">{{element?.SecondaryRecruiter || '-'}}</td>
+                        </ng-container>
+
+                        <!-- TID Dormant Status Column -->
+                        <ng-container matColumnDef="TIDDormantStatus">
+                            <th mat-header-cell *matHeaderCellDef>TID Dormant Status</th>
+                            <td mat-cell *matCellDef="let element">
+                                <ng-container [ngSwitch]="element?.isTidDormant">
+                                    <ng-container *ngSwitchCase="'D'">
+                                        <button class="btn-status-dg rejects" type="button">
+                                            {{'DORMANT'}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'R'">
+                                        <button class="btn-status-dg schedule" type="button">
+                                            {{'RE-ACTIVATED'}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <button class="btn-status-dg schedule" type="button">
+                                            {{'ACTIVE'}}
+                                        </button>
+                                    </ng-container>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+
+                        <!-- Profile Match Percentage Column -->
+                        <ng-container matColumnDef="ProfileMatchPercentage">
+                            <th mat-header-cell *matHeaderCellDef>Profile Match (%)</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.ProfileMatchPercent != null ? element.ProfileMatchPercent + '%' : '-' }}
+
+                            </td>
+                        </ng-container>
+
+                        <!-- Pre Screen Status Column -->
+                        <ng-container matColumnDef="PreScreenStatus">
+                            <th mat-header-cell *matHeaderCellDef>Pre Screen Status</th>
+                            <td mat-cell *matCellDef="let element">{{element?.PreScreenStatus}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="LastModifiedOn">
+                            <th mat-header-cell *matHeaderCellDef>Last Modified On</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.modifiedOn | date:'dd MMM YYYY'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="LastModifiedBy">
+                            <th mat-header-cell *matHeaderCellDef>Last Modified By</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.modifiedBy || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="action" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Action </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                                <div class="btn-action">
+                                    <div class="btn-act"
+                                        *ngIf="element?.ProfileSourceId == 15 || element?.ProfileSourceId == 5">
+                                        <button mat-button type="button"
+                                            [matTooltip]="element?.ProfileSourceId == 15 ? 'View Applicant Details' : 'View Candidate Details'"
+                                            (click)="viewDetails(element)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <ng-container *ngIf="element?.IsProfilesAI == 0">
+                                        <div class="btn-act"
+                                            *ngIf="element?.CandidateStatusId == 20 || element?.CandidateStatusId == 21 || element?.CandidateStatusId == 22 ||element?.CandidateStatusId == 11 || element?.CandidateStatusId == null">
+                                            <button mat-button type="button"
+                                                (click)="openScreenStatusUpdateModal(element)"
+                                                [matTooltip]="element?.CandidateStatusId == 20?'Pre Screen Select' : 'Screen Reject'"
+                                                [disabled]="element?.CandidateStatusId == 20 && element?.ProfileSourceId == 5">
+                                                <i class="fas fa-user-slash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-act" *ngIf="isRenuIntSchedule(element)">
+                                            <button mat-button type="button" matTooltip="Schedule Interview"
+                                                [disabled]="element?.CandidateStatusId == 20"
+                                                (click)="scheduleIntHandler(element)">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+
+                                    </ng-container>
+                                    <div class="btn-act">
+                                        <a mat-button href="javascript:void(0)" (click)="dwnloadFileSingle(element)"
+                                            matTooltip="View/Download Resume">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </div>
+                                    <!-- end -->
+                                    <div class="btn-act">
+                                        <button mat-button type="button"
+                                            [matTooltip]="labelResumeRating?.tooltipResumeRatingAction"
+                                            (click)="openCandidateRatingDetailsModal(element)">
+                                            <span class="material-icons-outlined">
+                                                calculate
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-act" *ngIf="element?.IsProfilesAI == 1">
+                                        <button mat-button type="button" [matTooltip]="'Screen Profile'"
+                                            (click)="screenprofilesUn(element)">
+                                            <span class="material-icons-outlined">
+                                                contact_emergency
+                                            </span>
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index" [ngClass]="{
+                            'highlight-row':row?.CandidateStatusId == 21 && row?.IsProfilesAI == 1
+                                  }"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="ats-all-prf-modal-f"></div>
+        </section>
+    </div>
+</div>
+
+<div class="ats-modal-footer">
+    <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+        (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+</div>

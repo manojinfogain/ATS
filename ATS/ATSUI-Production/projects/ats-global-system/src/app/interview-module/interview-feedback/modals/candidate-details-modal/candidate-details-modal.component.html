@@ -1,0 +1,337 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i
+            class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="rep-can-wrap">
+            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                <div class="view-list-bx">
+                    <h4>Talent ID :</h4>
+                    <p>{{candiData?.talent_id || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>CID :</h4>
+                    <p>{{candiData.cid ? cidPrefix+candiData.cid : '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Name :</h4>
+                    <p>{{candiData?.Name || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Email :</h4>
+                    <p>{{candiData?.email || '-'}}</p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Phone :</h4>
+                    <p>{{candiData?.phone || '-'}}</p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Primary Skill :</h4>
+                    <p>{{candiData?.primaryskill || '-'}}</p>
+                </div>
+
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Account :</h4>
+                    <p>{{candiData?.AccountName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <!-- <div class="view-list-bx">
+                    <h4>Technical Round 2 :</h4>
+                    <p>{{(candiData?.TechanicalRound2Date | date:medium)|| '-'}}</p>
+                </div> -->
+                <!-- <div class="view-list-bx">
+                    <h4>Reason for Drop :</h4>
+                    <ng-container *ngIf="candiData?.status == 240 || candiData?.status == 260 ;else candidateNotDrop">
+                        <p>{{candiData?.ResonforDrop}}</p>
+                    </ng-container>
+                    <ng-template #candidateNotDrop>
+                        {{'-'}}
+                    </ng-template>
+                   
+                </div> -->
+                <!-- end -->
+                <!-- <div class="view-list-bx" >
+                    <h4>Drop Remark :</h4>
+                    <ng-container *ngIf="candiData?.status == 240 || candiData?.status == 260 ; else candidateNotDrop">
+                        <p>{{candiData?.DropRemark || '-'}}</p>
+                    </ng-container>
+                    <ng-template #candidateNotDrop>
+                        {{'-'}}
+                    </ng-template>
+                </div> -->
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Recruiter :</h4>
+                    <p>{{candiData?.recruiter || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Secondary Recruiter :</h4>
+                    <p>{{candiData?.secondaryrecruiterName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Interviewer :</h4>
+                    <p>{{candiData?.Interviewer || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Additional Interviewer :</h4>
+                    <p>{{candiData?.AdditionalInterviewer || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Interview Type :</h4>
+                    <p>{{candiData?.interviewType || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Interview By :</h4>
+                    <p>
+                        <ng-container [ngSwitch]="candiData?.interviewBy">
+                            <ng-container *ngSwitchCase="'M'">
+                                {{interviewByLabel.mettl}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'E'">
+                                {{interviewByLabel.externalAgency}} /
+                                {{candiData?.externalAgencyName}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'I'">
+                                {{interviewByLabel.internalPanel}}
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Interview Mode :</h4>
+                    <p>{{candiData?.interviewMode || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Interview Date :</h4>
+                    <p>
+                        {{(candiData?.interviewDateUTC | dateSwitch:candiData |
+                        date:'dd-MM-yyyy, h:mm a') || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Source Type :</h4>
+                    <p>{{candiData?.ProfileSource || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Source Name :</h4>
+                    <p>{{candiData?.SourceName || '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Notice Period (In Days) :</h4>
+                    <p>{{candiData?.c_notice_period || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4> Experience :</h4>
+                    <p>
+                        {{candiData?.totalexp+' Year' || ''}}
+                        {{candiData?.totalexpMonth+' Month' || ''}}
+                    </p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4> Location :</h4>
+                    <p>
+                        {{candiData?.CountryName?candiData?.CountryName+'('+candiData?.CityName+')'
+                        : ''}}
+                        {{candiData?.StateName?candiData?.StateName+'('+candiData?.CityName+')'
+                        : ''}}
+                    </p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Assessment Date :</h4>
+                    <p>
+                        {{(candiData?.AssessmentDate| date:'dd-MM-yyyy') ||
+                        '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Current Company :</h4>
+                    <p>{{candiData?.currentCompany || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Current Salary :</h4>
+                    <p>
+                        <!-- {{(candiData?.curSalary | customCurrency:candiData?.CurId) || '-'}} -->
+                        {{((candiData?.curSalary?(candiData?.curSalary |
+                        customCurrency:candiData?.CurId):
+                        '-')|amountMask:candiData?.offerStatusId)}}
+                    </p>
+                </div>
+                <!-- end  -->
+                <div class="view-list-bx">
+                    <h4>Expected Salary :</h4>
+                    <p>
+                        <!-- {{(candiData?.expSalary | customCurrency:candiData?.CurId) || '-'}} -->
+                        {{((candiData?.expSalary?(candiData?.expSalary |
+                        customCurrency:candiData?.CurId):
+                        '-')|amountMask:candiData?.offerStatusId)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Candidate Status :</h4>
+                    <p>
+                        <ng-container [ngSwitch]="candiData?.statusid">
+                            <ng-container *ngSwitchCase="1">
+                                <button class="btn-status-dg schedule"
+                                    type="button">
+                                    <!-- {{candiData?.StatusName}} -->
+                                    {{getInterviewStatus(candiData?.statusid,candiData?.StatusName,
+                                    data?.IsExceptionVideo,
+                                    data?.fileNameVideo)}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="2">
+                                <button class="btn-status-dg cancelled"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="3">
+                                <button class="btn-status-dg reschedule"
+                                    type="button">
+                                    <!-- {{candiData?.StatusName}} -->
+                                    {{getInterviewStatus(candiData?.statusid,candiData?.StatusName,
+                                    data?.IsExceptionVideo,
+                                    data?.fileNameVideo)}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="4">
+                                <button class="btn-status-dg selecteds"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="5">
+                                <button class="btn-status-dg rejects"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="6">
+                                <button class="btn-status-dg holds"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="7">
+                                <button class="btn-status-dg shortlisted"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+
+                            <ng-container *ngSwitchCase="10">
+                                <button class="btn-status-dg shortlisted"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+
+                            <ng-container *ngSwitchCase="240">
+                                <button class="btn-status-dg drops"
+                                    type="button">
+                                    <!-- {{(element?.StatusName  + ' / ' + element?.PrevStatusName )}} -->
+                                    {{candiData?.PrevStatusName ?
+                                    candiData?.PrevStatusName + ' / ' : 'NA/ '}}
+                                    {{candiData?.StatusName }}
+                                </button>
+                            </ng-container>
+
+                            <ng-container *ngSwitchCase="260">
+                                <button class="btn-status-dg drops"
+                                    type="button">
+                                    {{candiData?.PrevStatusName ?
+                                    candiData?.PrevStatusName + ' / ' : 'NA/ '}}
+                                    {{candiData?.StatusName }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="15">
+                                <button class="btn-status-dg rejects"
+                                    type="button">
+                                    {{candiData?.StatusName}}
+                                </button>
+                            </ng-container>
+
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="isVisibleForIndia">
+                    <h4>Offer In Hand:</h4>
+                    <p>
+                        <ng-container [ngSwitch]="candiData?.IsOfferInHand">
+                            <span *ngSwitchCase="1">Yes</span>
+                            <span *ngSwitchCase="0">No</span>
+                            <span *ngSwitchDefault>-</span>
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="view-list-bx"
+                    *ngIf="candiData?.IsOfferInHand ==1 && isVisibleForIndia">
+                    <h4>Offer in Hand (Annual CTC):</h4>
+                    <p>
+                        {{((candiData?.OfferInHandCTC?(candiData?.OfferInHandCTC
+                        |
+                        customCurrency:candiData?.CurId):
+                        '-')|amountMask:candiData?.offerStatusId)}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Reason For Drop :</h4>
+                    <p>{{candiData?.ReasonForDrop || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Drop Remark :</h4>
+                    <p>{{candiData?.DropRemark || '-'}}</p>
+                </div>
+                <!-- end -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->

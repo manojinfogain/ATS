@@ -1,0 +1,212 @@
+<div class="info-connect-right">
+ 
+  <div class="home-page-wrap">
+    <!--<img src="{{imgPath +'page-un.jpg'}}" alt="">-->
+    <div class="row login-title">
+      <div class="col-md-12 col-sm-12 col-lg-12 ">
+        <app-breadcrumbs [showBreadCrumb]="false"></app-breadcrumbs>
+        <h2 class="user-title align-left">{{fullName}}</h2>
+      </div>
+    </div>
+
+    <div class="row card-ats-sec">
+      <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+        <div class="dash-count-wrapper">
+          <h2 class="mn-title">Total Open Positions <span class="sb-tt">(w.e.f  01-01-2022) </span></h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <h3>OffShore</h3>
+              <div class="count-show-d">
+                <h4 class="link-vb" (click)="showAllPosition(true)">{{totalOpenPositionData?.Offshore }}<span></span></h4>
+              </div>
+            </div>
+            <!-- end -->
+            <div class="dash-count-col">
+              <h3>OnShore</h3>
+              <div class="count-show-d">
+                <h4  class="link-vb" (click)="showAllPosition(false)">{{totalOpenPositionData?.Onshore }}<span></span></h4>
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+      <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+        <div class="dash-count-wrapper">
+          <h2 class="mn-title">Talent Ids assigned to me</h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <h3>OffShore</h3>
+              <div class="count-show-d">
+                <h4 class="link-vb" (click)="navigateToInfoPage(true)">{{totalAssignTalentData?.Offshore}}
+                  <span  *ngIf="totalAssignTalentData">{{'('+convertPercentMethod(totalOpenPositionData?.Offshore,totalAssignTalentData?.Offshore)+')'}}%</span>
+                  <p class="countBilling" matTooltip="{{billingCount}}">({{totalAssignTalentData?.BillingLossOffshore}})</p>
+                </h4>
+              </div>
+              
+            </div>
+            <!-- end -->
+            <div class="dash-count-col">
+              <h3>OnShore</h3>
+              <div class="count-show-d">
+                <h4 class="link-vb" id="toggleon"  (click)="navigateToInfoPage(false)">{{totalAssignTalentData?.Onshore}} 
+                  <span *ngIf="totalAssignTalentData">
+                    {{'('+convertPercentMethod(totalOpenPositionData?.Onshore,totalAssignTalentData?.Onshore)+')'}}%</span>
+                    <p class="countBilling" matTooltip="{{billingCount}}">({{totalAssignTalentData?.BillingLossOnsite}})</p>
+                  </h4>
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+
+      <div class="col-md-4  col-sm-6 col-lg-4 talent-dash-grid-col">
+        <div class="dash-count-wrapper">
+          <h2 class="mn-title">Fulfillment date available</h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <h3>OffShore</h3>
+              <div class="count-show-d" *ngIf="fullFillmentDateAvaialbe">
+                <h4>{{fullFillmentDateAvaialbe?.Offshore}} 
+                  <span *ngIf="totalAssignTalentData?.Offshore !=0 || fullFillmentDateAvaialbe?.Offshore != 0; else VlZero1"> 
+                    {{'('+convertPercentMethod(totalAssignTalentData?.Offshore,fullFillmentDateAvaialbe?.Offshore)+')'}}%
+                  </span>
+                  <ng-template #VlZero1>
+                    <span>
+                      (0)%
+                    </span>
+                  </ng-template>
+                </h4>
+              </div>
+            </div>
+            <!-- end -->
+            <div class="dash-count-col">
+              <h3>OnShore</h3>
+              <div class="count-show-d" *ngIf="fullFillmentDateAvaialbe">
+                <h4>{{fullFillmentDateAvaialbe?.Onshore}} 
+                  <span *ngIf="totalAssignTalentData?.Onshore !=0 || fullFillmentDateAvaialbe?.Onshore != 0; else VlZero">
+                    {{'('+convertPercentMethod(totalAssignTalentData?.Onshore,fullFillmentDateAvaialbe?.Onshore)+')'}}%
+                  </span>
+                  <ng-template #VlZero>
+                    <span>
+                      (0)%
+                    </span>
+                  </ng-template>
+                </h4>
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+     
+    </div>
+    <div class="row card-ats-sec" *ngIf="userData?.otherRoles?.IsRenuTeam == 'N'">
+      <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+        <div class="dash-count-wrapper dash-count-single">
+          <h2 class="mn-title">Employee Referrals untagged to talent ID's <br> <span class="sb-tt">(w.e.f  01-01-2022) </span></h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <!-- <h3>OffShore</h3> -->
+              <div class="count-show-d">
+                <h4 class="link-vb" (click)="openUnassinedProf()">{{unmapProfileCount?.Count}}<span></span></h4>
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+
+      <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+        <div class="dash-count-wrapper dash-count-single">
+          <h2 class="mn-title">Unused Unique CSkill Profiles <span class="sb-tt">(w.e.f  01-01-2024) </span></h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <!-- <h3>OffShore</h3> -->
+              <div class="count-show-d">
+                <h4 class="link-vb" (click)="openUnUsedCkillProf()">{{unUsedCkillProfileCount?.Count}}<span></span>
+                  <p>({{unUsedCkillProfileCountTotal?.Count}})</p>
+                </h4>
+                
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+
+      <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col hidden">
+        <div class="dash-count-wrapper dash-count-single">
+          <h2 class="mn-title">Unused Candidate Repository</h2>
+          <div class="dash-count-sec">
+            <div class="dash-count-col">
+              <!-- <h3>OffShore</h3> -->
+              <div class="count-show-d">
+                <h4 class="link-vb" (click)="openCommonRepoModal()">
+                  {{ProfileCountByClosedTalentIdTotal?.Count}}
+                </h4>
+                
+              </div>
+            </div>
+            <!-- end -->
+          </div>
+           
+        </div>
+      </div>
+      <!-- end col -->
+     
+    </div>
+    <!-- <div class="row graph-sec">
+      <div class="col-md-6 col-sm-6 col-lg-6 talent-dash-grid-col">
+        <div class="graph-text">
+          <h2>Interview Scheduled for candidates</h2>
+          <h3>100 <span>( 12%)</span></h3> 
+          <h3>NA</h3>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 talent-dash-grid-col">
+        <div class="graph-text">
+          <h2>First round of interview scheduled</h2>
+          <h3>30 <span>(10%)</span></h3>
+          <h3>NA</h3>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="row interview-sec talent-dash-grid-col">
+      <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="interview-text">
+          <h2>Second round of interview scheduled</h2>
+          <div class="second-interview-sec">
+            <div class="second-interview-boxes">
+              <div class="second-interview-boxes-text">Number of candidates rejected</div>
+              <div class="second-interview-boxes-no rej-no">NA <span></span></div>
+            </div>
+            <div class="second-interview-boxes">
+              <div class="second-interview-boxes-text">Number of candidates selected</div>
+              <div class="second-interview-boxes-no">NA <span></span></div>
+            </div>
+            <div class="second-interview-boxes">
+              <div class="second-interview-boxes-text">Number of candidates offered</div>
+              <div class="second-interview-boxes-no">NA <span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+
+
+    <!-- end right wrapper -->

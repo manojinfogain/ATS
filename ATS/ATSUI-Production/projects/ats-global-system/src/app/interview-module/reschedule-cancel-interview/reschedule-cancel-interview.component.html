@@ -1,0 +1,297 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <app-auto-complete-talentid [talentIdControl]="talentIdControl"
+                        (getDataTalentId)="getDataTalent($event)" [isAll]="true">
+                    </app-auto-complete-talentid>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body" *ngIf="hideSection">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By CID/ Name/ Email/ Phone / Talent ID'"
+                                            [searchServerSide]="true" [isReset]="isResetSearch"
+                                            matTooltip="Search By CID/ Name/ Email/ Phone / Talent ID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        (getSortFormData)="getSortData($event)"
+                                                        [isResetForm]="isResetFilter" [candidateStatus]="false"
+                                                        [candidateStatusNew]="true" [candidateStatusMultiNew]="true"
+                                                        [interviewType]="false" [interviewTypeNew]="true"
+                                                        [interviewTypeMulti]="true" [dateRange]="true" [prSkill]="true"
+                                                        [skillMulti]="true" [isPractice]="true"
+                                                        [practiceMulti]="true"></app-filter-sort>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="ats-box-wrapper">
+                                <!-- matrial Table -->
+                                <div class="table-scroll-bd">
+                                    <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                        <ng-container matColumnDef="talentId">
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i>
+                                                Talent ID</th>
+                                            <td mat-cell *matCellDef="let element"> {{element?.talent_id || '-'}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Cid">
+                                            <th class="cid-col-width" mat-header-cell *matHeaderCellDef><i
+                                                    class="fas fa-user-tie"></i> {{cidColName}} </th>
+                                            <td class="text-center" mat-cell *matCellDef="let element;">
+                                                {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Candidate Name Column -->
+                                        <ng-container matColumnDef="CandidateName">
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie"></i>
+                                                Candidate
+                                                Name </th>
+                                            <td mat-cell *matCellDef="let element;">
+                                                {{element.Name || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="primarySkill">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <i class="fa fa-tasks" aria-hidden="true"></i> Skill
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.primaryskill || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Email ID Column -->
+                                        <ng-container matColumnDef="EmailID">
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-envelope"></i> Email
+                                                ID
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.email || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Phone No. Column -->
+                                        <ng-container matColumnDef="PhoneNo">
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-mobile-alt"></i>
+                                                Phone
+                                                No. </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.phone || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="InterviewDate">
+                                            <th mat-header-cell *matHeaderCellDef> <i class="fas fa-calendar"
+                                                    aria-hidden="true"></i> Interview Date</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <ng-container
+                                                    *ngIf="element?.interviewDateUTC == null || element?.interviewDateUTC == '';else dateUTC">
+                                                    {{(element?.interviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}
+                                                </ng-container>
+                                                <ng-template #dateUTC>
+                                                    {{(element?.interviewDateUTC| date:'dd-MM-yyyy, h:mm a') || '-'}}
+                                                </ng-template>
+                                                <!-- {{(element?.interviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}} -->
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="primaryInterviewer">
+                                            <th mat-header-cell *matHeaderCellDef> <i class="fas fa-user"
+                                                    aria-hidden="true"> </i> Primary Interviewer</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.Interviewer || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="additionalInterviewers">
+                                            <th mat-header-cell *matHeaderCellDef> <i class="fas fa-user"
+                                                    aria-hidden="true"> </i> Additional Interviewers</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.AdditionalInterviewer || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="InterviewType">
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-bell"></i> Interview
+                                                Type </th>
+                                            <td mat-cell *matCellDef="let element;">
+                                                {{element?.interviewType || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="dormantStatus">
+                                            <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                                                <br>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <ng-container [ngSwitch]="element?.isTidDormant">
+                                                    <ng-container *ngSwitchCase="'D'">
+                                                        <button class="btn-status-dg rejects" type="button">
+                                                            {{'DORMANT'}}
+                                                        </button>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="'R'">
+                                                        <button class="btn-status-dg schedule" type="button">
+                                                            {{'RE-ACTIVATED'}}
+                                                        </button>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <button class="btn-status-dg schedule" type="button">
+                                                            {{'ACTIVE'}}
+                                                        </button>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="CandidateStatus">
+                                            <th mat-header-cell *matHeaderCellDef><i
+                                                    class="fas fa-thermometer-three-quarters"></i> Candidate Status</th>
+                                            <td mat-cell *matCellDef="let element" class="text-left">
+                                                <app-all-status-id-visibility-shared [statusType]="'ccs'"
+                                                    [statusId]="element?.CandidateCureentStatusId"
+                                                    [statusName]="element?.CandidateCurrentStatusName">
+                                                </app-all-status-id-visibility-shared>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Action" stickyEnd>
+                                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-exchange-alt"></i>
+                                                Action
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" class="text-center">
+                                                <div class="btn-action btn-action-center">
+                                                    <ng-container *ngIf="element?.isTidDormant != 'D'">
+                                                        <ng-container [ngSwitch]="element?.statusid">
+                                                            <ng-container *ngSwitchCase="1">
+
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button"
+                                                                        matTooltip="Interview Reschedule"
+                                                                        (click)="reschedudInterHandler(element)"
+                                                                        [disabled]="element?.interviewBy == 'M' || element?.interviewBy == 'C' || element?.interviewBy == 'G'">
+                                                                        <i class="fas fa-calendar-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button"
+                                                                        matTooltip="Cancel Interview"
+                                                                        (click)="interviewCancel(element)"
+                                                                        [disabled]="element?.interviewBy == 'M' || element?.interviewBy == 'C' || element?.interviewBy == 'G'">
+                                                                        <i class="fas fa-user-times"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </ng-container>
+
+                                                            <ng-container *ngSwitchCase="3">
+
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button"
+                                                                        matTooltip="Interview Reschedule"
+                                                                        (click)="reschedudInterHandler(element)">
+                                                                        <i class="fas fa-calendar-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button"
+                                                                        matTooltip="Cancel Interview"
+                                                                        (click)="interviewCancel(element)"
+                                                                        [disabled]="element?.interviewBy == 'M' ||element?.interviewBy == 'C' || element?.interviewBy == 'G'">
+                                                                        <i class="fas fa-user-times"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </ng-container>
+
+                                                            <ng-container *ngSwitchCase="2">
+
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button"
+                                                                        matTooltip="Interview Schedule"
+                                                                        (click)="reschedudInterHandler(element)">
+                                                                        <i class="fas fa-calendar-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="btn-act">
+                                                                    <button mat-button type="button" disabled
+                                                                        matTooltip="Cancel Interview"
+                                                                        (click)="interviewCancel(element)">
+                                                                        <i class="fas fa-user-times"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                -
+                                                                <!-- <button mat-button type="button"
+                                                            matTooltip="Interview Schedule"
+                                                            (click)="interviewReschedule(element)">
+                                                            <i class="fas fa-calendar-plus"></i>
+                                                            </button> -->
+                                                            </ng-container>
+
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </div>
+                                                <!-- <div class="btn-action btn-action-center">
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button"
+                                                            [matTooltip]="element?.statusid == 2 ? 'Interview Schedule':'Interview Reschedule'"
+                                                            (click)="interviewReschedule(element)">
+                                                            <i class="fas fa-calendar-plus"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button" [disabled]="element?.statusid == 2 || element?.statusid != 3 || element?.statusid != 1" matTooltip="Cancel Interview"
+                                                            (click)="interviewCancel(element)">
+                                                            <i class="fas fa-user-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div> -->
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                    </table>
+                                    <app-no-result-found [searchedValue]="searchInput"
+                                        *ngIf="candidateList.length === 0">
+                                    </app-no-result-found>
+                                </div>
+                                <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                                    <app-custom-paginator [total]="paginationData?.Total"
+                                        [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                    </app-custom-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

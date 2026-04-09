@@ -1,0 +1,751 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <div class="card-header  card-header-flex">
+          <div class="ats-left-h">
+          </div>
+          <div class="erp-search-input ats-right-h">
+            <div class="filter-at-wrapper">
+              <div class="s-fil">
+
+              </div>
+              <div class="s-fil">
+                <div class="act-header-btn">
+                  <ul>
+                    <li>
+                      <button mat-button class="act-button" matTooltip="Download Records" (click)="downloadAsExel()">
+                        <span class="material-icons-outlined">
+                          download
+                        </span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="search-candidate-page">
+          <app-candidate-search-filter (sortFilterData)="getSortData($event)"></app-candidate-search-filter>
+
+          <div class="search-result-wrapper">
+            <!-- <div class="arrow-right-cnt">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                      </div> -->
+            <div class="search-cand-table">
+              <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                <ng-container matColumnDef="ProfileSource" sticky>
+                  <th mat-header-cell *matHeaderCellDef>Profile Source</th>
+                  <td mat-cell *matCellDef="let element"> {{element?.SourceName || '-'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="talentId">
+                  <th mat-header-cell *matHeaderCellDef>Talent ID</th>
+                  <td mat-cell *matCellDef="let element"> {{element?.thid || '-'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="cid">
+                  <th class="cid-col-width" mat-header-cell *matHeaderCellDef>{{cidColName}} </th>
+                  <td class="text-center" mat-cell *matCellDef="let element;">
+                    {{element.cid ? cidPrefix + element.cid : '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="SourceName" sticky>
+                  <th mat-header-cell *matHeaderCellDef>Source Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element?.SourceTypeName || '-'}}</td>
+                </ng-container>
+                <!-- Candidate Name Column -->
+                <ng-container matColumnDef="CandidateName">
+                  <th mat-header-cell *matHeaderCellDef>Candidate Name
+                  </th>
+                  <td mat-cell *matCellDef="let element;">
+                    {{element.Name || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="EmailID" sticky>
+                  <th mat-header-cell *matHeaderCellDef>
+                    Email ID
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.Email || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="SkillName">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Skill
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.SkillName || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="accountName">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Account
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.AccountName || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="projectName">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Project
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.ProjectName || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalExp">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Total Experience
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <!-- {{element?.TotalExp || '-'}}- -->
+                    {{element?.TotalExpYear?element?.TotalExpYear+' Year': '-'}}
+                    {{element?.TotalExpMonth?element?.TotalExpMonth+' Month': ''}}
+                    <!-- {{element?.TotalExpMonth+' Month' || '-'}}  -->
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mobNumber">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Phone No.
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.mobileNumber || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="intDate">
+                  <th mat-header-cell *matHeaderCellDef>Interview Date </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{(element?.interviewDate| date:'dd-MM-yyyy') || '-'}}
+                  </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="CandidateStatus">
+                  <th mat-header-cell *matHeaderCellDef><i class="fas fa-thermometer-three-quarters"></i> Candidate
+                    Status</th>
+                  <td mat-cell *matCellDef="let element" class="text-left">
+                    <ng-template #intStatus>
+                      <div *ngIf="element?.isScreenRejected === 1 && element?.cid == null;else notRejectedStatus">
+                        <button class="btn-status-dg rejects" type="button">
+                          Screen Rejected
+                        </button>
+                      </div>
+                      <ng-template [ngSwitch]="element?.InterviewStatusID" #notRejectedStatus>
+                       <div *ngSwitchCase="1">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="2">
+                          <button class="btn-status-dg cancelled" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="3">
+                          <button class="btn-status-dg reschedule" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="4">
+                          <button class="btn-status-dg selecteds" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="5">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="6">
+                          <button class="btn-status-dg holds" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="7">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="10">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="8">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="9">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="12">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="13">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="14">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.InterviewStatusName}}
+                          </button>
+                        </div>
+                       
+
+                      <div *ngSwitchCase="240">
+                          <button class="btn-status-dg drops" type="button">
+                            {{( (element?.InterviewPrevStatusName ? element?.InterviewPrevStatusName + ' / ':'' ) +
+                            element?.InterviewStatusName)}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="260">
+                          <button class="btn-status-dg drops" type="button">
+                            {{( (element?.InterviewPrevStatusName ? element?.InterviewPrevStatusName + ' / ':'' ) +
+                            element?.InterviewStatusName)}}
+                          </button>
+                        </div> 
+                        <div *ngSwitchDefault>
+                          {{element?.InterviewStatusName || '-'}}
+                        </div>
+                      </ng-template>
+                    </ng-template>
+                 
+                    <div *ngIf="element?.OfferStatusID != null && element?.InterviewStatusID == 4;else intStatus">
+                      <div *ngIf="element?.isScreenRejected === 1 && element?.cid == null;else notRejectedStatus2">
+                        <button class="btn-status-dg rejects" type="button">
+                          Screen Rejected
+                        </button>
+                      </div>
+                      <ng-template [ngSwitch]="element?.OfferStatusID" #notRejectedStatus2>
+                        <div *ngSwitchCase="20">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="40">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="60">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+
+                        <div *ngSwitchCase="80">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="30">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="50">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="70">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="90">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="110">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="120">
+                          <button class="btn-status-dg offergen" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="100">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="10">
+                          <button class="btn-status-dg holds" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="140">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="160">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="180">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="200">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="220">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.OfferStatusName}}
+                          </button>
+                        </div>
+                      
+                        <div *ngSwitchCase="240">
+                          <button class="btn-status-dg drops" type="button">
+                            {{( (element?.OfferPrevStatusName ? element?.OfferPrevStatusName + ' / ':'' ) +
+                            element?.OfferStatusName)}}
+                          </button>
+                        </div>
+                        <div *ngSwitchCase="260">
+                          <button class="btn-status-dg drops" type="button">
+                            {{( (element?.OfferPrevStatusName ? element?.OfferPrevStatusName + ' / ':'' ) +
+                            element?.OfferStatusName)}}
+                          </button>
+                        </div>
+                        <div *ngSwitchDefault>
+                          {{element?.OfferStatusName || '-'}}
+                        </div>
+                      </ng-template>
+                    </div>
+                  </td>
+                </ng-container> -->
+                 <ng-container matColumnDef="CandidateStatus">
+                  <th mat-header-cell *matHeaderCellDef><i class="fas fa-thermometer-three-quarters"></i> Candidate
+                    Status</th>
+                  <td mat-cell *matCellDef="let element" class="text-left">
+                       <app-all-status-id-visibility-shared [statusType]="'ccs'"
+                          [statusId]="element?.CandidateCureentStatusId"
+                          [statusName]="element?.CandidateCurrentStatusName">
+                        </app-all-status-id-visibility-shared>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="rejectReason">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Reject Reason
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.isScreenRejected == 1 && element?.cid == null ? element?.ScreenRejectReason : '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dropReason">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Drop Reason
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <!-- {{element?.StatusName || '-'}} -->
+                    <ng-container
+                      *ngIf="element?.OfferStatusID != null && element?.InterviewStatusID == 4;else intDropStatus">
+                      <ng-container *ngIf="element?.OfferStatusID == 240 ||
+                      element?.OfferStatusID == 260;else noDrops">
+                        {{element?.OfferDropReasonName? element?.OfferDropReasonName : '-'}}
+                      </ng-container>
+                      <ng-template #noDrops>
+                        NA
+                      </ng-template>
+                    </ng-container>
+                    <ng-template #intDropStatus>
+                      <ng-container *ngIf="element?.InterviewStatusID == 240 ||
+                      element?.InterviewStatusID == 260;else noDrops">
+                        {{ element?.InterviewDropReasonName ? element?.InterviewDropReasonName : '-'}}
+                      </ng-container>
+                      <ng-template #noDrops>
+                        NA
+                      </ng-template>
+                    </ng-template>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="primatRec">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Primary Recruiter
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.primaryrecruiter || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="secReq">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Secondry Recruiter
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.secondaryrecruiter || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hiringManager">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Hiring Manager
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.HiringManager || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="requisitionType">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Requisition Type
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.RequisitionType || '-'}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="np">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Notice Period
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.NoticePeriod?element?.NoticePeriod+' days':'-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="TrLocation">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Talent ID Location
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.TrLocation || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="InterviewTypeName">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Interview Type
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.InterviewTypeName || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="CvSubmissionDate">
+                  <th mat-header-cell *matHeaderCellDef>CV Submission Date </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{(element?.ProfileAddition| date:'dd-MM-yyyy') || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="organization">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Company Name
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element?.OrgName || '-'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="dormantStatus">
+                  <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                    <br>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="element?.isTidDormant">
+                      <ng-container *ngSwitchCase="'D'">
+                        <button class="btn-status-dg rejects" type="button">
+                          {{'DORMANT'}}
+                        </button>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'R'">
+                        <button class="btn-status-dg schedule" type="button">
+                          {{'RE-ACTIVATED'}}
+                        </button>
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        <button class="btn-status-dg schedule" type="button">
+                          {{'ACTIVE'}}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Rating">
+                  <th mat-header-cell *matHeaderCellDef>{{labelResumeRating?.gridRatingLabel}}</th>
+                  <td mat-cell *matCellDef="let element;">
+                    <!-- {{element?.OverallRating || '-'}} -->
+                    {{element?.OverallRating == null ?' - ' : element?.OverallRating + '%'}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="action" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                  <td mat-cell *matCellDef="let element" class="text-center">
+
+                    <div class="btn-action btn-action-centers">
+                      <ng-container *ngIf="element?.InterviewStatusID && element?.isTidDormant != 'D'">
+                        <ng-container [ngSwitch]="element?.InterviewStatusID">
+                          <ng-container *ngSwitchCase="7">
+                            <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId ||
+                                                    element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                    element?.secondaryrecruiterID == userData?.EmpNewId || 
+                                                    userData?.RoleId == 5 || 
+                                                    userData?.RoleId == 6">
+                              <button mat-button type="button" matTooltip="Interview  Schedule"
+                                (click)="openModalForUpdateFeedback(element)">
+                                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="10">
+                            <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId ||
+                                                        element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                        element?.secondaryrecruiterID == userData?.EmpNewId || 
+                                                        userData?.RoleId == 5 || 
+                                                        userData?.RoleId == 6">
+                              <button mat-button type="button" matTooltip="Interview  Schedule"
+                                (click)="openModalForUpdateFeedback(element)">
+                                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="6">
+
+                            <ng-container
+                              *ngIf="element?.interviewTypeId == 1 || element?.isTransfer == 1;else statusNotHr">
+                              <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId || 
+                                                          element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                          element?.secondaryrecruiterID == userData?.EmpNewId ||
+                                                          userData?.RoleId == 5 || 
+                                                          userData?.RoleId == 6">
+                                <button mat-button type="button" matTooltip="Interview  Schedule"
+                                  (click)="openModalForUpdateFeedback(element)">
+                                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </ng-container>
+                            <!-- <ng-template #statusNotHr>
+                                                  <div class="btn-act"
+                                                    *ngIf="element?.InterviewerId == userData?.EmpNewId || userData?.RoleId == 5 || userData?.RoleId == 6">
+                                                    <button mat-button type="button" matTooltip="Update Status"
+                                                      (click)="openModalForUpdateFeedback(element)">
+                                                      <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                    </button>
+                                                  </div>
+                                                </ng-template> -->
+
+                          </ng-container>
+                          <ng-container *ngSwitchCase="4">
+                            <ng-container *ngIf="element?.isTransfer == 1;else statusNotFn">
+                              <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId || 
+                                                          element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                          element?.secondaryrecruiterID == userData?.EmpNewId ||
+                                                          userData?.RoleId == 5 || 
+                                                          userData?.RoleId == 6">
+                                <button mat-button type="button" matTooltip="Interview  Schedule"
+                                  (click)="openModalForUpdateFeedback(element)">
+                                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </ng-container>
+
+                            <!-- <ng-template #statusNotFn>
+                                                  <div class="btn-act"
+                                                  *ngIf="element?.InterviewerId == userData?.EmpNewId || userData?.RoleId == 5 || userData?.RoleId == 6">
+                                                  <button mat-button type="button" matTooltip="Update Details"
+                                                    (click)="openModalForUpdateFeedback(element)">
+                                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                  </button>
+                                                </div>
+                                                </ng-template> -->
+
+                          </ng-container>
+                          <ng-container *ngSwitchCase="5">
+                            <ng-container *ngIf="element?.isTransfer == 1;else statusNotTr">
+                              <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId ||
+                                                       element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                       element?.secondaryrecruiterID == userData?.EmpNewId ||
+                                                       userData?.RoleId == 5 || 
+                                                       userData?.RoleId == 6">
+                                <button mat-button type="button" matTooltip="Interview  Schedule"
+                                  (click)="openModalForUpdateFeedback(element)">
+                                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </ng-container>
+                            <!-- <ng-template #statusNotTr>
+                                                  <div class="btn-act"
+                                                  *ngIf="element?.InterviewerId == userData?.EmpNewId || userData?.RoleId == 5 || userData?.RoleId == 6">
+                                                  <button mat-button type="button" matTooltip="Interview  Feedback"
+                                                    (click)="openModalForUpdateFeedback(element)"
+                                                    disabled>
+                                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                  </button>
+                                                </div>
+                                                </ng-template> -->
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="2">
+                            <ng-container *ngIf="element?.isTransfer == 1;else statusNotTrCan">
+                              <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId ||
+                                                       element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                       element?.secondaryrecruiterID == userData?.EmpNewId ||
+                                                       userData?.RoleId == 5 || 
+                                                       userData?.RoleId == 6">
+                                <button mat-button type="button" matTooltip="Interview  Schedule"
+                                  (click)="openModalForUpdateFeedback(element)">
+                                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </ng-container>
+                            <!-- <ng-template #statusNotTrCan>
+                                                  <div class="btn-act"
+                                                  *ngIf="element?.InterviewerId == userData?.EmpNewId || userData?.RoleId == 5 || userData?.RoleId == 6">
+                                                  <button mat-button type="button" matTooltip="Interview  Feedback"
+                                                    (click)="openModalForUpdateFeedback(element)"
+                                                    disabled>
+                                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                  </button>
+                                                </div>
+                                                </ng-template> -->
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <!-- <div class="btn-act"
+                                                  *ngIf="element?.InterviewerId == userData?.EmpNewId || userData?.RoleId == 5 || userData?.RoleId == 6">
+                                                  <button mat-button type="button" matTooltip="Interview  Feedback"
+                                                    (click)="openModalForUpdateFeedback(element)"
+                                                    [disabled]="element?.InterviewStatusID == '2' || element?.InterviewStatusID == '5'">
+                                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                  </button>
+                                                </div> -->
+                          </ng-container>
+
+                        </ng-container>
+                      </ng-container>
+                      <!--  -->
+                      <div class="btn-act" *ngIf="element?.InterviewStatusID">
+                        <button mat-button type="button" matTooltip="View All Feedback"
+                          (click)="openfeedbackInfoModal(element)">
+                          <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <ng-container
+                        *ngIf="!element?.InterviewStatusID && element?.IsRenuTeam != 'Y' && element?.isTidDormant != 'D'">
+                        <div class="btn-act" *ngIf="element?.recruiterid == userData?.EmpNewId ||
+                                                         element?.primaryrecruiterID == userData?.EmpNewId ||
+                                                         element?.secondaryrecruiterID == userData?.EmpNewId ||
+                                                         userData?.RoleId == 5 || 
+                                                         userData?.RoleId == 6">
+                          <button mat-button type="button" matTooltip="Schedule Interview"
+                            (click)="scheduleInterview(element)"
+                            [disabled]="element?.thid === null || (element?.cid == null && element?.isScreenRejected === 1)">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="element?.RequisitionTypeID != 6">
+                        <ng-container *ngIf="element?.thid === null && element?.SourceID === 4">
+                          <div class="btn-act">
+                            <button mat-button type="button" matTooltip="Map to Talent ID"
+                              (click)="assignToTalenId(element)"
+                              [disabled]="element?.cid == null && element?.isScreenRejected === 1">
+                              <i class="fa fa-random" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                      <div class="btn-act" *ngIf="(element?.cid == null &&
+                            (element?.SourceID == 3 || element?.SourceID == 4 || element?.SourceID == 5 || (element?.SourceID == 2 && element?.IsFromNaukriAPI == 'Y')) &&
+                            (
+                              element?.primaryrecruiterID == userData?.EmpNewId ||
+                              element?.secondaryrecruiterID == userData?.EmpNewId || 
+                              userData?.RoleId == 5
+                            )) && element?.isTidDormant != 'D'">
+                        <button mat-button type="button" (click)="screenRejectMethod(element)"
+                          [ngClass]="{'forScreenRejectColor': element?.isScreenRejected === 0}"
+                          [matTooltip]="element?.isScreenRejected === 1?'Activate ':'Screen Reject'">
+                          <!-- <i class="fa fa-ban" aria-hidden="true"></i>  -->
+                          <i class="fas fa-user-slash"></i>
+                        </button>
+                      </div>
+                      <ng-container *ngIf="element?.RequisitionTypeID != 6">
+                        <div class="btn-act">
+                          <button mat-button type="button" matTooltip="Download Resume"
+                            (click)="dwnloadFileSingle(element)">
+                            <span class="material-icons">
+                              file_download
+                            </span>
+                          </button>
+                        </div>
+                      </ng-container>
+                      <div class="btn-act">
+                        <button mat-button type="button" [matTooltip]="labelResumeRating?.tooltipResumeRatingAction"
+                          (click)="openCandidateRatingDetailsModal(element)">
+                          <span class="material-icons-outlined">
+                            calculate
+                          </span>
+                        </button>
+                      </div>
+                      <!-- <div class="btn-act">
+                                              <button mat-button type="button" matTooltip="Download Feedback"
+                                                (click)="downloadPDF(element)">
+                                                <i class='fas fa-file-export'></i>
+                                              </button>
+                                            </div> -->
+                    </div>
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+              </table>
+              <app-no-result-found [searchedValue]="'searchInput'" *ngIf="candidateList?.length === 0">
+              </app-no-result-found>
+            </div>
+
+            <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+              <app-custom-paginator [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                (sendPagingData)="getPagingData($event)" [pageSizeOptions]="pageSizeOption" [pageSize]="pageSize">
+              </app-custom-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end content body -->
+
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

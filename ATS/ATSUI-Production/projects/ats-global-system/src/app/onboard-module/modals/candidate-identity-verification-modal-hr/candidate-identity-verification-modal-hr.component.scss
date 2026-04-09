@@ -1,0 +1,140 @@
+.card{
+    margin:0;
+  }
+  
+  .card-body{
+  }
+  .hlt{
+    font-size: 11px;
+    padding: 1px 6px;
+    background: #faf727;
+    margin-top: 3px;
+  }
+  .idDown{
+    color: #084066;
+  }
+ .panel-content app-no-result-found{
+    width: 100%;
+  }
+  .vrf-suc{
+    background: #d3ffcc;
+    color: #057205;
+    padding: 4px;
+    line-height: 16px;
+    display: inline-block;
+  }
+  .vrf-fail{
+    background: #ffd8d8;
+    color: #da0404;
+    padding: 4px;
+    line-height: 16px;
+    display: inline-block;
+  }
+  .voice-imprint-status{
+    ul{
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      justify-content: flex-start;
+    margin-top: 10px;
+      li{
+        padding: 7px 21px;
+        /* background: red; */
+        border: solid 1px #ddd;
+        margin-left: 10px;
+         label{
+          margin: 0;
+          font-weight: bold;
+          font-family: Arial, Helvetica, sans-serif;
+          .s-vm{
+             color: #000000;
+          }
+          .s-vm2{
+            color: #098188;
+         }
+         }
+      }
+    }
+ }
+  
+ .upload-file-onb{
+  .upload-file-input{
+    position: relative;
+  }
+
+  .vide-title-p{
+    position: absolute;
+    left: 100%;
+    top: 21px;
+    color: #eb0505;
+    width: 506px;
+    background: #ffd4d4;
+    padding: 6px 8px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+ }
+
+ 
+.guidline-action{
+  ul{
+   list-style-type: none;
+   display: flex;
+   margin: 0;
+   margin-top: 4px;
+   li{
+     margin-right: 4px;
+     a{
+       font-size: 12px;
+       padding: 3px 6px;
+       margin-top: 3px;
+       color: #ffffff;
+       font-family: Arial;
+       background: #166196;
+       text-decoration: none;
+       &:hover{
+        opacity: 0.9;
+       }
+      
+     }
+     &:nth-child(1){
+       a{
+        background: #0a4d6b;
+       }
+      }
+   }
+  }
+}
+
+.at-ct-inline{
+  width: 100% !important;
+}
+.nw-mb-20{
+  margin-bottom: 20px !important;
+}
+.mt-ml{
+  margin-left: 7px;
+  margin-top: 30px
+}
+.mt22-ml16{
+  margin-left: 16px;
+  margin-top: 22px
+}
+.rmrk-ft-100{
+  height: 100px !important;
+}
+.consent-error-check {
+  color: #ff0000c9;
+  border: solid 0.1px;
+  padding: 3px 9px;
+}
+
+.dangr {
+  color: red;
+}
+
+.full-width {
+  width: 100%;
+}

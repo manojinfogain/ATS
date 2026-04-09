@@ -1,0 +1,334 @@
+<form [formGroup]="updateProfileForm" (ngSubmit)="updateProfileFormHandler(updateProfileForm)">
+    <div class="ats-modal-header">
+        <h3>{{data?.title}}</h3>
+        <button class="btn-m-close" type="button" (click)="hideModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content class="ats-modal-body-cont-wrap">
+
+        <div class="ats-modal-body">
+            <div class="update-form-wrap-lp">
+                <section class="rsm-content-sec">
+                    <div class="rsm-content-header">
+                        <h3>Profile Details Form</h3>
+                    </div>
+                    <div class="rsm-content-body">
+                        <div class="resume-form-group ats-form-ux-up">
+                            <div class="row mb-3">
+                                <div class="col-md-4 at-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput placeholder="First Name" maxlength="200" disableInitialSpace
+                                            onlyAlphabets formControlName="firstName" appCapitalizeWords>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Middle Name</mat-label>
+                                        <input matInput placeholder="Middle Name" maxlength="200" disableInitialSpace
+                                            onlyAlphabets formControlName="middleName" appCapitalizeWords>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput placeholder="Last Name" maxlength="200" disableInitialSpace
+                                            onlyAlphabets formControlName="lastName" appCapitalizeWords>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col mob-num-wrap">
+                                    <div class="mb-col code-mobile">
+                                        <app-country-list-code [formFieldAppearance]="'outline'" [countryCode]="true"
+                                            [parentIdControl]="updateProfileForm.get('countryCode')"
+                                            [title]="'Country Code'" [placeholder]="'Search'">
+                                        </app-country-list-code>
+                                    </div>
+                                    <div class="mb-col">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label>Phone No.</mat-label>
+                                            <input matInput placeholder="Phone No." maxlength="15"
+                                                formControlName="phone" disableInitialSpace onlyNumber>
+
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 at-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Email ID</mat-label>
+                                        <input matInput placeholder="Email ID" maxlength="250" formControlName="email"
+                                            disableInitialSpace emailContainInfogain>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>DOB (MM/dd/YYYY)</mat-label>
+                                        <input matInput [matDatepicker]="datepickerInfo2" placeholder="DOB"
+                                            formControlName="dob" readonly [max]="maxDate">
+                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo2">
+                                            <mat-icon matDatepickerToggleIcon class="form-icon date-icon-spac">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datepickerInfo2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 at-form-col">
+                                    <div class="exp-section-control-main">
+                                        <div class="exp-section-control-ds">
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Total Experience in Year">
+                                                    <mat-label>Total Exp. (Year)</mat-label>
+                                                    <input matInput placeholder="Total Exp." maxlength="2"
+                                                        disableInitialSpace formControlName="totalExpYear" onlyNumber
+                                                        expYear>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Total Experience in Month">
+                                                    <mat-label>Total Exp. (Month)</mat-label>
+                                                    <input matInput placeholder="Total Exp." maxlength="2"
+                                                        disableInitialSpace formControlName="totalExpMonth" onlyNumber>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col">
+                                    <div class="exp-section-control-main">
+                                        <div class="exp-section-control-ds">
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Relevant Experience in Year">
+                                                    <mat-label>Relevant Exp. (Year)</mat-label>
+                                                    <input matInput placeholder="Relevant Exp." maxlength="2"
+                                                        disableInitialSpace formControlName="releventExpYear" onlyNumber
+                                                        expYear>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Relevant Experience in Month">
+                                                    <mat-label>Relevant Exp. (Month)</mat-label>
+                                                    <input matInput placeholder="Relevant Exp." maxlength="2"
+                                                        disableInitialSpace formControlName="releventExpMonth"
+                                                        onlyNumber expMonth>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col">
+                                    <!-- <app-skill-set [panelIdControl]="resume.get('skill')"
+                                                        [formFieldAppearance]="'outline'"  [title]="' Skill'">
+                                                    </app-skill-set> -->
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Skill</mat-label>
+                                        <mat-select formControlName="skill" [disableOptionCentering]="true">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrl" [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let list of skillDataList | skillFilter:searchInput"
+                                                [value]="list.SkillId">
+                                                {{list?.SKillName}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col">
+                                    <!-- <app-skill-set [panelIdControl]="resume.get('additionalSkill')" 
+                                                        [title]="'Additional Skills'" [formFieldAppearance]="'outline'">
+                                                    </app-skill-set> -->
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Additional Skills</mat-label>
+                                        <mat-select formControlName="additionalSkill" [disableOptionCentering]="true">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrlAd"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let list of skillDataList | skillFilter:searchInputAd"
+                                                [value]="list.SkillId">
+                                                {{list?.SKillName}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Gender</mat-label>
+                                        <mat-select formControlName="gender">
+                                            <mat-option *ngFor="let list of genderType" [value]="list?.ID">
+                                                {{list?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <app-education-master-control
+                                        [formControlOpt]="updateProfileForm.get('qualification')"
+                                        [title]="'Education Qualification'" [formFieldAppearance]="'outline'">
+                                    </app-education-master-control>
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <app-company-master-control [formControlOpt]="updateProfileForm.get('currCompany')"
+                                        [title]="'Current Company'" [formFieldAppearance]="'outline'"
+                                        [isDataParent]="true" [listData]="listData" [isClientSearch]="true">
+                                    </app-company-master-control>
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Tentative DOJ</mat-label>
+                                        <input matInput [matDatepicker]="datepickerInfo9" placeholder="Tentative DOJ"
+                                            formControlName="joinDate" readonly [min]="minDate">
+                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo9">
+                                            <mat-icon matDatepickerToggleIcon class="form-icon date-icon-spac">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datepickerInfo9></mat-datepicker>
+                                    </mat-form-field>
+
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <app-country-list-code [parentIdControl]="updateProfileForm.get('countryID')"
+                                        [country]="true" (getDataIdCountry)="getCountry($event)" [title]="'Country'"
+                                        [formFieldAppearance]="'outline'">
+                                    </app-country-list-code>
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <app-city-list-code [parentIdControl]="updateProfileForm.get('cityID')"
+                                        [getId]="updateProfileForm.get('countryID').value" [title]="'City'"
+                                        [placeholder]="'Search City'" [formFieldAppearance]="'outline'"
+                                        [required]="false" [filteryByCountry]="true">
+                                    </app-city-list-code>
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Currency Type</mat-label>
+                                        <mat-select formControlName="currencyType">
+                                            <mat-option *ngFor="let crr of currencyTypeData" [value]="crr?.id">
+                                                {{crr?.currency_code}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Salary Type</mat-label>
+                                        <mat-select formControlName="SalaryType">
+                                            <mat-option *ngFor="let data of salaryTypeList" [value]="data.id">
+                                                {{data?.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Current Salary</mat-label>
+                                        <input matInput placeholder="Current Salary" maxlength="10" disableInitialSpace
+                                            formControlName="currentSalary" onlyNumber>
+                                        <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                            {{updateProfileForm.get('currentSalary')?.value |convertToWord}}
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Expected Salary</mat-label>
+                                        <input matInput placeholder="Expected Salary" maxlength="10" disableInitialSpace
+                                            formControlName="expectedSalary" onlyNumber>
+                                        <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                            {{updateProfileForm.get('expectedSalary')?.value |convertToWord}}
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-md-4 at-form-col" *ngIf="isLocationIndia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                        <mat-select formControlName="candidateType">
+                                            <mat-option *ngFor="let candType of candidateTypeData"
+                                                [value]="candType?.typeId">
+                                                {{candType?.statusName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="col-md-4 at-form-col">
+                                    <div class="upload-file-input">
+                                        <label>Upload Resume
+                                            <sup *ngIf="data?.type === 1">*</sup>
+                                        </label>
+                                        <input type="file" (change)="onResumeSelected($event)" accept=".pdf,.doc,.docx" >
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- <pre>{{ finalData | json }}</pre> -->
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="hideModal()">Cancel
+        </button>
+    </div>
+</form>

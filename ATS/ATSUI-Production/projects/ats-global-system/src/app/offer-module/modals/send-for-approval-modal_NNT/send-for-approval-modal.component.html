@@ -1,0 +1,854 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="sendForApprovalForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <!-- candidate Basic Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cd'" [allRoundList]="allRoundList">
+            </app-candidate-details-info>
+            <!-- <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Personal data
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Type your name and age
+                      <mat-icon>account_circle</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                </mat-expansion-panel>
+              
+              </mat-accordion> -->
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header">
+                    <h4>Candidate Offer Details Form</h4>
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                        <div class="ats-form-col">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Division</mat-label>
+                                <mat-select formControlName="DivisionID" (selectionChange)="divisionChanged($event)"
+                                    required>
+                                    <mat-option *ngFor="let data of divisionList" [value]="data.ID">
+                                        {{data?.Name}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('DivisionID')?.touched && getControl('DivisionID')?.invalid">
+                                    <div *ngIf="getControl('DivisionID')?.errors.required">
+                                        Division name is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Date Of Joining</mat-label>
+                                <input matInput [matDatepicker]="picker2" [min]="minDate" required
+                                    formControlName="DateOfJoining" (dateInput)="changeDate('input', $event)">
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error
+                                    *ngIf="getControl('DateOfJoining').touched && getControl('DateOfJoining').invalid">
+                                    <div *ngIf="getControl('DateOfJoining').errors.required">
+                                        Date Of Joining is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Joining Location</mat-label>
+                                <mat-select formControlName="JoiningLocationID" (selectionChange)="locChanged($event)"
+                                    required>
+                                    <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                        {{data?.LocName}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('JoiningLocationID')?.touched && getControl('JoiningLocationID')?.invalid">
+                                    <div *ngIf="getControl('JoiningLocationID')?.errors.required">
+                                        Joining Location is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Employment type</mat-label>
+                                <mat-select [disableOptionCentering]="true" required formControlName="CandidateTypeID"
+                                    (selectionChange)="getCandidateTypeId($event);locChanged($event)">
+                                    <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                        {{list?.ContractType}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="getControl('CandidateTypeID').touched && getControl('CandidateTypeID').invalid">
+                                    <div *ngIf="getControl('CandidateTypeID').errors.required">
+                                        Employment type is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isVisiblePartner">
+                            <div class="error-outside-control">
+                                <app-partner-list-control [formFieldAppearance]="'outline'"
+                                    [parentIdControl]="getControl('PartnerID')" [required]="isReqPartner">
+                                </app-partner-list-control>
+                                <div class="mt-error-ats"
+                                    *ngIf="getControl('PartnerID').touched && getControl('PartnerID').invalid">
+                                    <span *ngIf="getControl('PartnerID').errors.required">
+                                        Partner is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isVisiblePartner">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Contract Completion Date</mat-label>
+                                <input matInput [matDatepicker]="picker3" [required]="isReqPartner"
+                                    formControlName="ContractCompletionDate" [min]="minDateEnd"
+                                    [matDatepickerFilter]="myFilterDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                                <mat-error
+                                    *ngIf="getControl('ContractCompletionDate').touched && getControl('ContractCompletionDate').invalid">
+                                    <div *ngIf="getControl('ContractCompletionDate').errors.required">
+                                        Contract Completion Date is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="isLwdDate">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Contract Completion Date</mat-label>
+                                <input matInput [matDatepicker]="picker3" [required]="isReqLwdDate"
+                                    formControlName="lwdDate" [min]="minDateEnd" [matDatepickerFilter]="myFilterDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                                <mat-error *ngIf="getControl('lwdDate').touched && getControl('lwdDate').invalid">
+                                    <div *ngIf="getControl('lwdDate').errors.required">
+                                        Contract Completion Date is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="isVisiblePartner">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Service And Markup (%)</mat-label>
+
+                                <input matInput placeholder="Service And Markup" maxlength="3" disableInitialSpace
+                                    formControlName="ServiceAndMarkup" onlyNumber [required]="isReqPartner">
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('ServiceAndMarkup')?.touched && getControl('ServiceAndMarkup')?.invalid">
+                                    <div *ngIf="getControl('ServiceAndMarkup')?.errors.required">
+                                        Service And Markup is required.
+                                    </div>
+                                </mat-error>
+                                <!-- validate ends-->
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <app-common-control-master [desgination]="true"
+                                [formControlOpt]="getControl('DesignationId')" [required]="true" [title]="'Designation'"
+                                [formFieldAppearance]="'outline'" (getGradeId)="getDesignation($event)">
+                            </app-common-control-master>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('DesignationId')?.touched && getControl('DesignationId')?.invalid">
+                                <div *ngIf="getControl('DesignationId')?.errors.required">
+                                    Designation is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->
+
+
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Grade</mat-label>
+                                <mat-select formControlName="gradeId" required (selectionChange)="getGradeId($event)">
+                                    <mat-option *ngFor="let data of gradeList" [value]="data.GRADE_ID">
+                                        {{data?.GRADE_NAME}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error *ngIf="getControl('gradeId')?.touched && getControl('gradeId')?.invalid">
+                                    <div *ngIf="getControl('gradeId')?.errors.required">
+                                        Grade is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="!isNNT">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Comp. Band</mat-label>
+                                <mat-select formControlName="gradeBand" [required]="gradeBandReq"
+                                    (selectionChange)="getGradeBandId($event)">
+                                    <mat-option *ngFor="let data of gradeBandList" [value]="data.ID">
+                                        {{data?.Band}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error *ngIf="getControl('gradeBand')?.touched && getControl('gradeBand')?.invalid">
+                                    <div *ngIf="getControl('gradeBand')?.errors.required">
+                                        Grade Band is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{isNNT ? 'Classification' : 'Job Family'}} </mat-label>
+                                <mat-select formControlName="JobFamilyID" required
+                                    (selectionChange)="getJobFamilyId($event)">
+                                    <mat-option *ngFor="let data of jobFamilyList" [value]="data.JFID">
+                                        {{data?.JFName}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('JobFamilyID')?.touched && getControl('JobFamilyID')?.invalid">
+                                    <div *ngIf="getControl('JobFamilyID')?.errors.required">
+                                        Job Family is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="jfCategHide && !isNNT">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Job Family Category</mat-label>
+                                <mat-select formControlName="JfCateg" [required]="jfCategReq"
+                                    (selectionChange)="getJfCateg($event)">
+                                    <mat-option *ngFor="let data of JfCategList" [value]="data.value">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error *ngIf="getControl('JfCateg')?.touched && getControl('JfCateg')?.invalid">
+                                    <div *ngIf="getControl('JfCateg')?.errors.required">
+                                        Job Family Category is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Salary Type</mat-label>
+                                <mat-select formControlName="SalaryType" required>
+                                    <mat-option *ngFor="let data of salaryTypeList" [value]="data.id">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('SalaryType')?.touched && getControl('SalaryType')?.invalid">
+                                    <div *ngIf="getControl('SalaryType')?.errors.required">
+                                        Salary Type is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>CTC </mat-label>
+                                <input matInput placeholder="Final CTC" maxlength="10" disableInitialSpace
+                                    formControlName="ctc" onlyNumber required>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('ctc').value | convertToWord}}
+                                </mat-hint>
+                                <mat-error *ngIf="getControl('ctc')?.touched && getControl('ctc')?.invalid">
+                                    <div *ngIf="getControl('ctc')?.errors.required">
+                                        CTC is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Joining bonus </mat-label>
+                                <input matInput placeholder="Joining bonus" maxlength="10" disableInitialSpace
+                                    formControlName="joiningBonus" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('joiningBonus').value |
+                                    convertToWord}}</mat-hint>
+                                <mat-error
+                                    *ngIf="getControl('joiningBonus')?.touched && getControl('joiningBonus')?.invalid">
+                                    <div *ngIf="getControl('joiningBonus')?.errors.max">
+                                        You can enter maximum 300000.
+                                    </div>
+                                </mat-error>
+
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Notice period buyout </mat-label>
+                                <input matInput placeholder="Notice buyout" maxlength="10" disableInitialSpace
+                                    formControlName="NoticeBuyOut" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('NoticeBuyOut').value |
+                                    convertToWord}}</mat-hint>
+                                <mat-error
+                                    *ngIf="getControl('NoticeBuyOut')?.touched && getControl('NoticeBuyOut')?.invalid">
+                                    <div *ngIf="getControl('NoticeBuyOut')?.errors.max">
+                                        You can enter maximum 200000.
+                                    </div>
+                                </mat-error>
+
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Travel Expense</mat-label>
+                                <input matInput placeholder="Travel Expense" maxlength="10" disableInitialSpace
+                                    formControlName="TravelExp" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('TravelExp').value |
+                                    convertToWord}}</mat-hint>
+                                <mat-error *ngIf="getControl('TravelExp')?.touched && getControl('TravelExp')?.invalid">
+                                    <div *ngIf="getControl('TravelExp')?.errors.max">
+                                        You can enter maximum 50000.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Relocation Expense</mat-label>
+                                <input matInput placeholder="Relocation Expense" maxlength="10" disableInitialSpace
+                                    formControlName="RelocationExp" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RelocationExp').value |
+                                    convertToWord}}</mat-hint>
+                                <mat-error
+                                    *ngIf="getControl('RelocationExp')?.touched && getControl('RelocationExp')?.invalid">
+                                    <div *ngIf="getControl('RelocationExp')?.errors.max">
+                                        You can enter maximum 100000.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Retention bonus</mat-label>
+                                <input matInput placeholder="Retention bonus" maxlength="10" disableInitialSpace
+                                    formControlName="RetentionBonus" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RetentionBonus').value |
+                                    convertToWord}}</mat-hint>
+                                <mat-error
+                                    *ngIf="getControl('RetentionBonus')?.touched && getControl('RetentionBonus')?.invalid">
+                                    <div *ngIf="getControl('RetentionBonus')?.errors.max">
+                                        You can enter maximum 300000.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <!-- <div class="ats-form-col">
+                            <app-employee-list [panelIdControl]="getControl('offerGivenBy')" [required]="true"
+                                [placeholder]="'Search'" [title]="'Offer given by'"
+                                [showSelectedValue]="showSelectedValueOfferBy" [isEmpListServerSide]="true"
+                                [defaultValue]="SelectedValueOfferBy" [formFieldAppearance]="'outline'">
+                            </app-employee-list>
+                            <mat-error *ngIf="getControl('offerGivenBy').touched && getControl('offerGivenBy').invalid">
+                                <div *ngIf="getControl('offerGivenBy').errors.required">
+                                    Offer By is required.
+                                </div>
+                            </mat-error>
+
+                        </div> -->
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Re-Hire</mat-label>
+                                <mat-select formControlName="reHire" required>
+                                    <mat-option *ngFor="let data of RehireList" [value]="data.value">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error *ngIf="getControl('reHire')?.touched && getControl('reHire')?.invalid">
+                                    <div *ngIf="getControl('reHire')?.errors.required">
+                                        Re-Hire is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col" *ngIf="isTag_ApproverShow">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>TAG Lead Approver</mat-label>
+                                <mat-select formControlName="TAGLead_Approver" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrl" [noEntriesFoundLabel]="'No record Found'"
+                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let list of tagHeadList | panelFilter:searchInput"
+                                        [value]="list.empnewid">
+                                        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                                    </mat-option>
+                                </mat-select>
+                                <!-- validate -->
+                                <mat-error
+                                    *ngIf="getControl('TAGLead_Approver')?.touched && getControl('TAGLead_Approver')?.invalid">
+                                    <div *ngIf="getControl('TAGLead_Approver')?.errors.required">
+                                        TAG Lead Approver is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+
+                        <!-- <div class="ats-form-col" *ngIf="isTag_ApproverShow">
+    
+                            <app-approver-list [panelIdControl]="getControl('TAGLead_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'TAG Lead Approver'"
+                                [showSelectedValue]="showSelectedValuePMAppr" [isEmpListServerSide]="true"
+                                [defaultValue]="SelectedValuePMAppr" [formFieldAppearance]="'outline'">
+                            </app-approver-list>
+                            <mat-error
+                                *ngIf="getControl('TAGLead_Approver')?.touched && getControl('TAGLead_Approver')?.invalid">
+                                <div *ngIf="getControl('TAGLead_Approver')?.errors.required">
+                                    TAG Lead Approver is required.
+                                </div>
+                            </mat-error>
+                        </div> -->
+
+                        <div class="ats-form-col" *ngIf="isDH_ApproverShow">
+
+                            <app-approver-list [panelIdControl]="getControl('DH_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'Delivery Head Approver'" [type]="'dh'"
+                                [formFieldAppearance]="'outline'" [divisionID]="divisionID">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error *ngIf="getControl('DH_Approver')?.touched && getControl('DH_Approver')?.invalid">
+                                <div *ngIf="getControl('DH_Approver')?.errors.required">
+                                    Delivery Head Approver is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->
+
+
+                        <div class="ats-form-col" *ngIf="isSvp_ApproverShow">
+
+                            <app-approver-list [panelIdControl]="getControl('SVP_Approver')" [required]="true"
+                                [placeholder]="'Search'" [title]="'Senior Vice president/President & COO'"
+                                [formFieldAppearance]="'outline'" [type]="'svp'" [divisionID]="divisionID">
+                            </app-approver-list>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('SVP_Approver')?.touched && getControl('SVP_Approver')?.invalid">
+                                <div *ngIf="getControl('SVP_Approver')?.errors.required">
+                                    Senior Vice president/President & COO Approver is required.
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                    formControlName="remarks" [required]="isRemarkReq">
+                                <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                    <div *ngIf="getControl('remarks')?.errors.required">
+                                        Remarks is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <div class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                                <div class="ats-form-col upload-file-ats"
+                                    [ngClass]="getControl('fileBGV').touched && getControl('fileBGV').invalid ? 'error-file-input':'suc'">
+                                    <div class="upload-file-input">
+                                        <label>Documents Upload ( Optional )
+                                            <sup *ngIf="isFileReq">*</sup>
+                                        </label>
+                                        <input type="file" #fileBGV (change)="fileUp($event)" multiple>
+                                    </div>
+                                    <div class="file-name-list" *ngIf="allFiles">
+                                        <ul>
+                                            <li *ngFor="let item of allFiles; let i= index"
+                                                [ngClass]="item.type == 'e' ? 'uploaded':'n'">{{i+1}}. {{item?.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <p class="error-red-center">{{approverMsgMissing}}</p>
+
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-header">
+                                <h4>Salary Grid</h4>
+                            </div>
+                            <div class="box-v-body">
+                                <div class="dgm-track">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-body">
+
+                                            <div class="dgm-track">
+                                                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                    <div class="view-list-bx" *ngIf="!isNNT">
+                                                        <h4>Comp. Band</h4>
+                                                        <p>{{aprvCountDataList?.GradeBand || '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+
+                                                    <div class="view-list-bx">
+                                                        <h4>Minimum Salary</h4>
+                                                        <p>
+                                                            {{aprvCountDataList?.MinSal?(aprvCountDataList?.MinSal |
+                                                            customCurrency:1:0:2): '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+
+                                                    <div class="view-list-bx">
+                                                        <h4>Median Salary</h4>
+                                                        <p>
+                                                            {{aprvCountDataList?.MidSal?(aprvCountDataList?.MidSal |
+                                                            customCurrency:1:0:2): '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Maximum Salary</h4>
+                                                        <p>
+                                                            {{aprvCountDataList?.MaxSal?(aprvCountDataList?.MaxSal |
+                                                            customCurrency:1:0:2): '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+                    <div class="dgm-track">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-header">
+                                <h4>DGM Calculator</h4>
+                            </div>
+                            <div class="box-v-body">
+                                <div class="dgm-track">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-form-normal-font ats-forms-horz ats-forms-horz4 form-outline-ats ats-form-dark">
+
+
+
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Billing Currency</mat-label>
+                                                        <mat-select formControlName="billingCurrencyId"
+                                                            (selectionChange)="locChanged($event)">
+                                                            <mat-option *ngFor="let currency of currencyTypeData"
+                                                                [value]="currency.CurId">
+                                                                {{currency.CurName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Billing Rate/Hr in billing currency</mat-label>
+                                                        <input matInput
+                                                            placeholder="Billing Rate/Hr in billing currency"
+                                                            maxlength="12" formControlName="billingRateHrCurrency"
+                                                            disableInitialSpace onlyDecimalNumber>
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label>Billable Hours/Day</mat-label>
+                                                        <mat-select formControlName="billableHoursDay"
+                                                            (selectionChange)="locChanged($event)">
+                                                            <mat-option *ngFor="let data of billingHours"
+                                                                [value]="data">
+                                                                {{data}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Project Buffer if applicable (%)</mat-label>
+                                                        <input matInput placeholder="Project Buffer if applicable"
+                                                            maxlength="3" formControlName="projectBuffer"
+                                                            disableInitialSpace onlyNumber>
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+
+                                            </div>
+                                            <div class="dgm-track">
+                                                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                    <div class="view-list-bx">
+                                                        <h4>Local Currency</h4>
+                                                        <p>{{localCurrency || '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Billing Rate/Hr in USD</h4>
+                                                        <p>
+                                                            {{dgmData?.BillingRateHr?(dgmData?.BillingRateHr |
+                                                            currency): '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Annual Billable Hours</h4>
+                                                        <p>{{dgmData?.AnnualBillableHours || '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+
+                                                    <div class="view-list-bx" *ngIf="isHideVarience">
+                                                        <h4>Variance</h4>
+                                                        <p>{{dgmData?.variance+'%' || '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+
+                                <div class="dgm-track">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header">
+                                            <h4>In USD</h4>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                <div class="view-list-bx">
+                                                    <h4>Annual Revenue</h4>
+                                                    <p>{{dgmData?.AnnualRevenue?(dgmData?.AnnualRevenue |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Annual Salary Cost</h4>
+                                                    <p>{{dgmData?.AnnualSalaryCost?(dgmData?.AnnualSalaryCost |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Joining Bonus</h4>
+                                                    <p>{{dgmData?.JoiningBonus?(dgmData?.JoiningBonus | currency):'-'}}
+                                                    </p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Benefits</h4>
+                                                    <p>{{dgmData?.Benefits?(dgmData?.Benefits | currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Project Buffer</h4>
+                                                    <p>{{dgmData?.ProjectBuffer?(dgmData?.ProjectBuffer |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <!-- <h4>Non- Reimbursable Travel cost</h4> -->
+                                                    <!-- <p>{{candData?.rf || '-'}}</p> -->
+                                                    <div>
+                                                        <div
+                                                            class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+
+                                                            <div class="ats-form-col">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control">
+                                                                    <mat-label>Non- Reimbursable Travel cost</mat-label>
+                                                                    <input matInput
+                                                                        placeholder="Non- Reimbursable Travel cost"
+                                                                        maxlength="15"
+                                                                        formControlName="NonReimbursableTravelCost"
+                                                                        disableInitialSpace onlyNumber>
+
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <!-- end col -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <!-- <h4>Project Specific Cost</h4>
+                                                <p>{{candData?.rf || '-'}}</p> -->
+                                                    <div>
+                                                        <div
+                                                            class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+
+                                                            <div class="ats-form-col">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control">
+                                                                    <mat-label>Project Specific Cost</mat-label>
+                                                                    <input matInput placeholder="Project Specific Cost"
+                                                                        maxlength="15"
+                                                                        formControlName="projectSpecificCost"
+                                                                        disableInitialSpace onlyNumber>
+
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <!-- end col -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>DGM</h4>
+                                                    <p>{{dgmData?.dgmCost?(dgmData?.dgmCost | currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>DGM (%)</h4>
+                                                    <p>{{dgmData?.dgmCostPercent?dgmData?.dgmCostPercent+' %': '0%'}}
+                                                    </p>
+                                                </div>
+                                                <!-- end -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+
+        </div>
+
+    </div>
+
+
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'S')"
+            [disabled]="approverLength === 0">
+            Save
+        </button>
+        <button type="button" class="btn btn-infocon" (click)="sendApprovalSubmit(sendForApprovalForm,'SS')"
+            [disabled]="approverLength === 0">
+            Save and Send
+
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,139 @@
+
+<div class="ats-modal-header">
+    <h1>{{data?.elm?.Name}} </h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+         <div class="profile-list-wrapper">
+           <div class="header-s">
+             <div class="left-s-av"></div>
+             <div class="search-bars">
+              <div class="erp-search-input" >
+                <!-- <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                [placeHolder]="'Search By  Skill/DU/Account'" [searchServerSide]="true"></app-search-filter> -->
+                <!-- end search filter -->
+              </div>
+             </div>
+           </div>
+          <div class="table-data-scroll-pop" *ngIf="candidateList">
+            <table mat-table [dataSource]="candidateList"
+              class="table-mat-info" matSort>
+              <ng-container matColumnDef="SNum">
+                <th mat-header-cell *matHeaderCellDef>S. <br>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index" class="text-center"> {{i+1}}</td>
+              </ng-container>
+              <!-- Candidate Name Column -->
+              <ng-container matColumnDef="CandidateName">
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header> Candidate Name </th>
+                <td mat-cell *matCellDef="let element;" >
+                  {{element?.CandidateName}}
+                </td>
+              </ng-container>
+  
+              <!-- Email ID Column -->
+              <ng-container matColumnDef="CandidateEmail">
+                <th mat-header-cell *matHeaderCellDef>Candidate Email</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element?.CandidateEmail || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="interviewDate">
+                <th mat-header-cell *matHeaderCellDef>Interview Date</th>
+                <td mat-cell *matCellDef="let element">
+                  {{(element?.interviewDate| date:'dd-MM-yyyy, h:mm a') || '-'}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="DU">
+                <th mat-header-cell *matHeaderCellDef>Hiring For GDL</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element?.DeliverUnit || '-'}}
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Account">
+                <th mat-header-cell *matHeaderCellDef>Account </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element?.Account || '-'}}
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Skill">
+                <th mat-header-cell *matHeaderCellDef>Hiring For Skill</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element?.Skill || '-'}}
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- {{element?.Status || '-'}} -->
+                  <div [ngSwitch]="element?.StatusID">
+                    <div *ngSwitchCase="1">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="2">
+                      <button class="btn-status-dg cancelled" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="3">
+                      <button class="btn-status-dg reschedule" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="4">
+                      <button class="btn-status-dg selecteds" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="5">
+                      <button class="btn-status-dg rejects" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="6">
+                      <button class="btn-status-dg holds" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+                    <div *ngSwitchCase="7">
+                      <button class="btn-status-dg shortlisted" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+
+                    <div *ngSwitchCase="10">
+                      <button class="btn-status-dg shortlisted" type="button">
+                        {{element?.Status}}
+                      </button>
+                    </div>
+
+                  </div>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="PanelName">
+                <th mat-header-cell *matHeaderCellDef> Panel</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element?.PanelName || '-'}}
+                </td>
+              </ng-container>
+  
+             
+  
+              
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+            </table>
+  
+            <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.length === 0"></app-no-result-found>
+          </div>
+         </div>
+    </div>
+  </div>
+  
+  

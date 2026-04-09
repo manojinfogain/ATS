@@ -1,0 +1,85 @@
+// Apply constraints to host element
+:host {
+    display: block;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+// Prevent mat-select from expanding with long text
+.form-control-sam {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    
+    ::ng-deep .mat-form-field {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    ::ng-deep .mat-select {
+        max-width: 100% !important;
+    }
+    
+    ::ng-deep .mat-select-trigger {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    ::ng-deep .mat-select-value {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+    
+    ::ng-deep .mat-select-value-text {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
+    }
+    
+    ::ng-deep .mat-form-field-infix {
+        width: auto !important;
+        max-width: 100% !important;
+    }
+    
+    ::ng-deep .mat-form-field-wrapper {
+        max-width: 100% !important;
+    }
+    
+    ::ng-deep .mat-form-field-flex {
+        max-width: 100% !important;
+    }
+    
+    // Ensure label is visible
+    ::ng-deep .mat-form-field-label-wrapper {
+        overflow: visible !important;
+    }
+    
+    ::ng-deep .mat-form-field-label {
+        overflow: visible !important;
+    }
+    
+    // Style for the main trigger text
+    .trigger-text {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+    
+    // Style for the additional selection count
+    .example-additional-selection {
+        opacity: 0.75;
+        font-size: 0.9em;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        margin-left: 4px;
+    }
+}

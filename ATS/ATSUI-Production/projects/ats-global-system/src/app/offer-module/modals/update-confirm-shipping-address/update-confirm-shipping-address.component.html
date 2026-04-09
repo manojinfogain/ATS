@@ -1,0 +1,60 @@
+<form [formGroup]="updateAddressForm" (ngSubmit)="updateAddressMethod(updateAddressForm)">
+    <div class="ats-modal-header">
+        <h1>{{data.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Candidate Details</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{offerAprDt?.Name || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{offerAprDt?.email || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Contact No:</h4>
+                            <p>{{offerAprDt?.phone || '-'}}</p>
+                        </div>
+                        <!-- end -->
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Update current address for shipping items to candidate</h4>
+                </div>
+
+                <div class="form-appr padding-7-0">
+                    <div
+                        class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz  form-outline-ats ats-form-dark">
+                        <app-address-candidate [group]="getControl('currentAddress')">
+                        </app-address-candidate>
+                    </div>
+                </div>
+                <!-- end -->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Confirm Address
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

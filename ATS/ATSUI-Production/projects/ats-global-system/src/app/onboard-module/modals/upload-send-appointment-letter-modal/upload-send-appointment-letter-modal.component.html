@@ -1,0 +1,58 @@
+<form [formGroup]="upladFilesForm" (ngSubmit)="submitRequest(upladFilesForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.Name|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.email|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Onboarding Status:</h4>
+                            <p>{{data?.onboardStatusName ? data?.onboardStatusName : '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+
+
+                    <div class="vrf-form-sec">
+                        <div class="form-on-ats form-fill-ats">
+
+                            <div class="form-on-col upload-file-onb width-480"
+                                [ngClass]="getControl('fileControl').touched && getControl('fileControl').invalid ? 'error-file-input':'suc'">
+                                <div class="upload-file-input">
+                                    <label>Please Upload Appointment Letter
+                                        <sup>*</sup>
+                                    </label>
+                                    <input type="file" formControlName="fileControl" (change)="fileUpload($event)"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Upload
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

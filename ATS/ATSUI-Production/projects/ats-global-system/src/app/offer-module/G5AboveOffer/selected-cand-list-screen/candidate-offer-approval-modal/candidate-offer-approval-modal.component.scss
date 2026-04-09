@@ -1,0 +1,79 @@
+.form-appr{
+    margin-top: 24px;
+    background: #ffffff;
+    // box-shadow:0px 1px 8px #0000006b;
+    padding: 13px 3px;
+}
+.tx-h{
+    padding: 2px 10px;
+    margin: 0;
+    font-size: 11px;
+    background: #ffff93;
+    margin-top: 3px;
+    display: inline-block;
+    color: #3c0404;
+}
+.btn-ey-v{
+    border: none;
+    outline: none;
+    background: none;
+    color: #06417c;
+    font-size: 16px;
+    &:hover{
+        opacity: 0.6;
+    }
+}
+
+.upload-file-ats{
+    width: 100% !important;
+}
+
+
+.file-name-list{
+    ul{
+        padding: 0px;
+        margin: 10px 0px 0px 0px;
+        list-style-type: none;
+        li{
+            font-size: 11px;
+            border: solid 1px #ddd;
+            border-bottom: none;
+            background: #f1fffe;
+            :last-child{
+                border-bottom: solid 1px #ddd; 
+            }
+            &.uploaded{
+                background: #eaffea;
+            }
+        }
+    }
+}
+
+.box-h-t-both{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 4px;
+}
+
+
+// .int-panel-selection .mat-form-field-infix {
+//     padding-right: 1px !important;
+// }
+
+::ng-deep .int-panel-selection .mat-form-field-infix {
+  padding-right: 1px !important;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.width-280 {
+    width: 280px;
+}
+
+.error-red-center {
+    color: red;
+    text-align: center;
+}

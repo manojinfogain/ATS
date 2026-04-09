@@ -1,0 +1,81 @@
+// .h1upto45{
+//     .th-name{
+//         background-color: red !important;
+//     }
+// }
+
+
+//variables
+$liteBlue:#bdd7ee;   //#bdd7eea8
+$DarkBlue:#9bc2e6;
+$darkOrange:#f4b084;
+$liteOrang:#fce4d6;
+$liteYellow:#fff2cc;
+
+$colrWhite: white;
+
+.table-mat-info th.mat-header-cell{
+    color: black;
+}
+
+.lite-blue{
+    background: $liteBlue !important;
+}
+
+.dark-blue{
+    background: $DarkBlue !important;
+}
+.dark-orange{
+    background: $darkOrange !important;
+}
+
+.lite-orange{
+    background: $liteOrang !important;
+}
+
+.lite-yellow{
+    background: $liteYellow !important;
+}
+
+.clr-white{
+    color: $colrWhite !important;
+}
+
+.heading-main{
+  //font-weight: 500 !important;
+  font-weight: 600;
+  box-shadow: 2px 2px 4px 5px #d2caca5c !important;
+}
+
+.color-white{
+    background: $colrWhite !important;
+    color: black !important;
+}
+
+.sNo-name{
+    overflow: hidden !important;
+    background-color: red !important;
+}
+.disabled{
+    pointer-events:none; //This makes it not clickable
+    opacity:0.6;         //This grays it out to look disabled
+}
+
+// .pos{
+//     position: static;
+// }
+
+.producti-wrapper{
+    .wrp-bx{
+      
+    }
+}
+
+.name-handl{
+    // //border-right: 1px black !important;
+    // background-color: red;
+}
+
+.date-Column-Width{
+     min-width: 114px !important;
+}

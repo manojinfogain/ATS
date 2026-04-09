@@ -1,0 +1,569 @@
+<div class="ats-modal-header">
+    <!-- N for new talent / U for update/ C for clone/ A for approve -->
+    <h1><span> {{this.data?.title}} </span>
+
+    </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="submitLeadersAdditionForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="create-job-posting-section ats-form-ui-enhance-font">
+                <!-- -->
+                <section class="dgm-track">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+
+                            <h4>Candidate Details</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>First Name</mat-label>
+                                        <input matInput placeholder="First Name" required formControlName="fName"
+                                            [maxlength]="maxLettersAllow" disableInitialSpace onlyAlphabets>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Middle Name</mat-label>
+                                        <input matInput placeholder="Middle Name" formControlName="middleName"
+                                            [maxlength]="maxLettersAllow" disableInitialSpace onlyAlphabets>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Last Name</mat-label>
+                                        <input matInput placeholder="Last Name" formControlName="lastName"
+                                            [maxlength]="maxLettersAllow" disableInitialSpace onlyAlphabets>
+                                    </mat-form-field>
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Phone No.</mat-label>
+                                        <input matInput placeholder="Phone No." maxlength="15" formControlName="phone"
+                                            disableInitialSpace onlyNumber required (keyup)="onPhoneKeyup()">
+                                        <mat-error
+                                            *ngIf="(mobileNumberControl?.touched && mobileNumberControl?.invalid) 
+                                        && (mobileNumberControl?.errors?.minlength ||mobileNumberControl?.errors?.maxlength)">
+                                            <ng-container>
+                                                Please enter 10 digit valid phone number.
+                                            </ng-container>
+                                            <!-- <ng-container *ngIf="mobileNumberControl?.errors?.maxlength">
+                                                Please enter 10 digit valid phone number.
+                                            </ng-container> -->
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [ngClass]="{'not-allowed' : isEditDisabled}" appearance="outline"
+                                        class="place-from-control email-field">
+                                        <mat-label appRemoveAriaOwns> Email</mat-label>
+                                        <input type="email" matInput placeholder="Email ID" maxlength="250"
+                                            formControlName="employeeEmail" required disableInitialSpace>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Gender</mat-label>
+                                        <mat-select formControlName="candidateGender" required>
+                                            <mat-option *ngFor="let list of genderType" [value]="list?.ID">
+                                                {{list?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>DOB</mat-label>
+                                        <input matInput [matDatepicker]="datepickerInfo2" placeholder="DOB"
+                                            formControlName="candiDob" readonly required [max]="maxDate">
+                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo2">
+                                            <mat-icon matDatepickerToggleIcon class="form-icon">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datepickerInfo2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns>Candidate Hiring Type</mat-label>
+                                        <mat-select formControlName="candidateHiringType" required>
+                                            <mat-option [value]="'C'">
+                                                Confidential
+                                            </mat-option>
+                                            <mat-option [value]="'R'">
+                                                Regular
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <app-education-master-control [formControlOpt]="getControl('qualification')"
+                                        [title]="'Education Qualification'" [formFieldAppearance]="'outline'" required>
+                                    </app-education-master-control>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <app-skill-set [panelIdControl]="getControl('skills')"
+                                        [formFieldAppearance]="'outline'" [required]="true" [title]="'Skill'">
+                                    </app-skill-set>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <div class="exp-section-control-main">
+                                        <div class="exp-section-control-ds">
+                                            <div class="exp-cols">
+                                                <!-- (blur)="TotalExp(i)" -->
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Total Experience in Year">
+                                                    <mat-label>Total Exp. (Year)</mat-label>
+                                                    <input matInput placeholder="Total Exp." maxlength="2"
+                                                        disableInitialSpace required formControlName="totalExp"
+                                                        onlyNumber expYear>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="exp-cols">
+                                                <!-- (blur)="TotalExp(i)" -->
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Total Experience in Month">
+                                                    <mat-label>Total Exp. (Month)</mat-label>
+                                                    <input matInput placeholder="Total Exp." maxlength="2"
+                                                        disableInitialSpace required formControlName="totalExpMonth"
+                                                        onlyNumber expMonth>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ats-form-col">
+                                    <div class="exp-section-control-main">
+                                        <div class="exp-section-control-ds">
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Relevant Experience in Year">
+                                                    <mat-label>Relevant Exp. (Year)</mat-label>
+                                                    <input matInput placeholder="Relevant Exp." maxlength="2"
+                                                        disableInitialSpace required formControlName="totalRelExp"
+                                                        onlyNumber expYear>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="exp-cols">
+                                                <mat-form-field appearance="outline" class="place-from-control"
+                                                    matTooltip="Relevant Experience in Month">
+                                                    <mat-label>Relevant Exp. (Month)</mat-label>
+                                                    <input matInput placeholder="Relevant Exp." maxlength="2"
+                                                        disableInitialSpace required formControlName="totalRelExpMonth"
+                                                        onlyNumber expMonth>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <app-company-master-control [formControlOpt]="getControl('currCompany')"
+                                        [title]="'Current Company'" [formFieldAppearance]="'outline'" required
+                                        [isOther]="true" (getValFromControl)="getValFromControl($event,1)">
+                                    </app-company-master-control>
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Tentative DOJ</mat-label>
+                                        <input matInput [matDatepicker]="datepickerInfo1" placeholder="Tentative DOJ"
+                                            formControlName="tentativeJoinningDate" readonly [min]="minDate" required>
+                                        <mat-datepicker-toggle matSuffix [for]="datepickerInfo1">
+                                            <mat-icon matDatepickerToggleIcon class="form-icon">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datepickerInfo1></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <app-country-list-code [parentIdControl]="getControl('CountryID')" [country]="true"
+                                        (getDataIdCountry)="getCountry($event)" [title]="'Country'"
+                                        [formFieldAppearance]="'outline'" required>
+                                    </app-country-list-code>
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <app-city-list-code [parentIdControl]="getControl('CityID')"
+                                        [getId]="locationData?.isLocationIndia()?getControl('CountryID').value:getControl('StateID').value"
+                                        [title]="'City'" [placeholder]="'Search City'" [formFieldAppearance]="'outline'"
+                                        [required]="true"
+                                        [filteryByCountry]="locationData?.isLocationIndia() == true?true:false">
+                                    </app-city-list-code>
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns>Profile Source</mat-label>
+                                        <mat-select formControlName="profileName" required>
+                                            <mat-option *ngFor="let profile of profileNameData" [value]="profile?.id">
+                                                {{profile?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                        <mat-select formControlName="candidateType" required>
+                                            <mat-option *ngFor="let candType of candidateTypeData"
+                                                [value]="candType?.typeId">
+                                                {{candType?.statusName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <!-- <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Remarks</mat-label>
+                                        <input matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                            formControlName="remark">
+                                    </mat-form-field>
+                                </div> -->
+                                <!-- <div [ngClass]="formClassCol">
+                                    <app-division-control [DivisionIdControl]="getControl('DivisionID')" required
+                                        [title]="'Division'" [formFieldAppearance]="'outline'"
+                                        (getDataSource)="getDivisionID($event,null)">
+                                    </app-division-control>
+                                </div> -->
+                                <!-- <div [ngClass]="formClassCol">
+                                    <app-employment-unit-type [formControlOpt]="getControl('empUnitId')"
+                                        [title]="'Employee Unit'" [formFieldAppearance]="'outline'" required
+                                        (getValFromControl)="getEmpUnitId($event,null)">
+                                    </app-employment-unit-type>
+                                </div> -->
+                                <div [ngClass]="formClassCol">
+                                    <app-grade-id-control [formControlOpt]="getControl('gradeId')" [title]="'Grade'"
+                                        [formFieldAppearance]="'outline'" (getValFromControl)="getGradeId($event, null)"
+                                        required>
+                                    </app-grade-id-control>
+                                </div>
+
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Grade Band</mat-label>
+                                        <mat-select formControlName="gradeBand" [required]="isGradeBandRequired">
+                                            <mat-option *ngFor="let data of gradeBandList" [value]="data?.ID">
+                                                {{data?.Band}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- validate -->
+                                        <!-- <mat-error
+                                            *ngIf="getControl('gradeBand')?.touched && getControl('gradeBand')?.invalid">
+                                            <div *ngIf="getControl('gradeBand')?.errors.required">
+                                                Grade Band is required.
+                                            </div>
+                                        </mat-error> -->
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- .... -->
+                                <div [ngClass]="formClassCol">
+                                    <app-common-control-master [desgination]="true" [formFieldAppearance]="'outline'"
+                                        [formControlOpt]="getControl('designationId')" required
+                                        [title]="'Designation'"></app-common-control-master>
+                                </div>
+
+                                <!-- Re-Hire Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Re-Hire</mat-label>
+                                        <mat-select formControlName="rehireId" required>
+                                            <mat-option *ngFor="let data of RehireList" [value]="data.value">
+                                                {{data?.name}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+
+                                </div>
+
+                                <!-- Is Conversion Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Is Conversion</mat-label>
+                                        <mat-select formControlName="isConversion" required>
+                                            <mat-option [value]="1">Yes</mat-option>
+                                            <mat-option [value]="0">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Practice Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Studio/Practice</mat-label>
+                                        <mat-select formControlName="practiceId">
+                                            <!-- *ngIf="data.PracticeId == 20" -->
+                                            <ng-container *ngFor="let data of practiceList">
+                                                <mat-option [value]="data.PracticeId">
+                                                    {{data?.PracticeName}} (Data)
+                                                </mat-option>
+                                            </ng-container>
+
+                                            <mat-option value="0">
+                                                Others (Non-Data)
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error
+                                            *ngIf="getControl('PracticeId')?.touched && getControl('PracticeId')?.invalid">
+                                            <div *ngIf="getControl('PracticeId')?.errors.required">
+                                                Practice is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Delivery Unit Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                   
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Delivery Unit
+                                        </mat-label>
+                                        <!--  -->
+                                        <mat-select formControlName="deliveryUnitId" (selectionChange)="getDuId($event)">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrlDu"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+
+                                            <mat-option
+                                                *ngFor="let data of duList  | duFilter:searchInputDu :searchCtrlAccount"
+                                                [value]="data?.DeliveryUnitID">
+                                                {{data?.DeliveryUnit}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Account Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                  
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Account
+                                        </mat-label>
+                                        <!-- (selectionChange)="getAccountId($event)" -->
+                                        <mat-select formControlName="accountId">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrlAccount"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+
+                                            <mat-option
+                                                *ngFor="let data of accountList | accountFilter:searchInputAccount"
+                                                [value]="data?.accountId">
+                                                {{data?.accountName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Division Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                    <!-- (selectionChange)="divisionChanged($event)" -->
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns>Division</mat-label>
+                                        <mat-select formControlName="DivisionID" formControlName="divisionId" required>
+                                            <mat-option *ngFor="let data of divisionList" [value]="data.ID">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+
+                                 <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline">
+                                        <!-- (selectionChange)="locChanged($event)" -->
+                                        <mat-label appRemoveAriaOwns>Joining Location</mat-label>
+                                        <mat-select formControlName="JoiningLocationID" required (selectionChange)="locChanged($event)"> 
+                                            <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                                {{data?.LocName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- validate -->
+                                        <!-- <mat-error
+                                            *ngIf="getControl('JoiningLocationID')?.touched && getControl('JoiningLocationID')?.invalid">
+                                            <div *ngIf="getControl('JoiningLocationID')?.errors.required">
+                                                Joining Location is required.
+                                            </div>
+                                        </mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                                <!-- BGV Package Dropdown -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>BGV Package</mat-label>
+                                        <mat-select formControlName="bgvPackageId" required>
+                                            <mat-option *ngFor="let pkg of bgvPackageList" [value]="pkg.Id">
+                                                {{pkg.PackageName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Current Address -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Current Address</mat-label>
+                                        <textarea matInput placeholder="Current Address" formControlName="currentAddress"
+                                            maxlength="500" rows="3" disableInitialSpace required></textarea>
+                                        <mat-error *ngIf="getControl('currentAddress')?.touched && getControl('currentAddress')?.invalid">
+                                            <div *ngIf="getControl('currentAddress')?.errors?.required">
+                                                Current Address is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="ats-form-col  upload-file-ats"
+                                    [ngClass]="resumeControl.touched && resumeControl.invalid ? 'error-file-input':'suc'">
+                                    <div class="upload-file-input">
+                                        <label>Upload CV <span *ngIf="isEditMethod"> - (Optional)</span>
+                                            <sup *ngIf="data?.type === 'N'">*</sup>
+                                        </label>
+                                        <input type="file" (change)="fileUp($event)" formControlName="uploadCv"
+                                            [required]="!isEditMethod">
+                                    </div>
+                                    <div class="file-error" *ngIf="resumeControl.touched && resumeControl.invalid">
+                                        <span *ngIf="resumeControl.errors.required"> Please upload CV.</span>
+                                    </div>
+                                </div>
+                                <!-- *ngIf="isGrade7andAbove" -->
+                                <div *ngIf="isPictureUpload" class="ats-form-col  upload-file-ats"
+                                    [ngClass]="pictureControl.touched && pictureControl.invalid ? 'error-file-input':'suc'">
+                                    <div class="upload-file-input">
+                                        <label>Upload Candidate Picture <span *ngIf="isEditMethod"> - (Optional)</span>
+                                            <sup *ngIf="data?.type === 'N'">*</sup>
+                                        </label>
+                                        <input type="file" (change)="fileUpPicUpload($event)"
+                                            formControlName="uploadPicture" [required]="!isEditMethod">
+                                    </div>
+                                    <div class="file-error" *ngIf="pictureControl.touched && pictureControl.invalid">
+                                        <span *ngIf="pictureControl.errors.required"> Please upload candidate
+                                            picture.</span>
+                                    </div>
+                                </div>
+                                <!-- <div class="ats-form-col  upload-file-ats"
+                                    [ngClass]="pictureControl.touched && pictureControl.invalid ? 'error-file-input':'suc'">
+
+                                    <div class="photo-upload">
+                                        <img src="assets/default-avatar.png" alt="Candidate Photo"
+                                            class="photo-preview">
+                                        <input type="file" accept="image/*">
+                                        <p>Upload Candidate Picture</p>
+                                    </div>
+
+                                </div> -->
+
+                                <div *ngIf="isVideoUpload" class="form-on-ats form-fill-ats col-md-6 width-50-inline">
+
+                                    <div class="form-on-col upload-file-onb width-500"
+                                        [ngClass]="getControl('fileVideo').touched && getControl('fileVideo').invalid ? 'error-file-input':'suc'">
+                                        <div class="upload-file-input"
+                                            [ngClass]="{'wd-trans' : data?.interviewTypeId == 2} ">
+                                            <label>Please Upload Candidate Video <span *ngIf="isEditMethod"> - <span
+                                                        class="upload-vid-alrt">New upload will replace the existing
+                                                        video. </span></span>
+                                                <sup *ngIf="data?.type === 'N'">*</sup>
+                                            </label>
+                                            <input type="file" formControlName="fileVideo"
+                                                (change)="videoUpload($event)" [required]="!isEditMethod">
+                                        </div>
+                                        <label class="hlt">Note: Video length should not exceed 5 minutes.</label>
+                                        <!-- <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a>
+                                <a href="javascript:void(0)" title="Click here to view" (click)="dwnloadTrimGuideline()" class="guid">View video Trim & Upload guidelines</a> -->
+                                        <div class="guidline-action">
+                                            <ul>
+                                                <li>
+                                                    <a href="javascript:void(0)" title="Click here to view"
+                                                        (click)="VideoUploadGuideline(data)" class="guid">Video
+                                                        Recording Guidelines</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" title="Click here to view"
+                                                        (click)="dwnloadTrimGuideline(data)" class="guid">Video Trim &
+                                                        Upload guidelines</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="form-on-col" >
+                                        <div class="rad-bb-wrapper">
+                                            <mat-checkbox required formControlName="IsConsent"
+                                                [ngClass]="getControl('IsConsent').touched  && getControl('IsConsent').invalid ? 'consent-error':'suc'">
+                                                <ng-container>
+                                                    <span>Uploading Video <span *ngIf="data?.interviewTypeId == 2">and
+                                                            the Transcript </span>of the candidate participating in the
+                                                        discussion.</span>
+                                                </ng-container>
+                                                <sup class="dangr">*</sup>
+                                            </mat-checkbox>
+
+                                        </div>
+                                    </div> -->
+                                    <!-- end col -->
+                                </div>
+                                <!-- ends -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- end section -->
+
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container>
+            <!-- <ng-container *ngSwitchCase="'N'">
+                <button type="submit" class="btn btn-infocon">
+                    Submit
+                </button>
+            </ng-container> -->
+            <ng-container *ngIf="(data?.type =='E' && data?.IsEditable) && data?.CandidateSubmissionStatus !='D'">
+                <button type="submit" class="btn btn-infocon"
+                    (click)="submitFormHandler(submitLeadersAdditionForm, 'S')">
+                    Update
+                </button>
+            </ng-container>
+            <ng-container *ngIf="data?.CandidateSubmissionStatus !='S' || data?.type !='E'">
+                <button type="submit" class="btn btn-infocon"
+                    (click)="submitFormHandler(submitLeadersAdditionForm, 'S')">
+                    Submit
+                </button>
+            </ng-container>
+            <ng-container *ngIf="data?.CandidateSubmissionStatus !='S'">
+                <button type="submit" class="btn btn-infocon"
+                    (click)="submitFormHandler(submitLeadersAdditionForm, 'D')">
+                    Draft
+                </button>
+            </ng-container>
+        </ng-container>
+        <!-- <button type="submit" class="btn btn-infocon">
+            Submit
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</form>

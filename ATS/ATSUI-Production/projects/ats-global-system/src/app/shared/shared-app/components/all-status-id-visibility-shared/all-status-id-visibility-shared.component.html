@@ -1,0 +1,459 @@
+<ng-container *ngIf="statusType === 'offer'">
+    <ng-container [ngSwitch]="statusId">
+        <ng-container *ngSwitchCase="20">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="25">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="40">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="45">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="60">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="65">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="80">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="30">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="35">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="50">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="55">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="70">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="75">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="90">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="110">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="120">
+            <button class="btn-status-dg offergen" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="125">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="130">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="135">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="100">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="10">
+            <button class="btn-status-dg holds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="140">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="150">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="155">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="160">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="180">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="200">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="220">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="240">
+            <button class="btn-status-dg drops" type="button">
+                <!-- {{(element?.offerPrevStatus + ' / ' + element?.OfferStatusName)}} -->
+                {{PrevStatusName?PrevStatusName + ' / ': '' }}
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="260">
+            <button class="btn-status-dg drops" type="button">
+                {{PrevStatusName ? PrevStatusName+' / ':''}}
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="270">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{statusName || '-'}}
+        </ng-container>
+    </ng-container>
+</ng-container>
+<!-- end offer status -->
+<ng-container *ngIf="statusType === 'cs'">
+    <ng-container [ngSwitch]="statusId">
+        <ng-container *ngSwitchCase="1">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+            <button class="btn-status-dg reschedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+            <button class="btn-status-dg selecteds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="5">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="6">
+            <button class="btn-status-dg holds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="7">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="10">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{statusName || '-'}}
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<!-- all status candidate ccs -candidate current status  -->
+ <!-- statusIDs 1, 2, 3, 4, 5, 6, 7, 10, 15, 16, 17, 18, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100, 110, 120, 125, 130, 135, 140, 150, 155, 160, 180, 200, 220, 240, 260, 270 -->
+<!-- <ng-container *ngIf="statusType === 'ccs'">
+  <button
+    *ngIf="statusId; else defaultStatus"
+    class="btn-status-dg {{ getStatusClass(statusId) }}"
+    type="button"
+  >
+    <ng-container *ngIf="statusId === 240 || statusId === 260">
+      {{ PrevStatusName ? PrevStatusName + ' / ' : '' }}
+    </ng-container>
+    {{ statusName }}
+  </button>
+
+  <ng-template #defaultStatus>
+    {{ statusName || '-' }}
+  </ng-template>
+</ng-container> -->
+
+ <ng-container *ngIf="statusType === 'ccs'">
+    <ng-container [ngSwitch]="statusId">
+
+        <ng-container *ngSwitchCase="20">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="25">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="40">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="45">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="60">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="65">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="80">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="30">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="35">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="50">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="55">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="70">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="75">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="90">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="110">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="120">
+            <button class="btn-status-dg offergen" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="125">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="130">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="135">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="100">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="10">
+            <button class="btn-status-dg holds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="140">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="150">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="155">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="160">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="180">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="200">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="220">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="240">
+            <button class="btn-status-dg drops" type="button">
+                {{PrevStatusName?PrevStatusName + ' / ': '' }}
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="260">
+            <button class="btn-status-dg drops" type="button">
+                {{PrevStatusName ? PrevStatusName+' / ':''}}
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="270">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+            <button class="btn-status-dg reschedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="4">
+            <button class="btn-status-dg selecteds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="5">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="6">
+            <button class="btn-status-dg holds" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="7">
+            <button class="btn-status-dg shortlisted" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+ 
+        <ng-container *ngSwitchCase="15">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="16">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="17">
+            <button class="btn-status-dg schedule" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="18">
+            <button class="btn-status-dg rejects" type="button">
+                {{statusName}}
+            </button>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{statusName || '-'}}
+        </ng-container>
+    </ng-container>
+</ng-container>

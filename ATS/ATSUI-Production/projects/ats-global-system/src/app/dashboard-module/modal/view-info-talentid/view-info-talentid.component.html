@@ -1,0 +1,312 @@
+
+<div class="ats-modal-header">
+  <h1>{{TalentData?.talent_id}}</h1>
+
+  <button class="btn-m-close" (click)="closeModal()"><i class="fa fa-times"></i></button>
+  <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+       <div class="talent-id-wrapper">
+        <div class="cand-info">
+          <div class="row row-eq-height">
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Account Name:</span>
+                  <label>{{TalentData?.account_name || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Project Name:</span>
+                  <label>{{TalentData?.PROJECT_NAME || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Global Delivery Lead:</span>
+                  <label>{{TalentData?.delivery_unit || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Talent Cube:</span>
+                  <label>{{talentDetailsList?.TalentCubeName || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Role:</span>
+                  <label>{{talentDetailsList?.TalentCubeRole || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <!-- *ngIf="TalentData?.TalentIdCreatedBy == 'TC'" -->
+            <div class="col-sm-4" >
+              <div class="cand-box">
+                <h4>
+                  <span> Grade:</span>
+                  <label>{{talentDetailsList?.TCGradeName || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Skill:</span>
+                  <ng-container  *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+                    <label>{{talentDetailsList?.TCSkill1Names || '-'}}</label>
+                  </ng-container>
+                  <ng-container  *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+                    <label>{{TalentData?.primary_skill || '-'}}</label>
+                  </ng-container>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Primary Skill:</span>
+                  <ng-container  *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+                    <label>{{talentDetailsList?.PrimaryTCSkillName || '-'}}</label>
+                  </ng-container>
+                  <ng-container  *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+                    <label>{{TalentData?.skill_catg || '-'}}</label>
+                  </ng-container>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" >
+              <div class="cand-box">
+                <h4>
+                  <span> Mandatory Skills:</span>
+                  <label>{{talentDetailsList?.MandatorySkillsName || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Additional Skill 1:</span>
+                  <label>{{talentDetailsList?.TCSkill1Names || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Additional Skill 2:</span>
+                  <label>{{talentDetailsList?.TCSkill2Names || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Additional Skill 3:</span>
+                  <label>{{talentDetailsList?.TCSkill3Names || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Additional Skill 4:</span>
+                  <label>{{talentDetailsList?.TCSkill4Names || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+           
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Hiring Manager:</span>
+                  <label>Name:- {{TalentData?.createdByName}}</label>
+                  <label>Email:-{{TalentData?.created_by_email}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span> Experience:</span>
+                  <label>{{TalentData?.experience}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Joining City:</span>
+                  <label>{{TalentData?.joining_city}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Joining State:</span>
+                  <label>{{TalentData?.joining_state}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span> Joining Country:</span>
+                  <label>{{TalentData?.joining_country}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span> Recruiter1:</span>
+                  <label>Name:- {{TalentData?.recruiter1}}</label>
+                  <label>Email:-{{TalentData?.recruiter1email}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span> Recruiter2:</span>
+                  <label>Name:- {{TalentData?.recruiter2}}</label>
+                  <label>Email:-{{TalentData?.recruiter2email}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4" *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+              <div class="cand-box">
+                <h4>
+                  <span>Designation:</span>
+                  <label>{{TalentData?.designation}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Fulfillment Date:</span>
+                  <label>{{TalentData.initial_fullfilment_date ? (TalentData?.initial_fullfilment_date |date:'dd/MM/yyyy'):'NA'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-4">
+              <div class="cand-box">
+                <h4>
+                  <span>Interviewer:</span>
+                  <label>{{TalentData.interviewer || '-'}}</label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-12">
+              <div class="cand-box">
+                <h4>
+                  <span>Title:</span>
+                  <label [innerHTML]="TalentData.title || '-'"></label>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+
+            <div class="col-sm-12" *ngIf="viewdatajobdes">
+              <div class="cand-box">
+                <h4>
+                  <span>Job Description:</span>
+                  <!-- <label [innerHTML]="TalentData.job_description"></label> -->
+                  <!-- <textarea #tdFl  [innerHTML]="TalentData.job_description"></textarea> -->
+                  <ul  class="ul-list-dsc" *ngIf="TalentData?.ISJDHTML == 'N'">
+                  <ng-container  *ngFor="let Data of viewdatajobdes" >
+                    <li *ngIf="Data" [innerHTML]="Data"></li>
+                  </ng-container>
+                  </ul>
+                  <div *ngIf="TalentData?.ISJDHTML == 'Y'"
+                  class="pre-view-s" [innerHTML]="jobDescHtml?(jobDescHtml| safeHtml): '-'">
+
+                  </div>
+                </h4>
+              </div>
+              <!-- end cand box -->
+            </div>
+            <!-- end colmn -->
+          </div>
+        </div>
+       </div>
+  </div>
+</div>
+

@@ -1,0 +1,424 @@
+<form [formGroup]="generateofferFormUS" (ngSubmit)="generateOfferHandler(generateofferFormUS)">
+    <div class="ats-modal-header">
+        <h1> View / {{data?.OfferStatusID === 100 ?'Generate Offer':'Regenerate Offer'}} </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+             <!-- Talent ID Details -->
+             <app-candidate-details-info  [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+             [detailsType]="'TD'" [allRoundList]="allRoundList" [talentDetails]="talentDetails"
+             >
+         </app-candidate-details-info>
+            <!-- candidate Basic Details  -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cd'" [allRoundList]="allRoundList">
+            </app-candidate-details-info>
+            <!-- candidate Offer Details -->
+            <app-candidate-details-info [candData]="candData" [offerAprDt]="offerAprDt" [data]="data"
+                [detailsType]="'cod'">
+            </app-candidate-details-info>
+
+            <div class="box-v-ats box-v-ats-form">
+                <!-- <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Candidate Offer Additional Details </h4>
+                    </div>
+                    <div class="checkbox-control rdn-ctrl">
+
+                    </div>
+                </div> -->
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Base Pay {{this.offerAprDt?.USSalaryTypeName?' ('+this.offerAprDt?.USSalaryTypeName+')':''}}</mat-label>
+                                <input matInput placeholder="Final Base Pay" maxlength="10" disableInitialSpace
+                                    formControlName="finalBasePay" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('finalBasePay').value |
+                                    convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('finalBasePay')?.touched && getControl('finalBasePay')?.invalid">
+                                <div *ngIf="getControl('finalBasePay')?.errors.required">
+                                    Final base pay is required.
+                                </div>
+                                <div *ngIf="getControl('finalBasePay')?.errors.max">
+                                    <!-- Please enter amount less than approved CTC. -->
+                                    <span class="warning-ctc"> Final base pay should be less than or equal to approved
+                                        base pay.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+                        <!-- <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Performance Bonus Pay</mat-label>
+                                <input matInput placeholder="Performance Bonus Pay" maxlength="10" disableInitialSpace
+                                    formControlName="FinalPerformanceBonus" onlyNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalPerformanceBonus').value
+                                    |
+                                    convertToWord}}</mat-hint>
+                            </mat-form-field>
+                           
+                            <mat-error
+                                *ngIf="getControl('FinalPerformanceBonus')?.touched && getControl('FinalPerformanceBonus')?.invalid">
+                                <div *ngIf="getControl('FinalPerformanceBonus')?.errors.required">
+                                    Final performance bonus pay is required.
+                                </div>
+                                <div *ngIf="getControl('FinalPerformanceBonus')?.errors.max">
+                                
+                                    <span class="warning-ctc"> Final Performance bonus pay should be less than or equal
+                                        to
+                                        approved performance bonus pay.</span>
+                                </div>
+                            </mat-error>
+                          
+                        </div> -->
+                        <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Annual Variable Pay</mat-label>
+                                <input matInput placeholder="Annual Variable Pay" maxlength="10" disableInitialSpace
+                                    formControlName="finalAnnualVariablePay" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('finalAnnualVariablePay').value
+                                    | convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <mat-error
+                                *ngIf="getControl('finalAnnualVariablePay')?.touched && getControl('finalAnnualVariablePay')?.invalid">
+                                <div *ngIf="getControl('finalAnnualVariablePay')?.errors.required">
+                                    Final annual variable pay is required.
+                                </div>
+                                <div *ngIf="getControl('finalAnnualVariablePay')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final annual variable pay should be less than or equal to
+                                        approved annual variable pay..</span>
+                                </div>
+                            </mat-error>
+                        </div>
+                        <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Joining Bonus Pay</mat-label>
+                                <input matInput placeholder="Joining Bonus Pay" maxlength="10" disableInitialSpace
+                                    formControlName="FinalJoiningBonus" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalJoiningBonus').value |
+                                    convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('FinalJoiningBonus')?.touched && getControl('FinalJoiningBonus')?.invalid">
+                                <div *ngIf="getControl('FinalJoiningBonus')?.errors.required">
+                                    Final joining bonus pay is required.
+                                </div>
+                                <div *ngIf="getControl('FinalJoiningBonus')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final joining bonus should be less than or equal to
+                                        approved joining bonus pay.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Relocation Bonus Pay</mat-label>
+                                <input matInput placeholder="Final Relocation Bonus Pay" maxlength="10"
+                                    disableInitialSpace formControlName="FinalRelocationPay" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalRelocationPay').value |
+                                    convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('FinalRelocationPay')?.touched && getControl('FinalRelocationPay')?.invalid">
+                                <div *ngIf="getControl('FinalRelocationPay')?.errors.required">
+                                    Final relocation bonus pay is required.
+                                </div>
+                                <div *ngIf="getControl('FinalRelocationPay')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc">Final relocation bonus pay should be less than or equal to
+                                        approved relocation bonus Pay.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Visa Cost</mat-label>
+                                <input matInput placeholder="Final Visa Cost" maxlength="10" disableInitialSpace
+                                    formControlName="FinalVisaCost" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalVisaCost').value |
+                                    convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('FinalVisaCost')?.touched && getControl('FinalVisaCost')?.invalid">
+                                <div *ngIf="getControl('FinalVisaCost')?.errors.required">
+                                    Final visa cost is required.
+                                </div>
+                                <div *ngIf="getControl('FinalVisaCost')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final visa cost should be less than or equal to
+                                        approved visa cost.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <div class="ats-form-col" *ngIf="isSalaryHrsMonthly">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Final Incentive Bonus</mat-label>
+                                <input matInput placeholder="Final Incentive Bonus" maxlength="10" disableInitialSpace
+                                    formControlName="FinalInsentiveBonus" onlyDecimalNumber>
+                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('FinalInsentiveBonus').value |
+                                    convertToWord:2}}</mat-hint>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('FinalInsentiveBonus')?.touched && getControl('FinalInsentiveBonus')?.invalid">
+                                <div *ngIf="getControl('FinalInsentiveBonus')?.errors.required">
+                                    Final incentive bonus is required.
+                                </div>
+                                <div *ngIf="getControl('FinalInsentiveBonus')?.errors.max">
+                                    <!-- Please enter amount less than approved Joining Bonus. -->
+                                    <span class="warning-ctc"> Final incentive bonus should be less than or equal to
+                                        approved incentive bonus.</span>
+                                </div>
+                            </mat-error>
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end col -->
+                        <!-- joining location -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Joining Location</mat-label>
+                                <mat-select formControlName="joiningLocation">
+                                    <mat-option *ngFor="let data of locationList" [value]="data.LocID">
+                                        {{data?.LocName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <mat-error
+                                *ngIf="getControl('joiningLocation')?.touched && getControl('joiningLocation')?.invalid">
+                                <div *ngIf="getControl('joiningLocation')?.errors.required">
+                                    Joining location is required.
+                                </div>
+                            </mat-error>
+                        </div>
+                        <!-- joining loc end -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Start Date</mat-label>
+                                <input matInput [matDatepicker]="pickerSD" [min]="minDate" formControlName="startDate"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="pickerSD">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #pickerSD></mat-datepicker>
+                            </mat-form-field>
+                            <!-- <mat-error *ngIf="getControl('startDate').touched && getControl('startDate').invalid">
+                                <div *ngIf="getControl('startDate').errors.required">
+                                    Start Date is required.
+                                </div>
+                            </mat-error> -->
+                        </div>
+                        
+                        <div class="ats-form-col" *ngIf="offerAprDt?.USvisaID == 6 || offerAprDt?.USvisaID == 9">
+                            <mat-form-field appearance="outline">
+                                <mat-label appRemoveAriaOwns >Is Start Date Tentative or Confirmed ?</mat-label>
+                                <mat-select formControlName="startDateTentativeConfirmed" required>
+                                    <mat-option  [value]="'T'">
+                                        Tentative
+                                    </mat-option>
+                                    <mat-option  [value]="'C'">
+                                        Confirmed
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <!-- <mat-error
+                                *ngIf="getControl('joiningLocation')?.touched && getControl('joiningLocation')?.invalid">
+                                <div *ngIf="getControl('joiningLocation')?.errors.required">
+                                    Joining location is required.
+                                </div>
+                            </mat-error> -->
+                        </div>
+                        
+                        <!--  -->
+                        <div class="ats-form-col">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Offer Response Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" [min]="minDate" [max]="maxOfferReturnDate" 
+                                    required formControlName="DateOfOfferResponse"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error
+                                    *ngIf="getControl('DateOfOfferResponse').touched && getControl('DateOfOfferResponse').invalid">
+                                    <div *ngIf="getControl('DateOfOfferResponse').errors.required">
+                                        Offer Response Date is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isIntern">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Intern End Date</mat-label>
+                                <input matInput [matDatepicker]="picker4" [min]="minDate"
+                                    formControlName="internEndDate" (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker4></mat-datepicker>
+                                <!-- <mat-error
+                                    *ngIf="getControl('internEndDate').touched && getControl('internEndDate').invalid">
+                                    <div *ngIf="getControl('internEndDate').errors.required">
+                                        Internship end Date is required.
+                                    </div>
+                                </mat-error> -->
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <!-- end form -->
+                    <div class="dgm-track">
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header box-header-lf">
+                    <div>
+                        <h4>Candidate Current Address</h4>
+                    </div>
+                    <!-- <div class="checkbox-control rdn-ctrl">
+                        <div class="rdn-title">
+                            <h4>Offer Letter Address:</h4>
+                        </div>
+                        <div class="rdn-rdb">
+                            <mat-radio-group aria-label="Select an option" formControlName="sendOfferAddressType">
+                                <mat-radio-button value="C">Current</mat-radio-button>
+                                <mat-radio-button value="P">Permanent</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="box-v-body">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark">
+                    </div>
+                    <!-- end form -->
+
+                    <div class="address-offer-wrap">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf laptop-wrapper">
+                                            <!-- <div>
+                                                <h4>Current Address</h4>
+                                            </div> -->
+                                            <div class="checkbox-control">
+                                                <ng-container>
+                                                    <mat-checkbox formControlName="isShippingAddrConfirm"
+                                                        (change)="isShippingCheckBoxvalue($event)">
+                                                        Confirm As Shipping Address
+                                                    </mat-checkbox>
+                                                </ng-container>
+                                            </div>
+                                            <div
+                                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz4 form-outline-ats ats-form-dark">
+                                                <div class="checkbox-control" *ngIf="isShipingAddresChecked">
+                                                    <div class="ats-form-col">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label appRemoveAriaOwns >Laptop Type</mat-label>
+                                                            <mat-select formControlName="LaptopType">
+                                                                <mat-option *ngFor="let data of shipingLaptopList"
+                                                                    [value]="data.Id">
+                                                                    {{data?.Name}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz ats-vertical-from form-outline-ats ats-form-dark">
+                                                <app-address-candidate [group]="getControl('currentAddress')">
+                                                </app-address-candidate>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <div class="box-v-header">
+                                                <h4>Current address </h4>
+                                            </div> -->
+
+                                        <div class="form-appr padding-7-0">
+                                            <div
+                                                class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz  form-outline-ats ats-form-dark">
+                                                <app-us-candidate-address [group]="getControl('currentAddress')">
+                                                </app-us-candidate-address>
+                                            </div>
+                                        </div>
+
+                                        <!-- end -->
+
+                                    </div>
+                                    <!-- end -->
+                                </div>
+                                <!-- <div class="col-md-6">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header box-header-lf">
+                                            <div>
+                                                <h4>Permanent Address</h4>
+                                            </div>
+                                            <div class="checkbox-control">
+                                                <mat-checkbox (change)="sameAsAddress($event)">Same as current address
+                                                </mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-forms-address ats-form-normal-font ats-forms-horz ats-vertical-from form-outline-ats ats-form-dark">
+                                                <app-address-candidate [group]="getControl('permanentAddress')">
+                                                </app-address-candidate>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dgm-track">
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+    </div>
+
+    <div class="ats-modal-footer text-center">
+        <!-- *ngIf="data?.OfferStatusID == 100" -->
+        <button class="btn btn-infocon">
+            Save and Generate Offer
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

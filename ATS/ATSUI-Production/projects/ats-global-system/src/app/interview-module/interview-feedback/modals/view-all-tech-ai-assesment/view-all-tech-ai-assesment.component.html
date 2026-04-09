@@ -1,0 +1,189 @@
+<div class="ats-modal-header">
+    <h1>Assessment: Panel and AI Ratings</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+      <div class="list-record-interview">
+        <ul>
+          <li>
+            <label><span>Name:</span>
+              <span class="sp-highl">{{candidateData?.Name || '-'}}</span></label>
+          </li>
+          <li>
+            <label><span>Email:</span>{{candidateData?.Email || '-'}}</label>
+          </li>
+          <li>
+            <label><span>Talent ID:</span>
+              {{candidateData?.THID || '-'}}</label>
+          </li>
+          </ul>
+          </div>
+        <div class="fd-list-wrap">
+            <div class="table-data-scroll-pop2">  
+                <!-- <table class="table table-bordered tb-rtlv">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Round</th>
+                            <th rowspan="2">Area</th>
+                            <th colspan="2">Ratings</th>
+                        </tr>
+                        <tr>
+                            <th>Panel</th>
+                            <th>AI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let rounds of roundDataList; let i=index">
+                            <tr>
+                              <td [attr.rowspan]="mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails).length">Technical Round {{i+1}} </td>
+                              <td>{{ mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails)[0].Area }}</td>
+                              <td>
+                                {{(mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails)[0].PanelRating ==null) ?'Not Assessed':mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails)[0].PanelRating}}
+                              </td>
+                              <td>
+                                {{(mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails)[0].AIRating ==null) ?'Not Assessed':mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails)[0].AIRating}}
+                              </td>
+                            </tr>
+                            <tr  *ngFor="let element of mergeAIAndPanelAssessmentData(rounds.areas,rounds.AIAssesmentDetails).slice(1)">
+                              <td>{{ element.Area }}</td>
+                              <td>{{(element?.PanelRating ==null) ?'Not Assessed':element?.PanelRating}}</td>
+                              <td> {{(element?.AIRating ==null) ?'Not Assessed':element?.AIRating}}</td>
+                            </tr>
+                          </ng-container>
+                       
+                        
+                    </tbody>
+                  
+                </table> -->
+       
+                <div class="dvv-col-aii"> 
+                  <div class="alert alert-info" role="alert"   *ngIf="roundDataList?.length === 0">
+                    Technical round feedback is not available at this time.
+                  </div>     
+               <div class="dvv-col-aii-inn" *ngFor="let rounds of roundDataList; let i=index">
+                <div class="view-feedback-questionnaire-screen" >
+                    <div class="header-question-type-wrap">
+                        <div class="ats-modal-fdvdrheader">
+                            <h4 class="header">Technical Round {{i+1}}  </h4>
+                        </div>
+                    </div>
+                    
+                    <div class="question-section">
+                    <!-- roundDataList?.areas -->
+                     <div class="row">
+                       <div class="col-md-4">
+                        <div class="quest-auto-view">
+                          <table mat-table [dataSource]="mergeAIAndPanelAssessmentData(rounds.areas || [],rounds?.AIAreaRating ||[])" class="table-mat-info table-mat-info-fdp"
+                           >
+                            <ng-container matColumnDef="Areas">
+                              <th mat-header-cell *matHeaderCellDef> Areas </th>
+                              <td mat-cell *matCellDef="let element;">
+                                {{element?.Area || '-'}}
+                              </td>
+                            </ng-container>
+                  
+                  
+                            <ng-container matColumnDef="RatingPanel">
+                              <th mat-header-cell *matHeaderCellDef> Rating By Panel</th>
+                              <td mat-cell *matCellDef="let element" class="text-center">
+                                {{(element?.RatingByPanel ==null) ?'Not Assessed':element?.RatingByPanel}}
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="RatingAI">
+                              <th mat-header-cell *matHeaderCellDef>  Rating By AI</th>
+                              <td mat-cell *matCellDef="let element" class="text-center">
+                                {{(element?.RatingByAI ==null) ?'Not Assessed':element?.RatingByAI}}
+                              </td>
+                            </ng-container>
+                  
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsGenAI;"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsGenAI;let i = index"></tr>
+                          </table>
+                          <app-no-result-found  *ngIf="mergeAIAndPanelAssessmentData(rounds.areas || [],rounds?.AIAreaRating ||[]).length === 0">
+                          </app-no-result-found>
+                          </div>
+                       </div>
+                       <div class="col-md-8">
+                        <div class="quest-auto-view">
+                          <table mat-table [dataSource]="mergeAIAndPanelAutoQuestionData(rounds?.autoQuestionFeedback || [],rounds?.AIQuestRating ||[])" class="table-mat-info table-mat-info-fdp"
+                           >
+                            <ng-container matColumnDef="QuestionAuto">
+                              <th mat-header-cell *matHeaderCellDef> <i>Gen AI Questions Asked</i></th>
+                              <td mat-cell *matCellDef="let element;">
+                                <div class="q-auto">
+                                  {{element?.Area || '-'}}
+                                </div>
+                              </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="AutoQAns">
+                              <th mat-header-cell *matHeaderCellDef>
+                                <!-- Comments - -->
+                                Panel's Feedback On Candidate's Response
+                              </th>
+                              <td mat-cell *matCellDef="let element;">
+                                <div class="q-ans-d">
+                                  {{element?.Ans || 'NA'}}
+                                </div>
+                              </td>
+                            </ng-container>
+                
+                
+                            <ng-container matColumnDef="Rating">
+                              <th mat-header-cell *matHeaderCellDef class="rating-width"> Rating By Panel </th>
+                              <td mat-cell *matCellDef="let element" class="text-center ">
+                                {{element?.RatingByPanel || 'NA'}}
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="RatingAI">
+                              <th mat-header-cell *matHeaderCellDef class="rating-width"> Rating By AI </th>
+                              <td mat-cell *matCellDef="let element" class="text-center ">
+                                {{element?.RatingByAI}}
+                              </td>
+                            </ng-container>
+                
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns3;let i = index"
+                              [ngClass]="{'highlightAuto':  row?.Type == 1}"></tr>
+                          </table>
+                          <app-no-result-found  *ngIf="mergeAIAndPanelAutoQuestionData(rounds?.autoQuestionFeedback || [],rounds?.AIQuestRating ||[]).length === 0">
+                          </app-no-result-found>
+                        </div>
+                       </div>
+                     </div>
+                    
+                     <div class="imp-dt-vv">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="list-record-interview">
+                            <ul>
+                              <li class="full-width">
+                                <label><span>Sentimental Orientation (AI):</span>
+                                  <span class="sp-highl">{{rounds?.SentimentOrientation || 'NA'}}</span></label>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="list-record-interview">
+                            <ul>
+                             
+                              <li class="full-width">
+                                <label><span>Recommendation (AI):</span>
+                                  <span class="sp-highl">{{rounds?.Recommendation || 'NA'}}</span></label>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                   
+                  </div>
+               </div>
+                </div>
+          </div>
+        </div>
+     
+  </div>
