@@ -1,0 +1,7 @@
+<div class="ats-paginator">
+    <mat-paginator [length]="total" [pageSize]="!pageSize ? CONST.PAGE_SIZE : pageSize"
+        [pageSizeOptions]="pageSizeOptions.length == 0 ? CONST.PAGE_SIZE_OPTION : pageSizeOptions"
+        [showFirstLastButtons]="true"
+         (page)="pageEvent($event)">
+    </mat-paginator>
+</div>

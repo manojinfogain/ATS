@@ -1,0 +1,38 @@
+<div class="select-ats-src" *ngIf="country">
+    <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+      <mat-select [formControl]="parentIdControl" [disableOptionCentering]="true" [required]="required"
+        (selectionChange)="getTalentId($event)">
+        <mat-option>
+          <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder" [clearSearchInput]="false">
+  
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let list of countryDataList | libCountryFilter:searchInput" [value]="list.id">
+          {{list?.country_name}}
+        </mat-option>
+      </mat-select>
+      <mat-hint align="end" class="mat-hint-ad">
+        Select Country
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  
+  <div class="select-ats-src" *ngIf="countryCode">
+    <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+      <mat-label appRemoveAriaOwns >{{title}}</mat-label>
+      <mat-select [formControl]="parentIdControl" [disableOptionCentering]="true" [required]="required">
+        <mat-option>
+          <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder" [clearSearchInput]="false">
+  
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let list of countryDataList | libCountryCodeFilter:searchInput" [value]="list.id">
+          {{list?.countryCode}} - {{list?.country_name}}
+        </mat-option>
+      </mat-select>
+  
+    </mat-form-field>
+  </div>

@@ -1,0 +1,256 @@
+<div class="info-connect-left-bar">
+    <div class="left-logo">
+        <div class="logo-info">
+            <img src="{{LogoInfo}}" alt="" title="Hiring System">
+
+        </div>
+        <div class="logo-small">
+            <img src="{{LogoSmall}}" alt="" title="Hiring System">
+        </div>
+    </div>
+    <!-- end logo -->
+    <div class="menu-arrow-sec">
+        <button class="btn-icon btn-open-sm" type="button" (click)="smallHead()">
+            <i class="fa fa-arrow-circle-left"></i>
+        </button>
+        <button class="btn-icon btn-open-fld" type="button" (click)="bigHead()">
+            <i class="fa fa-arrow-circle-right"></i>
+        </button>
+    </div>
+    <!-- end arrow sec -->
+    <div class="menu-wrapper">
+        <nav class="infoconnect-nav">
+            <ul>
+                <li *ngIf="isRecLogin || isHrLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a routerLink="/home" routerLinkActive="active-link" class="dash">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Dashboard"></span>
+                        <label>Dashboard</label>
+                    </a>
+
+                </li>
+
+                <!-- <li *ngIf="specialLogin">
+                    <a routerLink="/report/dashboard" routerLinkActive="active-link" class="dash">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Report Dashboard"></span>
+                        <label>Dashboard</label>
+                    </a>
+
+                </li> -->
+                <li *ngIf="isCanLogin">
+                    <a routerLink="/candidate-screen" routerLinkActive="active-link" class="cands">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Candidate Information (CIF)"></span>
+                        <label>Candidate Information (CIF)</label>
+                    </a>
+
+                </li>
+
+                <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a href="javascript:void(0)" class="int-sch ">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Planning Tracking Interview"></span>
+                        <label>Planning-Tracking Interview</label>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a routerLink="/interview-schedule" routerLinkActive="active-link" class="int-sch">
+                                <span class="menu-icon"></span>Schedule Candidate Interview</a>
+                        </li>
+                        <li>
+                            <a routerLink="/upcoming-interview" routerLinkActive="active-link" class="bulk">
+                                <span class="menu-icon"></span>Upcoming Interview</a>
+                        </li>
+                        <li>
+                            <a routerLink="/bulk-interview-schedule" routerLinkActive="active-link" class="bulk">
+                                <span class="menu-icon"></span>Bulk Interview Schedule</a>
+                        </li>
+                        <li>
+                            <a routerLink="/reschedule-interview" routerLinkActive="active-link" class="int-resch">
+                                <span class="menu-icon"></span>Reschedule / Cancel Interview</a>
+                        </li>
+                        <li>
+                            <a routerLink="/view-edit-candidate-info" routerLinkActive="active-link" class="view">
+                                <span class="menu-icon"></span>View / Edit Candidate Information </a>
+                        </li>
+                        <li>
+                            <a routerLink="/transfer-candidates" routerLinkActive="active-link" class="reports">
+                                <span class="menu-icon"></span>Transfer Candidate </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li *ngIf="isRecLogin || isHrLogin || isPanelLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a routerLink="/interview-feedback" routerLinkActive="active-link" class="status">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Interview  Feedback"></span>
+                        <label>Interview Feedback</label>
+                    </a>
+                </li>
+
+                <li *ngIf="specialLogin || isApproverLogin || isApproverLogin && isRecLogin || isApproverLogin && isSuperAdminlogin">
+                    <a href="javascript:void(0)" class="offers">
+                        <span class="menu-icon" placement="top" ngbTooltip="Offer Module"></span>
+                        <label>Offer Module</label>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a routerLink="/offer-approval" class="cands" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Offer Approval</a>
+                        </li>
+                        <li *ngIf="specialLogin">
+                            <a routerLink="/offer-generation" class="offers" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Offer Generation</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a routerLink="/candidate-module" routerLinkActive="active-link" class="rec">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Candidate Module"></span>
+                        <label>Candidate Module</label>
+                    </a>
+                </li>
+
+                <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a href="javascript:void(0)" class="partner">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Partner"></span>
+                        <label>Partner</label>
+                    </a>
+                    <ul class="submenu sub-list">
+                        <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/partner-registration" routerLinkActive="active-link" class="partner-reg">
+                                <span class="menu-icon"></span>Partner Registration</a>
+                        </li>
+                        <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/partner-details" routerLinkActive="active-link" class="partner-det">
+                                <span class="menu-icon"></span>Partner Details</a>
+                        </li>
+
+                        <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/user-registration" routerLinkActive="active-link" class="user-reg">
+                                <span class="menu-icon"></span>User Registration</a>
+                        </li>
+
+                        <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/user-details" routerLinkActive="active-link" class="user-det">
+                                <span class="menu-icon"></span>User Details</a>
+                        </li>
+
+                        <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/assign-talentId-partner" routerLinkActive="active-link" class="asn-prt">
+                                <span class="menu-icon"></span>Assign Talent ID To Partner</a>
+                        </li>
+
+                        <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                            <a routerLink="/partner-talentId-list" routerLinkActive="active-link" class="asn-prt-l">
+                                <span class="menu-icon"></span>Partner Talent ID list</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li *ngIf="isVendorLogin">
+                    <a routerLink="/partner/dashboard" routerLinkActive="active-link" class="dash">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Dashboard"></span>
+                        <label>Dashboard</label>
+                    </a>
+
+                </li>
+                <li *ngIf="isVendorLogin">
+                    <a routerLink="/add-candidate-profile" routerLinkActive="active-link" class="can-up">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Add Candidate Profile"></span>
+                        <label>Upload Candidate Profile</label>
+                    </a>
+                </li>
+                <li *ngIf="isVendorLogin">
+                    <a routerLink="/candidate-profile-list" routerLinkActive="active-link" class="can-up-l">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Candidate Profile List"></span>
+                        <label>Candidate Profile List</label>
+                    </a>
+                </li>
+
+                
+                <!-- <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                    <a routerLink="/candidate-connect" routerLinkActive="active-link" class="candidate-connect">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Candidate Connect"></span>
+                        <label>Candidate Connect</label>
+                    </a>
+
+                </li> -->
+
+                <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                    <a href="javascript:void(0)" class="reports-new">
+                        <span class="menu-icon" placement="top" ngbTooltip="Reports"></span>
+                        <label>Reports</label>
+                    </a>
+                    <ul class="submenu sub-list-report">
+                        <li>
+                            <a routerLink="/panel-wise-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Panel Wise Report</a>
+                        </li>
+                        <li *ngIf="isSuperAdminlogin">
+                            <a routerLink="/recruiter-wise-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>TAG Team Report</a>
+                        </li>
+                        <li *ngIf="isSuperAdminlogin">
+                            <a routerLink="/delivery-wise-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Delivery Wise Report</a>
+                        </li>
+                        <!-- <li *ngIf="isSuperAdminlogin">
+                            <a routerLink="/employee-referral-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Employee Referral Report </a>
+                        </li> -->
+                        <!-- <li *ngIf="isSuperAdminlogin">
+                            <a routerLink="/open-position-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Open Position Report </a>
+                        </li> -->
+                   
+                        <li *ngIf="isSuperAdminlogin">
+                            <a routerLink="/recruiter-productivity-report" class="pan-report" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Recruiter Productivity Report </a>
+                        </li> 
+                    </ul>
+                </li>
+
+
+                <!-- <li *ngIf="isHrLogin || isSuperAdminlogin">
+                    <a routerLink="/validate-documents" routerLinkActive="active-link" class="validate">
+                        <span class="menu-icon" placement="top-left" ngbTooltip="Candidate Validate Documents"></span>
+                        <label>Candidate Validate Documents</label>
+                    </a>
+
+                </li> -->
+                <!-- <li  *ngIf="isRecLogin || isHrLogin">
+                    <a href="javascript:void(0)" class="offers">
+                        <span class="menu-icon" placement="top" ngbTooltip="Offer Module"></span>
+                        <label>Offer Module</label>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a routerLink="/candidate-screen" class="cands" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Candidate Information (CIF)</a>
+                        </li>
+                        <li>
+                            <a routerLink="/validate-documents" class="validate" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Candidate Validate Documents</a>
+                        </li>
+                        <li>
+                            <a routerLink="/send-offer" class="offers" routerLinkActive="active-link">
+                                <span class="menu-icon"></span>Send Offer</a>
+                        </li>
+                    </ul>
+                </li> -->
+
+                <!-- <li>
+                    <a routerLink="/reports" routerLinkActive="active-link" class="reports">
+                        <span class="menu-icon" placement="top" ngbTooltip="Reports"></span>
+                        <label>Reports</label>
+                    </a>
+
+                </li> -->
+            </ul>
+        </nav>
+    </div>
+    <!-- end menu wrapper -->
+
+</div>
+<!-- end left bar -->

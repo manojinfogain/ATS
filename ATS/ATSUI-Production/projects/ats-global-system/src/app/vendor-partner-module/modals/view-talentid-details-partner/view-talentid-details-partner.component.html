@@ -1,0 +1,173 @@
+
+<div class="ats-modal-header">
+    <h1>{{TalentData?.talent_id}}</h1>
+  
+    <button class="btn-m-close" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+         <div class="talent-id-wrapper">
+          <div class="cand-info">
+            <div class="row row-eq-height">
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span> Skill:</span>
+                    <ng-container  *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+                      
+                    <label>{{TalentData?.MandatorySkillsName || '-'}}</label>
+                    </ng-container>
+                    <ng-container  *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+                      
+                    <label>{{TalentData?.MandatorySkillsName || '-'}}</label>
+                    </ng-container>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span>Skill Category:</span>
+                    <ng-container  *ngIf="TalentData?.TalentIdCreatedBy == 'TC'">
+                      <label>{{TalentData?.PrimaryTCSkillName || '-'}}</label>
+                    </ng-container>
+                    <ng-container  *ngIf="TalentData?.TalentIdCreatedBy != 'TC'">
+                      <label>{{TalentData?.skill_catg || '-'}}</label>
+                    </ng-container>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+  
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span> Experience:</span>
+                    <label>{{TalentData?.experience}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span>state:</span>
+                    <label [innerHTML]="TalentData?.JOINING_STATE || '-'"></label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span>City:</span>
+                    <label [innerHTML]="TalentData.JOINING_CITY || '-'"></label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span>Salary Type:</span>
+                    <label>
+
+                      <ng-container [ngSwitch]="TalentAssigndata?.SalaryType">
+                        <ng-container *ngSwitchCase="1">
+                          Annual
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                          Monthly
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                          Hourly
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                         -
+                      </ng-container>
+
+                      </ng-container>
+                    </label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span>Max Rate:</span>
+                    <label [innerHTML]="(TalentAssigndata?.basePay |currency) || '-'"></label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+
+              <div class="col-sm-4" *ngIf="TalentAssigndata?.workingRemoteStatus">
+                <div class="cand-box">
+                  <h4>
+                    <span>Working Remote Status:</span>
+                    <label [innerHTML]="TalentAssigndata?.RemoteStatus || '-'"></label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+           
+              <div class="col-sm-12">
+                <div class="cand-box">
+                  <h4>
+                    <span>Title:</span>
+                    <label [innerHTML]="TalentData.title || '-'"></label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+
+             
+  
+              <div class="col-sm-12" *ngIf="viewdatajobdes">
+                <div class="cand-box">
+                  <h4>
+                    <span>Job Description:</span>
+                    <!-- <label [innerHTML]="TalentData.job_description"></label> -->
+                    <!-- <textarea  #tdFl  [innerHTML]="TalentData.job_description"></textarea> -->
+                    <ul  class="ul-list-dsc" *ngIf="TalentData?.ISJDHTML == 'N'">
+                      <!-- <ng-container  *ngFor="let Data of tdFl.value.split('\n')" >
+                      <li *ngIf="Data">{{Data}}</li>
+                    </ng-container> -->
+                    <ng-container  *ngFor="let Data of viewdatajobdes" >
+                      <li *ngIf="Data" [innerHTML]="Data"></li>
+                    </ng-container>
+                    </ul>
+                    <div *ngIf="TalentData?.ISJDHTML == 'Y'"
+                    class="pre-view-s" [innerHTML]="jobDescHtml?(jobDescHtml| safeHtml): '-'">
+  
+                    </div>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+            </div>
+          </div>
+         </div>
+    </div>
+  </div>
+  
+  

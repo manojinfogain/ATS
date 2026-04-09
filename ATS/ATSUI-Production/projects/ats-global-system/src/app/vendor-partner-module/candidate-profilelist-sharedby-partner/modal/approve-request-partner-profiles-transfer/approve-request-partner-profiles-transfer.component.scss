@@ -1,0 +1,43 @@
+.view-list-dt-appr .view-list-bx {
+    /* padding: 5px; */
+    width: 25% !important;
+    /* background: #ffffff; */
+}
+
+.width-280 {
+    width: 280px;
+}
+
+// Override radio button styling for consistent appearance
+.mat-radio-btn-ats {
+    .mat-radio-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mat-radio-button {
+        background: #1f6a9f !important;
+        margin-right: 10px;
+        color: #fff;
+        padding: 4px 15px;
+        border-radius: 2px;
+        display: inline-flex;
+        align-items: center;
+
+        .mat-radio-outer-circle {
+            border-color: #fff !important;
+            background: #fff;
+        }
+
+        .mat-radio-inner-circle {
+            background-color: #fff !important;
+        }
+
+        // Change color to pink when checked
+        &.mat-radio-checked {
+            background: #ff4081 !important;
+        }
+    }
+}

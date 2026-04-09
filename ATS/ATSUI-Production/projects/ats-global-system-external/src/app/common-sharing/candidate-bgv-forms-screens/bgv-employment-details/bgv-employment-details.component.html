@@ -1,0 +1,182 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Employment Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action" *ngIf="!isFinalSumbit">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" class="color-orange-red">
+                            <!-- <span class="material-icons">
+                                info
+                                </span> -->
+                               <b><i>*Note:- Below are your past employment details which are mandatory to update for BGV purpose.</i></b>
+                               <!-- Please fill last 3 employers or 7 years employment details (whichever is lesser). -->
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="javascript:void(0)" class="btn-text-at" (click)="addEmploymentDetails()">
+                            Add Employment Details
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="cand-ot-table">
+            <table mat-table [dataSource]="employmentDetailsList" class="table-mat-info">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="employerName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Name of the Employer
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.PayloadOrganization || '-'}}
+                    </td>
+                </ng-container>
+                <!-- end -->
+                <ng-container matColumnDef="employerType">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Employer Type
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- {{element?.employerType || '-'}} -->
+                        <ng-container *ngIf="element?.CompanyType == 'C'">
+                            Current Employer
+                        </ng-container>
+                        <ng-container *ngIf="element?.CompanyType == 'P1'">
+                            Previous Employer 1
+                        </ng-container>
+                        <ng-container *ngIf="element?.CompanyType == 'P2'">
+                            Previous Employer 2
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <!-- end -->
+                 <ng-container matColumnDef="employeeId">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Employee ID
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.EmployeeId || '-'}}
+                    </td>
+                </ng-container>
+                
+                 <ng-container matColumnDef="Doj">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Date of Joining
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.DOJ ? (element?.DOJ | date:'yyyy-MM-dd') : '-'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="currentWorking">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Currently Working
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.CurrentlyWithSameCompany == 'Yes' ? 'Yes' : 'No'}}
+                    </td>
+                </ng-container>                
+                <ng-container matColumnDef="Designation">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Designation
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.Designation || '-'}}
+                    </td>
+                </ng-container>                
+                <ng-container matColumnDef="RMNameDesig">
+                    <th mat-header-cell *matHeaderCellDef>
+                        RM Name & Designation
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.RMNameDesignation || '-'}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="RMContact">
+                    <th mat-header-cell *matHeaderCellDef>
+                        RM Contact
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.RMContactNumber || '-'}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="RMEmail">
+                    <th mat-header-cell *matHeaderCellDef>
+                        RM Email
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.RMEmailId || '-'}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="HRNameDesig">
+                    <th mat-header-cell *matHeaderCellDef>
+                        HR Name & Designation
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.HRNameDesignation || '-'}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="HRContact">
+                    <th mat-header-cell *matHeaderCellDef>
+                        HR Contact
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.HRContactNumber || '-'}}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="HREmail">
+                    <th mat-header-cell *matHeaderCellDef>
+                        HR Email
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.HREmailId || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> Action</th>
+                    <td mat-cell *matCellDef="let element" class="text-left">
+
+                        <div class="btn-action btn-action-centers">
+                            <!-- edit update -->
+                            <div class="btn-act"  *ngIf="!isFinalSumbit">
+                                <button mat-button type="button" (click)="UpdateEmplymentDetailsModal(element)" matTooltip="Update Details">
+                                    <span class="material-icons-outlined">
+                                        mode_edit_outline
+                                    </span>
+                                </button>
+                            </div>
+                            <!-- edit update -->
+                            <div class="btn-act">
+                                <button mat-button type="button" (click)="previewEmpDetDoc(element)" matTooltip="Preview Document">
+                                    <span class="material-icons-outlined">
+                                        preview
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                    [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                </tr>
+            </table>
+            <app-no-result-found *ngIf="employmentDetailsList?.length === 0">
+            </app-no-result-found>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+.ats-tab{
+    .mat-tab-label {
+        height: 44px;
+        padding: 0 15px;
+        cursor: pointer;
+        &.mat-tab-label-active{
+            font-family:$font-bold;
+            color: #0a71b9;
+        }
+    }
+}
+
+.table-scroll-bd {
+    overflow: auto;
+    max-height: calc(100vh - 290px);
+}
+
+
+.btn-animate-ats {
+    position: relative;
+    z-index: 1;
+    background: #ff4081 !important;
+  //  font-family: $font-bold;
+}
+
+.btn-animate-ats::before {
+    content: " ";
+    position: absolute;
+    height: 100%;
+    width: 55%;
+    background: #1f6a9f;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    z-index: -1;
+    transition: all 0.3s ease-out;
+}
+
+.btn-animate-ats::after {
+    content: " ";
+    position: absolute;
+    height: 100%;
+    width: 55%;
+    right: 0;
+    top: 0;
+    background: #1f6a9f;
+    border-radius: 5px;
+    z-index: -1;
+    transition: all 0.3s ease-out;
+}
+
+.btn-animate-ats:hover:before {
+    width: 0;
+}
+
+.btn-animate-ats:hover:after {
+    width: 0;
+}
+
+.btn-animate-ats:hover {
+    cursor: pointer;
+    // color: rgb(0, 0, 0) !important;
+   
+}

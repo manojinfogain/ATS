@@ -1,0 +1,187 @@
+<div class="info-connect-right">
+        <div class="page-content-wrapper">
+            <div class="page-container-inner">
+                <div class="page-container-header clearfix">
+                    <div class="page-title-left float-left">
+                        <app-breadcrumbs></app-breadcrumbs>
+                    </div>
+                    <div class="search-input float-left">
+                    </div>
+                    <!-- end search field -->
+                </div>
+                <!-- end content header -->
+                <div class="content-body">
+                    <div class="candidate-screen">
+                        <div class="candidate-screen-body">
+                            <div class="candidate-onb-wrapper">
+                                <div class="onboarding-form-list">
+                                    <div class="cand-ot-table">
+                                        <table mat-table [dataSource]="pendingDocumentsList"
+                                            class="onb-list-table mat-elevation-z8">
+                                            <!-- Checkbox Column -->
+                                            <ng-container matColumnDef="Name">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Name Of Document
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.docName|| '-'}}
+                                                    <!-- {{element?.docCategId|| '-'}} -->
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="orgName">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Organization Name
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.Organization|| '-'}}
+                                                    <!-- {{element?.formType|| '-'}} -->
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="docCategName">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Category
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.docCategName|| '-'}}
+                                                    <!-- {{element?.formType|| '-'}} -->
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Status
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <!-- <ng-container *ngIf="!element?.isEditable"> -->
+                                                        <ng-container [ngSwitch]="element?.ActionTaken">
+                                                            <ng-container *ngSwitchCase="'D'">
+                                                                <button class="btn-status-dg selecteds" type="button">
+                                                                    Saved
+                                                                </button>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'S'">
+                                                                <button class="btn-status-dg shortlisted" type="button">
+                                                                    Submitted
+                                                                </button>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'P'">
+                                                                <button class="btn-status-dg schedule" type="button">
+                                                                    Pending
+                                                                </button>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'R'">
+                                                                <button class="btn-status-dg rejects" type="button">
+                                                                    Verification Failed
+                                                                </button>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchCase="'V'">
+                                                                <button class="btn-status-dg shortlisted" type="button">
+                                                                    Verified
+                                                                </button>
+                                                            </ng-container>
+
+                                                            <ng-container *ngSwitchDefault>
+                                                                -
+                                                            </ng-container>
+                                                        </ng-container>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action" stickyEnd>
+                                                <th mat-header-cell *matHeaderCellDef> Action</th>
+                                                <td mat-cell *matCellDef="let element" class="text-left">
+
+                                                    <div class="btn-action btn-action-centers">
+                                                        <div class="btn-act" *ngIf="element?.ActionTaken === 'P' || element?.ActionTaken === 'D' || element?.ActionTaken === 'R'">
+                                                            <button mat-button type="button" matTooltip="Upload Document"
+                                                                (click)="uploadDocumentModal(element,1)">
+                                                                <span class="material-icons-outlined">
+                                                                    <span class="material-symbols-outlined">
+                                                                        upload_file
+                                                                        </span>
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-act" *ngIf="element?.ActionTaken !== 'P'">
+                                                            <button mat-button type="button" matTooltip="Download/ View Document"
+                                                            (click)="downloadDocuments(element)">
+                                                                <span class="material-icons-outlined">
+                                                                    preview
+                                                                </span>
+                                                            </button>
+                                                        </div> 
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                                                [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                                            </tr>
+                                        </table>
+                                        <app-no-result-found *ngIf="pendingDocumentsList?.length === 0">
+                                        </app-no-result-found>
+                                    </div>
+                                    <div class="conset-candidate" *ngIf="isPendingDoc ||draftForms.length >0" >
+                                       
+                                    </div>
+                                </div>
+                                <!-- end -->
+                                <div class="onb-form-guideline">
+                                    <h3>Welcome Aboard {{candidatePersonalDetails?.FullName}}!</h3>
+                                    <div class="onb-bullet-list">
+                                        <ul>
+                                            <li class="list-style-none">We're excited to have you join us, and
+                                                want to ensure that your onboarding experience is as smooth as possible.
+                                                Here are some important guidelines to help you get started:</li>
+                                            <ul class="margin-left-26">
+                                                <li>Onboarding forms have been sent to you. Please complete and upload
+                                                    them to the portal by 07:00 AM on your scheduled start date.</li>
+                                                <li>Some of these forms can be filled out directly on the portal, while
+                                                    others, specifically the statutory forms, need to be downloaded,
+                                                    completed, and then uploaded on the portal.</li>
+                                                <li>Leave the 'Employee Code' field blank, as it will be assigned to you
+                                                    on your first day.</li>
+                                                <li>{{candidatePersonalDetails?.OnboardSpoc}} - name of your Onboarding SPOC (Single Point of Contact) in the HR
+                                                    column</li>
+                                                <li>Please give your acceptance on below mentioned mandate documents on
+                                                    Day 1 itself, by signing on all the pages of these documents-</li>
+                                                <ul class="list-style-square">
+                                                    <li>
+                                                        Acceptable Use of Asset Policy
+                                                    </li>
+                                                    <li>Prevention of Sexual Harassment Policy</li>
+                                                    <li>Non-Disclosure Agreement</li>
+                                                    <li>Code of Conduct & Business Ethics Policy</li>
+                                                    <li>Anti-Corruption & Anti-Bribery Policy</li>
+                                                    <li>Conflict of Interest Policy</li>
+                                                </ul>    
+                                                <li>
+                                                    All official induction invitations and email communications will be
+                                                    sent to your official Email ID once you're fully onboarded.
+                                                </li>                                            
+                                            </ul>
+                                          
+                                            <li class="list-style-none">
+                                                Thank you for choosing to be a part of our team!
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- end candidate screen -->
+
+                </div>
+                <!-- end content body -->
+            </div>
+            <!-- end inner container -->
+
+        </div>
+        <!-- end page content wrapper -->
+    </div>
+<!-- end right wrapper -->

@@ -1,0 +1,22 @@
+<div class="ats-modal-header">
+  <h3>{{data?.title}}</h3>
+  <!-- <button class="btn-m-close" type="button" (click)="closeModal()">
+    <i class="fa fa-times"></i>
+  </button> -->
+</div>
+
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="vs-cs-modal-content">
+      <p>
+        {{data?.msg}}
+      </p>
+    </div>
+  </div>
+</div>
+<div class="ats-modal-footer text-center">
+  <button type="submit" class="btn btn-infocon" (click)="submitConsent()">
+    <!-- Go To Background Verification Form -->
+     {{data?.src == 'BGV' ?  'Go To Employment Application Form' : 'Go To Background Verification Form' }}
+  </button>
+</div>

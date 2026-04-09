@@ -1,0 +1,90 @@
+.upload-form-btno {
+    border: solid 1px #ddd;
+    padding: 12px;
+    width: calc(100% - 220px);
+    position: relative;
+    input[type=file]::file-selector-button {
+        border: 1px solid #1f6a9f;
+        padding: .8em .9em;
+        background-color: #1f6a9f;
+        transition: 1s;
+        color: #fff;
+    }
+
+    input[type=file]::file-selector-button:hover {
+        background-color: #1d4794;
+        border: 1px solid #1d4794;
+    }
+
+    label {
+        margin: 0;
+        padding: 4px;
+    }
+}
+
+.download-form-btno {
+    width: 180px;
+    border: solid 1px #ddd;
+    padding: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+
+    .btn-infocon {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        line-height: 2;
+        transition: all 0.7s;
+        &:hover{
+            transform: rotate(-5deg);
+            transition: ease 0.7s;
+        }
+    }
+}
+
+.form-download-action {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: right;
+
+    .download-form-btno-ab {
+        position: absolute;
+        right: 100%;
+        height: 100%;
+        top: 0;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.canc-chq{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .download-form-btno-ab {
+        position: absolute;
+        right: 100%;
+        height: 100%;
+        top: 0;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.dangr{
+    color: red;
+}

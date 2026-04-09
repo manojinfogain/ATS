@@ -1,0 +1,146 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <ngx-extended-pdf-viewer
+        [src]="pdfPreviewData"
+        backgroundColor="#ffffff"
+        [customToolbar]="multiToolbar"
+        [zoom]="'100%'" 
+        [zoomLevels]="zoomLevels"
+        [filenameForDownload]="documentName"
+        [showSpreadButton]="false"
+        [showRotateButton]="false"
+        [showPropertiesButton]="false"
+        [showFindButton]="false"
+        useBrowserLocale="false"
+      >
+      </ngx-extended-pdf-viewer>
+      <ng-template #multiToolbar>
+          <div class="main-action-header">
+              <div class="pdf-h-left">
+                <div class="pdf-action-wrap">
+                    <!-- <div class="pdf-action-btn">
+                        <pdf-toggle-sidebar></pdf-toggle-sidebar>
+                    </div> -->
+                    <div class="pdf-action-btn" >
+                        <button  matTooltip="Hide/Show Sidebar" mat-icon-button id="sidebarToggle">
+                            <span class="material-icons-outlined">
+                                view_sidebar
+                                </span>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="zoomIn" matTooltip="Zoom In">
+                            <mat-icon>zoom_in</mat-icon>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="zoomOut" matTooltip="Zoom Out">
+                            <mat-icon>zoom_out</mat-icon>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <div class="pdf-action-btn zoom-drop">
+                        <div class="xuv">
+                            <pdf-zoom-toolbar [zoomLevels]="zoomLevels"></pdf-zoom-toolbar>
+                        </div>
+                    </div>
+                    <!-- end -->
+                   
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="presentationMode" matTooltip="Fullscreen">
+                            <mat-icon>fullscreen</mat-icon>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <!-- <div class="pdf-action-btn">
+                        <button mat-icon-button id="primaryPageRotateCcw">
+                            <mat-icon>replay</mat-icon>
+                          </button>
+                    </div> -->
+                    <!-- end -->
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="print" matTooltip="Print Offer Letter">
+                            <mat-icon>print</mat-icon>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="download" matTooltip="Download Offer Letter">
+                            <mat-icon>download_for_offline</mat-icon>
+                          </button>
+                    </div>
+                    <!-- end -->
+            </div>
+              </div>
+              <div class="pdf-h-right">
+                <div class="pdf-action-wrap">
+                    <!-- end -->
+                    <!-- <div class="pdf-action-btn">
+                        <pdf-toggle-secondary-toolbar
+                        ></pdf-toggle-secondary-toolbar>
+                    </div> -->
+                    <!-- end -->
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="secondaryToolbarToggle" matTooltip="Page Scroll">
+                            <span class="material-icons-outlined">
+                                widgets
+                                </span>
+                          </button>
+                    </div>
+                    <!-- end -->
+                    <!-- <div class="pdf-action-btn">
+                        <button mat-icon-button id="previous">
+                            <span class="material-icons-outlined">
+                                chevron_left
+                                </span>
+                          </button>
+                    </div>
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="next">
+                            <span class="material-icons-outlined">
+                                navigate_next
+                                </span>
+                          </button>
+                    </div>
+
+                    <div class="pdf-action-btn">
+                        <button mat-icon-button id="primaryFirstPage">
+                            <span class="material-icons-outlined">
+                                first_page
+                                </span>
+                          </button>
+                    </div>
+                    <div class="pdf-action-btn">
+                        <input type="number" id="pageNumber">
+                        <button mat-icon-button id="primaryLastPage">
+                            <span class="material-icons-outlined">
+                                last_page
+                                </span>
+                          </button>
+                    </div> -->
+                    <!-- end -->
+                    <div class="pdf-action-btn paging-input">
+                        <pdf-paging-area></pdf-paging-area>
+                    </div>
+                    <!-- end -->
+            </div>
+              </div>
+          </div>
+       
+      </ng-template>
+    </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button"  class="btn btn-infocon">
+            Send Offer
+        </button>
+        <button type="button" class="btn btn-simple-ats">Cancel
+        </button>
+    </div>

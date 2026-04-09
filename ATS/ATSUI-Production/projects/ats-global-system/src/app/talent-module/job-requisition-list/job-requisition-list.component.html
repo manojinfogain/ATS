@@ -1,0 +1,1126 @@
+<div class="info-connect-right">
+  <div class="page-content-wrapper">
+    <div class="page-container-inner">
+      <div class="page-container-header clearfix flat-boxes-wrap">
+        <div class="page-title-left float-left">
+          <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="search-input float-left">
+          <div class="filter-boxes">
+            <mat-radio-group aria-label="Select an option" (change)="getFilterValueFunc($event)"
+              [formControl]="filterBoxCtrl">
+              <mat-radio-button value="1" class="pending-ap">
+                <span class="count-v">
+                  {{CountDetails?.PendingForApprovalCount?CountDetails?.PendingForApprovalCount:0}}
+                </span>
+                Pending for Approval
+              </mat-radio-button>
+              <mat-radio-button value="2" class="open-ap">
+                <span class="count-v">
+                  {{CountDetails?.OpenTHIDCount?CountDetails?.OpenTHIDCount:0}}
+                </span>
+                Open Request
+              </mat-radio-button>
+              <mat-radio-button value="3" class="fullfil-ap">
+                <span class="count-v">
+                  {{CountDetails?.FulfiledTHIDCount?CountDetails?.FulfiledTHIDCount:0}}
+                </span>
+                Fulfilled
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- end search field -->
+      </div>
+      <!-- end content header -->
+      <div class="content-body">
+        <mat-card>
+          <div class="card">
+            <div class="card-header  card-header-flex">
+              <div class="ats-left-h">
+                <!-- Info message for eligible records -->
+                <!-- <div class="eligible-records-info" *ngIf="hasEligibleRecords() && getSelectedCount() === 0">
+                  <div class="info-message">
+                    <i class="fas fa-info-circle"></i>
+                    <span>{{getEligibleRecordsCount()}} record(s) available for bulk approval/rejection on this page</span>
+                    <span class="total-info" *ngIf="paginationData?.Total > raisedTHIDList?.data?.length">
+                      (Total records across all pages: {{paginationData?.Total}})
+                    </span>
+                  </div>
+                </div> -->
+
+                <!-- Cross-page selection warning -->
+                <!-- <div class="cross-page-selection-info" *ngIf="getSelectedCount() > 0 && getSelectedCount() > selectedRecords.size">
+                  <div class="info-message">
+                    <i class="fas fa-layers"></i>
+                    <span>You have selections across multiple pages. {{getSelectedCount()}} total selected ({{selectedRecords.size}} on current page).</span>
+                  </div>
+                </div> -->
+
+                <!-- No Eligible Records Info -->
+                <!-- <div class="no-eligible-records" *ngIf="!hasEligibleRecords() && raisedTHIDList?.data?.length > 0">
+                  <div class="info-message">
+                    <i class="fas fa-info-circle"></i>
+                    <span>No records are eligible for bulk approval/rejection based on your permissions and current status.</span>
+                  </div>
+                </div> -->
+              </div>
+              <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                  <div class="s-fil">
+                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                      matTooltip="Search By Talent ID/ Created By" [placeHolder]="'Search By Talent ID/ Created By '"
+                      [searchServerSide]="true" [isReset]="isResetSearch"></app-search-filter>
+                  </div>
+                  <div class="s-fil">
+                    <div class="act-header-btn">
+                      <ul>
+                        <!-- create job button visible for bu head/spocs/ dp/pdl/sdp/AO/gdl/Hiring Manager/ tag -->
+                        <li *ngIf="userData?.otherRoles?.IsBUHead =='Y' 
+                        || userData?.otherRoles?.IsAO =='Y' 
+                        || userData?.otherRoles?.IsBizOpsSecondary =='Y' 
+                        || userData?.otherRoles?.IsGDL =='Y' 
+                        || userData?.otherRoles?.IsHiringManager =='Y'
+                        ||userData?.otherRoles?.IsWMG =='Y'
+                        ">
+                          <button type="button" class="btn btn-infocon" (click)="openCreateJobPositionModal({},'N')">
+                            Create Job Position <i class="fa fa-chair"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <button mat-button class="act-button" (click)="exportAsXLSX()" matTooltip="Download Tracker">
+                            <i class="fas fa-file-download ex-icon"></i>
+                          </button>
+                        </li>
+                        <!-- [isResetForm]="isResetFilter" [offerStatus]="true" [offrStatusMulti]="true"
+                          [recruiter]="true" [recMulti]="true" [dateRange]="true" [dateRangeTitle]="'By Offer Date'"
+                          [dateRangeStartToEnd]="true" [dateRangeTitle2]="'By Joining Date'" -->
+                        <li>
+                          <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter"
+                            [isTalentStatus]="true" [talentStatusMulti]="true" [account]="true" [accountMulti]="true"
+                            [companyLocation]="true" [LocationMulti]="true" [recruiter]="true" [recMulti]="true"
+                            [dateRange]="true" [dateRangeTitle]="'Created On'" [isPractice]="true"
+                            [practiceMulti]="true"[isOppVisbile]="true" [oppMulti]="true"
+                            [oppIdTitle]="'Opportunity ID'"
+                            [isBizOpsVisible]="true" [bizOpsMulti]="true"
+                            [bizOpsTitle]="'BizOps Lead'" [isBillableVisible]="true"></app-filter-sort>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- matrial Table -->
+              <div class="table-scroll-bd">
+                <table mat-table [dataSource]="raisedTHIDList" class="table-mat-info" matSort
+                  (matSortChange)="sortData($event)">
+                  
+                  <!-- Selection Column -->
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef class="select-column">
+                      <mat-checkbox 
+                        [checked]="isAllSelected"
+                        [indeterminate]="selectedRecordIds.size > 0 && !isAllSelected"
+                        (change)="toggleAllSelection()"
+                        [disabled]="!hasEligibleRecords()"
+                        [matTooltip]="hasEligibleRecords() ? 'Select all ' + getEligibleRecordsCount() + ' eligible records on this page' : 'No records eligible for bulk actions'">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="select-column">
+                      <mat-checkbox 
+                        [checked]="isRecordSelected(element)"
+                        (change)="toggleRecordSelection(element)"
+                        [disabled]="!isRecordEligibleForBulkAction(element)"
+                        [matTooltip]="isRecordEligibleForBulkAction(element) ? 'Select for bulk action' : 'Record not eligible for bulk action'">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="RequisitionId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Requisition ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.CTHID || '-'}}</td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="RequisitionType">
+                    <th mat-header-cell *matHeaderCellDef> Requisition Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element?.ReqType || '-'}}</td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="PrimarySkill">
+                    <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                      Skill </th>
+                    <td mat-cell *matCellDef="let element;">
+                      <!-- {{element?.cid ? (element?.cid | cidPrefix:element?.ProfileId) : '-' }} -->
+                      <!-- {{element?.PriSkill || '-'}}
+                      {{element?.TCSkill1 || '-'}} -->
+                      <ng-container *ngIf="element?.PriSkill">
+                        {{element?.PriSkill || '-'}}
+                      </ng-container>
+                      <ng-container *ngIf="element?.TCSkill1">
+                        {{element?.TCSkill1 || '-'}}
+                      </ng-container>
+                      <ng-container *ngIf="!element?.PriSkill && !element?.TCSkill1">
+                        -
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <!-- Candidate Name Column -->
+                  <ng-container matColumnDef="account">
+                    <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.AccountName || '-'}}
+                      <!-- {{element.OfferModifiedOn |date}} -->
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="Designation">
+                    <th mat-header-cell *matHeaderCellDef>Designation</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.DesigName || '-'}}
+                      <!-- {{element.OfferModifiedOn |date}} -->
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="Location">
+                    <th mat-header-cell *matHeaderCellDef>Location</th>
+                    <td mat-cell *matCellDef="let element;" class="wht-break">
+                      {{(element?.JoiningLocation| slice:0:12) || '-'}}{{ element?.JoiningLocation?.length > 12 ?'...' :
+                      ''}}
+                      <ng-container *ngIf="element?.JoiningLocation?.length > 12">
+                        <a href="javascript:void(0)" (click)="openPop(element?.JoiningLocation,'Location')"
+                          popoverClass="list-popover-wrapper" [ngbPopover]="popContent" class="wht-more">More</a>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="CreatedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.CreatedOn || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="CreatedBy">
+                    <th mat-header-cell *matHeaderCellDef>Created By</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.CreatedByName || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="THIDAge">
+                    <th mat-header-cell *matHeaderCellDef>Requisition <br> Age</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.THIDAge || '0'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="tagAge">
+                    <th mat-header-cell *matHeaderCellDef>Tag Age</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.TAGAge || '0'}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="approverName">
+                    <th mat-header-cell *matHeaderCellDef>DP / PDL / SDP</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.ApproverDP || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="fulfillmentDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Commit Date <br> (TAG)</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      <!-- {{element.fulfilmentDate || '0'}} -->
+                      {{(element?.fulfilmentDate | date:'d MMM y') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="priRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Primary <br> Recruiter</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.PrimaryRecruiter || '-'}}
+
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="secRecruiter">
+                    <th mat-header-cell *matHeaderCellDef>Secondary <br> Recruiter</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.SecondaryRecruiter || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="wmgCommitDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Commit Date <br> (WMG)</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{(element?.wmgFulfilmentDate | date:'d MMM y') || '-'}}
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <!-- status starts -->
+                  <!-- <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.STATUS_ID">
+                        <ng-container *ngSwitchCase="1">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.Status}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.Status}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.Status}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          {{element?.Status || '-'}}
+                        </ng-container>
+                      </ng-container>
+
+                    </td>
+                  </ng-container> -->
+                  <!-- status ends -->
+                  <!-- ends -->
+                  <!-- <ng-container matColumnDef="subStatus">
+                    <th mat-header-cell *matHeaderCellDef>Sub Status</th>
+                    <td mat-cell *matCellDef="let element;">
+                      {{element.SubStatus || '-'}}
+                    </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="isTidReopened">
+                    <th mat-header-cell *matHeaderCellDef>Is Talent Id Re-Opened</th>
+                    <td mat-cell *matCellDef="let element;">
+                      <span *ngIf="element?.IsTidReopened == 1">Yes</span>
+                      <span *ngIf="element?.IsTidReopened == 0 || element?.IsTidReopened == null">No</span>
+                    </td>
+                  </ng-container>
+                  <!-- ends -->
+                  <ng-container matColumnDef="naukriJobStatus">
+                    <th mat-header-cell *matHeaderCellDef>Job Posting Status (Naukri)
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.PostedStatus">
+                        <ng-container *ngSwitchCase="'CREATED'">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{'Published'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'CREATE_PENDING'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'Publish Pending'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'REFRESHED'">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{'Refreshed'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'REFRESH_PENDING'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'Refresh Pending'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'UPDATE_PENDING'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'Update Pending'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'UPDATE_FAILED'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'Update Failed'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'UPDATED'">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{'Updated'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'DELETED'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'Deactivated'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'DELETE_PENDING'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'Deactivation Pending'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'CREATE_FAILED'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'Publish Failed'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'EXPIRED'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'Expired'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <button class="btn-status-dg" type="button">
+                            {{'Not Published'}}
+                          </button>
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="dormantStatus" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>Dormant Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.isTidDormant">
+                        <ng-container *ngSwitchCase="'D'">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{'DORMANT'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'R'">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'RE-ACTIVATED'}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <button class="btn-status-dg schedule" type="button">
+                            {{'ACTIVE'}}
+                          </button>
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <!-- status starts -->
+                  <ng-container matColumnDef="status" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>Status
+                      <br>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <ng-container [ngSwitch]="element?.SubStatusID">
+                        <ng-container *ngSwitchCase="1">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="4">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="5">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="6">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="7">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="8">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="9">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="10">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="11">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="12">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="13">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="14">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="15">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="18">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="19">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="20">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="20">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="21">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="22">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="23">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="24">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="26">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="28">
+                          <button class="btn-status-dg shortlisted" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="29">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="30">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="32">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="33">
+                          <button class="btn-status-dg schedule" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="34">
+                          <button class="btn-status-dg rejects" type="button">
+                            {{element?.SubStatus}}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          {{element?.SubStatus || '-'}}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <!-- status ends -->
+                  <!-- ends -->
+                  <!-- <ng-container matColumnDef="Referred">
+                    <th mat-header-cell *matHeaderCellDef matTooltip="No. of Employees Referred">Referred</th>
+                    <td mat-cell *matCellDef="let element;" class="center">
+                      {{element.referred || 'NA'}}
+                    </td>
+                  </ng-container> -->
+                   <ng-container matColumnDef="action" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <div class="btn-action btn-action-centerz">
+                        <!-- view talent details -->
+                        <div class="btn-act">
+                          <button mat-button type="button" matTooltip="View Talent ID Details"
+                            (click)="viweTalentFullDetailsModal(element)">
+                            <span class="material-icons-outlined">
+                              preview
+                            </span>
+                          </button>
+                        </div>
+
+                        <div class="btn-act"
+                        *ngIf="
+                          element?.IsInternalMovment != 'Y' &&
+                          (element?.CreatedBy == userData?.EmpNewId ||
+                        userData?.otherRoles?.IsBUHead =='Y' 
+                        || userData?.otherRoles?.IsAO =='Y' 
+                        || userData?.otherRoles?.IsGDL =='Y' 
+                        || userData?.otherRoles?.IsHiringManager =='Y'
+                        ||userData?.otherRoles?.IsWMG =='Y')">
+                          <button mat-button type="button" matTooltip="View Fulfillment Prediction" (click)="viewProbabilityDemandModal(element)">
+                            <span class="material-icons-outlined">
+                              compare
+                            </span>
+                          </button>
+                        </div>
+
+                        <div class="btn-act" *ngIf="isVisibleForIndia && (element?.SubStatusID == 3 && 
+                        userData?.otherRoles?.IsTAG =='Y')">
+                          <button mat-button type="button" matTooltip="Publish Job" (click)="publishJob(element)">
+                            <span class="material-icons-outlined">
+                              published_with_changes
+                            </span>
+                          </button>
+                        </div>
+                        <!-- end  -->
+                        <!-- clone talent id visible for >status cancelled 7 || dp/sdp/pdl/bu spoc/ 2 || created by && dp/sdp/pdl/bu spoc/ 2  -->
+                        <!-- if thid is replacement and empUnit 1 (delivery) only wmg can clone it -->
+                        <!-- || element?.empUnitid == 1 && element?.ReqTypeID == 3 && userData?.otherRoles?.IsWMG =='Y' -->
+                        <ng-container [ngSwitch]="true">
+                          <ng-container
+                            *ngSwitchCase="userData?.otherRoles?.IsWMG =='Y' && (element?.ReqTypeID == 1 || element?.ReqTypeID == 2 || element?.ReqTypeID == 4 || element?.ReqTypeID == 5)">
+                            <div class="btn-act">
+                              <button mat-button type="button" matTooltip="Clone Talent IDs"
+                                (click)="openCreateJobPositionModal(element,'C')">
+                                <span class="material-icons-outlined">
+                                  content_copy
+                                </span>
+                              </button>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="element?.empUnitid ==1 && element?.ReqTypeID == 3">
+
+                          </ng-container>
+                          <ng-container *ngSwitchDefault>
+                            <div class="btn-act" *ngIf="(
+                          (element?.CreatedBy == userData?.EmpNewId ||
+                        userData?.otherRoles?.IsBUHead =='Y' 
+                        || userData?.otherRoles?.IsAO =='Y' 
+                        || userData?.otherRoles?.IsBizOpsSecondary =='Y' 
+                        || userData?.otherRoles?.IsGDL =='Y' 
+                        || userData?.otherRoles?.IsHiringManager =='Y') && 
+                        (element?.ReqTypeID == 1 || element?.ReqTypeID == 2 || element?.ReqTypeID == 4 || element?.ReqTypeID == 5) 
+                        )">
+                              <button mat-button type="button" matTooltip="Clone Talent IDs"
+                                (click)="openCreateJobPositionModal(element,'C')">
+                                <span class="material-icons-outlined">
+                                  content_copy
+                                </span>
+                              </button>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+
+
+                        <!-- <div class="btn-act"
+                          *ngIf="element?.ReqTypeID == 1 || element?.ReqTypeID == 2 || element?.ReqTypeID == 4 || element?.ReqTypeID == 5">
+                        <div class="btn-act"
+                          *ngIf="
+                           (element?.CreatedBy == userData?.EmpNewId ||
+                        userData?.otherRoles?.IsBUHead =='Y' 
+                        || userData?.otherRoles?.IsAO =='Y' 
+                        || userData?.otherRoles?.IsGDL =='Y' 
+                        || userData?.otherRoles?.IsHiringManager =='Y') &&
+                         ( element?.ReqTypeID == 1 || element?.ReqTypeID == 2 || element?.ReqTypeID == 4 || element?.ReqTypeID == 5)">
+                          <button mat-button type="button" matTooltip="Clone Multiple Talent ID"
+                            (click)="openCloneMultiReqModal(element)">
+                            <span class="material-icons-outlined">
+                              copy_all
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- showing edit button only for pending with du / bu/ - (dp)  hiring manager
+                          || element?.SubStatusID == 5
+                        -->
+                        <!-- also hiding this edit for bizops -->
+                        <div class="btn-act" *ngIf="((element?.SubStatusID == 2 || element?.SubStatusID == 4 ||element?.SubStatusID == 5  || element?.SubStatusID == 13)
+                        && userData?.otherRoles?.IsHiringManager =='Y'
+                        &&element?.CreatedBy == userData?.EmpNewId) &&
+                        element?.isTidDormant != 'D' && userData?.otherRoles?.IsAO !='Y'">
+                          <button mat-button type="button" matTooltip="Update Talent ID Details"
+                            (click)="openCreateJobPositionModal(element,'U')">
+                            <span class="material-icons-outlined">
+                              edit
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- update talent id details for WMG if its pending with wmg -->
+
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 1 
+                        && userData?.otherRoles?.IsWMG =='Y') &&
+                        element?.isTidDormant != 'D'">
+                          <button mat-button type="button" [matTooltip]="'Update Talent ID Details'"
+                            (click)="openCreateJobPositionModal(element,'UW')">
+                            <span class="material-icons-outlined">
+                              edit
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- update only JD option and statusId 3 - pending with tag -->
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 3 
+                         && userData?.otherRoles?.IsJDEditableRight =='Y') &&
+                         element?.isTidDormant != 'D'">
+                          <button mat-button type="button" [matTooltip]="'Update Talent ID Details JD'"
+                            (click)="openCreateJobPositionModal(element,'JD')">
+                            <span class="material-icons-outlined">
+                              edit
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- update talent id details for BizOps if it is pending with Tag 3-->
+                        <!-- update talent id details for BizOps if it is pending with dp/pdl/sdp -location edit 2-->
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 3 ) && (userData?.otherRoles?.IsAO =='Y' || userData?.otherRoles?.IsBizOpsSecondary =='Y') 
+                        || (element?.SubStatusID == 2 ) && (userData?.otherRoles?.IsAO =='Y' || userData?.otherRoles?.IsBizOpsSecondary =='Y')
+                        && (element?.isTidDormant != 'D') ">
+                          <button mat-button type="button" matTooltip="Update Talent ID Details"
+                            (click)="openCreateJobPositionModal(element,'E')">
+                            <span class="material-icons-outlined">
+                              drive_file_rename_outline
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- update talent id details for tag -->
+                        <!-- <div class="btn-act" *ngIf="
+                        element?.SubStatusID == 3 && 
+                        userData?.otherRoles?.IsTAG =='Y'">
+                          <button mat-button type="button" matTooltip="Update Details of Talent ID"
+                            (click)="updateTalentDetailsTag(element)">
+                            <span class="material-icons-outlined">
+                              manage_accounts
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- update talent id assignee for tag -->
+                        <div class="btn-act" *ngIf="
+                        element?.SubStatusID == 3 && 
+                        userData?.otherRoles?.IsTAG =='Y' &&
+                        element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Update Primary  And Secondary Recruiter."
+                            (click)="updateTalentAssigneeModal(element)">
+                            <span class="material-icons-outlined">
+                              manage_accounts
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- update fullfillment Datedetails for tag -->
+                        <div class="btn-act" *ngIf="
+                         element?.SubStatusID == 3 && 
+                         userData?.otherRoles?.IsTAG =='Y' &&
+                         element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Update Commitment Details"
+                            (click)="updateFullfillmentDateModal(element)">
+                            <span class="material-icons-outlined">
+                              work_history
+                            </span>
+                          </button>
+                        </div>
+                        <ng-container *ngIf="(element?.SubStatusID == 3 && 
+                          userData?.otherRoles?.IsTAG =='Y' && isVisibleForIndia && isHiringLocationIndia(element) && element?.isTidDormant != 'D')">
+                          <div class="btn-act" *ngIf="(element?.PostedStatus == null || element?.PostedStatus == 'CREATED' || element?.PostedStatus == 'UPDATED' || element?.PostedStatus == 'REFRESHED' || element?.PostedStatus == 'UPDATE_FAILED' || element?.PostedStatus == 'CREATE_FAILED' || element?.PostedStatus == 'DELETED')">
+                            <button mat-button type="button" [matTooltip]="element?.PostedStatus == 'CREATED' || element?.PostedStatus == 'UPDATED' || element?.PostedStatus == 'REFRESHED' || element?.PostedStatus == 'CREATE_FAILED' || element?.PostedStatus == 'UPDATE_FAILED' ? 'Update Naukri Job Posting' : 'Naukri Job Posting'"
+                              (click)="publishJobToNaukri(element)">
+                              <span *ngIf="element?.PostedStatus == null || element?.PostedStatus == 'DELETED'" class="material-icons-outlined">
+                                cloud_done
+                              </span>
+                              <span *ngIf="element?.PostedStatus != null && element?.PostedStatus != 'DELETED'" class="material-icons-outlined">
+                                note_alt
+                              </span>
+                            </button>
+                          </div>
+                          <div class="btn-act"  *ngIf="element?.PostedStatus && element.PostedStatus != null">
+                            <button mat-button type="button" matTooltip="View Posted Job Details"
+                              (click)="viewPostedJobDetails(element)">
+                              <span class="material-icons-outlined">
+                                description
+                              </span>
+                            </button>
+                          </div>
+                          <div class="btn-act" *ngIf="element?.PostedStatus === 'CREATED' || element?.PostedStatus === 'REFRESHED' || element?.PostedStatus === 'UPDATED'">
+                            <button mat-button type="button" matTooltip="Refresh Job"
+                              (click)="refreshJobConfirmation(element)">
+                              <span class="material-icons-outlined">
+                                cloud_sync
+                              </span>
+                            </button>
+                          </div>
+                          <div class="btn-act" *ngIf="element?.PostedStatus === 'CREATED' || element?.PostedStatus === 'REFRESHED' || element?.PostedStatus === 'UPDATED'">
+                            <button mat-button type="button" matTooltip="Unpublish Job"
+                              (click)="unpublishJobConfirmation(element)">
+                              <span class="material-icons-outlined">
+                                unpublished
+                              </span>
+                            </button>
+                          </div>
+                        </ng-container>
+                        <!-- showing approval button only for du/ bu/ gdl
+                         -->
+                        <div class="btn-act" *ngIf="((element?.SubStatusID == 2 || element?.SubStatusID == 5  || element?.SubStatusID == 13)  && userData?.otherRoles?.IsAO =='Y'
+                        || element?.SubStatusID == 10 && userData?.otherRoles?.IsGDL =='Y'
+                        || element?.SubStatusID == 12 && userData?.otherRoles?.IsFinance =='Y') &&
+                        element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Approve/Reject Talent ID"
+                            (click)="openApprovalModal(element)">
+                            <span class="material-icons-outlined">
+                              fact_check
+                            </span>
+                          </button>
+                        </div>
+                        <!-- pending with wmg/tag and login wmg/tag can update" 
+                          tag cant update status if there is any offer -OfferedCount >0 
+                         -->
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 1 && userData?.otherRoles?.IsWMG =='Y' ||
+                        element?.SubStatusID == 3 && element?.OfferedCount ==0 &&
+                        userData?.otherRoles?.IsTAG =='Y') &&
+                        element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Update Talent ID Status"
+                            (click)="updateTalentStatus(element)">
+                            <span class="material-icons-outlined">
+                              update
+                            </span>
+                          </button>
+                        </div>
+                        <!-- ends -->
+                        <!-- to add/ update reqyurement type account opportunity etc in proactive requirement by bizops at any stage of talent id .
+                        new enable for pipeline-->
+
+                        <ng-container
+                          *ngIf="userData?.otherRoles?.IsBUHead =='Y' || userData?.otherRoles?.IsAO =='Y' || userData?.otherRoles?.IsBizOpsSecondary =='Y' && (element?.isTidDormant != 'D')">
+                          <div class="btn-act"
+                            *ngIf="(element?.ReqTypeID == 5 || element?.ReqTypeID == 1 ) && (element?.IsReqUpdateEnable ==1) ">
+                            <button mat-button type="button" matTooltip="Update Requirement Type"
+                              (click)="addTalentIDdetailsModal(element)">
+                              <!-- <span class="material-icons-outlined">
+                              event
+                            </span> -->
+                              <span class="material-icons-outlined">
+                                add_box
+                              </span>
+                            </button>
+                          </div>
+                        </ng-container>
+                        <!-- update fullfilment date for wmg/ pending with wmg-->
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 1 && userData?.otherRoles?.IsWMG =='Y') &&
+                        element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Update Commit Date"
+                            (click)="updateFullfilmentDateModal(element)">
+                            <span class="material-icons-outlined">
+                              event
+                            </span>
+                          </button>
+                        </div>
+                        <!-- view offered candidates list visible for tag 
+                        matTooltip="View Offered Candidate List"-->
+                        <div class="btn-act" *ngIf="userData?.otherRoles?.IsTAG =='Y'">
+                          <button mat-button type="button" [matTooltip]="'Offered Candidate Details'"
+                            (click)="viewOfferedCandidateListModal(element, 'Off')">
+                            <!-- <span class="material-icons-outlined">
+                              visibility
+                            </span> -->
+                            <span class="material-icons-outlined">
+                              volunteer_activism
+                            </span>
+                          </button>
+                        </div>
+                        <!-- fulfilled candidates list visible
+                          internally wmg -8
+                           externally 6for tag  -->
+
+                        <!-- pending with wmg and login wmg can propose" 
+                         -->
+                        <!-- <div class="btn-act" *ngIf="element?.SubStatusID == 1 && userData?.otherRoles?.IsWMG =='Y'">
+                          <button mat-button type="button" matTooltip="Propose Employee"
+                            (click)="proposeEmployeeModal(element)">
+                            <span class="material-icons-outlined">
+                              send
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- View Proposed Employees List for wmg and for tag -->
+                        <div class="btn-act" *ngIf="element?.SubStatusID == 1 && userData?.otherRoles?.IsWMG =='Y'
+                        || element?.SubStatusID == 3 && 
+                        userData?.otherRoles?.IsTAG =='Y'">
+                          <button mat-button type="button" matTooltip="View Proposed Employees List"
+                            (click)="viewReferredEmployeeModal(element)">
+                            <span class="material-icons-outlined">
+                              visibility
+                            </span>
+                          </button>
+                        </div>
+                        <!-- job posting modal -->
+                        <!-- date should be in betweem to show in ijp view screen example- if current date is 25june then ijp start date 
+                        should 10june and end date should be 20 june -->
+                        <!-- <div class="btn-act"
+                          *ngIf="(element?.SubStatusID == 1 || element?.SubStatusID == 3) && userData?.otherRoles?.IsWMG =='Y'">
+                          <button mat-button type="button" matTooltip="Convert To IJP"
+                            (click)="internalJobPostingModal(element)">
+                            <span class="material-icons-outlined">
+                              published_with_changes
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- view ijp applicant list -->
+                        <!-- <div class="btn-act" *ngIf="userData?.otherRoles?.IsWMG =='Y'">
+                          <button mat-button type="button" matTooltip="View IJP Applicant List"
+                            (click)="viewIjpApplicantListModal(element)">
+                            <span class="material-icons-outlined">
+                              visibility
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- close talent id/ cancel
+                          visible for dp/sdp/pdl/ 2
+                          mu spoc/ 4
+                          REFERRED BACK BY WMG 5 
+                          REFERRED BACK BY TAG 13
+                        
+                        pending with dp - for creator -->
+                        <!-- visible for dp/sdp/pdl/ 2
+                        mu spoc/ 4
+                        REFERRED BACK BY WMG 5
+                        REFERRED BACK BY TAG 13 -->
+                        <!-- <div class="btn-act" *ngIf="((element?.SubStatusID == 2 || element?.SubStatusID == 4 || element?.SubStatusID == 5  || element?.SubStatusID == 13)
+                        && userData?.otherRoles?.IsHiringManager =='Y'
+                        &&element?.SubStatusID !=7
+                       &&element?.CreatedBy == userData?.EmpNewId) &&
+                       element?.isTidDormant != 'D'">
+                          <button mat-button type="button" matTooltip="Cancel Talent ID"
+                            (click)="cancelTalentIdModal(element)">
+                            <span class="material-icons-outlined cancel-error">
+                              cancel
+                            </span>
+                          </button>
+                        </div> -->
+                        <!-- ends -->
+                        <div class="btn-act"
+                          *ngIf="cancelTalentShowButton(element, userData)">
+                          <button mat-button type="button" matTooltip="Cancel Talent ID"
+                            (click)="cancelTalentIdModal(element)">
+                            <span class="material-icons-outlined cancel-error">
+                              cancel
+                            </span>
+                          </button>
+                        </div>
+
+                        <!-- cancel talent id option for Renu -->
+                        <div class="btn-act" *ngIf="(element?.SubStatusID == 3)
+                        && ((userData?.otherRoles?.IsHiringManager =='Y' && element?.CreatedBy == userData?.EmpNewId)
+                         || (userData?.otherRoles?.IsTalentAutoApproval == 'Y' && element?.CreatedBy == userData?.EmpNewId)
+                        ) && (element?.isTidDormant != 'D')
+                        ">
+                          <button mat-button type="button" matTooltip="Cancel Talent ID"
+                            (click)="cancelTalentIdModal(element)">
+                            <span class="material-icons-outlined cancel-error">
+                              cancel
+                            </span>
+                          </button>
+                        </div>
+                        <!-- ends -->
+
+                        <!-- view history -->
+                        <div class="btn-act">
+                          <button mat-button type="button" matTooltip="View History"
+                            (click)="viewTalentHistoryModal(element)">
+                            <i class=" font-size-s material-icons-outlined">
+                              pending_actions
+                            </i>
+                          </button>
+                        </div>
+                        <!-- end -->
+                        <!-- remove job from website -->
+                        <!--  -->
+                        <div class="btn-act" *ngIf="element?.isWebVisible == 1 && 
+                        userData?.otherRoles?.IsTAG =='Y'">
+                          <button mat-button type="button" matTooltip="Remove From Website"
+                            (click)="confirmDeleteFromWebsite(element)">
+                            <!-- <span class="material-icons-outlined">
+                              person_add
+                              </span> -->
+                            <span class="material-icons-outlined">
+                              delete
+                            </span>
+                          </button>
+
+                        </div>
+                        <div class="btn-act" *ngIf="userData?.otherRoles?.IsTAG =='Y' && element?.SubStatusID == 6">
+                          <button mat-button type="button" matTooltip="Re-Open Talent Id"
+                            (click)="openModelForReopeningofTalentId(element)">
+                            <!-- <span class="material-icons-outlined">
+                              person_add
+                              </span> -->
+                            <span class="material-icons-outlined">
+                              mediation
+                            </span>
+                          </button>
+
+                        </div>
+                        <!-- re-activate dormant tid-->
+                        <div class="btn-act"
+                          *ngIf="element?.isTidDormant == 'D' && (userData?.otherRoles?.IsAO =='Y' || userData?.otherRoles?.IsBizOpsSecondary =='Y') && element?.SubStatusID != 7">
+                          <button mat-button type="button" matTooltip="Re-Activate Dormant Talent ID"
+                            (click)="activateDormantTid(element)">
+                            <!-- <span class="material-icons-outlined">
+                              person_add
+                              </span> -->
+                            <span class="material-icons-outlined">
+                              power_settings_new
+                            </span>
+                          </button>
+
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                  *ngIf="raisedTHIDList?.length === 0 || raisedTHIDList?.length === null">
+                </app-no-result-found>
+              </div>
+              
+              <!-- Bottom Section with Bulk Actions and Pagination -->
+              <div class="bottom-actions-section">
+                <!-- Bulk Actions Section (Left) -->
+                <div class="bulk-actions-left" *ngIf="getSelectedCount() > 0">
+                  <div class="bulk-actions-content">
+                    <div class="selection-info">
+                      <div class="selected-indicator">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="selected-text">
+                          <strong>{{getSelectedCount()}}</strong> record(s) selected
+                          <span *ngIf="getSelectedCount() > getSelectedCount() - (selectedRecords.size - getSelectedCount())" class="cross-page-info">
+                            across all pages
+                          </span>
+                        </span>
+                      </div>
+                      <div class="page-info" *ngIf="getSelectedCount() > selectedRecords.size">
+                        <small class="text-muted">
+                          ({{selectedRecords.size}} on current page, {{getSelectedCount() - selectedRecords.size}} on other pages)
+                        </small>
+                      </div>
+                    </div>
+                    
+                    <div class="bulk-actions-buttons">
+                      <!-- *ngIf="((userData?.otherRoles?.IsAO =='Y' && (element?.SubStatusID == 13 || element?.SubStatusID == 5 || element?.SubStatusID == 2) ) ||
+                         (userData?.otherRoles?.IsGDL =='Y' && (element?.SubStatusID == 10 || element?.SubStatusID == 2)) ||
+                          userData?.otherRoles?.IsFinance =='Y')" -->
+                      <button *ngIf="isBulkApproveRejectVisible"
+                        class="btn btn-bulk-approve"
+                        (click)="bulkApproveRecords()"
+                        [disabled]="getSelectedCount() === 0"
+                        matTooltip="Approve all selected records">
+                        <i class="fas fa-check"></i>
+                        <span class="btn-text">Approve</span>
+                        <!-- <span class="btn-count">({{getSelectedCount()}})</span> -->
+                      </button>
+                      <!-- *ngIf="((userData?.otherRoles?.IsAO =='Y' && (element?.SubStatusID == 13 || element?.SubStatusID == 5 || element?.SubStatusID == 2) ) ||
+                         (userData?.otherRoles?.IsGDL =='Y' && (element?.SubStatusID == 10 || element?.SubStatusID == 2)) ||
+                          userData?.otherRoles?.IsFinance =='Y')" -->
+                      <button *ngIf="isBulkApproveRejectVisible"
+                        class="btn btn-bulk-reject"
+                        (click)="bulkRejectRecords()"
+                        [disabled]="getSelectedCount() === 0"
+                        matTooltip="Reject all selected records">
+                        <i class="fas fa-times"></i>
+                        <span class="btn-text">Reject</span>
+                        <!-- <span class="btn-count">({{getSelectedCount()}})</span> -->
+                      </button>
+                      <!-- *ngIf="((userData?.otherRoles?.IsAO =='Y' && (element?.SubStatusID == 3 || element?.SubStatusID == 2)) ||
+                           (userData?.otherRoles?.IsGDL =='Y' && (element?.SubStatusID == 3)) ||
+                            userData?.otherRoles?.IsFinance =='Y' || userData?.otherRoles?.IsWMG =='Y')" -->
+                      <button *ngIf="isBulkEditVisible"
+                        class="btn btn-bulk-edit btn-primary"
+                        (click)="editBillingOnboardingDatesForSelected()"
+                        [disabled]="getSelectedCount() === 0"
+                        matTooltip="Edit billing / onboarding dates for all selected records">
+                        <i class="fas fa-calendar-edit"></i>
+                        <span class="btn-text">
+                          {{editBtnLabel}}
+                        </span>
+                        <!-- <span class="btn-count">({{getSelectedCount()}})</span> -->
+                      </button>
+                      <button *ngIf="userData?.otherRoles?.IsAO =='Y' || userData?.otherRoles?.IsGDL =='Y' || userData?.otherRoles?.IsFinance =='Y' || userData?.otherRoles?.IsWMG =='Y'"
+                        class="btn btn-bulk-clear"
+                        (click)="clearAllSelections()"
+                        matTooltip="Clear all selections">
+                        <i class="fas fa-times-circle"></i>
+                        <span class="btn-text">Clear</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Pagination Section (Right) -->
+                <div class="ats-paging-sec">
+                  <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- end card sec -->
+        </mat-card>
+      </div>
+      <!-- end content body -->
+    </div>
+    <!-- end inner container -->
+
+  </div>
+  <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+
+<ng-template #popContent>
+  <div class="popover-wraps">
+    <div class="popover-wrap-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="popover-wrap-body">
+      <div class="list-chip">
+        {{dtData}}
+      </div>
+    </div>
+  </div>
+</ng-template>

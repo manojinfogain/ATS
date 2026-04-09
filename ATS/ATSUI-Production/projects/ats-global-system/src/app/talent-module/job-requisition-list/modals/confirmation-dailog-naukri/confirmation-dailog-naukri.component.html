@@ -1,0 +1,31 @@
+<!-- <div class="ats-modal-header">
+  <h1>{{ data.title || 'Confirmation' }}</h1>
+  <button class="btn-m-close" type="button" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <p>{{ data.message || 'Are you sure you want to proceed?' }}</p>
+  </div>
+</div>
+
+<div class="ats-modal-footer text-center">
+  <button type="button" class="btn btn-cancel" (click)="onNoClick()">No</button>
+  <button type="button" class="btn btn-primary" (click)="onYesClick()">
+    {{ data.confirmButtonText || 'Yes' }}
+  </button>
+</div> -->
+<div class="mat-header">
+  <h3 mat-dialog-title>{{ data?.title || 'Confirmation' }}</h3>
+</div>
+<mat-dialog-content>
+  <p [innerHTML]="data?.message || 'Are you sure you want to proceed?'"></p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button type="button" class="btn btn-infocon" tabindex="1" (click)="onYesClick()">
+   {{data?.buttonText?.ok}}
+  </button>
+  <button type="button" class="btn btn-simple-ats" tabindex="-1" (click)="onNoClick()">
+    {{data?.buttonText?.cancel}}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,459 @@
+<form [formGroup]="updateSalDetailsForm">
+    <div class="can-temp-body">
+        <div class="can-temp-h">
+            <div class="can-temp-h-t">
+                <h4>Salary Details</h4>
+            </div>
+            <div class="can-temp-h-t">
+                <div class="ul-action">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end head -->
+        <div class="can-temp-b">
+            <div class="can-view-wrap" *ngIf="isFinalSumbit">
+                <div class="can-list-view">
+                    <h5>Currency Type:</h5>
+                    <p>{{salaryDetails?.Currency || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Current CTC (Annual):</h5>
+                    <p>
+                        {{(salaryDetails?.CurrentCtc | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Current Salary Type:</h5>
+                    <p>
+                        <ng-container [ngSwitch]="salaryDetails?.currentSalaryType">
+                            <ng-container *ngSwitchCase="'F'">Fixed</ng-container>
+                            <ng-container *ngSwitchCase="'V'">Fixed + Variable</ng-container>
+                            <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="can-list-view">
+                    <h5>Amount (Fixed)</h5>
+                    <p>
+                        {{(salaryDetails?.salaryAmount | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <!-- <div class="can-list-view" *ngIf="salaryDetails?.currentSalaryType == 'V'">
+                    <h5>Variable:</h5>
+                    <p>
+                        {{this.getLabel(salaryDetails?.variableType)}}
+                    </p>
+                </div> -->
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>{{amountLabel}}</h5>
+                    <p>
+                        {{(salaryDetails?.salaryAmountPay | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Incentive / Perfomance Bonus / Ex-Gratia (if Any):</h5>
+                    <p>
+                        {{(salaryDetails?.bonus | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Monthly in Hand:</h5>
+                    <p>
+                        {{(salaryDetails?.salaryMonthlyInhand | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Salary Expectation:</h5>
+                    <p>
+                        {{(salaryDetails?.salaryExpected | customCurrency:salaryDetails?.CurrencyId) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Expected Joining Date:</h5>
+                    <p>{{salaryDetails?.expJoiningDate | date:'dd-MMM-YYYY'|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="can-list-view">
+                    <h5>Notice Period (in days):</h5>
+                    <p>{{salaryDetails?.noticePeriod+ ' days' || '-'}}</p>
+                </div>
+                <!-- end -->
+
+            </div>
+            <!-- end -->
+            <div class="form-can-wrap" *ngIf="!isFinalSumbit">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+                    <div class="form-on-col form-margin-14">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Currency Type</mat-label>
+                            <mat-select formControlName="currencyType" (selectionChange)="TotalExp()">
+                                <mat-option *ngFor="let item of currencyList" [value]="item?.id">{{item?.currency_code}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- <mat-error *ngIf="currencyTypeControl?.touched && currencyTypeControl?.invalid">
+                                <div *ngIf="currencyTypeControl?.errors?.required">
+                                    Currency Type is required.
+                                </div>                               
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col form-margin-14">
+                        <mat-form-field class="ats-mat-form-field " [appearance]="appearance">
+                            <mat-label>Current CTC (Annual)</mat-label>
+                            <input matInput type="text" formControlName="currentCTC" maxlength="10" onlyNumber
+                                [readonly]="isFinalSumbit" prevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{currentCTCControl?.value | convertToWord}}
+                            </mat-hint>
+                            <mat-error *ngIf="getControl('currentCTC')?.touched && getControl('currentCTC')?.invalid">
+                                <div *ngIf="getControl('currentCTC')?.errors?.min">
+                                    <span class="error-text">
+                                        <!-- Please enter minimum {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}. -->
+                                        Please enter min
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                                <div *ngIf="getControl('currentCTC')?.errors?.max">
+                                    <span class="error-text">
+                                        <!-- You can't enter more than {{this.salRange.inrMax | customCurrency:1}} -->
+                                        You can not enter greater than
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <div class="ats-radio-mat-flat">
+                            <label class="lb-title">Current Salary Type <span class="error-red">*</span></label>
+                            <mat-radio-group aria-label="Select an option" formControlName="currentSalaryType"
+                                (change)="currentSalTypeChange($event)">
+                                <mat-radio-button value="F">Fixed</mat-radio-button>
+                                <mat-radio-button value="V">Fixed + Variable</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>
+                                Amount (Fixed)
+
+                            </mat-label>
+                            <input matInput type="text" formControlName="salaryAmount" maxlength="10" onlyNumber
+                                [readonly]="isFinalSumbit" prevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{getControl('salaryAmount')?.value | convertToWord}}
+                            </mat-hint>
+                            <mat-error *ngIf="getControl('salaryAmount')?.touched && getControl('salaryAmount')?.invalid">
+                                <div *ngIf="getControl('salaryAmount')?.errors?.min">
+                                    <span class="error-text">
+                                        <!-- Please enter minimum {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}. -->
+                                        Please enter min
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                                <div *ngIf="getControl('salaryAmount')?.errors?.max">
+                                    <span class="error-text">
+                                        <!-- You can't enter more than {{this.salRange.inrMax | customCurrency:1}} -->
+                                        You can not enter greater than
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="getControl('currentSalaryType').value == 'V'">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Variable Type</mat-label>
+                            <mat-select formControlName="variableType" (selectionChange)="selectVariableType($event)">
+                                <mat-option value="M">Monthly</mat-option>
+                                <mat-option value="Q">Quarterly</mat-option>
+                                <mat-option value="B">Biannual</mat-option>
+                                <mat-option value="A">Annual</mat-option>
+                            </mat-select>
+                            <!-- <mat-error *ngIf="variableTypeControl?.touched && variableTypeControl?.invalid">
+                                <div *ngIf="variableTypeControl?.errors?.required">
+                                    Variable is required.
+                                </div>                               
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="getControl('currentSalaryType').value == 'V'">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>
+                                {{amountLabel}}
+
+                            </mat-label>
+                            <input matInput type="text" formControlName="salaryAmountPay" maxlength="10" onlyNumber
+                                [readonly]="isFinalSumbit" prevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{getControl('salaryAmountPay')?.value | convertToWord}}
+                            </mat-hint>
+                            <mat-error *ngIf="getControl('salaryAmountPay')?.touched && getControl('salaryAmountPay')?.invalid">
+                                <div *ngIf="getControl('salaryAmountPay')?.errors?.min">
+                                    <span class="error-text">
+                                        <!-- Please enter minimum {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}. -->
+                                        Please enter min
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMin |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMin |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMin)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                                <div *ngIf="getControl('salaryAmountPay')?.errors?.max">
+                                    <span class="error-text">
+                                        <!-- You can't enter more than {{this.salRange.inrMax | customCurrency:1}} -->
+                                        You can not enter greater than
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                   
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Incentive / Perfomance Bonus / Ex-Gratia (if Any)</mat-label>
+                            <input matInput type="text" formControlName="bonus" onlyNumber [readonly]="isFinalSumbit"
+                                maxlength="10" prevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{getControl('bonus')?.value | convertToWord}}
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Monthly in Hand</mat-label>
+                            <input matInput type="text" formControlName="salaryMonthlyInhand" maxlength="10" onlyNumber
+                                [readonly]="isFinalSumbit" prevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{getControl('salaryMonthlyInhand')?.value | convertToWord}}
+                            </mat-hint>
+                            
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Salary Expectation</mat-label>
+                            <input matInput type="text" formControlName="salaryExpected" maxlength="10" onlyNumber
+                                [readonly]="isFinalSumbit" prevInitZeroSingleAllowed (blur)="TotalExp()">
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle">
+                                {{getControl('salaryExpected')?.value | convertToWord}}
+                            </mat-hint>
+                            <mat-error
+                                *ngIf="getControl('salaryExpected')?.touched && getControl('salaryExpected')?.invalid">
+                                <div *ngIf="getControl('salaryExpected')?.errors?.min">
+                                    <span class="error-text">
+                                        <!-- Please enter minimum {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}. -->
+                                        Please enter min
+                                        <ng-container [ngSwitch]="getControl('currencyType').value">
+
+                                            <ng-container *ngSwitchCase="1">
+                                                {{(this.salRange.inrMin |
+                                                customCurrency:1)}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                {{(this.salRange.usdMin |
+                                                customCurrency:2)}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="3">
+                                                {{(this.salRange.inrMin |
+                                                customCurrency:3)}}
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                {{(this.salRange.inrMin)}}
+                                            </ng-container>
+
+                                        </ng-container>
+                                    </span>
+                                </div>
+                                <div *ngIf="getControl('salaryExpected')?.errors?.max">
+                                    <span class="error-text">
+                                        <!-- You can't enter more than {{this.salRange.inrMax | customCurrency:1}} -->
+                                        You can not enter greater than
+                                    <ng-container [ngSwitch]="getControl('currencyType').value">
+                                        <ng-container *ngSwitchCase="1">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:1)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            {{(this.salRange.usdMax |
+                                            customCurrency:2)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            {{(this.salRange.inrMax |
+                                            customCurrency:3)}}
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{(this.salRange.inrMax)}}
+                                        </ng-container>
+
+                                    </ng-container>
+                                    </span>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Expected Joining Date</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="expectedJoiningDate"
+                                [min]="today">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <!-- <mat-error *ngIf="expJoinDateControl?.touched && expJoinDateControl?.invalid">
+                                <div *ngIf="expJoinDateControl?.errors?.required">
+                                    Expected Joining Date is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Notice Period (in days)</mat-label>
+                            <input matInput type="text" formControlName="noticePeriod" maxlength="2" onlyNumber
+                                [readonly]="isFinalSumbit">
+                            <!-- <mat-error *ngIf="noticePeriodControl?.touched && noticePeriodControl?.invalid">
+                                <div *ngIf="noticePeriodControl?.errors?.required">
+                                    Notice Period is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

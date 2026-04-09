@@ -1,0 +1,139 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Personal Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="can-view-wrap" *ngIf="isFinalSumbit">
+    <div class="can-list-view">
+        <h5>Title:</h5>
+        <p>{{addedPersonalInfo?.TitleName || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Candidate Name:</h5>
+        <p>{{addedPersonalInfo?.CandidateName || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Date of Birth:</h5>
+        <p>{{(addedPersonalInfo?.DateOfBirth | date:'mediumDate') || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Mobile Number:</h5>
+        <p>{{addedPersonalInfo?.MobileNumber || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Email ID:</h5>
+        <p>{{addedPersonalInfo?.EmailId || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Personal ID Document:</h5>
+        <p>{{addedPersonalInfo?.DocumentName || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>Personal ID Number:</h5>
+        <p>{{addedPersonalInfo?.DocumentNumber || '-'}}</p>
+    </div>
+    <div class="can-list-view">
+        <h5>UAN Number:</h5>
+        <p>{{addedPersonalInfo?.UANNumber || '-'}}</p>
+    </div>
+</div>
+        <!-- end -->
+        <div class="form-can-wrap" *ngIf="!isFinalSumbit">
+            <form [formGroup]="personalDetailsForm">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Title</mat-label>
+                            <mat-select formControlName="titleId" [disabled]="isFinalSumbit">
+                                <mat-option *ngFor="let data of titleList" [value]="data?.Id">{{data?.Title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Candidate Name</mat-label>
+                            <input matInput type="text" formControlName="candidateName" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit || candidatePersonalDetails.CandidateName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="dateOfBirth" [max]="maxDate" 
+                                [disabled]="isFinalSumbit || candidatePersonalDetails.DOB">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                     
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput type="text" formControlName="mobileNumber" minlength="10" maxlength="10"
+                                disableInitialSpace onlyNumber [readonly]="isFinalSumbit || candidatePersonalDetails.MobileNumber">
+                            <div *ngIf="getControl('MobileNumber')?.errors?.minlength">
+                                <span class="error">Enter 10 digit mobile number</span>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Email ID</mat-label>
+                            <input matInput formControlName="emailId" maxlength="250" [readonly]="isFinalSumbit || candidatePersonalDetails.Email"
+                                disableInitialSpace emailPattern>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                     <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Personal ID Document</mat-label>
+                            <mat-select formControlName="documentTypeId" [disabled]="isFinalSumbit">
+                                <mat-option *ngFor="let data of idTypeList" [value]="data?.Id">{{data?.DocumentName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                     <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Personal ID Number</mat-label>
+                            <input matInput type="text" formControlName="documentNumber" minlength="5" maxlength="50"
+                                disableInitialSpace onlyNumber [readonly]="isFinalSumbit || candidatePersonalDetails.documentNumber">
+                            <!-- <div *ngIf="getControl('idNumber')?.errors?.minlength">
+                                <span class="error">Enter 10 digit ID number</span>
+                            </div> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                      <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>UAN Number</mat-label>
+                            <input matInput type="text" formControlName="uanNumber" maxlength="25" minlength="2"
+                                disableInitialSpace alphaNumericForAdd [readonly]="isFinalSumbit || candidatePersonalDetails.uanNumber">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<form [formGroup]="cloneTalentIdForm" (ngSubmit)="updateTalentIdHandler(cloneTalentIdForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{TalentData?.talent_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>Requisition Type:</h4>
+                            <p>{{TalentData?.REQUIREMENT_TYPE || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Skill</h4>
+                            <p>{{TalentData?.skill_catg || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Account Name:</h4>
+                            <p>{{TalentData?.account_name || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+
+                       
+                    <div class="ats-form-col">
+
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>No Of Talent ID</mat-label>
+                            <input matInput formControlName="Frequency" max="40"  onlyNumber required>
+                            <mat-error
+                            *ngIf="getControl('Frequency')?.touched && getControl('Frequency')?.invalid">
+                            <div *ngIf="getControl('Frequency')?.errors.required">
+                                No Of Talent ID is required.
+                            </div>
+                            <div *ngIf="getControl('Frequency')?.errors.max">
+                                 Greater than 40 number not allowed.
+                            </div>
+                        </mat-error>
+                          </mat-form-field>
+                           
+                    </div>
+                    <!-- end col -->
+    
+                </div> 
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Clone
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

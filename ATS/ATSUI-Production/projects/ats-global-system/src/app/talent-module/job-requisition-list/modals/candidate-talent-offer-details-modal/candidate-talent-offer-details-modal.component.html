@@ -1,0 +1,352 @@
+<div class="ats-modal-header">
+    <h1>{{'Candidate Offer Details'}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+
+<div mat-dialog-content>
+<ng-container>
+    <div class="box-v-ats">
+        <div class="box-v-header">
+            <h4>Candidate Details</h4>
+        </div>
+        <div class="box-v-body">
+            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                <div class="view-list-bx">
+                    <h4>Candidate Name:</h4>
+                    <p>{{candData?.CandidateName || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Primary Skill:</h4>
+                    <p>{{candData?.PrimarySkill || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Sub Skills:</h4>
+                    <p>{{candData?.SubSkill || '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Total Experience:</h4>
+                    <p>
+                        {{candData?.ExpInYear + ' Year'+ ' '+candData?.ExpInMonth +' Month'}}
+                    </p>
+                </div>
+                <!-- end -->      
+                 
+                <div class="view-list-bx" >
+                    <h4> Source Type:</h4>
+                    <p>{{candData?.Source || '-'}}</p>
+                </div>
+                <!-- end -->      
+                <div class="view-list-bx" *ngIf="candData?.SourceId == 14">
+                    <h4> Source Name:</h4>
+                    <p>{{candData?.SourceName || '-'}}</p>
+                </div>
+                <!-- end --> 
+                <div class="view-list-bx" *ngIf="candData?.SourceId == 5">
+                    <h4> Partner Name:</h4>
+                    <p>{{candData?.SourceName || '-'}}</p>
+                </div>
+                <!-- end --> 
+                <div class="view-list-bx" *ngIf="candData?.SourceId == 4">
+                    <h4> Referrer Name:</h4>
+                    <p>{{candData?.ReferrerName || '-'}}</p>
+                </div>
+                <!-- end --> 
+                <div class="view-list-bx" *ngIf="candData?.SourceId == 13">
+                    <h4>External Portal Name:</h4>
+                    <p>{{candData?.SubProfileName || '-'}}</p>
+                </div>
+                <!-- end -->   
+                <div class="view-list-bx">
+                    <h4> Employment Type:</h4>
+                    <p>{{candData?.EmploymentType || '-'}}</p>
+                </div>
+                <!-- end -->                  
+                <div class="view-list-bx">
+                    <h4> Designation:</h4>
+                    <p>{{candData?.DesignatinName || '-'}}</p>
+                </div>
+                <!-- end -->                        
+                <div class="view-list-bx">
+                    <h4>Grade:</h4>
+                    <p>{{candData?.Grade || '-'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container>
+    <div class="box-v-ats">
+        <div class="box-v-header">
+            <h4>Candidate Offer Details</h4>
+        </div>
+        <div class="box-v-body">
+            <div class="view-list-dt-wrap view-list-dt-appr">
+                <!-- end -->
+                
+                <div class="view-list-bx">
+                    <h4>{{candData?.EmploymentTypeId == 17 || candData?.EmploymentTypeId == 21 ? 'Monthly Gross Salary ( PLN )' : candData?.EmploymentTypeId == 18 || candData?.EmploymentTypeId == 19 || candData?.EmploymentTypeId == 20 ? 'Hourly Net Salary ( PLN )' : 'CTC Offered'}} :</h4>
+                    <p>
+                        <ng-container>
+                            {{(((candData?.OfferedCTCLocal | currency: 'PLN':'symbol') ||
+                            '-')|amountMask:data?.OfferStatusID)}}
+                        </ng-container>
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Joining bonus:</h4>
+                    <p>
+                        {{(candData?.JoiningBonus |
+                        customCurrency:6 | amountMask:data?.OfferStatusID) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->                 
+                <div class="view-list-bx">
+                    <h4>Retention bonus:</h4>
+                    <p>
+                        {{(candData?.RetentionBonus |
+                        customCurrency:6 | amountMask:data?.OfferStatusID) || '-'}}
+
+                    </p>
+                </div>
+                 
+                <div class="view-list-bx">
+                    <h4>Relocation Expense:</h4>
+
+                    <p>
+                        {{(candData?.RelocationExpense |
+                        customCurrency: 6 | amountMask:data?.OfferStatusID) || '-'}}
+
+                    </p>
+                </div>
+
+                <!-- end  -->
+                 
+                <div class="view-list-bx">
+                    <h4>Travel Expense:</h4>
+                    <p>
+                        {{(candData?.TravelExpense |
+                        customCurrency:6 | amountMask:data?.OfferStatusID) || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Re-Hire:</h4>
+                    <p>
+                        {{candData?.IsRehire || '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx">
+                    <h4>Notice period ( In Days ):</h4>
+                    <p>
+                        {{(candData?.NoticePeriodInDays ? candData?.NoticePeriodInDays+' Days' : '-') || '-'}}
+                    </p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Offer Date:</h4>
+                    <p>{{candData?.OfferedDate | date:'dd-MMM-YYYY'}}</p>
+                </div>
+                <!-- end -->                
+                 
+                <div class="view-list-bx">
+                    <h4>Tentative Joining Date:</h4>
+                    <p>{{candData?.DateOfJoining | date:'dd-MMM-YYYY'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Reporting Manager:</h4>
+                    <p>{{candData?.ReportingManager|| '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx">
+                    <h4>Date of Decline:</h4>
+                    <p>{{candData?.DateOfDecline | date:'dd-MMM-YYYY'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="candData?.DateOfDecline">
+                    <h4>Decline Category:</h4>
+                    <p>{{candData?.DeclineCategory}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" *ngIf="candData?.DateOfDecline && candData?.DeclineCategoryId == 7">
+                    <h4>Decline Remarks:</h4>
+                    <p>{{candData?.DeclineRemarks}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Comments:</h4>
+                    <p>{{candData?.Comment|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Billing Currency:</h4>
+                    <p>{{candData?.BillingCurrencyName|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Billing Rate/Hr in billing currency:</h4>
+                    <p>{{(candData?.billingRateHrCurrency  |
+                        customCurrency:6)|| '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx">
+                    <h4>Billable Hours/Day:</h4>
+                    <p>{{(candData?.BillableHoursDay)|| '-'}}</p>
+                </div>
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>Project Buffer % ( If Applicable ):</h4>
+                    <!-- <p>{{(candData?.Revenue | customCurrency:1:0:1)|| '-'}}</p> -->
+                    <p>{{candData?.ProjectBufferInPercent ? candData?.ProjectBufferInPercent+' %': '-'}}</p>
+                </div>
+                <!-- end -->
+                <div class="view-list-bx" >
+                    <h4>Local Currency:</h4>
+                    <!-- <p>{{(candData?.Revenue | customCurrency:1:0:1)|| '-'}}</p> -->
+                    <p>{{candData?.LocalCurrency || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Annual CTC in Local Currency:</h4>
+                    <!-- <p>{{(candData?.Revenue | customCurrency:1:0:1)|| '-'}}</p> -->
+                    <p>{{(candData?.AnnualCTC |
+                        customCurrency:6) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Billing Rate/Hr in USD:</h4>
+                    <p>{{(candData?.BillingRateHrInUSD |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Annual Billable Hours:</h4>
+                    <p>{{candData?.AnnualBillableHours ? candData?.AnnualBillableHours+' Hrs.' : '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Annual Revenue In USD:</h4>
+                    <p>{{(candData?.AnnualRevenueUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Annual Salary Cost In USD:</h4>
+                    <p>{{(candData?.AnnualSalaryCostUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Joining Bonus In USD:</h4>
+                    <p>{{(candData?.JoiningBonusUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 <div class="view-list-bx" >
+                    <h4>Retention Bonus In USD:</h4>
+                    <p>{{(candData?.RetentionBonusUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                  <div class="view-list-bx" >
+                    <h4>Relocation Expense In USD:</h4>
+                    <p>{{(candData?.RelocationExpenseUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 <div class="view-list-bx" >
+                    <h4>Travel Expense In USD:</h4>
+                    <p>{{(candData?.TravelExpenseUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                 
+                <div class="view-list-bx" >
+                    <h4>Benefits In USD:</h4>
+                    <p>{{(candData?.BenefitsUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <div class="view-list-bx" >
+                    <h4>Project Buffer In USD:</h4>
+                    <p>{{(candData?.ProjectBufferUsd |
+                        customCurrency:2:2:2)|| '-'}}</p>
+                </div>
+                <!-- end -->
+                 
+                <!-- <div class="view-list-bx" >
+                    <h4>Non-Reimbursable Travel Cost In USD:</h4>
+                    <p>{{(candData?.NonReimbursableTravelCostUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div> -->
+                <!-- end -->
+                 
+                <!-- <div class="view-list-bx" >
+                    <h4>Project Specific Cost In USD:</h4>
+                    <p>{{(candData?.ProjectSpecificCostUsd |
+                        customCurrency:2:2:2) || '-'}}</p>
+                </div> -->
+                <!-- end -->
+
+                <div class="view-list-bx">
+                    <h4>DGM:</h4>
+                    <p>
+                        {{((candData?.DgmCostUsd | customCurrency:2:0:2)|amountMask:data?.OfferStatusID) || '-'}}
+                    </p>
+                </div>
+                <!-- <div class="view-list-bx" *ngIf="data?.DivisionID == 2">
+                    <h4>Billing Amount (In USD:)</h4>
+                    <p>
+                        {{(candData?.BillingAmountInUSD | customCurrency:2:0) || '-'}}
+                    </p>
+                </div>
+                <div class="view-list-bx" *ngIf="data?.DivisionID == 2">
+                    <h4>Client Approved Billing (In USD:)</h4>
+                    <p>
+                        {{(candData?.ClientApprovedBilling | customCurrency:2:0) || '-'}}
+                    </p>
+                </div> -->
+                <div class="view-list-bx">
+                    <h4>DGM (%):</h4>
+
+                    <p>
+                        <!-- <ng-container [ngSwitch]="data?.DivisionID">
+                            <ng-container *ngSwitchCase="1">
+                                {{candData?.dgmPercentUsd ? candData?.dgmPercentUsd+' %': '-'}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="2">
+                                {{candData?.dgmPercentUsd ? candData?.dgmPercentUsd+' %': '-'}}
+                            </ng-container>
+                            <ng-container *ngSwitchCase="7">
+                                {{candData?.DGMPer ? candData?.DGMPer+' %': '-'}}
+                            </ng-container>
+
+                        </ng-container> -->
+                        {{((candData?.DgmPercentUsd == null ? '': candData?.DgmPercentUsd+'
+                        %')|amountMask:data?.OfferStatusID)}}
+                    </p>
+                </div>              
+            </div>
+              <ng-container >
+                <!-- <p class="tx-h" *ngIf="hideVarianceSal && candData?.isNewGrid == 1"><strong>Note: </strong> Variance is calculated Inclusive <strong>Joining Bonus</strong></p>
+                 <p class="tx-h" *ngIf="hideVarianceSal && candData?.isNewGrid == 2"><strong>Note: </strong> Variance is calculated inclusive of all one-time components such as <strong>(Joining Bonus, Notice Period Buyout, Travel Expense, Relocation Expense, Retention Bonus)</strong></p> -->
+                  <p class="tx-h" *ngIf="candData?.isNewGrid == 1"><strong>Note: </strong> Variance is calculated Inclusive <strong>Joining Bonus</strong></p>
+                 <p class="tx-h" *ngIf=" candData?.isNewGrid == 2"><strong>Note: </strong> Variance is calculated inclusive of one-time payout such as <strong>( Joining Bonus, Travel Expense, Relocation Expense, Retention Bonus )</strong></p>
+            </ng-container>
+        </div>
+    </div>
+    <!-- end -->
+</ng-container>
+</div>

@@ -1,0 +1,97 @@
+<div class="main-login-wrapper ats-login-l-wrap ats-login-Ml-wraps">
+  <div class="login-left-wrapper" id="leftHeight" [ngStyle]="{ height: myInnerHeight + 'px' }">
+    <div class="bgv-dv"></div>
+  </div>
+  <!-- end left login -->
+  <div class="login-right-wrapper">
+    <div class="login-form-wrapper">
+      <div class="login-body-wrap animated zoomIn">
+        <div class="progress-bars" *ngIf="isLoadingHorz">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <!-- end progress bar -->
+        <div class="login-header">
+          <div class="login-infogain-logo">
+            <img src="{{loginLogo}}" alt="">
+          </div>
+          <!-- end logo -->
+          <div class="login-title">
+            <!-- <h1>
+              Global ATS
+              <span>Applicant Tracking System</span>
+            </h1> -->
+            <h1>
+              {{atsLabel}}
+              <!-- <span>Applicant Tracking System</span> -->
+            </h1>
+            <!-- <button (click)="loginOffice()">Login with Office 365</button> -->
+          </div>
+          <!-- end login title -->
+        </div>
+        <!-- end login header -->
+        <div class="login-from">
+          <div class="login-form-row">
+            <mat-form-field [appearance]="appearance">
+              <mat-label>Username</mat-label>
+              <input matInput placeholder="Username" type="text" id="username" name="username" [(ngModel)]="username">
+              <mat-icon matSuffix class="login-icon">
+                <i class="fa  fa-user"></i>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+          <!-- login row -->
+          <div class="login-form-row ">
+            <mat-form-field [appearance]="appearance">
+              <mat-label>Password</mat-label>
+              <input matInput placeholder="password" [type]="hideShowPassword ? 'password' : 'text'" id="password"
+                [(ngModel)]="password" name="password">
+              <mat-icon matSuffix class="login-icon" *ngIf="isOpen" (click)="eyeClickOpen()">
+                <i class="fa fa-eye"></i>
+              </mat-icon>
+
+
+              <mat-icon matSuffix class="login-icon" (click)="eyeSlashClick()" *ngIf="isClose">
+                <i class="fa fa-eye-slash"></i>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+          <!-- login row -->
+          <div class="login-form-row login-error">
+            <div class="alert alert-danger alert-dismissible login-alert-error" *ngIf="isLoginErrorShow">
+              <button type="button" class="close" (click)="hideErrorButton()">&times;</button>
+              <label [innerHTML]="error"></label>
+            </div>
+
+          </div>
+
+
+          <div class="login-form-row btn-align login-Allignment">
+            <div class="btn-login-strp">
+              <button class="btn-infoconnect btn-login" id="btnLogin" (click)="infoConnectLogin(username,password)">
+                Login
+                <i class="fas fa-sign-in-alt"></i></button>
+              <button class="btn-infoconnect btn-login btn-ms" (click)="forgotPassword()" type="button">Forgot
+                Password?</button>
+            </div>
+            <div class="login-loading" *ngIf="isLoading">
+              <mat-spinner></mat-spinner>
+            </div>
+          </div>
+          <!-- login row -->
+        </div>
+        <!-- end login form -->
+
+      </div>
+      <!-- end login body wrap -->
+    </div>
+    <div class="login-page-footer">
+      <div class="copyrights">
+        <label> &copy; {{year}} Infogain Corporation All Right Reserved</label>
+      </div>
+    </div>
+    <!-- end login form wrapper -->
+  </div>
+  <!-- end right login -->
+  <div class="login-bgs-rr"></div>
+</div>
+<!-- end main login wrapper -->

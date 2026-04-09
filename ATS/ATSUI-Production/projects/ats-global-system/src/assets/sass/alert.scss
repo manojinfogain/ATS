@@ -1,0 +1,96 @@
+.ats-snackbar{
+    &.mat-snack-bar-container {
+        color: #043D94;
+        background: #ffffff;
+        min-height: 32px;
+    }
+    .ats-mat-snack{
+        position: relative;
+        padding-left: 20px;
+        padding-right: 5px;
+        span.icons{
+            position: absolute;
+            left: -6px;
+            font-size: 18px; 
+            top: 50%;
+           @include transforms(translate(0,-50%));
+            &.suc{
+                color:green
+            }
+            &.error{
+                color:red
+            }
+        }
+       label{
+        color: #043D94;
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+        padding-right:2px;
+       }
+       .hideSnack{
+            color: #22ccff;
+            background: none;
+            outline: none;
+            border: none;
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            font-size: 14px;
+            @include transforms(translate(0,-50%));
+       }
+    }
+}
+
+
+
+.data-loader-ats{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    background: #000;
+    background: rgba(0, 0, 0, 10/100);
+    width: 100%;
+    height: 100%;
+    z-index:99999999;
+  }
+  .data-loader-ats > .data-loader-inner {
+    width: 225px;
+    position: absolute;
+    left:50%;
+    top: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    text-align: center;
+    color:#262f3a;
+    @include transforms(translate(-50%,-50%));
+    background: #ffffff;
+    padding: 10px 5px 12px 5px;
+    border-radius: 3px;
+    box-shadow: 0px 1px 7px #00000057
+  }
+  .data-loader-ats > .data-loader-inner .mat-progress-spinner{
+     display:inline-block;
+     text-align: center;
+     width:70px !important;
+     height:70px !important;
+  }
+  .data-loader-ats > .data-loader-inner .mat-progress-spinner svg{
+    width:100% !important;
+    height:100% !important;
+  }
+  .data-loader-ats > .data-loader-inner .mat-progress-spinner circle, 
+  .data-loader-ats > .data-loader-inner .mat-spinner circle {
+    stroke: #dc2525;
+  }
+  .data-loader-ats > .data-loader-inner .mat-progress-bar-buffer{
+  }
+  .data-loader-ats > .data-loader-inner .mat-progress-bar-fill::after {
+    background:#ffbc2e
+    // background-image: linear-gradient(to right, #008001, #0ddcc5, #0ee0cd, #0ee0cc, #0350c5, #044fc4, #f31e07);
+}
+  .data-loader-ats label{
+    font-size: 0.8rem;
+    display: block;
+    padding: 6px 10px;
+  }

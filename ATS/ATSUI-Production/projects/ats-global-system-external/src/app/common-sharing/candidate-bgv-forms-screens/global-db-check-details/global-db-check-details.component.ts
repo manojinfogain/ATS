@@ -1,0 +1,275 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { forkJoin } from 'rxjs';
+import { CandidateService } from 'projects/ats-global-system-external/src/app/candidate-module/candidate.service';
+import { CANDIDATE_COMMON } from 'projects/ats-global-system-external/src/app/core/constant/candidate-common.const';
+import { ExternalUserGlobalApiService } from 'projects/ats-global-system-external/src/app/core/services/external-user-global-api.service';
+// import { UpdateAddressCandidateModalComponent } from './update-address-candidate-modal/update-address-candidate-modal.component';
+import { GlobalCommonMethodService } from '../../../core/common/global-common-method.service';
+import { FILE_UPLOAD } from '../../../core/constant/common.const';
+import { ShareService } from '../../../core/services/share.service';
+import { HttpClient } from '@angular/common/http';
+import { GlobalMethod } from '../../../core/common/global-method';
+// import { COMMON_CONST } from '../../../core/constant/common.const';
+
+@Component({
+  selector: 'app-global-db-check-details',
+  templateUrl: './global-db-check-details.component.html',
+  styleUrls: ['./global-db-check-details.component.scss']
+})
+export class GlobalDbCheckDetailsComponent implements OnInit {
+  @Input() appearance: string = 'outline';
+  @Input() formClass: string = 'form-outline-ats';
+  public isRequired: boolean = true;
+  @Input() public globalDBCheckDetailsForm: UntypedFormGroup = new UntypedFormGroup({});
+  @Input() public candidatePersonalDetails: any = {};
+  public today = new Date();
+  public countryList: any = [];
+  public maxDate = new Date(this.today.getFullYear() - 10, this.today.getMonth(), this.today.getDate());
+  constructor(
+    private _fb: UntypedFormBuilder,
+    public dialog: MatDialog,
+    private _candidateServe: CandidateService,
+    private _exGlobal: ExternalUserGlobalApiService,
+    private _globalMethod: GlobalCommonMethodService,
+    private _share: ShareService,
+    private _http: HttpClient
+  ) { }
+  public isFinalSumbit: boolean = false;
+  ngOnInit(): void {
+    this.callMasterAPI();
+    this.InitGlobalDBCheckDetailsForm();
+    setTimeout(() => {
+      Object.keys(this.globalDBCheckDetailsForm.controls).forEach(key => {
+        const control = this.globalDBCheckDetailsForm.get(key);
+        if (control?.validator) {
+          const validator = control.validator({} as UntypedFormControl);
+          if (validator && validator['required']) {
+            control.markAsTouched();
+          }
+        }
+      });
+    }, 0);
+    this.getPersonalDetails();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (this._globalMethod.isBGVFinalSubmit()) {
+        this.isFinalSumbit = true;
+      }
+    }, 500);
+  }
+
+  /**
+   * get PAersonal
+   */
+  public addedGlobalDBCheckDet: any = [];
+  public idTypeName: string = '';
+  getPersonalDetails(type: string = 'N') {
+    this._candidateServe.GetBGVGlobalDBCheck().subscribe(
+      res => {
+        this.idTypeName = this.idTypeList.find((elm: any) => elm.Id == this.addedGlobalDBCheckDet?.DocumentTypeId)?.DocumentName;
+        this.addedGlobalDBCheckDet = res['data'][0];
+        if (this.addedGlobalDBCheckDet?.Id) {
+          this.setAddedValueToForm(this.addedGlobalDBCheckDet);
+        }
+        else {
+          this.setValueToForm(this.candidatePersonalDetails);
+        }
+
+      }
+    )
+  }
+
+  /***
+   *  call master API
+   */
+  public titleList: any = [];
+  public idTypeList: any = [];
+  public FilterCtrlCountry: UntypedFormControl = new UntypedFormControl();
+  public FilterCtrlCity: UntypedFormControl = new UntypedFormControl();
+  public searchInputLocation: string
+  public searchInputCity: string
+  // public genderList:any = [];
+  callMasterAPI() {
+    forkJoin([
+      // this._exGlobal.GetCourtesyTitle(),
+      this._exGlobal.GetDocumentType('I'),
+      //  this._exGlobal.getCountryList()
+    ]).subscribe(
+      res => {
+        // this.titleList = res[0]['data'];
+        this.idTypeList = res[0]['data']?.filter((elm: any) => elm.Id == 14);
+        //  this.countryList = res[2]['data'];
+      }
+    )
+  }
+
+
+  /***
+   * set value form 
+   */
+  setValueToForm(data: any) {
+
+
+    this.globalDBCheckDetailsForm.patchValue({
+      "CandidateName": data?.CandidateName ? data?.CandidateName : null,
+      "FatherName": data?.FatherName ? data?.FatherName : null,
+      "DateOfBirth": data?.DOB ? GlobalMethod.formatDate(data?.DOB) : null,
+      "DocumentTypeId": 14, // Defaulting to '14' as per the original code
+      "DocumentPath": data?.DocumentPath ? data?.DocumentPath : null,
+      "DocumentName": data?.DocumentName ? data?.DocumentName : null,
+      "GenderName": data?.GenderName ? data?.GenderName : null,
+    });
+     setTimeout(() => {
+      
+         this.onIdTypeChange({value: 14});
+     }, 500);
+  }
+  /***
+   * set value form 
+   */
+  setAddedValueToForm(data: any) {
+    this.globalDBCheckDetailsForm.patchValue({
+      "Id": data?.Id ? data?.Id : null,
+      "CandidateName": data?.CandidateName ? data?.CandidateName : null,
+      "FatherName": data?.FatherName ? data?.FatherName : null,
+      "GenderName": data?.GenderName ? data?.GenderName : null,
+      "DateOfBirth": data?.DateOfBirth ? GlobalMethod.formatDate(data?.DateOfBirth) : null,
+      "DocumentTypeId": data?.DocumentTypeId ? data?.DocumentTypeId : null,
+      "DocumentPath": data?.DocumentPath ? data?.DocumentPath : null,
+      "DocumentName": data?.DocumentName ? data?.DocumentName : null,
+    });
+    setTimeout(() => {
+      
+       if(data?.DocumentTypeId){
+         this.onIdTypeChange({value: data?.DocumentTypeId});
+       }
+     }, 500);
+  }
+  /***
+   * Personal Form
+   */
+
+  InitGlobalDBCheckDetailsForm() {
+    this.globalDBCheckDetailsForm = this._fb.group({
+      Id: [null],
+      CandidateName: [null, Validators.required],
+      FatherName: [null, Validators.required],
+      GenderName: [null, Validators.required],
+      DateOfBirth: [null, Validators.required],
+      DocumentTypeId: [null, Validators.required],
+      DocumentPath: [null],
+      DocumentName: [null],
+      UploadDocument: [null],
+      UploadDocument1: [null],
+    })
+  }
+
+  getControl(name: string) {
+    return this.globalDBCheckDetailsForm.get(name);
+  }
+  public docDetails: any = {};
+  public isDocumentAvailable: boolean = false;
+  public isFileReq: boolean = true;
+
+  onIdTypeChange(event: any) {
+      this.getPreviewName(event?.value);
+    this._candidateServe.GetBGVFilePaths(event?.value).subscribe(
+      res => {
+        this.docDetails = res['data'];
+        if (this.docDetails[0]?.DocumentPath) {
+          this.isDocumentAvailable = true;
+          this.isFileReq = false;
+          this.getControl('DocumentPath').setValidators([Validators.required]);
+          this.getControl('DocumentName').setValidators([Validators.required]);
+          this.getControl('UploadDocument1').clearValidators();
+          this.globalDBCheckDetailsForm.patchValue({
+            DocumentPath: this.docDetails[0]?.DocumentPath,
+            DocumentName: this.docDetails[0]?.documentName
+          });
+        } else {
+          this.isDocumentAvailable = false;
+          this.isFileReq = true;
+          this.getControl('DocumentPath').clearValidators();
+          this.getControl('DocumentName').clearValidators();
+          this.getControl('UploadDocument1').setValidators([Validators.required]);
+          this.globalDBCheckDetailsForm.patchValue({
+            DocumentPath: null,
+            DocumentName: null
+          });
+        }
+        this.getControl('DocumentPath').updateValueAndValidity();
+        this.getControl('DocumentName').updateValueAndValidity();
+        this.getControl('UploadDocument1').updateValueAndValidity();
+      }
+    )
+  }
+
+  public PreviewName: string = '';
+    //get preview name
+    getPreviewName(val: any) {
+      if(val == 14){
+        this.PreviewName = 'Aadhar Card';
+      }else if(val == 17){
+        this.PreviewName = 'Voter Id';
+      } else if(val == 29){
+        this.PreviewName = 'Passport';
+      }else{
+        this.PreviewName = 'Document';
+      }
+
+    }
+
+  previewDocument(data: any) {
+    let elm = {};
+    elm['documentName'] = data.documentTypeName?.replace(/\.(dat|enc)$/i, '') || data.documentTypeName;
+    elm['filePath'] = data?.DocumentPath;
+    elm['fileName'] = data?.documentName?.replace(/\.(dat|enc)$/i, '') || data?.documentName;
+    elm['type'] = 'path';
+    elm['cid'] = data?.cid;
+    debugger
+    this._globalMethod.downloadPrevDocuments(elm, this._http, this.dialog, this._share);
+  }
+  public fileID: any;
+  fileUpload(event) {
+    this.fileID = '';
+    let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.pdf)$/i;
+    let file = event.target.files[0];
+    let fileName = file?.name;
+    this.getControl('UploadDocument1').markAsTouched();
+    if (!allowedExtensions.exec(fileName)) {
+      this._share.showAlertErrorMessage.next('Please upload file type jpg/jpeg/png/pdf only.');
+      event.target.value = "";
+      this.fileID = '';
+      return false;
+    }
+    else if (file.size > FILE_UPLOAD.FILE_SIZE) {
+      this._share.showAlertErrorMessage.next('file  cannot be greater than 15MB.');
+      event.target.value = "";
+      this.fileID = '';
+      return false;
+    }
+    else {
+      this.fileID = file;
+      //
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let base64File = reader.result.toString().replace(/^data:.+;base64,/, '');
+        let data = {
+          fileID: base64File,
+          FileNameID: file.name,
+        }
+        console.log(data);
+        this.getControl('UploadDocument').setValue(data?.fileID);
+        this.getControl('UploadDocument').updateValueAndValidity();
+        this.getControl('DocumentName').setValue(file.name);
+        this.getControl('DocumentName').updateValueAndValidity();
+      }
+    }
+  }
+
+}

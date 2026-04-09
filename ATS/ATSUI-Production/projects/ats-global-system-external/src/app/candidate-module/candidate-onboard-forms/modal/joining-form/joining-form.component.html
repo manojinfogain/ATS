@@ -1,0 +1,135 @@
+<form [formGroup]="joiningReportForm" (ngSubmit)="submitJoiningReportForm(joiningReportForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper">
+                <div class="form-logo">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+                </div>
+              
+                <p>
+                    With reference to the Offer letter No
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{data?.candidatePersonalDetails?.OfferNumberFull ? data?.candidatePersonalDetails?.OfferNumberFull : ''}}
+                            </span>
+                        </span>
+                    </span>
+                    <br>
+            
+                    <!-- <input type="text" class="ctrl-onb width-260-text-center" matTooltip="offer No." formControlName="offerNumber" required readonly> <br> -->
+                    dt
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{data?.candidatePersonalDetails?.OfferedDate ? (data?.candidatePersonalDetails?.OfferedDate | date:'dd-MM-YYYY') : ''}}
+                            </span>
+                        </span>
+                    </span>
+                    I am hereby joining
+                    <ng-container [ngSwitch]="data?.candidatePersonalDetails?.divisionid">
+                        <ng-container *ngSwitchCase="1">
+                            <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 1 || data?.candidatePersonalDetails?.JoiningLocationID == 2 || data?.candidatePersonalDetails?.JoiningLocationID == 4 || data?.candidatePersonalDetails?.JoiningLocationID == 5">                            
+                                {{data?.candidatePersonalDetails?.JoiningLocationID == 2 ? 'Infogain Solutions Pvt. Ltd.' : 'Infogain India Pvt. Ltd.'}}
+                            </ng-container>
+                            <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 16">                            
+                                {{'Infogain Software Solutions Private Limited'}}
+                            </ng-container>
+                            <!-- {{data?.candidatePersonalDetails?.JoiningLocationID == 2 ? 'Infogain Solutions Pvt. Ltd.' : 'Infogain India Pvt. Ltd.'}} -->
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                            Nggawe Nirman Technologies (An Infogain Company).
+                        </ng-container>
+                        <ng-container *ngSwitchCase="7">
+                            Infogain Software Solutions Private Limited
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            Infogain India Pvt. Ltd.
+                        </ng-container>
+                    </ng-container> 
+                    At
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{data?.candidatePersonalDetails?.JoiningLocation ? data?.candidatePersonalDetails?.JoiningLocation : ''}}
+                            </span>
+                        </span>
+                    </span>
+                    on
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{data?.candidatePersonalDetails?.DateOfJoining ? (data?.candidatePersonalDetails?.DateOfJoining | date:'dd-MM-YYYY') : ''}}
+                            </span>
+                        </span>
+                    </span>
+                    <!-- <input type="text" class="ctrl-onb text-align-center" formControlName="joiningDate" matTooltip="Date Format : 'YYYY-MM-DD'"> -->
+                    forenoon /Afternoon as
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{data?.candidatePersonalDetails?.Designation ? data?.candidatePersonalDetails?.Designation : ''}}
+                            </span>
+                        </span>
+                    </span>.
+                    <!-- <input type="text" class="ctrl-onb text-align-center" formControlName="designation" required readonly> -->
+                </p>
+
+                <div class="table-o-at">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <td class="title-tb">Name</td>
+                                <td>: {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+' '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Father’s Name</td>
+                                <td>: {{data?.candidatePersonalDetails?.FatherName ? data?.candidatePersonalDetails?.FatherName : '-'}}</td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                                <td class="title-tb">Employee Code</td>
+                                <td>: {{(data?.candidatePersonalDetails?.EmployeeCode ? data?.candidatePersonalDetails?.EmployeeCode : '-')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Date </td>
+                                <td>: {{todayDate | date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Signature </td>
+                                <td>:
+                                    <!-- pending with candidate || referred back by recruiter -->
+                                    <button *ngIf="!signImage && data?.isEditable" type="button" class="btn btn-simple-ats" (click)="signt(data)">
+                                        Insert Sign
+                                    </button>
+                                    <div class="sign-wrap" *ngIf="signImage" >
+                                        <img [src]="signImage" />
+                                        <mat-icon *ngIf="data?.isEditable" matSuffix class="margin-left-300" (click)="signt(data)">edit_note</mat-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">H.R.</td>
+                                <td>: </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

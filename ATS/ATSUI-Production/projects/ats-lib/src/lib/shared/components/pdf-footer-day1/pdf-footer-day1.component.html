@@ -1,0 +1,196 @@
+<ng-container *ngIf="formId == 13 ||
+                     formId == 14 ||
+                     formId == 16 ||
+                     formId == 17 ||
+
+                     formId == 18 ||
+
+                     formId == 23 ||
+                     formId == 20 ||
+                     formId == 21 ||
+                     formId == 22 ||
+                     formId == 30 ||
+                     formId == 31 ||
+                     formId == 48
+                     ">
+    <div class="accept-policy-footer">
+
+
+        <div class="signature-wrapper signature-wrapper-xs" *ngIf="isVisisbleSign">
+            <div *ngIf="!signimagesrc" class="add-sign-btn">
+                <button type="button" class="btn  btn-sign btn-infocon" (click)="signt()">
+                    Insert Sign
+                </button>
+            </div>
+            <!--  -->
+            <div *ngIf="signimagesrc" class="show-signature">
+                <div class="sign-wrap" *ngIf="signimagesrc">
+                    <img [src]="signimagesrc"/>
+                    <mat-icon *ngIf="signimagesrc && isSignEditable" matSuffix class="mt-sgn"
+                        (click)="signUpdate(data)">edit_note</mat-icon>
+                </div>
+            </div>
+        </div>
+
+        <div class="accept-policy-footer-inner">
+            <div class="acc-log-text">
+                <p [innerHTML]="leftText"></p>
+            </div>
+            <div class="acc-log-text" *ngIf="isMiddleTextHide">
+                <p [innerHTML]="middleText"></p>
+            </div>
+            <div class="acc-log-text" *ngIf="isSignHide">
+                <p>Employee signature</p>
+            </div>
+            <div class="acc-log-text">
+                <p>Page {{page}} of {{pageTotal}}</p>
+            </div>
+        </div>
+
+    </div>
+</ng-container>
+
+<ng-container *ngIf="formId == 19">
+    <div class="signature-wrapper signature-wrapper-xs" *ngIf="isVisisbleSign">
+        <div *ngIf="!signimagesrc" class="add-sign-btn">
+            <button type="button" class="btn  btn-sign btn-infocon" (click)="signt()">
+                Insert Sign
+            </button>
+        </div>
+        <!--  -->
+        <div *ngIf="signimagesrc" class="show-signature">
+            <div class="sign-wrap" *ngIf="signimagesrc">
+                <img [src]="signimagesrc" />
+                <mat-icon *ngIf="signimagesrc && isSignEditable" matSuffix class="mt-sgn"
+                    (click)="signUpdate(data)">edit_note</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="accept-policy-footer">
+        <div class="accept-policy-footer-inner">
+            <div class="acc-log-text mt-mdt" *ngIf="isMiddleTextHide" >
+                <p [innerHTML]="middleText"></p>
+                <p>ATTACHMENT B PAGE {{page}}</p>
+            </div>
+        </div>
+
+    </div>
+</ng-container>
+
+<ng-container *ngIf="formId == 24 || formId == 25">
+    <div class="signature-wrapper signature-wrapper-xs" *ngIf="isVisisbleSign">
+        <div *ngIf="!signimagesrc" class="add-sign-btn">
+            <button type="button" class="btn  btn-sign btn-infocon" (click)="signt()">
+                Insert Sign
+            </button>
+        </div>
+        <!--  -->
+        <div *ngIf="signimagesrc" class="show-signature">
+            <div class="sign-wrap" *ngIf="signimagesrc">
+                <img [src]="signimagesrc" />
+                <mat-icon *ngIf="signimagesrc && isSignEditable" matSuffix class="mt-sgn"
+                    (click)="signUpdate(data)">edit_note</mat-icon>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="formId == 35">
+
+    <div class="day1-doc-sec-inner ng-div-in">
+        <div class="form-card-wrapper day1-form-inc">
+        <div class="table-o-at">
+
+            <table class="table ">
+                <tbody>
+                    <tr>
+                        <td class="title-tb td-sgn">SIGNATURE </td>
+                        <td >:
+                            <!-- <button *ngIf="!this.CandidateSignatureModel?.page1 && Day1FormData?.isEditable"
+                                type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                Insert Sign
+                            </button>
+                            <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page1">
+                                <img [src]="this.CandidateSignatureModel?.page1" class="sign-img-b" />
+
+                            </div> -->
+
+                            <div class="signature-wrapper2 signature-wrapper-xs" *ngIf="isVisisbleSign">
+                                <div *ngIf="!signimagesrc" class="add-sign-btn sgn-img">
+                                    <button type="button" class="btn  btn-sign btn-infocon" (click)="signt()">
+                                        Insert Sign
+                                    </button>
+                                </div>
+                                <div *ngIf="signimagesrc" class="show-signature">
+                                    <div class="sign-wrap" *ngIf="signimagesrc">
+                                        <img [src]="signimagesrc" />
+                                        <mat-icon *ngIf="signimagesrc && isSignEditable" matSuffix class="mt-sgn"
+                                            (click)="signUpdate(data)">edit_note</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title-tb td-sgn">DATE</td>
+                        <td >: {{todayDate ? (todayDate | date:'dd-MMM-YYYY') : ''}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+
+        <!-- <div *ngIf="!signimagesrc" class="add-sign-btn">
+            <button type="button" class="btn  btn-sign btn-infocon" (click)="signt()">
+                Insert Sign
+            </button>
+        </div>
+        <div *ngIf="signimagesrc" class="show-signature">
+            <div class="sign-wrap" *ngIf="signimagesrc">
+                <img [src]="signimagesrc" />
+                <mat-icon *ngIf="signimagesrc && isSignEditable" matSuffix 
+                    (click)="signUpdate(data)">edit_note</mat-icon>
+            </div>
+        </div> -->
+    <!-- </div> -->
+</ng-container>
+
+<ng-container *ngIf="locationId == 1 || locationId == 2 || locationId == 16 || locationId == 4 || locationId == 5" >
+
+  <div class="div-sgn-cont">
+<table>
+  <tr class="div-sgn-cont-tr">
+    <td>US</td>
+    <td>UK</td>
+    <td>SINGAPORE</td>
+    <td>UAE</td>
+    <td>INDIA</td>
+    <td>POLAND</td>
+    <td>URUGUAY</td>
+    <td>CANADA</td>
+  </tr>
+</table>
+ </div>
+ <br>
+ <div  [ngSwitch]="locationId">
+
+  <div *ngSwitchCase="16" class="div-ro" >
+    <p><b>Registered Office:</b> DLF Cyber City SEZ, Building#14, 4th Floor, Tower B, DLF <br>
+      Cyber City, Phase-3, Gurgaon 122002, Haryana, India</p>
+    <p><b>Corporate Identification Number (CIN):</b> U72300HR2009PTC040852</p>
+  </div>
+  <!-- <div *ngSwitchCase="16"  >
+    <p><b>Registered Office:</b> DLF Cyber City SEZ, Building#14, 4th Floor, Tower B, DLF <br>
+      Cyber City, Phase-3, Gurgaon 122002, Haryana, India</p>
+    <p><b>Corporate Identification Number (CIN):</b> U74899UP1991PTC182402</p>
+  </div> -->
+
+  <div *ngSwitchDefault class="ng-swt" >
+    <p><b>Registered Office:</b> A-16, Sector 60, Noida, UP 201301 IN</p>
+    <p><b>Corporate Identification Number (CIN):</b> U74899UP1991PTC182402</p>
+  </div>
+
+ </div>
+
+</ng-container>

@@ -1,0 +1,388 @@
+<div class="day1-doc-main-wrapper">
+    <div class="day1-doc-main-wrapper">
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <!-- <h3 >CONFIDENTIALITY AND
+                            NON-DISCLOSURE (NDA) AGREEMENT</h3> -->
+                        <h3 class="h3-One">EXHIBIT D</h3>
+                        <h3 class="h3-Two">ATTACHMENT B</h3>
+                        <h3 class="h3-Three">PERSONNEL CONFIDENTIALITY AND ASSIGNMENT
+                            AGREEMENT </h3>
+                        <br>
+                        <p>
+                            I, <u>{{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+'
+                                '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+'
+                                '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}</u>
+                            have been assigned by 
+                            <!-- ___________________________ -->
+                            <u>
+                                <ng-container [ngSwitch]="candidatePersonalDetails?.divisionid">
+                                    <ng-container *ngSwitchCase="1">
+                                        Infogain India Pvt. Ltd.  
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="2">
+                                        NGGAWE NIRMAN TECHNOLOGIES (An Infogain Company) 
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        Infogain India Pvt. Ltd. 
+                                    </ng-container>
+                                </ng-container>
+                            </u>
+                            ("Supplier"), to perform services (“Services”) for NetApp, Inc., NetApp Holding and
+                            Manufacturing, B.V., or
+                            one of NetApp's other divisions, subsidiaries or affiliates (collectively, “NetApp”)
+                            pursuant to an agreement
+                            between NetApp and Supplier. As a condition to my being permitted to perform the Services
+                            for NetApp,
+                            I hereby agree and represent and warrant as follows:
+                        </p>
+                        <br>
+
+                        <ol class="ul-common">
+                            <li class="ul-common-tag">Confidentiality. I will keep confidential and not disclose or
+                                make any use of, except for the benefit
+                                of NetApp, at any time either during or subsequent to my performance of the Services,
+                                any trade
+                                secrets or confidential or proprietary information of NetApp, including knowledge, data
+                                or other
+                                information relating to products, processes, know-how, techniques, designs, formulae,
+                                test data,
+                                costs, customer lists, employees, business plans, marketing plans and strategies,
+                                pricing or other
+                                subject matter pertaining to any existing or contemplated business of NetApp or any of
+                                its
+                                employees, clients, customers, agents, or independent contractors performing services
+                                for NetApp,
+                                which I may produce, obtain, or otherwise acquire during the course of the Services
+                                ("NetApp
+                                Information"). Upon the termination of my performance of the Services, I will promptly
+                                surrender
+                                and deliver to NetApp all copies of records, materials, equipment, drawings, documents
+                                and data of
+                                any nature pertaining to NetApp Information and certify in writing of such surrender and
+                                delivery.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">Assignment of Work Product. As used in this Agreement, "Work
+                                Product" will include but not be
+                                limited to ideas improvements, designs, discoveries, inventions (whether or not
+                                patentable),
+                                developments, works of authorship or artistry (including software, drawings,
+                                specifications, data,
+                                manuals, notes and other documents) and other work product made, authored, conceived or
+                                developed by me, alone or with others, which result from or relate to the Services,
+                                including any
+                                developed product, technology or materials. I hereby assign and transfer to Supplier my
+                                entire
+                                right, title, and interest in and to all Work Product, whether or not used by Supplier
+                                or its assignees,
+                                this reduced to practice, made or conceived by me (solely or jointly with others) during
+                                the provision
+                                of the Services, that relate in any manner to the business, products, technologies,
+                                techniques,
+                                processes, services, or research and development of NetApp or that result from the
+                                Services
+                                ("Assignable Work Product"). Not included in Assignable Work Product is any Work Product
+                                made
+                                by me while performing work for companies other than NetApp, at such times when I can
+                                document
+                                I was not actually performing Services, and for which no fee will be charged to NetApp,
+                                so long as
+                                such Work Product has not been based, directly or indirectly, on NetApp Information. I
+                                acknowledge and agree that Supplier will assign its rights in and to Assignable Work
+                                Product to
+                                NetApp. I acknowledge and agree that all Assignable Work Product is the sole property of
+                                Supplier
+                                or its assignee, NetApp. Assignable Work Product does not include those inventions
+                                excluded by
+                                the provisions of Section 2870 of the California Labor Code (a reprint of which is
+                                included in the
+                                attached Schedule 1) (“Section 2870”), if applicable. I will preserve and protect any
+                                Assignable
+                                Work Product as NetApp Information. </li>
+                            <br>
+                            <li class="ul-common-tag">I will disclose each Work Product promptly in writing to
+                                Supplier (and Supplier will, in turn, disclose
+                                such Work Product to NetApp), regardless of whether I believe the Work Product is an
+                                Assignable
+                                Work Product or is excluded under Section 2870, in order to permit Supplier and NetApp
+                                to
+                                determine rights to which they may be entitled under this Agreement.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">
+                                Further Cooperation. I will assist Supplier and NetApp, upon request and at Supplier's
+                                expense,
+                                during and after the completion of my performance of the Services, in every reasonable
+                                way, to
+                                obtain evidence or enforce for NetApp's benefit patents, trademarks, copyrights, mask
+                                work rights
+                                or other proprietary rights for Assignable Work Product in all countries. I will execute
+                                such papers
+                                and perform such lawful acts as NetApp deems to be necessary to allow NetApp to perfect
+                                all
+                                rights, title, and interest in Assignable Work Product, including executing,
+                                acknowledging, and
+                                delivering to NetApp, upon request and at Supplier's expense, applications for
+                                registration and
+                            </li>
+                        </ol>
+
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [middleText]="middleText" [formId]="formId" [page]="1" [candidatePersonalDetails]="candidatePersonalDetails"                    
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page1"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <p class="ul-common-tag">
+                            assignments of Assignable Work Product, and intellectual property rights therein, in all
+                            countries. I
+                            acknowledge and agree that my time for such assistance will be compensated by Supplier at my
+                            regular hourly rate for the Services or, if such assistance is rendered after I have
+                            completed the
+                            Services, at my final rate of compensation for those Services as set forth in the statement
+                            of work
+                            (or similar document executed by NetApp) applicable thereto.
+                        </p>
+                        <br>
+                        <ol class="ul-common" start="5">
+                            <li class="ul-common-tag">Waiver of Moral Rights. I hereby waive and agree never to
+                                claim or assert any Moral Rights with
+                                respect to Assignable Work Product. As used in this Agreement, "Moral Rights" means all
+                                rights of
+                                paternity or integrity with respect to Assignable Work Product; all rights to claim
+                                authorship of
+                                Assignable Work Product; all rights to object to or prevent any distortion, mutilation
+                                or modification
+                                of, or other derogatory action in relation to Assignable Work Product, whether or not it
+                                would be
+                                prejudicial to my honor or reputation; any right to withdraw from circulation or control
+                                the publication
+                                or distribution of Assignable Work Product; and all similar rights existing under
+                                judicial or statutory
+                                law of any country in the world or under any treaty, regardless of whether or not that
+                                right is
+                                denominated or generally referred to as a "moral" right.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">Maintenance of Records. I will keep and maintain adequate and
+                                current written records of all Work
+                                Product made by me, during my period of assignment to NetApp, for NetApp (in the form of
+                                notes,
+                                sketches, drawings, and as may be specified by NetApp) and those records will be
+                                available to and
+                                remain the sole property of NetApp at all times.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">Pre-Existing Works. It is understood that all Work Product
+                                which I made prior to my period of
+                                assignment to NetApp and which are disclosed on Schedule 1 ("Pre-Existing Works") are
+                                excluded
+                                from the scope of this Agreement. Set forth in Schedule 1 is a list of all my
+                                Pre-Existing Works,
+                                including an identification of all patents and patent applications, copyright, trademark
+                                and mask
+                                work right registrations, and a brief description of all unregistered Pre-Existing
+                                Works. I represent
+                                that the list is complete and that, if an item is not on the list, I claim no right in
+                                such Pre-Existing
+                                Works. I will notify Supplier and NetApp in writing before I make any disclosure or
+                                perform Services
+                                which use or appear to threaten or conflict with proprietary rights I claim in any
+                                Pre-Existing Work.
+                                If I fail to give such notice, I will make no claim against Supplier or NetApp with
+                                respect to such Pre-Existing Work</li>
+                            <br>
+                            <li class="ul-common-tag">Intellectual Property of Others. I will not disclose or make
+                                available to Supplier or NetApp, or use or
+                                induce Supplier or NetApp to use, any idea, information, material or other property
+                                belonging to any
+                                previous employer or other third party. I represent that my performance of services for
+                                Supplier and
+                                NetApp does not, and will not, breach any agreement to keep in confidence any
+                                information
+                                acquired by me in confidence prior to my performance of Services and does not, and will
+                                not, use
+                                the intellectual property of any third party.
+                            </li>
+                            <br>
+
+                            <li class="ul-common-tag">NOT A NETAPP EMPLOYEE. I UNDERSTAND AND AGREE THAT NOTHING IN
+                                THIS
+                                AGREEMENT CREATES AN EMPLOYMENT RELATIONSHIP BETWEEN NETAPP AND ME. I
+                                ACKNOWLEDGE AND AGREE THAT I AM NOT AND I WILL NOT BECOME A NETAPP
+                                EMPLOYEE OR BE ELIGIBLE FOR ANY BENEFITS OF EMPLOYMENT FROM NETAPP,
+                                INCLUDING WAGES, VACATION, PAID OR UNPAID LEAVE, OR PARTICIPATION IN ANY
+                                NETAPP EMPLOYEE BENEFIT PLAN UNDER THIS AGREEMENT. I FURTHER
+                                ACKNOWLEDGE AND AFFIRM THAT SUPPLIER IS, AND WILL BE, MY SOLE EMPLOYER
+                                WITH RESPECT TO THE SERVICES AND THAT I WILL ONLY LOOK TO SUPPLIER FOR ANY
+                                COMPENSATION OWED OR DUE TO ME AS A RESULT OF SUCH SERVICES OR SUCH
+                                WORK PRODUCT.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">Enforcement of Agreement. I admit that monetary damages for
+                                any breach or threatened breach of
+                                this Agreement are inadequate and that any breach or threatened breach will constitute
+                                an
+                                irreparable injury to NetApp. In addition to all other rights provided by law to which
+                                NetApp may be
+                                entitled, NetApp will have the right to have an injunction issued against me to prevent
+                                any further
+                                breach. If NetApp seeks an injunction to enforce my obligations under this Agreement, I
+                                hereby
+                                waive any requirement for the posting of a bond or any other security.
+                            </li>
+                            <br>
+                            <li class="ul-common-tag">Entire Agreement. This Agreement reflects my entire agreement
+                                with Supplier and NetApp
+                                regarding its subject matter and supersedes any previous oral or written communications,
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [middleText]="middleText" [formId]="formId" [page]="2" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <p class="ul-common-tag">
+                            representations, understandings, or agreements with Supplier or NetApp regarding its subject
+                            matter.
+
+                        </p>
+                    </div>
+                    <br>
+                    <div class="form-card-wrapper day1-form-inc">
+                        <div class="table-o-at">
+                            <p clss="margin-top-10">ACKNOWLEDGED AND AGREED: </p>
+                            <table class="table ">
+                                <tbody>
+                                    <tr>
+                                        <td class="title-tb">Personnel</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">Name</td>
+                                        <td>: {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">Date </td>
+                                        <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">Signature</td>
+                                        <td>:
+                                            <!-- pending with candidate || referred back by recruiter -->
+                                            <button *ngIf="!this.CandidateSignatureModel?.page3 && Day1FormData?.isEditable"
+                                                type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                Insert Sign
+                                            </button>
+                                            <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page3">
+                                                <img [src]="this.CandidateSignatureModel?.page3" class="sign-img-b" />
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-card-wrapper day1-form-inc">
+                        <div class="table-o-at">
+                            <p class="margin-top-10">ACKNOWLEDGED AND AGREED: </p>
+                            <table class="table ">
+                                <tbody>
+                                    <tr>
+                                        <td class="title-tb">Supplier</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">Name</td>
+                                        <td>:
+                                            <ng-container [ngSwitch]="candidatePersonalDetails?.divisionid">
+                                                <ng-container *ngSwitchCase="1">
+                                                    Infogain India Pvt. Ltd.  
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="2">
+                                                    NGGAWE NIRMAN TECHNOLOGIES (An Infogain Company) 
+                                                </ng-container>
+                                                <ng-container *ngSwitchDefault>
+                                                    Infogain India Pvt. Ltd. 
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">Date </td>
+                                        <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title-tb">By </td>
+                                        <td>:
+                                        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="padding-top-10"></p>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [middleText]="middleText" [formId]="formId" [page]="3" [pageTotal]="pageTotal"
+                    
+                    [isVisisbleSign]="false">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+    </div>
+</div>

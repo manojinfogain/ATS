@@ -1,0 +1,148 @@
+<form [formGroup]="requTransferCandidateForm" (ngSubmit)="requTransferHandler(requTransferCandidateForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr view-list-dt-rp box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.candidateName|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Email:</h4>
+                            <p>{{data?.candidateEmail|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{data?.PrimaryRecruiterName|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{data?.SecondaryRecruiterName|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Talent Id </h4>
+                            <p>{{data?.talent_id || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Partner Name </h4>
+                            <p>{{data?.PartnerName || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col">
+                        <app-talent-id-control-all [isShowSearchIcon]="false" [formFieldAppearance]="'outline'"
+                            [talentIdControl]="requTransferCandidateForm.get('toThId')"
+                            (getDataTalentId)="getDataTalent($event)"></app-talent-id-control-all>
+                    </div>
+                    <!-- end col -->
+                    <!-- *ngIf="isVisibleForIndia && isDivsionShow" -->
+                    <div class="ats-form-col search-input " *ngIf="isVisibleForIndia && isDivsionShow">
+                        <app-division-control [DivisionIdControl]="getControl('DivisionID')"
+                            [required]="showCtrlForSchCand" [title]="'Division'" [formFieldAppearance]="'outline'"
+                            (getDataSource)="getDivisionID($event)">
+                        </app-division-control>
+                    </div>
+                    <!-- end col -->
+                    <!-- employment-unit-type -->
+                 <div class="ats-form-col search-input" *ngIf="isVisibleForIndia && showCtrlForSchCand">
+                    <app-employment-unit-type [formControlOpt]="getControl('EmpUnitId')" [required]="showCtrlForSchCand"
+                    [title]="'Employee Unit'" [formFieldAppearance]="'outline'" (getValFromControl)="getEmpUnitId($event)">
+                    </app-employment-unit-type>
+                </div>
+                <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                        <app-talent-cube-control [formControlOpt]="getControl('TCID')"
+                            [title]="'Talent Cube'"
+                            [appearance]="formFieldAppearance" [disabled]="isDisabled" [formFieldAppearance]="'outline'"
+                            (getValFromControl)="getTCID($event)" (getTalentCubeListFromControl)="getTalentCubeList($event)" required>
+                        </app-talent-cube-control>
+                    </div>
+                    <!-- end col -->
+                    <!-- *ngIf="isVisibleForIndia && showCtrlForSchCand" -->
+                    <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                        <app-grade-id-control [formControlOpt]="getControl('gradeId')" [title]="'Grade'"
+                            [formFieldAppearance]="'outline'" (getValFromControl)="getGradeId($event)"
+                            [required]="showCtrlForSchCand">
+                        </app-grade-id-control>
+                    </div>
+                    <!-- end col -->
+                    <!--  -->
+                    <!-- && && isVisibleForIndia showCtrlForSchCand -->
+                    <div class="ats-form-col"
+                        *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                        <app-comp-band-control [formControlOpt]="getControl('gradeBand')" [title]="'Grade Band'"
+                            [formFieldAppearance]="'outline'"
+                            [required]="showCtrlForSchCand" [GradeId]="gradeId">
+                        </app-comp-band-control>
+                        <mat-error *ngIf="getControl('gradeBand')?.touched && getControl('gradeId')?.invalid">
+                            <span>Please select Grade first</span>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Cluster </mat-label>
+                            <input matInput placeholder="Cluster" formControlName="cluster" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col" *ngIf="isVisibleForIndia && showCtrlForSchCand && showFieldsForDelivery">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Role </mat-label>
+                            <input matInput placeholder="Role" formControlName="role" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Reason</mat-label>
+                            <textarea matInput placeholder="remarks" required formControlName="remarks"></textarea>
+                            <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                <div *ngIf="getControl('remarks')?.errors.required">
+                                    Reason is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <ng-container *ngIf="isVisibleForIndia && showSalaryGrid && showFieldsForDelivery">
+                    <app-salary-grid-control [gradeID]="getControl('gradeId')?.value"
+                        [gradeBand]="getControl('gradeBand')?.value" [ctc]="candidateData?.expectedSalary"
+                        [cubeClusterId]="getControl('cubeClusterId')?.value"
+                        [jfCateg]="null"
+                        [ExpYear]="candidateData?.totalExp" [ExpMonth]="candidateData?.totalExpMonth"
+                        [CandidateTypeID]="candidateData?.candidateTypeId"
+                        [divisionID]="getControl('DivisionID')?.value" [isVisibleForIndia]="isVisibleForIndia"
+                        [PracticeID]="null">
+
+                    </app-salary-grid-control>
+                </ng-container>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <!-- [disabled]="!requTransferCandidateForm.dirty" -->
+        <button class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

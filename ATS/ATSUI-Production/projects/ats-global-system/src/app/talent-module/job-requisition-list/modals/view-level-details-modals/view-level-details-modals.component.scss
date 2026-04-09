@@ -1,0 +1,27 @@
+.view-level-dc{
+    ol{
+        margin-left: 24px;
+        &>li{
+            margin-bottom: 10px;
+        }
+        li{
+            font-size: 12px;
+            line-height: 20px;
+            label{
+                font-weight: 600;
+            }
+            h3{
+                color: #0c4c7a;
+                    font-size: 12px;
+                    font-weight: 600;
+                    padding: 3px 3px;
+            }
+            ul{
+                margin-left: 20px;
+                li{
+                   list-style-type: disc;
+                }
+            }
+        }
+    }
+}

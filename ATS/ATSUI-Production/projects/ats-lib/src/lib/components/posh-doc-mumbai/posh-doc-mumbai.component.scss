@@ -1,0 +1,85 @@
+.title-tb{
+    white-space: nowrap;
+}
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+
+.m-logo-align{
+    margin-bottom:35px;
+}
+
+.m-hDive-align{
+    margin-bottom:10px;
+}
+.m-style-d-1{
+    border: 1px solid black; padding-left: 50px;padding-right: 50px;padding-top: 25px;padding-bottom: 25px;
+}
+.m-st-d2{
+    display: flex;flex-direction: column; justify-content: center;align-items: center;
+}
+
+.m-hd-1{
+    font-size: 20px;text-align: center;text-decoration: underline;
+}
+.m-ul-1{
+    list-style-type: decimal;margin-left: 27px;
+}
+
+.m-ol-1-align{
+    list-style-type: lower-roman;margin-left: 27px;
+}
+
+.m-ol-2-ag{
+    list-style-type: disc;margin-left: 27px;
+}
+.m-ul-l1{
+    list-style-type: circle;margin-left: 27px;
+}
+
+.m-ul-l2{
+    list-style-type: disc;margin-left: 27px;
+}
+.m-st-ul-1{
+    list-style-type: square;margin-left: 27px;
+}
+.m-p-align1{
+    padding-bottom: 100px;
+}
+
+.m-h-css1{
+    text-align: center;font-size: 19px;text-decoration: underline;
+}
+.m-p-css-1align{
+    padding-bottom: 200px;
+}
+.m-h-cls-1{
+    font-size: 20px;text-align: center;text-decoration: underline;    margin: 134px 0px 53px 0px;
+}
+.m-lf-align-3{
+    margin-top: 100px;margin-bottom: 100px;
+}
+.m-lf-ch-2{
+    padding: 8px 0px 2px 10px;
+}

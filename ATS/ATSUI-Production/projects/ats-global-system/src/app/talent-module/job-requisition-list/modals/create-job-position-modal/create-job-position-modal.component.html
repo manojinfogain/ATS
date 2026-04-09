@@ -1,0 +1,1748 @@
+<div class="ats-modal-header">
+    <!-- N for new talent / U for update/ C for clone/ A for approve -->
+    <h1><span *ngIf="data?.type == 'N'">Create Job Position </span>
+        <span *ngIf="data?.type == 'U' || data?.type == 'JD'">Update Talent ID Details {{talentDetails?.CTHID ? '- ' +
+            talentDetails?.CTHID:
+            ''}} </span>
+
+        <span *ngIf="data?.type == 'UW'">Update Talent ID Details {{talentDetails?.CTHID ? '- ' + talentDetails?.CTHID:
+            ''}}
+        </span><span *ngIf="data?.type == 'E'">Update Talent ID Details {{talentDetails?.CTHID ? '- ' +
+            talentDetails?.CTHID:
+            ''}} </span>
+        <span *ngIf="data?.type == 'C'">Clone Talent IDs </span>
+        <span *ngIf="data?.type == 'A'">{{data?.title}} {{talentDetails?.CTHID ? '- ' + talentDetails?.CTHID:
+            ''}}</span>
+    </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="submitJobCreateForm" (ngSubmit)="submitFormHandler(submitJobCreateForm)">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="create-job-posting-section ats-form-ui-enhance-font">
+                <section class="dgm-track approve-sec" *ngIf="data?.type =='A'">
+                    <div class="box-v-ats box-v-ats-form">
+
+                        <div class="box-v-body approval-dp-wrap apr-dp-er">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                <div class="ats-form-col action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                                    <label class="lb-title">Action<sup>*</sup> </label>
+                                    <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                        formControlName="approveRejectstatus">
+                                        <mat-radio-button value="A">Approve</mat-radio-button>
+                                        <mat-radio-button value="R"> Reject </mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- validate --><br>
+                                    <mat-error class="error-aprrove-Reject"
+                                        *ngIf="getControl('approveRejectstatus')?.touched && getControl('approveRejectstatus')?.invalid">
+                                        <div *ngIf="getControl('approveRejectstatus')?.errors.required">
+                                            Action is required.
+                                        </div>
+                                    </mat-error>
+                                    <!-- validate ends-->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col" *ngIf="isRejectTalent">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns >Reason Category</mat-label>
+                                        <mat-select formControlName="reasonCategory"
+                                            (selectionChange)="getReasonCategId($event)">
+                                            <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                                {{data?.Category}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <mat-error
+                                        *ngIf="getControl('reasonCategory')?.touched && getControl('reasonCategory')?.invalid">
+                                        <div *ngIf="getControl('reasonCategory')?.errors.required">
+                                            Reason Category is required.
+                                        </div>
+                                    </mat-error> -->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col" *ngIf="isRejectTalent">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns >Sub Reason</mat-label>
+                                        <mat-select formControlName="subReason"
+                                            [disabled]="!getControl('reasonCategory').valid  ">
+                                            <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                                {{data?.SubCategory}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <mat-error *ngIf="!getControl('reasonCategory').valid"
+                                        >
+                                        <div>
+                                            Please select reason category first.
+                                        </div>
+                                    </mat-error> -->
+
+                                    <!-- !getControl('reasonCategory').valid -->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col action-wrapper remark-wrap">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns >Remarks</mat-label>
+                                        <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                            formControlName="rejectRemarks"></textarea>
+                                    </mat-form-field>
+                                    <!-- validate -->
+                                    <!-- [required]="isRemarkRequired" -->
+                                    <!-- <mat-error
+                                        *ngIf="getControl('rejectRemarks')?.touched && getControl('rejectRemarks')?.invalid">
+                                        <div *ngIf="getControl('rejectRemarks')?.errors.required">
+                                            {{isRemarkRequired?'Please Provide reject reason.':''}}
+                                        </div>
+                                    </mat-error> -->
+                                    <!-- validate ends-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="dgm-track">
+                    <div class="box-v-ats box-v-ats-form">
+                        <!-- <div class="box-v-header">
+                            <h4>Salary Grid</h4>
+                        </div> -->
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit ||isDisableForClone || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Employee Unit</mat-label>
+                                        <mat-select [formControl]="employeeUnitCont"
+                                            [disabled]="isDisableForEdit ||isDisableForClone || isDisableForEditWMG || isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getEmployeeUnitId($event)"
+                                            [required]="isRejectTalent ? false : true">
+                                            <mat-option *ngFor="let data of employeeUnitType" [value]="data?.ID">
+                                                {{data?.ClassificationName}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                 <!-- location dropdown for wmg role and sub status is pending with wmg -->
+                                <!-- <ng-container *ngIf="this.user?.otherRoles?.IsWMG =='Y' && this.data?.SubStatusID ==1 &&this.data?.type == 'UW'; else forOthers">
+                                   
+                                    <div [ngClass]="formClassCol"
+                                        >
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Joining Location wmg</mat-label>
+                                            <mat-select formControlName="joiningLocation"
+                                                (selectionChange)="getSelectLocId($event)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlJoiningLocation"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let list of locationList | talentJoiningLocationPipe:searchCtrlJoiningLocation"
+                                                    [value]="list?.LocID">{{list?.LocName}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
+                                <ng-template #forOthers>
+                                    
+                                </ng-template> -->
+
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : (isDisableForEdit || isDisableForEditWMG || isDisableForEdit2) &&!isLocationEditAllow }">
+                                        <mat-label appRemoveAriaOwns>Joining Location</mat-label>
+                                        <mat-select formControlName="joiningLocation"
+                                            [disabled]="(isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2) &&!isLocationEditAllow"
+                                            (selectionChange)="getSelectLocId($event)">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlJoiningLocation"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <!-- <mat-option
+                                                *ngFor="let list of locationList | talentJoiningLocationPipe:searchCtrlJoiningLocation"
+                                                [value]="list?.LocID">{{list?.LocName}}</mat-option> -->
+                                                <ng-container *ngIf="!isLocationEditAllow">
+                                                    <mat-option
+                                                        *ngFor="let list of locationList | talentJoiningLocationPipe:searchCtrlJoiningLocation"
+                                                        [value]="list?.LocID">{{list?.LocName}}</mat-option>
+                                                </ng-container>
+                                                <ng-container *ngIf="isLocationEditAllow">
+                                                    <mat-option
+                                                        *ngFor="let list of filteredLocation | talentJoiningLocationPipe:searchCtrlJoiningLocation"
+                                                        [value]="list?.LocID">{{list?.LocName}}</mat-option>
+                                                </ng-container>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isStateActive">
+                                    <app-state-list-control [parentIdControl]="getControl('joiningState')"
+                                        [title]="'Joining State '" [formFieldAppearance]="'outline'" required
+                                        (getDataIdState)="getStateId($event)">
+                                    </app-state-list-control>
+                                    <!-- <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Joining State</mat-label>
+                                        <mat-select formControlName="joiningState"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getJoiningStateId($event)">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlJoinState"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let list of stateList | talentJoiningStatePipe:searchCtrlJoinState"
+                                                [value]="list?.State">{{list?.State}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field> -->
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isCitiesActive">
+                                    <app-city-list-code [parentIdControl]="getControl('joiningCity')" [getId]="stateId"
+                                        [title]="'Joining City'" [placeholder]="'Search City'"
+                                        [formFieldAppearance]="'outline'"
+                                        [filteryByCountry]="this.joiningLocId == 13 || this.talentDetails?.JoiningLocID == 13? true:false">
+                                    </app-city-list-code>
+                                    <!-- <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Joining City</mat-label>
+                                        <mat-select formControlName="joiningCity"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlJoiningCity"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let list of citiesList |talentJoiningCityPipe:searchCtrlJoiningCity"
+                                                [value]="list?.CityID">{{list?.CITY}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field> -->
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForClone || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Requirement Type</mat-label>
+                                        <mat-select formControlName="requirementType"
+                                            [disabled]="isDisableForEdit  || isDisableForEditWMG || isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getReqType($event)">
+                                            <mat-option *ngFor="let data of requirementType" [value]="data?.ReqID">
+                                                {{data?.ReqType}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div [ngClass]="formClassCol"> 
+                                    <mat-form-field [appearance]="formAppearance"
+                                       >
+                                        <mat-label appRemoveAriaOwns>Requirement Type test </mat-label>
+                                        <mat-select formControlName="requirementType"
+                                           
+                                            (selectionChange)="getReqType($event)">
+                                            <mat-option *ngFor="let data of requirementType" [value]="data?.ReqID">
+                                                {{data?.ReqType}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div> -->
+                                <!-- end col -->
+                                <!-- end col *ngIf="isResourceAvailInBu"-->
+                                <!-- BU renamed to MU - marketing Unit - 22-april-2024 -->
+                                 
+                                <div [ngClass]="formClassCol" *ngIf="showClientWorkRequirement">
+                                    <mat-form-field appearance="outline" class="form-fill-ats">
+                                        <mat-label>Client Work Requirement</mat-label>
+                                        <mat-select formControlName="clientWorkRequirement" (selectionChange)="onClientWorkRequirementChange($event)">
+                                            <mat-option *ngFor="let option of clientWorkRequirementOptions" [value]="option.Id">
+                                                {{ option.Name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol" *ngIf="isLocationTypeVisible">
+                                    <mat-form-field appearance="outline" class="form-fill-ats">
+                                        <mat-label>Location Type</mat-label>
+                                        <mat-select formControlName="locationType" [required]="isLocationTypeVisible && getControl('approveRejectstatus')?.value != 'R'">
+                                            <mat-option *ngFor="let option of locationTypeOptions" [value]="option.Id">
+                                                {{ option.Name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol" *ngIf="isResourceAvailInBu">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Is Resource Available in MU? ( Internal movement
+                                            )</mat-label>
+                                        <mat-select formControlName="isResourceAvailInBu"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="geResourceAvailableType($event)">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- ends -->
+                                <!-- <div [ngClass]="formClassCol" *ngIf="isApprovedByVisible">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns >Approved By</mat-label>
+                                        <input matInput formControlName="approvedBy" fomrControlName="approvedBy"
+                                            placeholder="Approved By" disableInitialSpace>
+                                    </mat-form-field>
+                                </div> -->
+                                <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="isApprovedByVisible">
+                                    <app-employee-list [panelIdControl]="getControl('approvedBy')"
+                                        [formFieldAppearance]="formAppearance"
+                                        [required]="isRejectTalent ? false : true" [title]="'Approved By'"
+                                        [isEmpListAll]="true"
+                                          [getAllEmp]="EmpListData"
+                                        [disabled]="isJdEditable"></app-employee-list>
+                                </div>
+                                <!--  -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- -->
+                <section class="dgm-track" *ngIf="replacementReasonSc">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <h4 *ngIf="replacementReasonCtrl">Replacement Details</h4>
+                            <h4 *ngIf="isConversion">Conversion Details</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div [ngClass]="formClassCol" *ngIf="replacementReasonCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Replacement Reason</mat-label>
+                                        <mat-select formControlName="replacementReason"
+                                            (selectionChange)="getReplacementReason($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlReplacementReason"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of replacementReason |talentReplacementReasonPipe:searchCtrlReplacementReason "
+                                                [value]="data?.ReasonID">
+                                                {{data?.Reason}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="replacementForCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>
+                                            {{isRotation?'Rotation For ':'Replacement For'}}
+                                            </mat-label>
+                                        <mat-select formControlName="replacementFor"
+                                            (selectionChange)="getDataReplacement($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlReplacementResignEmp"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of resignEmployeeListForReplacement |talentReplacementPipe:searchCtrlReplacementResignEmp"
+                                                [value]="data?.empnewid">
+                                                {{data?.fullName}}{{"("+ data.empnewid +")"}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- new conversion api -->
+                                <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="isConversion">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <!-- <mat-label appRemoveAriaOwns >{{isDeliveryActive? 'Conversion For' : 'Replacement For'"}}</mat-label> -->
+                                        <mat-label appRemoveAriaOwns>Conversion For</mat-label>
+                                        <!-- <mat-label appRemoveAriaOwns  *ngIf="isReplacement">Replacement For</mat-label> -->
+                                        <mat-select formControlName="conversionFor"
+                                            (selectionChange)="getConersionCandidateData($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlConversionEmp"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of conversionEmpList |talentConversionPipe:searchCtrlConversionEmp"
+                                                [value]="data?.empid">
+                                                {{data?.fullName}} ({{data?.empid}})
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- new conversion dropdown end -->
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="conversionForCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Designation Description</label>
+                                            <p>{{replacementDesignationData?.Designation}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <!--  -->
+                                <div [ngClass]="formClassCol" *ngIf="isConversion">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Employee Contract End Date</label>
+                                            <p>{{replacementDesignationData?.EmpContractEndDate}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [ngClass]="formClassCol" *ngIf="isConversion">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Employee Personal Email</mat-label>
+                                        <input matInput placeholder="Email ID" maxlength="250"
+                                            formControlName="employeeEmail" disableInitialSpace emailContainInfogain>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div [ngClass]="formClassCol" *ngIf="isConversion">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns >Conversion Remarks</mat-label>
+                                        <input matInput formControlName="conversionRemarks" placeholder="Remarks"
+                                         disableInitialSpace >
+                                    </mat-form-field>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- end section -->
+                <section class="dgm-track">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <h4>Account Details</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font requsition-create-top-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <!--  *ngIf="deliveryUnitCtrl"-->
+                                <div [ngClass]="formClassCol" *ngIf="showGDLCtrl">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>{{isDeliveryActive ? 'GDL' :
+                                            'Department'}}</mat-label>
+                                        <!-- <mat-label *ngIf="!isDeliveryActive" appRemoveAriaOwns>Department</mat-label> -->
+                                        <mat-select formControlName="deliveryUnit" (selectionChange)="getDuID($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlDu"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let data of duList | talentDuPipe:searchCtrlDu"
+                                                [value]="data?.DeliveryUnitID">
+                                                {{data?.DeliveryUnit}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col *ngIf="accountIdCtrl"-->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}"
+                                        [ngClass]="{'disable-pointer' :isDisabledFieldsForC2h}">
+                                        <mat-label appRemoveAriaOwns>{{isDeliveryActive ? 'Account' : 'Sub Department'}}</mat-label>
+                                        <!-- <mat-label *ngIf="!isDeliveryActive" appRemoveAriaOwns>Sub Department</mat-label> -->
+                                        <mat-select formControlName="accountId" (selectionChange)="getAccountId($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlAccount"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <ng-container *ngIf="requirementTypeID == 1 || this.requirementTypeID == 5">
+
+                                            </ng-container>
+                                            <mat-option
+                                                *ngFor="let data of accountList | talentAccount4Pipe:searchCtrlAccount"
+                                                [value]="data?.AccountID">
+                                                {{data?.AccountName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="projectNameIdCtrl">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}"
+                                        [ngClass]="{'disable-pointer' :isDisabledFieldsForC2h}">
+                                        <mat-label appRemoveAriaOwns>{{isDeliveryActive ? 'Project Name' : 'Function Name'}}</mat-label>
+                                        <!-- <mat-label appRemoveAriaOwns  *ngIf="!isDeliveryActive">Function Name</mat-label> -->
+                                        <mat-select formControlName="projectNameId"
+                                            (selectionChange)="getProject($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterProjectCtrl"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of projectList |talentProjectPipe:searchProjectCtrl"
+                                                [value]="data?.ProjectID">
+                                                {{data?.ProjectName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading"><span
+                                                    *ngIf="requirementTypeID != 1 ">Offshore</span> Hiring
+                                                Manager</label>
+                                            <!-- <p *ngIf="showHideHMforApproveNewAddition">{{projData?.OffshorePM || '-'}} 
+                                            </p>
+                                            <div *ngIf="data?.type == 'N' || data?.type == 'C'">
+                                                <p *ngIf="isOffshoreHMpipelineVisibl"> {{getLoginName || '-'}} </p>
+                                            </div> -->
+                                            <p *ngIf="projData?.OffshorePM ">{{projData?.OffshorePM || '-'}} 
+                                            </p>
+                                            <div *ngIf="!projData?.OffshorePM ">
+                                                <p *ngIf="isOffshoreHMpipelineVisibl"> {{getLoginName || '-'}} </p>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col  -->
+                                <div [ngClass]="formClassCol" *ngIf="onsiteHiringManagerCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Onsite Hiring Manager</label>
+                                            <p>{{projData?.OnsitePM || 'NA'}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="SFDCClientCtrl">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>SFDC Client</mat-label>
+                                        <mat-select formControlName="SFDCClient"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option *ngFor="let data of SfdcClientList" [value]="data?.AccountId">
+                                                {{data?.AccountName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="opportunityIdCtrl">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit || isDisableForEditWMG || isDisableForEdit2}">
+                                        <mat-label appRemoveAriaOwns>Opportunity ID</mat-label>
+                                        <mat-select formControlName="opportunityId"
+                                            (selectionChange)="getOpportunity($event)"
+                                            [disabled]="isDisableForEdit || isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlOpportunity"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of opportunitiyList | talentOpportunityPipe:searchCtrlOppurtunity"
+                                                [value]="data?.OppID">
+                                                {{data?.OppName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="roleCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Role ( from pricing-RLS )</mat-label>
+                                        <mat-select formControlName="role" (selectionChange)="getRoleId($event)"
+                                            [disabled]="isJdEditable">
+                                            <mat-option *ngFor="let data of roleFromPriceingList"
+                                                [value]="data?.RoleID">
+                                                {{data?.RoleName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isfdcIdCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">ISFDC ID</label>
+                                            <p>{{opportunityData?.ISFDCID || '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="opportunityTypeCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Opportunity Type</label>
+                                            <p>{{opportunityData?.OppType || '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="oddsOfWinningPercentCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Odds Of Winning (%)</label>
+                                            <p>{{opportunityData?.OddsOfWinning || '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="bookingDgmPercentCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Booking DGM (%)</label>
+                                            <p>{{opportunityData?.BookingMargin || '0'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- end col isSpecialBidTypeAndProjectDateVisi -->
+                                <div [ngClass]="formClassCol" *ngIf="projectEndDateCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Project End Date</label>
+                                            <p *ngIf="!isSpecialBidTypeAndProjectDateVisi">
+                                                {{opportunityData?.ProjEndDate || '-'}} </p>
+                                            <p *ngIf="isSpecialBidTypeAndProjectDateVisi">{{projData?.ProjectEndDate ||
+                                                '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="closedDateCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Closed Date</label>
+                                            <p>{{opportunityData?.CloseDate || '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+
+                                <div [ngClass]="formClassCol" *ngIf="bidTypeDropDownCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Bid Type </mat-label>
+                                        <mat-select formControlName="bidTypeDropdown" [disabled]="isJdEditable"
+                                            (selectionChange)="getBidTypeId($event)">
+                                            <mat-option *ngFor="let data of bidTypeList" [value]="data?.ShortID">
+                                                {{data?.ProjectType}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="bidTypeCtrl">
+                                    <div class="show-only-name-wrap">
+                                        <div class="names-only">
+                                            <label class="label-heading">Bid Type</label>
+                                            <p *ngIf="!isSpecialBidTypeAndProjectDateVisi">{{opportunityData?.BidType ||
+                                                '-'}} </p>
+                                            <p *ngIf="isSpecialBidTypeAndProjectDateVisi">{{projData?.ProjectType ||
+                                                '-'}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="exclusiveInfogainCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Exclusive to Infogain</mat-label>
+                                        <mat-select formControlName="exclusiveInfogain"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <!-- <div [ngClass]="formClassCol" *ngIf="divisionIdCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns >Division</mat-label>
+                                        <mat-select formControlName="divisionId">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="filterCtrlDivision"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of divisionList |talentDivisonPipe:searchCtrlDivision"
+                                                [value]="data?.ID">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div> -->
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- end section -->
+
+                <section class="dgm-track dgm-track-tc">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <div class="tc-l-t">
+                                <div class="lft-go">
+                                    <ng-container *ngIf="isTalentCube">
+                                        <h4>Talent Cube / Skills Details</h4>
+                                    </ng-container>
+                                    <ng-container *ngIf="!isTalentCube">
+                                        <!-- <h4>Select An Option</h4> -->
+                                        <h4>Designation and Skill Details</h4>
+                                    </ng-container>
+
+                                    <!-- <div class="off-cnf-screen" *ngIf="isTcNotAvaialbe">
+                                        <mat-radio-group aria-label="Select an option" class="ats-b-rd-btn"
+                                        [formControl]="demandCreationTcCtrl">
+                                            <mat-radio-button value="T">Talent Cube</mat-radio-button>
+                                            <mat-radio-button value="J" >No Talent Cube Found</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="tc-r-t" [ngClass]="{'disable-pointer': isJdEditable}">
+                                <div class="tc-help-wrap" (click)="talentCubeReferenceGuide()">
+                                    <label>Talent Cube Reference Guide</label>
+                                    <button mat-fab color="primary" type="button" aria-label="icon">
+                                        <mat-icon>help_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-v-body">
+
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font requsition-create-top-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <ng-container>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                            <mat-label appRemoveAriaOwns>Talent Cube</mat-label>
+                                            <mat-select #select formControlName="talentCubeId"
+                                                (selectionChange)="getCubeClusterID($event)"
+                                                [disabled]="isDisableForEditWMG || isJdEditable  || isDisableForEdit2">
+                                                <mat-option>
+                                                    <ngx-mat-select-search
+                                                        class="mat-selec-search-youxta mat-selec-search-ycb"
+                                                        [formControl]="FilterCtrlTC"
+                                                        [noEntriesFoundLabel]="'No Talent Cube Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="true">
+
+                                                    </ngx-mat-select-search>
+                                                    <!-- <label class="cb-btn" (click)="HideDropDown()">Create Demand without Talent Cube</label> -->
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of talentCubeList | TCFilter:searchInputTC"
+                                                    [value]="data?.CubeId">
+                                                    {{data?.CubeName}}
+                                                </mat-option>
+                                                <!-- hiding for clone -->
+                                                <mat-option value="0" *ngIf="data?.type !='C'">Talent Cube Not Available</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="isTalentCube">
+
+                                    <!-- <div [ngClass]="formClassCol">
+                                         <app-primary-skills-by-tc-control [primarySkillTcControlOpt]="getControl('primarySkillTc')"
+                                          [isMultiple]="true"  [formFieldAppearance]="formAppearance"  (getPrimarySkillValFromControl)="getSkillIdByTc($event)"
+                                            [Title]="'Primary Skills - AR tc'"
+                                           [talentCubeId]="getControl('talentCubeId').value" [isDataGetFromParent]="true">
+                                           </app-primary-skills-by-tc-control> 
+                                     </div> -->
+                                     
+                                       <!-- when  talent cube select 
+                                    -->
+                                    <div [ngClass]="formClassCol">
+                                          <mat-form-field [appearance]="formAppearance"
+                                          [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                          <mat-label appRemoveAriaOwns >Primary Skills</mat-label>
+                                          <mat-select #select formControlName="primarySkillTc" 
+                                           (selectionChange)="getCubPrimrySkillId($event)"
+                                          [disabled]="isDisableForEditWMG || isJdEditable  || isDisableForEdit2"
+                                             >
+                                              <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlPrimarySkillTc"
+                                                    [noEntriesFoundLabel]="'No record Found'" 
+                                                    [clearSearchInput]="false" [placeholderLabel]="'Search'">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                              <mat-option *ngFor="let list of primarySkillsByTcList| primarySkillByTcPipe:searchInputPrimarySkillTc" [value]="list.SkillId" (click)="optionClick()">
+                                                {{list?.SkillName}}
+                                              </mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                    </div>
+
+                                    <div [ngClass]="formClassCol">
+                                        <app-tc-skills-control [IdControl]="getControl('cubeSkill1')"
+                                            [title]="'Additional Skill1'" [isMultiple]="true" [floatLabel]="'always'"
+                                            [formFieldAppearance]="formAppearance" [isFilterBySkillId]="true"
+                                            [SkillId]="getControl('primarySkill').value"
+                                            [isInitCallAPI]="isInitCallAPISubSkill"
+                                            [tcSkillIds]="talentCubeSkills?.CubeSkillId1"
+                                            [isDisableForEdit]="isDisableForEdit2"
+                                            [additionalSkillList]="additionalSkillList" [isDataGetFromParent]="true"
+                                            [disabled]="isJdEditable">
+                                        </app-tc-skills-control>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <app-tc-skills-control [IdControl]="getControl('cubeSkill2')"
+                                            [title]="'Additional Skill2'" [isMultiple]="true" [floatLabel]="'always'"
+                                            [formFieldAppearance]="formAppearance" [isFilterBySkillId]="true"
+                                            [SkillId]="getControl('primarySkill').value"
+                                            [isInitCallAPI]="isInitCallAPISubSkill"
+                                            [tcSkillIds]="talentCubeSkills?.CubeSkillId2"
+                                            [additionalSkillList]="additionalSkillList"
+                                            [isDisableForEdit]="isDisableForEdit2"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                        </app-tc-skills-control>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <app-tc-skills-control [IdControl]="getControl('cubeSkill3')"
+                                            [title]="'Additional Skill3'" [isMultiple]="true" [floatLabel]="'always'"
+                                            [formFieldAppearance]="formAppearance" [isFilterBySkillId]="true"
+                                            [SkillId]="getControl('primarySkill').value"
+                                            [isInitCallAPI]="isInitCallAPISubSkill"
+                                            [tcSkillIds]="talentCubeSkills?.CubeSkillId3"
+                                            [additionalSkillList]="additionalSkillList" [disabled]="isJdEditable">
+                                        </app-tc-skills-control>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <app-talent-additional-skill-control [IdControl]="getControl('cubeSkill4')"
+                                            [title]="'Additional Skill4'" [isMultiple]="true" [floatLabel]="'always'"
+                                            [formFieldAppearance]="formAppearance"
+                                            (getDataSourceBlur)="getCubeSkill4Id($event)" [disabled]="isJdEditable">
+                                        </app-talent-additional-skill-control>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                            <mat-label appRemoveAriaOwns>Role</mat-label>
+                                            <mat-select formControlName="cubeRoleId"
+                                                (selectionChange)="getCubeRoleId($event)"
+                                                [disabled]="isDisableForEditWMG  || isJdEditable || isDisableForEdit2">
+                                                <mat-option *ngFor="let data of RoleTalentCubeList"
+                                                    [value]="data?.RoleId">
+                                                    {{data?.RoleName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+
+
+                                    <div [ngClass]="formClassCol">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <input type="hidden" formControlName="cubeGradeId" />
+                                                <label class="label-heading">Grade</label>
+                                                <p>{{filterCubeRole?.gradeName || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Experience</mat-label>
+                                            <mat-select formControlName="ExperienceId"
+                                                [disabled]="isJdEditable || isDisableForEdit2">
+                                                <mat-option *ngFor="let data of ExperienceList" [value]="data?.ID">
+                                                    {{data?.Experience}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <input type="hidden" formControlName="cubePractice" />
+                                                <label class="label-heading">Studio</label>
+                                                <p>{{PracticeData?.PracticeName || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Qualification</mat-label>
+                                            <mat-select formControlName="qualification"
+                                                [disabled]="isJdEditable || isDisableForEdit2">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlQualification"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of qualificationsList | talentQualificationPipe:searchCtrlQualification"
+                                                    [value]="data?.ID">
+                                                    {{data?.QualificationName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'disable-pointer' :isDisabledFieldsForC2h}">
+                                            <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                            <mat-select formControlName="employmentType"
+                                                [disabled]="isJdEditable || isDisableForEdit2">
+                                                <mat-option *ngFor="let data of employementTypelist" [value]="data?.ID">
+                                                    {{data?.Type}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                </ng-container>
+                                <ng-container *ngIf="!isTalentCube">
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                            <mat-label appRemoveAriaOwns>Designation Categories</mat-label>
+                                            <mat-select formControlName="designationCategories"
+                                                (selectionChange)="getDesigCategoriesId($event)"
+                                                [disabled]="isDisableForEditWMG || isJdEditable || isDisableForEdit2">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlDesigCategory"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of designationCategoriesList |talentdesignCategoriesPipe:searchCtrlDesigCatgory"
+                                                    [value]="data?.DesigCatID">
+                                                    {{data?.DesigCateName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                            <mat-label appRemoveAriaOwns>Designation</mat-label>
+                                            <mat-select formControlName="Designation"
+                                                [disabled]="isDisableForEditWMG  || isJdEditable || isDisableForEdit2"
+                                                (selectionChange)="getDesignationId($event)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlDesignation"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of designationList | talentdesignationPipe:searchCtrlDesignation"
+                                                    [value]="data?.DesigID">
+                                                    {{data?.DesigName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Exp. (yrs.)</label>
+                                                <p>{{desigData?.ExpRange || '-'}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Qualification</mat-label>
+                                            <mat-select formControlName="qualification"
+                                                [disabled]="isJdEditable || isDisableForEdit2">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlQualification"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of qualificationsList | talentQualificationPipe:searchCtrlQualification"
+                                                    [value]="data?.ID">
+                                                    {{data?.QualificationName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                          <!-- non tc -->
+                                        <mat-form-field [appearance]="formAppearance"
+                                            [ngClass]="{'not-allowed' : isDisableForEditWMG || isDisableForEdit2}">
+                                          
+                                            <mat-label appRemoveAriaOwns >Primary Skill</mat-label>
+                                            <mat-select formControlName="primarySkill"
+                                                [disabled]="isDisableForEditWMG  || isJdEditable || isDisableForEdit2"
+                                                (selectionChange)="getPriSkillId($event)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="filterCtrlPrimarySkill"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of primarySkillsList | talentPrimarySkillPipe:searchInputPrimarySkill"
+                                                    [value]="data?.skillid">
+                                                    {{data?.skill}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!-- validate -->
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol" *ngIf="subSkillCTRL">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Sub Skills</mat-label>
+                                            <mat-select formControlName="subSkills"
+                                                [disabled]="isJdEditable || isDisableForEdit2"
+                                                (selectionChange)="getSubSkillId($event)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                        [formControl]="FilterCtrlSubSkill"
+                                                        [noEntriesFoundLabel]="'No record Found'"
+                                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option
+                                                    *ngFor="let data of SubSkillsList | talentSubSkillsPipe:searchInputSubSkil"
+                                                    [value]="data?.skillid">
+                                                    {{data?.skill}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <app-talent-additional-skill-control
+                                            [IdControl]="getControl('additionalSkills')" [title]="'Additional Skills'"
+                                            [isMultiple]="true" [floatLabel]="'always'"
+                                            [formFieldAppearance]="formAppearance"
+                                            [isDisabledForEdit]="isDisableForEdit2"
+                                            (getDataSourceBlur)="getAdditionSkillId($event)" [disabled]="isJdEditable">
+                                        </app-talent-additional-skill-control>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div [ngClass]="formClassCol">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Studio</label>
+                                                <p>{{subSkillFilterData?.PracticeName || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Job Family Details</label>
+                                                <p>{{priSkillData?.JobFamily || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol" *ngIf="gradeSalCtrl">
+                                        <!-- " -->
+                                        <!-- [ngClass]="{'border-error': !salaryDetails?.MAX_SALARY}" -->
+                                        <div class="show-only-name-wrap ">
+                                            <div class="names-only">
+                                                <label class="label-heading">Grade</label>
+                                                <p>{{salaryDetails?.GRADE_LEVEL || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                    <!-- <div [ngClass]="formClassCol" *ngIf="gradeSalCtrl && isLocationIndia">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Max Salary Annually (INR)</label>
+                                                <p>{{salaryDetails?.MAX_SALARY || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                            <mat-select formControlName="employmentType"
+                                                [disabled]="isJdEditable || isDisableForEdit2">
+                                                <mat-option *ngFor="let data of employementTypelist" [value]="data?.ID">
+                                                    {{data?.Type}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol" *ngIf="isActiveEmp">
+                                        <div class="show-only-name-wrap">
+                                            <div class="names-only">
+                                                <label class="label-heading">Active Employee</label>
+                                                <p>{{priSkillData?.ActiveEmployee || '-'}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                </ng-container>
+                                 <div [ngClass]="formClassCol" *ngIf="gradeChangeReasonRequired">
+                                    <mat-form-field appearance="outline" class="form-fill-ats">
+                                        <mat-label>Grade Change Reason</mat-label>
+                                        <mat-select formControlName="repGradeChangeReason" >
+                                            <mat-option *ngFor="let option of ReplGradeChangeReason" [value]="option.Id">
+                                                {{ option.Name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </section>
+                <section class="dgm-track" *ngIf="isJobDescriAndJobVisible">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <h4>Job Details</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div class="form-on-col-job width-100-height-230">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns class="job-text-hint">Job Summary:(Min 10
+                                            characters)</mat-label>
+                                        <textarea class="job-descrp height-180" #projectSummary matInput
+                                            formControlName="jobSummary"
+                                            [readonly]="isDisableForEdit2" placeholder="Job Summary" disableInitialSpace
+                                            [innerHTML]="htmlText"></textarea>
+                                        <!-- <mat-hint class="hint-wrap"
+                                            align="end">{{projectSummary.value.length}}/1000</mat-hint> -->
+                                        <mat-error
+                                            *ngIf="getControl('jobSummary')?.touched && getControl('jobSummary')?.invalid">
+                                            <div *ngIf="getControl('jobSummary')?.errors?.minlength">
+                                                <span class="error-text">
+                                                    At least 10 characters required</span>
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col [ngClass]="formClassCol"-->
+                                <div class="form-on-col-job width-100-important">
+                                    <div class="editor"
+                                        [ngClass]="{'desc-error' :(( getControl('jobDescription')?.touched && getControl('jobDescription')?.invalid) || (getControl('jobDescription')?.touched && editorLen.length <100)) && !isRejectTalent}">
+                                        <label class="lb-nx-title">Job Description: <label *ngIf="!isRejectTalent"
+                                                class="req-field">*</label></label>
+                                        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                                        </ngx-editor-menu>
+                                        <ngx-editor [editor]="editor" formControlName="jobDescription"
+                                            [placeholder]="isRejectTalent ? 'Job Description' : 'Job Description *'"
+                                            [maxLength]="100">
+                                        </ngx-editor>
+                                        <button *ngIf="getControl('talentCubeId')?.value != 0" type="button"
+                                            class="btn btn-infocon btn-jd-suggestion" (click)="modelJDTcList()">
+                                            View {{filterCubeList?.CubeName || talentDetails?.TalentCubeName}} Details
+                                        </button>
+                                        <!-- <div>
+                                        {{editorLen.length}}/3000
+                                        </div> -->
+                                        <div class="ngx-error"
+                                            *ngIf="((getControl('jobDescription')?.touched && getControl('jobDescription')?.invalid) || (getControl('jobDescription')?.touched && editorLen.length <100)) && !isRejectTalent">
+                                            <div
+                                                *ngIf="(getControl('jobDescription')?.errors?.minlength || editorLen.length <100) && !isRejectTalent">
+                                                <span class="error-text">
+                                                    At least 100 characters required</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns  class="job-text-hint">Job Description:(Min 100 chars and max 3000
+                                            chars)</mat-label>
+                                        <textarea class="job-descrp" #projectDescrip formControlName="jobDescription"
+                                            matInput placeholder="Job Description" maxlength="3000"
+                                            disableInitialSpace></textarea>
+                                        <mat-hint class="hint-wrap"
+                                            align="end">{{projectDescrip.value.length}}/3000</mat-hint>
+                                        <mat-error
+                                            *ngIf="getControl('jobDescription')?.touched && getControl('jobDescription')?.invalid">
+                                            <div *ngIf="getControl('jobDescription')?.errors?.minlength">
+                                                <span class="error-text">
+                                                    At least 100 characters required</span>
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field> -->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- end sec -->
+
+
+                <!-- end section -->
+                <section class="dgm-track">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <h4>{{labelInterviewBiling}}</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <!-- new requirement for tech 1 round 
+                                
+                                &&talentDetails?.Tech1InterviewByName -->
+                                <!-- && isVisibleForIndia" -->
+                                <!--   -->
+                                <div [ngClass]="formClassCol" *ngIf="tech1interviewBy && isVisibleForIndia">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Interview By ( Tech 1 ) </mat-label>
+                                        <mat-select formControlName="tech1InterviewBy"
+                                            [disabled]="isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getTech1Data($event)">
+                                            <mat-option *ngFor="let data of tech1InterviewByList" [value]="data?.id">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol"
+                                    *ngIf="interviewer1Ctrl && isTechRoundAssesment && isVisibleForIndia">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Online Assessment By</mat-label>
+                                        <mat-select formControlName="onlineAssesment"
+                                            [disabled]="isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getAssessmentById($event)">
+                                            <mat-option *ngFor="let data of OnlineAssesmentAgencyList"
+                                                [value]="data?.id">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!--  -->
+                                <div [ngClass]="formClassCol"
+                                    *ngIf="interviewer1Ctrl && isCoderByteAssesments && isVisibleForIndia">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Assessments </mat-label>
+                                        <mat-select formControlName="coderBytesAssesments"
+                                            [disabled]="isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getCoderByteAssesmentID($event)">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrlCoderBytAssesment"
+                                                    [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option
+                                                *ngFor="let data of coderByteAssessmentList| coderBytePipe:searchInputCoderBytAssesment"
+                                                [value]="data?.test_id">
+                                                {{data?.display_name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div [ngClass]="formClassCol"
+                                    *ngIf="interviewer1Ctrl && isAssesmentLink && isVisibleForIndia">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Assessment Link </mat-label>
+                                        <input matInput formControlName="AcccesmentLink" placeholder="Assessment Link"
+                                            disableInitialSpace [disabled]="isJdEditable || isDisableForEdit2">
+                                    </mat-form-field>
+                                </div>
+                                <!--  -->
+                                <div [ngClass]="formClassCol"
+                                    *ngIf="interviewer1Ctrl && isTechRoundInternalPanel && isVisibleForIndia">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Reason (For Not Opting Online Assessment)
+                                        </mat-label>
+                                        <mat-select formControlName="techInternalPanel"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                            <mat-option *ngFor="let data of reasonOptingNotOptingList"
+                                                [value]="data?.id">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- -->
+                                <div [ngClass]="formClassCol"
+                                    *ngIf="interviewer1Ctrl && isTechRoundExternalPanel && isVisibleForIndia"
+                                     matTooltip="Reason (For Not Opting Online Assessment And Internal Panel)">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>
+                                            <!-- Reasons (For Opting External Panel) -->
+                                            Reason (For Not Opting Online Assessment And Internal Panel) </mat-label>
+                                        <mat-select formControlName="techExternalPanel"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                            <mat-option *ngFor="let data of externalReasonOptingNotOptingList"
+                                                [value]="data?.id">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- ends -->
+
+                                <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="interviewer1Ctrl">
+                                    <app-talent-interviewers-list-control [panelIdControl]="getControl('Interviewer1Tech')"
+                                        [formFieldAppearance]="formAppearance"
+                                        [required]="isRejectTalent ? false : true"
+                                        [title]="'Interviewer 1 ( Technical )'" (getDataEmp)="getDataInt($event, 1)"
+                                        [isEmpListAll]="true" 
+                                        [disabled]="isJdEditable || isDisableForEdit2"
+                                        (getEmpListLoaded)="getEmpListLoaded($event, 1)"
+                                        [getAllEmp]="EmpListData" [isMultiple]="true"></app-talent-interviewers-list-control>
+                                </div>
+                                <!-- end col -->
+                                 <!-- [required]="isRejectTalent ? false :true" -->
+                                <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="interviewer2Ctrl">
+                                    <app-talent-interviewers-list-control [panelIdControl]="getControl('Interviewer2')"
+                                        [formFieldAppearance]="formAppearance" 
+                                        [title]="'Interviewer 2 ( Technical )'"
+                                        (getDataEmp)="getDataInt($event, 2)" [isEmpListAll]="true"
+                                          [getAllEmp]="EmpListData"
+                                        [disabled]="isJdEditable || isDisableForEdit2" [isMultiple]="true"></app-talent-interviewers-list-control>
+                                </div>
+                                <!-- [required]="isRejectTalent ? false :true" -->
+                                 <div [ngClass]="formClassCol" class="arrow-inp-wrap" *ngIf="interviewer3Ctrl">
+                                    <app-talent-interviewers-list-control [panelIdControl]="getControl('Interviewer3')"
+                                        [formFieldAppearance]="formAppearance" 
+                                        [title]="'Managerial/ Management Round Panel'"
+                                        (getDataEmp)="getDataInt($event, 3)" [isEmpListAll]="true"
+                                          [getAllEmp]="EmpListData"
+                                        [disabled]="isJdEditable || isDisableForEdit2" [isMultiple]="true">
+                                        </app-talent-interviewers-list-control>
+
+                                </div>
+                                 
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="BillableCtrl">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit}">
+                                        <mat-label appRemoveAriaOwns>Is Billable?</mat-label>
+                                        <mat-select formControlName="Billable"
+                                            [disabled]="isDisableForEdit  || isJdEditable || isDisableForEdit2"
+                                            (selectionChange)="getBilableVal($event)">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isBillableYes">
+                                    <mat-form-field [appearance]="formAppearance"
+                                        [ngClass]="{'not-allowed' : isDisableForEdit}">
+                                        <mat-label appRemoveAriaOwns>Billing Type</mat-label>
+                                        <mat-select formControlName="BillingType" [disabled]="isJdEditable">
+                                            <mat-option *ngFor="let data of BillingTypeList" [value]="data?.Id">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isBillableYes">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Expected Margin(%)</mat-label>
+                                        <input matInput formControlName="expectedMargin" onlyDecimalNumber minlength="1"
+                                            pattern="[1-9][0-9]*" maxlength="3" (keyup)="keyUp($event)"
+                                            placeholder="Expected Margin" disableInitialSpace
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isBillableYes">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Bill Rate ( $/Hour ) </mat-label>
+                                        <input matInput formControlName="billableRates" onlyDecimalNumber
+                                            [disabled]="isJdEditable || isDisableForEdit2"
+                                            fomrControlName="BillableRate" placeholder="Bill Rate"
+                                            (keyup)="keyUpBillRate($event)" disableInitialSpace
+                                            [readOnly]="isDisableForEdit2">
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isBillableYes">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Billing Hours</mat-label>
+                                        <mat-select formControlName="BillableHours" [disabled]="isDisableForEdit2">
+                                            <mat-option value="8">8</mat-option>
+                                            <mat-option value="9">9</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- [matDatepickerFilter]="myFilterDate" -->
+                                <div [ngClass]="formClassCol" *ngIf="plannnedOnboardingDateCtrl">
+                                    <mat-form-field [appearance]="formAppearance" class="ats-mat-form-field">
+                                        <mat-label appRemoveAriaOwns>Planned Onboarding Date</mat-label>
+                                        <input matInput [matDatepicker]="picker11"
+                                            formControlName="plannedOnBoardingDate" readonly
+                                            placeholder="Planned Onboarding Date" [disabled]="isJdEditable"
+                                             [min]="isUpdateMode && !isDateManuallyChangedOnb ? null : disablePastDate"
+                                            (dateInput)="changeDateOnb('input', $event)"
+                                            [matDatepickerFilter]="excludePastAndWeekendDates">
+                                        <mat-datepicker-toggle matSuffix [for]="picker11">
+                                            <mat-icon matDatepickerToggleIcon>calendar_month
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker11></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isBillingDateVisib">
+                                    <mat-form-field [appearance]="formAppearance" class="ats-mat-form-field">
+                                        <mat-label appRemoveAriaOwns>Planned Billing Start Date</mat-label>
+                                        <input matInput [matDatepicker]="picker2" 
+                                          
+                                            formControlName="plannedBillingStartDate" readonly
+                                            placeholder="Planned Billing Start Date" [disabled]="isJdEditable"
+                                             (dateInput)="changeDateBilling('input', $event)"
+                                            [matDatepickerFilter]="excludePastAndWeekendDatesBill">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                                            <mat-icon matDatepickerToggleIcon>calendar_month
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="isClientIntReqCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Is Client Interview Required?</mat-label>
+                                        <mat-select formControlName="isClientInterviewRequired"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol" *ngIf="visaReadyCtrl">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Is Visa Ready?</mat-label>
+                                        <mat-select formControlName="visaReady"
+                                            [disabled]="isJdEditable || isDisableForEdit2">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Remarks</mat-label>
+                                        <input matInput formControlName="Remarks" placeholder="Special Request"
+                                            disableInitialSpace>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col
+                                 -->
+
+                                <!-- end col -->
+                                <div class="ats-form-col ">
+                                    <div
+                                        class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark file-upld-wrp">
+                                        <!-- [ngClass]="getControl('fileUpload').touched && getControl('fileUpload').invalid ? 'error-file-input':'suc'" -->
+                                        <div class="ats-form-col upload-file-ats view-btn-handle">
+                                            <div class="upload-file-input"
+                                                [ngClass]="{'disable-pointer': isJdEditable}">
+                                                <!-- <span *ngIf="isBillableYes">( Optional )</span>
+                                                    <span *ngIf="!isBillableYes">*</span> -->
+                                                <label>Attachment 
+                                                    <!-- <sup *ngIf="isAttechmentRequired && !isRejectTalent">*</sup> -->
+                                                     <!-- *ngIf="!isAttechmentRequired" -->
+                                                    <span >( Optional )</span>
+                                                </label>
+                                                <input type="file" formControlName="fileUpload"
+                                                    [disabled]="isJdEditable || isDisableForEdit2" #fileBGV
+                                                    (change)="fileUp($event)">
+
+                                                <mat-error
+                                                    *ngIf="getControl('fileUpload')?.touched && getControl('fileUpload')?.invalid">
+                                                    <div *ngIf="getControl('fileUpload')?.errors.required">
+                                                        Please choose a file
+                                                    </div>
+                                                </mat-error>
+                                            </div>
+                                            <div class="btn-act" *ngIf="data?.type == 'U' || this.data?.type == 'A'">
+                                                <!-- <p>Previews File</p> -->
+                                                <button mat-button type="button"
+                                                    matTooltip="View/ Download Previous File "
+                                                    [ngClass]="talentDetailsList?.ATTACHMENT ? 'view-pic-hover' :''"
+                                                    [disabled]="this.talentDetails?.ATTACHMENT == ''"
+                                                    (click)="dwnloadFileSingle(talentDetails)">
+                                                    <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ats-form-col " *ngIf="isAttechmentRequiredAppr">
+                                    <div class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark file-upld-wrp"
+                                        [ngClass]="getControl('THIDApprovalAttachment').touched && getControl('THIDApprovalAttachment').invalid ? 'error-file-input':'suc'">
+
+                                        <div class="ats-form-col upload-file-ats view-btn-handle">
+                                            <div class="upload-file-input">
+                                                <label> Approval Attachment
+                                                    <sup *ngIf="isAttechmentRequiredAppr && !isRejectTalent">*</sup>
+
+                                                </label>
+                                                <input type="file" formControlName="THIDApprovalAttachment" #fileBGV1
+                                                    (change)="fileUpApprovalAttachement($event)">
+
+                                                <mat-error
+                                                    *ngIf="getControl('THIDApprovalAttachment')?.touched && getControl('THIDApprovalAttachment')?.invalid">
+                                                    <div *ngIf="getControl('THIDApprovalAttachment')?.errors.required">
+                                                        Please choose a file.
+                                                    </div>
+                                                </mat-error>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div [ngClass]="formClassCol">
+                                    <div class="btn-action btn-single btn-action-center">
+                                        <div class="btn-act">
+                                            
+                                            <button mat-button type="button" matTooltip="View"
+                                                [disabled]="this.talentDetails?.ATTACHMENT == ''"
+                                                (click)="dwnloadFileSingle(talentDetails)">
+                                                <i class="fa fa-eye view-pic" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- end sec -->
+                <!-- clone -->
+                <section class="dgm-track" *ngIf="data?.type == 'C'">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <!-- <h4>Clone</h4> -->
+                        </div>
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font requsition-create-top-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                               
+                              
+                                <div [ngClass]="formClassCol">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>No Of Talent ID</mat-label>
+                                        <input matInput formControlName="Frequency" max="40"  onlyNumber (keyup)="keyUpNoOfTalent($event);">
+                                        <mat-error
+                                        *ngIf="getControl('Frequency')?.touched && getControl('Frequency')?.invalid">
+                                        <div *ngIf="getControl('Frequency')?.errors.required">
+                                            No Of Talent ID is required.
+                                        </div>
+                                        <div *ngIf="getControl('Frequency')?.errors.max">
+                                             Greater than 40 number not allowed.
+                                        </div>
+                                    </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- approval -->
+                <section class="dgm-track approve-sec" *ngIf="data?.type =='A'">
+                    <div class="box-v-ats box-v-ats-form">
+
+                        <div class="box-v-body approval-dp-wrap">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                <div class="ats-form-col action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                                    <label class="lb-title">Action<sup>*</sup> </label>
+                                    <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                        formControlName="approveRejectstatus">
+                                        <mat-radio-button value="A">Approve</mat-radio-button>
+                                        <mat-radio-button value="R"> Reject </mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- validate --><br>
+                                    <mat-error class="error-aprrove-Reject"
+                                        *ngIf="getControl('approveRejectstatus')?.touched && getControl('approveRejectstatus')?.invalid">
+                                        <div *ngIf="getControl('approveRejectstatus')?.errors.required">
+                                            Action is required.
+                                        </div>
+                                    </mat-error>
+                                    <!-- validate ends-->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col" *ngIf="isRejectTalent">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Reason Category</mat-label>
+                                        <mat-select formControlName="reasonCategory"
+                                            (selectionChange)="getReasonCategId($event)">
+                                            <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                                {{data?.Category}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <mat-error
+                                        *ngIf="getControl('reasonCategory')?.touched && getControl('reasonCategory')?.invalid">
+                                        <div *ngIf="getControl('reasonCategory')?.errors.required">
+                                            Reason Category is required.
+                                        </div>
+                                    </mat-error> -->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col" *ngIf="isRejectTalent">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Sub Reason</mat-label>
+                                        <mat-select formControlName="subReason"
+                                            [disabled]="!getControl('reasonCategory').valid  ">
+                                            <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                                {{data?.SubCategory}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <mat-error *ngIf="!getControl('reasonCategory').valid"
+                                        >
+                                        <div>
+                                            Please select reason category first.
+                                        </div>
+                                    </mat-error> -->
+
+                                    <!-- !getControl('reasonCategory').valid -->
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col action-wrapper remark-wrap">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns>Remarks</mat-label>
+                                        <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                            formControlName="rejectRemarks"></textarea>
+                                    </mat-form-field>
+                                    <!-- validate -->
+                                    <!-- [required]="isRemarkRequired" -->
+                                    <!-- <mat-error
+                                        *ngIf="getControl('rejectRemarks')?.touched && getControl('rejectRemarks')?.invalid">
+                                        <div *ngIf="getControl('rejectRemarks')?.errors.required">
+                                            {{isRemarkRequired?'Please Provide reject reason.':''}}
+                                        </div>
+                                    </mat-error> -->
+                                    <!-- validate ends-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+ 
+                <!-- end section -->
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container [ngSwitch]="data?.type">
+            <ng-container *ngSwitchCase="'U'">
+                <button type="submit" class="btn btn-infocon">
+                    Update
+                </button>
+            </ng-container>
+            <ng-container *ngSwitchCase="'UW'">
+                <button type="submit" class="btn btn-infocon">
+                    Update
+                </button>
+            </ng-container>
+            <ng-container *ngSwitchCase="'E'">
+                <button type="submit" class="btn btn-infocon">
+                    Update
+                </button>
+            </ng-container>
+            <!-- <ng-container *ngSwitchCase="'A'">
+                <button type="submit" class="btn btn-infocon">
+                    Approve
+                </button>
+            </ng-container> -->
+            <!-- <ng-container *ngSwitchCase="'C'">
+                <button type="submit" class="btn btn-infocon">
+                    Clone
+                </button>
+            </ng-container> -->
+            <ng-container *ngSwitchDefault>
+                <button type="submit" class="btn btn-infocon">
+                    Submit
+                </button>
+            </ng-container>
+        </ng-container>
+        <!-- <button type="submit" class="btn btn-infocon">
+            Submit
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</form>

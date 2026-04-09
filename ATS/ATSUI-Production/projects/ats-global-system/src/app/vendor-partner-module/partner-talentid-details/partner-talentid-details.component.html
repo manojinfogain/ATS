@@ -1,0 +1,270 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Partner Name/Talent Id'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By Partner Name/ Talent ID"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button type="button" class="btn btn-infocon" (click)="pendingWithMeModal(candidateList)">
+                                                      Pending with Me 
+                                                      <i class="fa fa-user"></i>
+                                                     
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="btn btn-infocon" (click)="gotoUser()">
+                                                        Assign Talent ID <i class="fa fa-user"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportExcelClientEnd()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter" [PartnerID]="true"
+                                                        [PartnerMulti]="true" (getSortFormData)="getSortData($event)"
+                                                        [dateRange]="true" [statusAssign]="true"
+                                                        [dateRangeTitle]="'Date'" [isPractice]="true"
+                                                        [practiceMulti]="true" [account]="true" [accountMulti]="true"
+                                                        [checkboxPendingWithMe]="true"></app-filter-sort>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info" matSort
+                                    (matSortChange)="sortData($event)">
+                                    <ng-container matColumnDef="talent_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Talent ID</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.talent_id || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="partnerName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.PartnerName || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="primaryRecruiter">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary Recruiter</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.primaryrecruiterName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="secondaryRecruiter">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Secondary Recruiter</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.secondaryrecruiterName ||
+                                            '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="assignBy">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Assigned By</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.modifiedByName || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="AccountName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.AccountName || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Practice">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Studio / Practice</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Practice || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="assignOn">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Assigned On</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.assignedOn || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="contractType">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Employement Type(s)</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.ContractType|| '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="reasonForAssing">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason for Assign</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.reason|| '-'}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Remarks">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.remarks|| '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Approver">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.ApproverName?element?.ApproverName+'
+                                            ('+element?.ApproverID+')':''}}
+                                        </td>
+                                    </ng-container>                                    
+                                    <ng-container matColumnDef="dormantStatus">
+                                        <th mat-header-cell *matHeaderCellDef>TID Dormant Status
+                                        <br>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                        <ng-container [ngSwitch]="element?.isTidDormant">
+                                            <ng-container *ngSwitchCase="'D'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                {{'DORMANT'}}
+                                            </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'R'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'RE-ACTIVATED'}}
+                                            </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'ACTIVE'}}
+                                            </button>
+                                            </ng-container>
+                                        </ng-container>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="approvalStatus">
+                                        <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div [ngSwitch]="element?.ApprovalStatus">
+                                                <div *ngSwitchCase="'A'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        {{element?.ApprovalStatusLabel}}
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchCase="'R'">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        {{element?.ApprovalStatusLabel}}
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchCase="'P'">
+                                                    <button class="btn-status-dg schedule" type="button">
+                                                        {{element?.ApprovalStatusLabel}}
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchDefault>
+                                                    _
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div [ngSwitch]="element?.status">
+                                                <div *ngSwitchCase="1">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+                                                        Assigned
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchCase="0">
+                                                    <button class="btn-status-dg rejects" type="button">
+                                                        Not Assigned
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="action-td" *ngIf="element?.isTidDormant != 'D'">
+                                                <mat-slide-toggle class="mat-togglt-act"
+                                                    [checked]="element?.status === 1"
+                                                    (change)="confirmAlertActiveDeactive($event,element)"
+                                                    [disabled]="element?.ApprovalStatus != 'A'"
+                                                    [matTooltip]="element?.status === 1?'Unassign Talent Id':'Reassign  Talent Id'">
+                                                </mat-slide-toggle>
+                                                <div class="btn-action btn-action-center btn-singles">
+                                                    <div class="btn-act"
+                                                        *ngIf="element?.ApprovalStatus == 'P' && element?.ApproverID == userData?.EmpNewId">
+                                                        <button mat-button type="button"
+                                                            matTooltip="Talent Id Assign Approval"
+                                                            (click)="approvalTalentIdAssign(element)">
+                                                            <span class="material-icons-outlined">
+                                                                approval
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="btn-act" *ngIf="element?.ApprovalStatus == 'P' &&
+                                                    (element?.Primary_Recruiter_EmpId == userData?.EmpNewId ||
+                                                     element?.Secondary_Recruiter_EmpId == userData?.EmpNewId) ||
+                                                     element?.ApprovalStatus == 'P' && userData?.RoleId == 5">
+                                                        <button mat-button type="button" matTooltip="Change Approver"
+                                                            (click)="changeApprover(element)">
+                                                            <span class="material-icons-outlined">
+                                                                person_add_alt
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="btn-act" *ngIf="element?.ApprovalStatus == 'R' && 
+                                                    (element?.Primary_Recruiter_EmpId == userData?.EmpNewId ||
+                                                     element?.Secondary_Recruiter_EmpId == userData?.EmpNewId)">
+                                                        <button mat-button type="button"
+                                                            matTooltip="Resend for Approval"
+                                                            (click)="sendForApproval(element)">
+                                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="candidateList?.data?.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

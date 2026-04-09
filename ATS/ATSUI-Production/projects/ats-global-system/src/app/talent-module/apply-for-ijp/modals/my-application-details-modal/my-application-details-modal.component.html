@@ -1,0 +1,89 @@
+<div class="ats-modal-header">
+    <!-- <h1>{{data?.title}}</h1> -->
+    <h1>My APplication Details</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body fitment-justification-wrapper">
+        <ng-container>
+
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Designation:</h4>
+                            <p>{{data?.IJPdesignation|| '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Application Status:</h4>
+                            <!-- <p>{{talentDetailsList?.Status || '-'}}</p> -->
+                            <p> <ng-container [ngSwitch]="data?.AppliedStatusId">
+                                    <ng-container *ngSwitchCase="0">
+                                        <button class="btn-status-dg rejects " type="button">
+                                            {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="1">
+                                        <button class="btn-status-dg schedule" type="button">
+                                            {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="2">
+                                        <ng-container [ngSwitch]="data?.ProposalStatusId">
+                                            <ng-container *ngSwitchCase="0">
+                                                <button class="btn-status-dg rejects " type="button">
+                                                    {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="1">
+                                                <button class="btn-status-dg schedule" type="button">
+                                                    {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="2">
+                                                <button class="btn-status-dg shortlisted" type="button">
+                                                    {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                                </button>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        {{data?.AppliedStatusName ? data?.AppliedStatusName || '-' : data?.statusName || '-'}}
+                                    </ng-container>
+                                </ng-container></p>
+                        </div>
+                        <div class="view-list-bx fitment-justif-col">
+                          <h4>My Justification (Fitment Remarks):</h4>
+                            <p>{{applicationDetails?.FitmentRemarks || '-'}}</p>
+                           <!-- <div [innerHTML]="aboutText.replace(/,/g, '<br><br>')"></div> -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="box-v-ats">
+                <div class="box-v-header">
+                    <ng-container>
+                        <h4>My Justification</h4>
+                    </ng-container>
+                </div>
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                        <div class="view-list-bx fitment-justif-col">
+                            <h4>:</h4>
+                            <p>{{applicationDetails?.FitmentRemarks || '-'}}</p>
+                           
+                        </div>
+                     
+                    </div>
+                </div>
+            </div> -->
+        </ng-container>
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+<form [formGroup]="otherInfoForm" (ngSubmit)="updateOtherInfoForm(otherInfoForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="screen-mat-card-b">
+                <div class="questionare-wrap">
+
+                    <!-- <ng-container *ngIf="candidateQuestionareDetails?.length ==0"> -->
+                   
+
+                    <div class="questionare-row">
+                        <div class="quest-in">
+                            <h4>What are your specific strengths & Improvement Areas?<sup>*</sup></h4>
+                            <div class="text-qs">
+                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                    <textarea matInput placeholder="Enter Details" class="height-42"
+                                        formControlName="strengthsImpArea"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <div class="questionare-row">
+                        <div class="quest-in">
+                            <h4>What are the new technological areas you think you need to pick-up /
+                                improve?<sup>*</sup></h4>
+                            <div class="text-qs">
+                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                    <textarea matInput placeholder="Enter Details"
+                                        formControlName="techAreaImprove"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <div class="questionare-row full-width-important">
+                        <div class="quest-in">
+                            <h4>Your Location preference:</h4>
+                            <div class="ats-radio-mat-flatx width-200">
+                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance" >
+                                    <mat-label appRemoveAriaOwns >Your Location preference:</mat-label>
+                                    <mat-select  placeholder="Select Location" formControlName="prefLocId">
+                                        <mat-option *ngFor="let list of locList" [value]="list?.LocID">
+                                            {{list?.LocName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="checkbox-wrapper mt22-ml16">
+                                <mat-checkbox 
+                                [ngClass]="getControl('locationConsent')?.touched  && getControl('locationConsent')?.invalid ? 'consent-error':'suc'" formControlName="locationConsent">
+                                    <sup class="dangr">*</sup>
+                                    <ng-container>
+                                        <span>
+                                            I will be ready to work from the designated Infogain payroll location, Infogain
+                                            office or the client office, depending on the role <br>and business needs at the
+                                            time of  my employment and in the future.
+    
+                                        </span>
+                                    </ng-container>
+                                </mat-checkbox>
+    
+                            </div>
+                        </div>                       
+                    </div>
+                    <!-- end row -->
+                    <!-- </ng-container> -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

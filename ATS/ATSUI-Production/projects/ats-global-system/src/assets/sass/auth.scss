@@ -1,0 +1,249 @@
+.ats-auth-wrapper{
+        height: calc(100vh - 115px);
+        position: fixed;
+        left: 0;
+        top: 66px;
+        width: 100%;
+        overflow: auto;
+    .auth-content-box{
+        width: 345px;
+        background: #fff;
+        width: 384px;
+        max-width: 384px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        margin-top: -4px;
+    }
+
+   .auth-box-card{
+       .auth-box-headr{
+        background: transparent linear-gradient(94deg, #0167FF 0%, #25A9F4 100%);
+        margin: -10px -10px 0px -10px;
+        position: relative;
+        box-shadow: 0px 3px 4px #00122840;
+           h3{
+             font-size: 16px;
+             color: #fff;
+             font-family: $font-bold;
+             padding: 10px 10px;
+
+             &:before, &:after {
+                content: "";
+                position: absolute;
+                display: block;
+                border-style: solid;
+                border-color: #804f7c transparent transparent transparent;
+                bottom: -1em;
+               }
+               &:before {
+                left: 0;
+                border-width: 1em 0 0 1em;
+                border-color: #0167FF transparent transparent transparent;
+               }
+               &:after {
+                right: 0;
+                border-width: 1em 1em 0 0;
+                border-color: #25A9F4 transparent transparent transparent;
+               }
+           }
+       }
+       .auth-box-body{
+           padding: 10px 0;
+           .form-error{
+               margin-top: -2px;
+           }
+           .resend{
+            text-align: center;
+            text-align: center;
+            padding: 2px 0px;
+            a{
+                text-decoration: none;
+                font-family: $font-semiBold;
+                background: #00808d;
+                color: #fff;
+                display: inline-block;
+                padding: 3px 4px;
+                font-size: 10px;
+                &:hover{
+                    background: #f6ef23;
+                    color: #8f8b06;
+                    transition: 0.7s;
+                }
+            }
+        }
+           .sm-text{
+               h4{
+                padding: 14px 5px;
+               }
+               p{
+                   font-size: 14px;
+                   text-align: center;
+                   padding: 14px 14px 6px 13px;
+                   &.p-can{
+                    padding: 5px 14px 6px 13px; 
+                    margin: 0;
+                   }
+                   &.p-can1{
+                    padding: 5px 14px 0px 13px; 
+                    margin: 0;
+                    font-size: 12px;
+                   }
+                   &.p-can2{
+                    padding: 3px 3px;
+                    margin: 6px 0px 5px 0px;
+                    font-size: 12px;
+                    border: solid 1px #e8e8e8;
+                    .timer-ui span.tm {
+                        background: #e6e6e6;
+                        color: #073c62;
+                    }
+                   }
+               }
+               h4{
+                font-size: 14px;
+                text-align: center;
+                font-family: $font-semiBold;
+               }
+           }
+       }
+       .auth-box-footer{
+        border-top: solid 1px #ddd;
+        padding: 6px 3px;
+        margin: 0px -10px -7px -10px;
+       }
+   }
+   &.otp-ath-login{
+    .auth-content-box{
+        width: 600px;
+        max-width: 600px;
+        
+         .auth-box-card {
+            .auth-box-body {
+                .auth-form-row{
+                    padding: 19px 0px 4px 0px;
+                }
+                .sm-text{
+                    p{
+                        &.p-can{
+                        }
+                        &.p-can1{
+                            font-size: 13px;
+                        }  
+                    }
+                }
+            }
+         }
+    }
+   }
+}
+
+
+.pass-term{
+	h4{
+   font-size: 13px;
+    margin: 0px;
+    line-height: 15px;
+	padding-bottom: 6px;
+	font-family: $font-semiBold;
+	}
+	ul{
+		margin: 0px;
+	}
+    .list-group-item{
+      padding: 4px 11px;
+      font-size: 12px;
+      color:#34373B;
+      line-height: 18px;
+      font-family: $base-font;
+      border: none;
+      padding-left: 20px;
+      position: relative;
+        .icon-pg{
+            position: absolute;
+            left: -3px;
+            font-size: 18px;
+            top: 4px;
+            color: red;
+            &.icon-pg-ok{
+                display: none;
+                color:green;
+            }
+        }
+
+        &.act{
+            .icon-pg-ok{
+                display: inline-block;
+            }
+            .icon-pg-error{
+                display: none;  
+            }
+        }
+    }
+  }
+
+
+  .ribbon {
+    font-size: 16px !important;
+    /* This ribbon is based on a 16px font side and a 24px vertical rhythm. I've used em's to position each element for scalability. If you want to use a different font size you may have to play with the position of the ribbon elements */
+   
+    width: 50%;
+       
+    position: relative;
+    background: #ba89b6;
+    color: #fff;
+    text-align: center;
+    padding: 1em 2em; /* Adjust to suit */
+    margin: 2em auto 3em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon 'graphics' take up 24px themselves so we double it. */
+   }
+   .ribbon:before, .ribbon:after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: -1em;
+    border: 1.5em solid #986794;
+    z-index: -1;
+   }
+   .ribbon:before {
+    left: -2em;
+    border-right-width: 1.5em;
+    border-left-color: transparent;
+   }
+   .ribbon:after {
+    right: -2em;
+    border-left-width: 1.5em;
+    border-right-color: transparent;
+   }
+   .ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-style: solid;
+    border-color: #804f7c transparent transparent transparent;
+    bottom: -1em;
+   }
+   .ribbon .ribbon-content:before {
+    left: 0;
+    border-width: 1em 0 0 1em;
+   }
+   .ribbon .ribbon-content:after {
+    right: 0;
+    border-width: 1em 1em 0 0;
+   }
+
+   .candidate-offer-act{
+    .ats-auth-wrapper .auth-box-card .auth-box-body{
+        .welcms{
+            h4{
+              padding-bottom: 7px;
+            }
+            p{
+                margin-top: 0px;
+            }
+    }
+       }
+   }

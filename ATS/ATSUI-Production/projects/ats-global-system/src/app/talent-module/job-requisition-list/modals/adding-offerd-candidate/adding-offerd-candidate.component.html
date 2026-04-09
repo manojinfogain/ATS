@@ -1,0 +1,652 @@
+<form [formGroup]="addOfferDetailsForm" (ngSubmit)="updateTalentIdHandler(addOfferDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{data?.CTHID}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av"></div>
+                <div class="search-bars">
+                    <div class="filter-at-wrapper">
+                        <div class="s-fil">
+                        </div>
+                        <div class="s-fil">
+                            <div class="act-header-btn">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="addUpdateControl()"
+                                            class="btn btn-infocon btn-flex-add"
+                                            [disabled]="formSchRowGroup.length >= 10">
+                                            <span class="material-icons-outlined">
+                                                add_circle_outline
+                                            </span> Add More Rows
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bd-tab-os-add">
+                <mat-accordion class="ats-sc-accordion ats-add-accordion">
+                    <ng-container formGroupName="formSchRowGroup" *ngIf="formSchRowGroup.length != 0">
+                        <mat-expansion-panel *ngFor="let  items of formSchRowGroup.controls; let i=index"
+                            [formGroupName]="i" [expanded]="step === i">
+                            <mat-expansion-panel-header
+                                [ngClass]="formGroupControls[i].touched && formGroupControls[i].invalid ? 'error-input':'suc-input'">
+                                <mat-panel-title>
+                                    Candidate - {{i+1}}
+                                    {{getControl('CandidateName',i)?.value?'('+getControl('CandidateName',i)?.value+')':''}}
+                                </mat-panel-title>
+                                <button class="btn-sv-delete" type="button" (click)="deleteRow($event,i)"
+                                    [matTooltip]="'Delete'" [disabled]="formSchRowGroup.length ===1">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </mat-expansion-panel-header>
+                            <div class="acd-body">
+                                <div class="ats-form-ui-enhance-font">
+                                    <div
+                                        class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Candidate Name</mat-label>
+                                                <input matInput formControlName="CandidateName"
+                                                    placeholder="Candidate Name" maxlength="200" disableInitialSpace
+                                                    onlyAlphabets appCapitalizeWords>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                         
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <app-skill-set
+                                                [panelIdControl]="formGroupControls[i]['controls'].PrimarySkillId"
+                                                [formFieldAppearance]="'outline'" [required]="data?.LocationID == 13" [title]="'Primary Skill'">
+                                            </app-skill-set>
+                                        </div>
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <app-skill-set
+                                                [panelIdControl]="formGroupControls[i]['controls'].SubSkillId" [isMultiple]="true"
+                                                [formFieldAppearance]="'outline'" [required]="data?.LocationID == 13" [title]="'Sub Skill'">
+                                            </app-skill-set>
+                                        </div>
+                                        
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <div class="exp-section-control-main">
+                                                <div class="exp-section-control-ds">
+                                                    <div class="exp-cols">
+                                                        <mat-form-field appearance="outline"
+                                                            class="place-from-control"
+                                                            matTooltip="Total Experience in Year">
+                                                            <mat-label>Total Exp. (Year)</mat-label>
+                                                            <input matInput placeholder="Total Exp."
+                                                                maxlength="2" disableInitialSpace [required]="data?.LocationID == 13"
+                                                                formControlName="ExpInYear" onlyNumber
+                                                                expYear >
+                                                                <!-- (blur)="TotalExp(i)" -->
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="exp-cols">
+                                                        <mat-form-field appearance="outline"
+                                                            class="place-from-control"
+                                                            matTooltip="Total Experience in Month">
+                                                            <mat-label>Total Exp. (Month)</mat-label>
+                                                            <input matInput placeholder="Total Exp."
+                                                                maxlength="2" disableInitialSpace [required]="data?.LocationID == 13"
+                                                                formControlName="ExpInMonth" onlyNumber
+                                                                expMonth >
+                                                                <!-- (blur)="TotalExp(i)" -->
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+                                        
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns >Source Type</mat-label>
+                                                <mat-select formControlName="sourceType" (selectionChange)="profileSourceChange($event,i)">
+                                                    <mat-option *ngFor="let data of sourceTypeList"
+                                                        [value]="data?.id">
+                                                        {{data?.Name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                      
+                                        <div class="ats-form-col" *ngIf="getControlOfReferrerName('sourceType',i)">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns >Referrer Name</mat-label>
+                                                <input matInput placeholder="Referrer Name" maxlength="250" disableInitialSpace
+                                                    formControlName="ReferrerName" appCapitalizeWords>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="ats-form-col" *ngIf="getControlOfExternalPortal('sourceType',i)">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns>External Portal</mat-label>
+                                                <mat-select formControlName="SubProfileId">
+                                                    <mat-option *ngFor="let list of externalPortalList" [value]="list.Id">
+                                                        {{list.Name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="getControlOfSourceName('sourceType',i)">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>
+                                                {{ showPartnerIfSourceName('sourceType',i) ? 'Partner Name' : 'Source Name'}}
+                                                </mat-label>
+                                                <input matInput formControlName="SourceName" disableInitialSpace
+                                                    placeholder="{{showPartnerIfSourceName('sourceType',i) ? 'Partner Name' : 'Source Name'}}" maxlength="200">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns >Employment type</mat-label>
+                                                <mat-select [disableOptionCentering]="true" [required]="data?.LocationID == 13" formControlName="EmploymentTypeID"
+                                                   (selectionChange)="getDGMCalcValue(i)">
+                                                    <!-- (selectionChange)="validationPayFields();selectEmploymentType($event.value)" -->
+                                                    <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                                        {{list?.ContractType}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <app-common-control-master [desgination]="true"
+                                                [formControlOpt]="getControl('DesignationId',i)" [required]="data?.LocationID == 13" [title]="'Designation'"
+                                                [formFieldAppearance]="'outline'" >
+                                                <!-- (getGradeId)="getDesignation($event)" -->
+                                            </app-common-control-master>
+                                        </div>
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label appRemoveAriaOwns >Grade</mat-label>
+                                                <mat-select formControlName="gradeId" [required]="data?.LocationID == 13" (selectionChange)="getGradeId($event);getDGMCalcValue(i)">
+                                                    <mat-option>
+                                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                            [formControl]="FilterCtrlGrade" [noEntriesFoundLabel]="'No record Found'"
+                                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let data of gradeList | gradeFilter:searchInputGrade"
+                                                        [value]="data.GRADE_ID">
+                                                        {{data?.GRADE_NAME}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>                
+                                        </div>
+                                        <!-- end col -->
+                                         
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>{{getControl('EmploymentTypeID',i)?.value == 17 || getControl('EmploymentTypeID',i)?.value == 21 ? 'Monthly Gross Salary ( PLN )' : getControl('EmploymentTypeID',i)?.value == 18 || getControl('EmploymentTypeID',i)?.value == 19 || getControl('EmploymentTypeID',i)?.value == 20 ? 'Hourly Net Salary ( PLN )' : 'CTC Offered'}}</mat-label>
+                                                <input matInput placeholder="{{getControl('EmploymentTypeID',i).value == 17 ? 'Monthly Gross Salary ( PLN )' : getControl('EmploymentTypeID',i)?.value == 18 || getControl('EmploymentTypeID',i)?.value == 19 || getControl('EmploymentTypeID',i)?.value == 20 || getControl('EmploymentTypeID',i)?.value == 21 ? 'Hourly Net Salary ( PLN )' : 'CTC Offered'}}" maxlength="10" disableInitialSpace
+                                                    formControlName="offeredCTC" onlyNumber [required]="data?.LocationID == 13" (input)="getOfferedCTC(i)">
+                                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('ctc',i)?.value | convertToWord}}
+                                                </mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Joining bonus ( PLN ) </mat-label>
+                                                <input matInput placeholder="Joining bonus ( PLN )" maxlength="10" disableInitialSpace
+                                                    formControlName="JoiningBonus" onlyNumber (input)="getJoiningBonus(i)">
+                                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('JoiningBonus',i)?.value |
+                                                    convertToWord}}</mat-hint>                
+                                            </mat-form-field>                
+                                        </div>
+                                        <!-- end col -->
+                                         
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Retention bonus ( PLN )</mat-label>
+                                                <input matInput placeholder="Retention bonus ( PLN )" maxlength="10" disableInitialSpace
+                                                    formControlName="RetentionBonus" onlyNumber (input)="getRetentionBonus(i)">
+                                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RetentionBonus',i)?.value |
+                                                    convertToWord}}</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                         
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Relocation Expense ( PLN )</mat-label>
+                                                <input matInput placeholder="Relocation Expense ( PLN )" maxlength="10" disableInitialSpace
+                                                    formControlName="RelocationExpense" onlyNumber (input)="getRelocationExpense(i)">
+                                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('RelocationExpense',i)?.value |
+                                                    convertToWord}}</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Travel Expense ( PLN )</mat-label>
+                                                <input matInput placeholder="Travel Expense ( PLN )" maxlength="10" disableInitialSpace
+                                                    formControlName="TravelExpense" onlyNumber (input)="getTravelExpense(i)">
+                                                <mat-hint align="end" class="mat-hint-pt-j">{{getControl('TravelExpense',i)?.value |
+                                                    convertToWord}}</mat-hint>
+                                            </mat-form-field>                
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label appRemoveAriaOwns >Re-Hire</mat-label>
+                                                <mat-select formControlName="reHire" [required]="data?.LocationID == 13">
+                                                    <mat-option *ngFor="let data of RehireList" [value]="data.value">
+                                                        {{data?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>                
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Notice period ( In Days )</mat-label>
+                                                <input matInput placeholder="Notice period  ( In Days )" maxlength="2" disableInitialSpace
+                                                    formControlName="NoticePeriodInDays" onlyNumber>                                                
+                                            </mat-form-field>
+                
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Offer Date</mat-label>
+                                                <input matInput [matDatepicker]="picker2" readonly
+                                                    placeholder="Offer Date" formControlName="offerDate"
+                                                    (dateInput)="changeDate('input', $event)">
+                                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Tentative Joining Date</mat-label>
+                                                <input matInput [matDatepicker]="picker3" readonly
+                                                    placeholder="Tentative Joining Date"
+                                                    formControlName="tentativeJoiningDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker3></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                        <!-- <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label> Max Salary Annually(INR)</mat-label>
+                                                <input matInput placeholder="Max Salary Annually(INR)" onlyNumber
+                                                    formControlName="maxSalary" maxlength="12">
+                                            </mat-form-field>
+                                        </div> -->
+                                        <!-- end col -->
+                                        <div class="ats-form-col" *ngIf="data?.LocationID != 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Offer Salary Annually</mat-label>
+                                                <input matInput placeholder="Offer Salary Annually" required
+                                                    disableInitialSpace formControlName="offeredCTC" onlyNumber maxlength="12">
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                          
+                                         
+                                        <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns >Reporting Manager</mat-label>
+                                                <mat-select [disableOptionCentering]="true" [required]="data?.LocationID == 13" formControlName="reportingManager">
+                                                    <mat-option>
+                                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                            [formControl]="FilterCtrlRM" [noEntriesFoundLabel]="'No record Found'"
+                                                            [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option
+                                                        *ngFor="let data of reportingManagerList | reportingMngrFilter:searchInputRM"
+                                                        [value]="data?.Emp_NewID">{{data?.Name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->                                       
+                                         
+                                        <!-- <div class="ats-form-col" *ngIf="data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Date Of Decline</mat-label>
+                                                <input matInput [matDatepicker]="pickerDecline"  
+                                                    formControlName="DateOfDecline" (dateInput)="changeDate('input', $event)" readonly>
+                                                <mat-datepicker-toggle matSuffix [for]="pickerDecline">
+                                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #pickerDecline></mat-datepicker>                                               
+                                            </mat-form-field>
+                                        </div> -->
+                                        <!-- end col -->
+                                         
+                                        <!-- <div class="ats-form-col" *ngIf="getControl('DateOfDecline', i)?.value && data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label appRemoveAriaOwns >Declined categories</mat-label>
+                                                <mat-select formControlName="DeclineCategory" [required]="getControl('DateOfDecline', i)?.value && data?.LocationID == 13"
+                                                    >
+                                                    <mat-option *ngFor="let list of declineCategoryList"
+                                                        [value]="list?.DeclineCategoryId">{{list?.DeclineCategory}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div> -->
+                                        <!-- end col -->                                         
+                                        <!-- <div class="ats-form-col" *ngIf="getControl('DeclineCategory', i)?.value == 7 && data?.LocationID == 13">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label>Decline Remarks</mat-label>
+                                                <input matInput placeholder="Decline Remarks" maxlength="250" disableInitialSpace
+                                                    formControlName="DeclineRemarks" [required]="getControl('DeclineCategory', i)?.value == 7 && data?.LocationID == 13">
+                                            </mat-form-field>
+                                        </div> -->
+                                        <!-- end -->
+                                        <div class="ats-form-col">
+                                            <mat-form-field appearance="outline" class="place-from-control">
+                                                <mat-label> Comments</mat-label>
+                                                <textarea matInput placeholder="Comments" maxlength="500"
+                                                    disableInitialSpace formControlName="Comment"></textarea>
+                                                <mat-hint class="hint-wrap"
+                                                    align="end">{{getControl('Comment',i)?.value?getControl('Comment',i)?.value?.length:0}}/500</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- end col -->
+                                           <div class="ats-form-col all-bonus-section-clb">
+                                              <div class="all-bonus-wrapper" [matTooltip]="allBonusNames">
+                                                   <span> Total One-Time Payout </span>
+                                                     <p>{{ dgmAllAllowance[i] || 0 }}</p>
+                                                </div>
+                                            </div>
+                                    </div>
+                    <div class="dgm-track" *ngIf="data?.LocationID == 13">
+                        <div class="box-v-ats box-v-ats-form">
+                            <div class="box-v-header">
+                                <h4>DGM Calculator</h4>
+                            </div>
+                            <div class="box-v-body">
+                                <div class="dgm-track">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-body">
+                                            <div
+                                                class="ats-forms ats-form-normal-font ats-forms-horz ats-forms-horz4 form-outline-ats ats-form-dark">
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label appRemoveAriaOwns >Billing Currency</mat-label>
+                                                        <mat-select formControlName="BillingCurrencyId"
+                                                            [required]="data?.LocationID == 13">
+                                                            <!-- (selectionChange)="locChanged($event)" -->
+                                                            <mat-option *ngFor="let currency of currencyTypeData"
+                                                                [value]="currency.CurId">
+                                                                {{currency.CurName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="ats-form-col" *ngIf="!isBillRateEditable">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Billing Rate/Hr in billing currency </mat-label>
+                                                        <input matInput placeholder="Billing Rate/Hr in billing currency"
+                                                            [value]="this.data?.BillingRateInPLN" [required]="data?.LocationID == 13 && !isBillRateEditable"
+                                                            readonly>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="ats-form-col" *ngIf="isBillRateEditable">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Billing Rate/Hr in billing currency</mat-label>
+                                                        <input matInput (input)="getBillingRateHrCurrency(i)"
+                                                            placeholder="Billing Rate/Hr in billing currency"
+                                                            maxlength="12" formControlName="billingRateHrCurrency"
+                                                            disableInitialSpace onlyDecimalNumber  [required]="data?.LocationID == 13 && isBillRateEditable">
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+                                                <div class="ats-form-col" *ngIf="!isBillHrEditable">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Billable Hours/Day</mat-label>
+                                                        <input matInput placeholder="Billable Hours/Day"
+                                                            [value]="this.data?.BillingHrs" [required]="data?.LocationID == 13 && !isBillRateEditable"
+                                                            readonly>
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <div class="ats-form-col" *ngIf="isBillHrEditable">
+                                                    <mat-form-field appearance="outline">
+                                                        <mat-label appRemoveAriaOwns >Billable Hours/Day</mat-label>
+                                                        <mat-select formControlName="BillableHoursDay"
+                                                        [required]="data?.LocationID == 13 && isBillRateEditable" (selectionChange)="getDGMCalcValue(i)">
+                                                            <!-- (selectionChange)="locChanged($event)" -->
+                                                            <mat-option *ngFor="let data of billingHours"
+                                                                [value]="data">
+                                                                {{data}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <!-- end col -->
+
+                                                <div class="ats-form-col">
+                                                    <mat-form-field appearance="outline" class="place-from-control">
+                                                        <mat-label>Project Buffer if applicable (%)</mat-label>
+                                                        <input matInput placeholder="Project Buffer if applicable" (input)="getProjectBufferInPercent(i)"
+                                                            maxlength="3" formControlName="ProjectBufferInPercent"
+                                                            disableInitialSpace onlyNumber>
+
+                                                    </mat-form-field>
+                                                </div>
+                                                <!-- end col -->
+
+
+                                            </div>
+                                            <div class="dgm-track">
+                                                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                    <div class="view-list-bx">
+                                                        <h4>Local Currency</h4>
+                                                        <!-- <p>{{localCurrency || '-'}}</p> -->
+                                                        <p>{{getControl('LocalCurrency', i)?.value || '-'}}</p>
+                                                    </div>
+                                                    <div class="view-list-bx">
+                                                        <h4>Annual CTC in Local Currency</h4>
+                                                        <!-- <p>{{annualCTCinLocalCurrency || '-'}}</p> -->
+                                                        <p>{{getControl('AnnualCTC', i)?.value ? getControl('AnnualCTC', i)?.value + ' PLN' : '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Hourly Salary in Local Currency</h4>
+                                                        <!-- <p>{{annualCTCinLocalCurrency || '-'}}</p> -->
+                                                        <p>{{getControl('HourlySalary', i)?.value ? getControl('HourlySalary', i)?.value + ' PLN' : '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Billing Rate/Hr in USD</h4>
+                                                        <!-- <p>
+                                                            {{dgmData?.BillingRateHr?(dgmData?.BillingRateHr |
+                                                            currency): '-'}}
+                                                        </p> -->
+                                                        <p>
+                                                            {{getControl('BillingRateHrInUSD', i)?.value ? (getControl('BillingRateHrInUSD', i)?.value |
+                                                            currency): '-'}}
+                                                        </p>
+                                                    </div>
+                                                    <!-- end -->
+                                                    <div class="view-list-bx">
+                                                        <h4>Annual Billable Hours</h4>
+                                                        <!-- <p>{{dgmData?.AnnualBillableHours || '-'}}</p> -->
+                                                        <p>{{getControl('AnnualBillableHours', i)?.value || '-'}}</p>
+                                                    </div>
+                                                    <!-- end -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+
+                                <div class="dgm-track">
+                                    <div class="box-v-ats box-v-ats-form">
+                                        <div class="box-v-header">
+                                            <h4>In USD</h4>
+                                        </div>
+                                        <div class="box-v-body">
+                                            <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                                                <div class="view-list-bx">
+                                                    <h4>Annual Revenue</h4>
+                                                    <!-- <p>{{dgmData?.AnnualRevenue?(dgmData?.AnnualRevenue |
+                                                        currency):'-'}}</p> -->
+                                                        <p>{{getControl('AnnualRevenueUsd', i)?.value ?(getControl('AnnualRevenueUsd', i)?.value |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Annual Salary Cost</h4>
+                                                    <!-- <p>{{dgmData?.AnnualSalaryCost?(dgmData?.AnnualSalaryCost |
+                                                        currency):'-'}}</p> -->
+                                                        <p>{{getControl('AnnualSalaryCostUsd', i)?.value?(getControl('AnnualSalaryCostUsd', i)?.value |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx" [matTooltip]="allBonusNames">
+                                                    <h4> Total One-Time Payout</h4>
+                                                        <p>{{getControl('JoiningBonusUsd', i)?.value?(getControl('JoiningBonusUsd', i)?.value | currency):'-'}}
+                                                    </p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Benefits</h4>
+                                                    <p>{{getControl('BenefitsUsd', i)?.value ?(getControl('BenefitsUsd', i)?.value | currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>Project Buffer</h4>
+                                                    <!-- <p>{{dgmData?.ProjectBuffer?(dgmData?.ProjectBuffer |
+                                                        currency):'-'}}</p> -->
+                                                        <p>{{getControl('ProjectBufferUsd', i)?.value ? (getControl('ProjectBufferUsd', i)?.value |
+                                                        currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <!-- <div class="view-list-bx">
+                                                    <div>
+                                                        <div
+                                                            class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+
+                                                            <div class="ats-form-col">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control">
+                                                                    <mat-label>Non- Reimbursable Travel cost</mat-label>
+                                                                    <input matInput (input)="getNonReimbursableTravelCostUsd(i)"
+                                                                        placeholder="Non- Reimbursable Travel cost"
+                                                                        maxlength="15"
+                                                                        formControlName="NonReimbursableTravelCostUsd"
+                                                                        disableInitialSpace onlyNumber>
+
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="view-list-bx">
+                                                    <div>
+                                                        <div
+                                                            class="ats-forms ats-form-normal-font  ats-forms-horz ats-forms-vertical-s form-outline-ats ats-form-dark">
+
+                                                            <div class="ats-form-col">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="place-from-control">
+                                                                    <mat-label>Project Specific Cost</mat-label>
+                                                                    <input matInput placeholder="Project Specific Cost" (input)="getProjectSpecificCostUsd(i)"
+                                                                        maxlength="15"
+                                                                        formControlName="ProjectSpecificCostUsd"
+                                                                        disableInitialSpace onlyNumber>
+
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>DGM</h4>
+                                                    <!-- <p>{{dgmData?.dgmCost?(dgmData?.dgmCost | currency):'-'}}</p> -->
+                                                    <p>{{getControl('DgmCostUsd', i)?.value ? (getControl('DgmCostUsd', i)?.value | currency):'-'}}</p>
+                                                </div>
+                                                <!-- end -->
+                                                <div class="view-list-bx">
+                                                    <h4>DGM (%)</h4>
+                                                    <!-- <p>{{dgmData?.dgmCostPercent?dgmData?.dgmCostPercent+' %': '0%'}} -->
+                                                        <p>{{getControl('DgmPercentUsd', i)?.value ? getControl('DgmPercentUsd', i)?.value+' %': '0%'}}
+                                                    </p>
+                                                </div>
+                                                <!-- end -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end -->
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- end -->
+                    </div>
+                                </div>
+                            </div>
+
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+            </div>
+            <!-- <div class="table-data-scroll-pop">
+                <table class="table  table-infoconnect">
+                    <thead>
+                        <tr>
+                            <th>
+                                Offer Date
+                                <sup>*</sup>
+                            </th>
+                            <th>Tentative Joining Date
+                                <sup>*</sup>
+                            </th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody formGroupName="formSchRowGroup" *ngIf="formSchRowGroup.length != 0">
+                        <tr *ngFor="let  items of formSchRowGroup.controls; let i=index" [formGroupName]="i">
+                            <td>a</td>
+                            <td>b</td>
+                            <td>c</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

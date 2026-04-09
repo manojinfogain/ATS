@@ -1,0 +1,10 @@
+
+:host::ng-deep .checkbox-control{
+    margin-top: -15px;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    .mat-checkbox-label{
+        color: #1a38a7;
+    }
+}

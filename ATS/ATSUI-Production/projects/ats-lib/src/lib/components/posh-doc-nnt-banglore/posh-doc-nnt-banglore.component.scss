@@ -1,0 +1,76 @@
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+.h3-fs-ta-td{
+    font-size: 20px;text-align: center;text-decoration: underline;
+}
+.ul-lit-ml{
+    list-style-type: decimal;margin-left: 27px;
+}
+.ul-lst-ml{
+list-style-type: lower-roman;margin-left: 27px;
+}
+.ul-cmn-lts-ml{
+list-style-type: disc;margin-left: 27px;
+}
+.ul-st-ml-disc{
+    list-style-type: disc;margin-left: 27px;
+}
+.cmn-ls-sq{
+    list-style-type: square;
+}
+.ul-cmn-cir{
+    list-style-type: circle;margin-left: 27px;
+}
+.ul-cmn-sq-lst{
+    list-style-type: square;margin-left: 27px;
+}
+.st-p-pb{
+    padding-bottom: 100px;
+}
+.h3-st-hs{
+    text-align: center;font-size: 19px;text-decoration: underline;
+    
+}
+.ol-st-ul-cmn{
+    list-style-type: decimal;margin-left: 27px;
+}
+.st-p-pb1{
+    padding-bottom: 200px;
+}
+.h3-st-st1{
+    font-size: 20px;text-align: center;text-decoration: underline;    margin: 134px 0px 53px 0px;
+}
+.div-cl-mt{
+    margin-top: 100px;margin-bottom: 100px;
+}
+.h4-ttl-st{
+    padding: 8px 0px 2px 10px;
+}
+.div-dp-st{
+    margin-left: 40px;
+}
+.div-sub-nda{
+    padding: 8px 0px 2px 10px;
+}

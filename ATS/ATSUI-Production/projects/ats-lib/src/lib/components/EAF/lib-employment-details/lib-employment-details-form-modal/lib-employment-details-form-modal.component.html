@@ -1,0 +1,396 @@
+<form [formGroup]="employmentDetailsForm" (ngSubmit)="submitEmpDetailsForm(employmentDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Select Employer</mat-label>
+                            <mat-select formControlName="currentPrevEmployer" [disabled]="data?.type == 2" (selectionChange)="selectEmployer($event?.value)">
+                                <mat-option value="C" *ngIf="!this.data?.isCurrentEmployerAdded || this.data?.employerType == 'C'">Current Employer</mat-option>
+                                <mat-option value="P" *ngIf="this.data?.isCurrentEmployerAdded || this.data?.employerType == 'P'">Previous Employer</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error
+                            *ngIf="getControl('currentPrevEmployer')?.touched && getControl('currentPrevEmployer')?.invalid">
+                            <div *ngIf="getControl('currentPrevEmployer')?.errors?.required">
+                                <span class="require-field">{{errorPrefix?.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of the Employer</mat-label>
+                            <input matInput type="text" libOnlyAlphabets maxlength="150" minlength="3"
+                                formControlName="EmployerName">
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('EmployerName')?.touched && getControl('EmployerName')?.invalid">
+                            <!-- <div *ngIf="getControl('EmployerName')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('EmployerName')?.errors?.minlength">
+                                <span class="error-text">{{errorPrefix?.requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Designation</mat-label>
+                            <mat-select formControlName="Designation" (selectionChange)="getDesignationId($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlDesignation" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let list of designationNamesList  | libDesignationFilter:searchInputDesignation"
+                                    [value]="list?.DESIGNATION_CODE">{{list?.DESIGNATION_NAME}}</mat-option>
+                                    <mat-option [value]="0">
+                                        Others
+                                    </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('Designation')?.touched && getControl('Designation')?.invalid">
+                            <div *ngIf="getControl('Designation')?.errors?.required">
+                                <span class="require-field">{{errorPrefix?.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="manualDesigReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Designation</mat-label>
+                            <input matInput type="text" formControlName="ManualDesigName" [required]="manualDesigReq"
+                                libDisableInitialSpace libOnlyAlphabets>
+                           
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Location</mat-label>
+                            <mat-select formControlName="location" (selectionChange)="getLocationId($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlLocation" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of countryList |libCountryListFilter:searchInputLocation "
+                                    [value]="list?.COUNTRY_CODE">
+                                    {{list?.COUNTRY_NAME}}
+                                </mat-option>
+                                <mat-option [value]="0">
+                                    Others
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('location')?.touched && getControl('location')?.invalid">
+                            <div *ngIf="getControl('location')?.errors?.required">
+                                <span class="require-field">{{errorPrefix?.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+
+                    
+
+                    <div class="form-on-col" *ngIf="manualLocationReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Location</mat-label>
+                            <input matInput type="text" formControlName="ManualLocationName" [required]="manualLocationReq"
+                                libDisableInitialSpace libOnlyAlphabets>
+                           
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col" *ngIf="isCityVisible">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >City</mat-label>
+                            <mat-select formControlName="cityId" [required]="isCityVisible">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCity" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of cityList | CityListFilter:searchInputCity"
+                                    [value]="list?.id">
+                                    {{list?.city_name}}
+                                </mat-option>
+                                <mat-option [value]="0">
+                                    Others
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    
+                    <div class="form-on-col">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly [max]="data?.isCurrentEmployerAdded ? data?.currEmployerFromDate : onlyPastDate"
+                                formControlName="durationFrom">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('durationFrom')?.touched && getControl('durationFrom')?.invalid">
+                            <div *ngIf="getControl('durationFrom')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" [ngClass]="{'new-cls' : getControl('currentPrevEmployer')?.value == 'C'}">
+                        <div [ngClass]="{'wd-50' : getControl('currentPrevEmployer')?.value == 'C'}">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" readonly formControlName="durationTo"
+                                [min]="durationFromControl?.value" [max]="data?.isCurrentEmployerAdded && getControl('currentPrevEmployer')?.value == 'P' ? data?.currEmployerFromDate : null ">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        </div>
+                        <!-- <mat-error *ngIf="getControl('durationTo')?.touched && getControl('durationTo')?.invalid">
+                            <div *ngIf="getControl('durationTo')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                        <!-- <div class="checkbox-wrapper mt22-ml16" *ngIf="getControl('currentPrevEmployer')?.value == 'C'"> -->
+                            <div [ngClass]="{'till-date-chkbx' : getControl('currentPrevEmployer')?.value == 'C'}">
+                            <mat-checkbox *ngIf="getControl('currentPrevEmployer')?.value == 'C'"
+                            
+                            formControlName="currentEmployerTillDate" (change)="selectTillDate($event)">
+                            <ng-container>
+                              <span>
+                                Till Date
+                              </span>
+                            </ng-container>
+                          </mat-checkbox>
+                          </div>
+                          
+                        <!-- </div> -->
+                        <!-- </div> -->
+                    </div>
+                    <!-- end col -->
+
+                    
+                    <div class="form-on-col form-margin-14">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Joining CTC</mat-label>
+                            <input matInput type="text" libOnlyNumber  maxlength="10"
+                                formControlName="joiningCtc" libPrevInitZeroSingleAllowed>
+                                <mat-hint *ngIf="getControl('joiningCtc').value" align="end" class="mat-hint-pt-j">{{getControl('joiningCtc').value |
+                                    convertToWord}} </mat-hint>
+                                <!-- <mat-error *ngIf="getControl('joiningCtc')?.touched && getControl('joiningCtc')?.invalid">
+                                    <div *ngIf="getControl('joiningCtc')?.errors?.min">
+                                        <span class="error-text">Please enter minimum salary {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}.</span>
+                                    </div>
+                                    <div *ngIf="getControl('joiningCtc')?.errors?.max">
+                                        <span class="error-text">You can't enter more than {{this.salRange.inrMax | customCurrency:1}}</span>
+                                    </div>
+                                </mat-error> -->
+                        </mat-form-field>
+                        
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>{{lastCTCLabel}}</mat-label>
+                            <input matInput type="text" libOnlyNumber  maxlength="10"
+                                formControlName="leavingCtc" libPrevInitZeroSingleAllowed>
+                            <mat-hint align="end" class="mat-hint-pt-j">{{getControl('leavingCtc').value |
+                                convertToWord}} </mat-hint>
+                                <!-- <mat-error *ngIf="getControl('leavingCtc')?.touched && getControl('leavingCtc')?.invalid">
+                                    <div *ngIf="getControl('leavingCtc')?.errors?.min">
+                                        <span class="error-text">Please enter minimum salary {{this.salRange.inrMin | customCurrency:1}} or {{' 0 ' | customCurrency:1}}.</span>
+                                    </div>
+                                    <div *ngIf="getControl('leavingCtc')?.errors?.max">
+                                        <span class="error-text">You can't enter more than {{this.salRange.inrMax | customCurrency:1}}</span>
+                                    </div>
+                                </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Project</mat-label>
+                            <input matInput type="text" formControlName="ProjectName" minlength="3" maxlength="150">
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('ProjectName')?.touched && getControl('ProjectName')?.invalid">
+                            <!-- <div *ngIf="getControl('ProjectName')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('ProjectName')?.errors?.minlength">
+                                <span class="error-text">{{errorPrefix?.requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Client Name</mat-label>
+                            <input matInput type="text" libOnlyAlphabets formControlName="clientName" minlength="3"
+                                maxlength="150">
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('clientName')?.touched && getControl('clientName')?.invalid">
+                            <!-- <div *ngIf="getControl('clientName')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('clientName')?.errors?.minlength">
+                                <span class="error-text">{{errorPrefix?.requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Skills Utilised</mat-label>
+                            <mat-select formControlName="skil" (selectionChange)="getSkillId($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlSkills" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of skillNameList | libSkillsFilter:searchInputSkills"
+                                    [value]="list?.SKILL_CODE">{{list?.SKILL_NAME}}</mat-option>
+                                    <mat-option [value]="0">
+                                        Others
+                                    </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('skil')?.touched && getControl('skil')?.invalid">
+                            <div *ngIf="getControl('skil')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="manualSkillReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Skills</mat-label>
+                            <input matInput type="text" formControlName="ManualSkillName" [required]="manualSkillReq"
+                                libDisableInitialSpace>
+                           
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Industry</mat-label>
+                            <mat-select formControlName="Industry">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlIndustry" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of industryList | libIndustryFilter:searchInputIndustry"
+                                    [value]="list?.INDUSTRY_ID">
+                                    {{list?.INDUSTRY_NAME}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('Industry')?.touched && getControl('Industry')?.invalid">
+                            <div *ngIf="getControl('Industry')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Function</mat-label>
+                            <mat-select formControlName="function">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlFunction" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of functionList |libFunctionFilter:searchInputFunction"
+                                    [value]="list?.FUNCTION_ID">{{list?.FUNCTION_NAME}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('function')?.touched && getControl('function')?.invalid">
+                            <div *ngIf="getControl('function')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div>
+                        </mat-error> -->
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col descript-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Project Description</mat-label>
+                            <textarea matInput #projectDicr maxlength="350" minlength="5"
+                                formControlName="projectDicription"></textarea>
+                            <mat-hint class="hint-wrap" align="end">{{projectDicr.value.length}}/350</mat-hint>
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('projectDicription')?.touched && getControl('projectDicription')?.invalid">
+                            <!-- <div *ngIf="getControl('projectDicription')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('projectDicription')?.errors?.minlength">
+                                <span class="error-text">{{errorPrefix?.requireMinCharacText2}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col descript-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Reason for Leave</mat-label>
+                            <textarea matInput #input formControlName="reasonForLeave" minlength="5"
+                                maxlength="250"></textarea>
+                            <mat-hint class="hint-wrap" align="end">{{input.value.length}}/250</mat-hint>
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('reasonForLeave')?.touched && getControl('reasonForLeave')?.invalid">
+                            <!-- <div *ngIf="getControl('reasonForLeave')?.errors?.required">
+                                <span class="require-field">{{errorPrefix.requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('reasonForLeave')?.errors?.minlength">
+                                <span class="error-text">{{errorPrefix?.requireMinCharacText2}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

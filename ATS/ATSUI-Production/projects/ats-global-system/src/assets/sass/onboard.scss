@@ -1,0 +1,237 @@
+.img-grid-sec {
+    .card-deck {
+        justify-content: center;
+
+        .img-grid-t {
+            margin-bottom: 10px;
+
+            .card {
+                .card-title {
+                    margin-bottom: 3px;
+                    font-size: 16px;
+                }
+            }
+
+            .img-over {
+                position: relative;
+
+                img {
+                    max-height: 400px;
+                    width: 100%;
+                }
+
+            }
+        }
+    }
+}
+.ct-tab-screen-vrf{
+    .mat-expansion-panel-header-title{
+        .bs-inf{
+            display: none;
+            padding-left: 4px;
+
+        }
+    }
+    .candidate-ats-hr-rec .mat-expansion-panel.mat-expanded{
+        .mat-expansion-panel-header-title{
+            .bs-inf{
+                display: inline-block;
+
+            }
+        }
+    }
+}
+
+
+.grid-wrap-vf {
+    display: flex;
+    flex-wrap: wrap;
+
+    .card-decker {
+        width: calc(100% / 4 - 5px);
+        margin-bottom: 5px;
+        padding: 7px 8px;
+        border: solid 1px #ddd;
+        margin-left: 5px;
+        background: repeating-linear-gradient(45deg, #f3f3f3, transparent 100px);
+        border-radius: 3px;
+        box-shadow: 0px 1px 2px #e2e2e28f;
+
+        .card-deck-b {
+            .img-over {
+                position: relative;
+                overflow: hidden;
+
+                img {
+                    max-height: 400px;
+                    width: 100%;
+                    border-radius: 5px;
+                }
+
+                .view-l-at {
+                    color: #fff;
+                    background: #0082dd;
+                    display: inline-block;
+                    line-height: 10px;
+                    padding: 1px 5px;
+                    position: absolute;
+                    top: 4px;
+                    left: 4px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    transition: all 0.7s;
+
+                    .material-icons-outlined {
+                        font-size: 18px;
+                    }
+                }
+
+                .img-overlays {
+                    height: 100%;
+                    width: 100%;
+                    background: rgb(0 0 0 / 58%);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: -100%;
+                    transition: all 0.7s;
+
+                    a.view-l-wt {
+                        background: #ffffff;
+                        display: inline-block;
+                        padding: 4px 5px;
+                        color: #0e578a;
+                        font-size: 13px;
+                        line-height: 18px;
+                        /* border: rebeccapurple; */
+                        // border: solid 1px #3e3c1b;
+                        border-radius: 4px;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        .card-deck-f {
+            h5 {
+                font-family: $font-semiBold;
+                font-size: 13px;
+                color: #11484e;
+                padding: 18px 10px 10px 10px;
+            }
+        }
+
+        &:hover {
+            .card-deck-b {
+                .img-over {
+                    .img-overlays {
+                        margin-top: 0;
+                        transition: all 0.7s;
+                    }
+                }
+
+                .view-l-at {
+                    transition: all 0.7s;
+                    opacity: 0;
+                }
+            }
+        }
+
+    }
+}
+
+
+
+.upload-file-onb {
+    
+    .upload-file-input label {
+        color: black;
+        display: block;
+        padding: 3px 0px;
+        font-size: 13px;
+    }
+    input[type=file]::file-selector-button {
+        border: 1px solid #1f6a9f;
+        padding: .3em .4em;
+        background-color: #1f6a9f;
+        transition: 1s;
+        color: #fff;
+    }
+
+    input[type=file]::file-selector-button:hover {
+        background-color: #1d4794;
+        border: 1px solid #1d4794;
+    }
+
+    &.error-file-input .upload-file-input input {
+        border-color: #f44336;
+    }
+}
+.vrf-form-sec {
+    padding: 19px 10px;
+
+    .checkbox-wrapper {
+        .mat-checkbox {
+            .mat-checkbox-layout {
+                .mat-checkbox-label {
+                    line-height: 24px;
+                    font-size: 14px;
+                    color: #033d6f;
+                }
+
+                .dangr {
+                    color: red;
+                }
+            }
+
+            &.consent-error {
+                .mat-checkbox-layout {
+                    .mat-checkbox-label {
+                        color: red;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .rad-bb-wrapper {
+        .dangr {
+            color: red;
+        }
+        .mat-radio-group {
+            .mat-radio-button {
+                display: block;
+                margin-bottom:1px;
+                .mat-radio-container {
+                    width: 16px;
+                    height: 16px;
+                }
+                .mat-radio-inner-circle,.mat-radio-outer-circle{
+                    height: 16px;
+                    width: 16px;
+                }
+                .mat-radio-label {
+                    line-height: 24px;
+                    font-size: 13px;
+                }
+            }
+        }
+        &.consent-error {
+            .mat-radio-group {
+                .mat-radio-button {
+                    .mat-radio-label {
+                        color: red;
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+

@@ -1,0 +1,36 @@
+
+<ng-container [formGroupName]="formGroupNameIndex">
+    <td>
+        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+            <div class="form-on-col">
+                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                    <!-- <mat-label>Category</mat-label> -->
+                    <mat-select placeholder="Select Category" (selectionChange)="getId($event)"
+                    formControlName="subCateg">
+                        <mat-option *ngFor="let categ of docCategListIn" [value]="categ?.id">
+                            {{categ?.Name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+    
+            </div>
+            <!-- end col -->
+        </div>
+    </td>
+    <td>
+        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+            <div class="form-on-col">
+                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                    <!-- <mat-label>Sub category</mat-label> -->
+                    <mat-select placeholder="Select Sub category" formControlName="subCateg">
+                        <mat-option *ngFor="let categ of docSubCategListIn" [value]="categ?.id">
+                            {{categ?.Name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- end col -->
+        </div>
+    </td>
+    <td>
+        <button mat-stroked-button (click)="uploadDocumentModal()" class="btn-up-add">Upload</button>
+    </td>
+</ng-container>

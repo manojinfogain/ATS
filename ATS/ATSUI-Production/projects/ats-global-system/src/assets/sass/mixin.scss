@@ -1,0 +1,119 @@
+/*--------------------
+	Code By - Md Ayatullah Rahmani
+	Infoconnect ++
+	date: 05-12-2018
+--------------------*/
+
+@mixin fontface($name, $path, $file, $weight: normal, $style: normal){
+  @font-face {
+    font-family: "#{$name}";
+    src: url($path+$file+'.ttf');
+    // src: url($path+$file+'.eot?#iefix') format('embedded-opentype'),
+    //      url($path+$file+'.woff') format('woff'),
+    //      url($path+$file+'.ttf') format('truetype'),
+    //      url($path+$file+'.svg?#webfont') format('svg');
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+@mixin shift($property: all, $duration: 1s, $ease: linear){
+	-webkit-transition: $property $duration $ease;
+	-moz-transition: $property $duration $ease;
+	-o-transition: $property $duration $ease;
+	transition: $property $duration $ease;
+}
+
+@mixin transform($property) {
+    -webkit-transform: $property;
+        -ms-transform: $property;
+            transform: $property;
+  }
+@mixin transition($property,$delay) {
+      transition: $property $delay;
+     -webkit-transition: $property $delay;
+    -moz-transition: $property $delay;
+    -ms-transition: $property $delay;
+    -o-transition: $property $delay;
+  }
+
+  @mixin box-shadow($top, $left, $blur, $color) {
+    box-shadow:$top  $left $blur $color;
+    -webkit-box-shadow:$top  $left $blur $color;
+    -moz-box-shadow:$top  $left $blur $color;
+    -o-box-shadow:$top  $left $blur $color;
+    -ms-box-shadow:$top  $left $blur $color;
+   
+  }
+  @mixin box-shadows($top,$left,$blur,$opacity,$color){
+    box-shadow:$top $left $blur $opacity $color;
+    -webkit-box-shadow:$top $left $blur $opacity $color;
+    -moz-box-shadow:$top $left $blur $opacity $color;
+    -o-box-shadow:$top $left $blur $opacity $color;
+    -ms-box-shadow:$top $left $blur $opacity $color;
+  }
+
+  @mixin box-shadow-none () {
+    box-shadow:none !important;
+    -webkit-box-shadow:none !important;
+    -moz-box-shadow:none !important;
+    -o-box-shadow:none !important;
+    -ms-box-shadow:none !important; 
+  }
+
+  @mixin border-radius($radius) {
+    border-radius: $radius;
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+  }
+  @mixin transitionWidth($width,$height,$delay) {
+    transition: $width $delay, $height $delay;
+   -webkit-transition: $width $delay, $height $delay;
+  -moz-transition: $width $delay, $height $delay;
+  -ms-transition: $width $delay, $height $delay;
+  -o-transition: $width $delay, $height $delay;
+}
+
+@mixin transforms($transforms) {
+	-webkit-transform: $transforms;
+	-moz-transform: $transforms;
+	-ms-transform: $transforms;
+	transform: $transforms;
+}
+
+@mixin transformSingle ($value) {
+  -webkit-transform:scale($value);
+	-moz-transform:scale($value);
+	-ms-transform: scale($value);
+	transform:scale($value);
+}
+@mixin transform ($left,$right) {
+  -webkit-transform:scale($left, $right);
+	-moz-transform: scale($left, $right);
+	-ms-transform: scale($left, $right);
+	transform: scale($left, $right);
+}
+@mixin resetUl {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+@mixin clearFloat {
+  content: '';
+  display: block;
+  clear: both;
+}
+@mixin translateX ($x) {
+  -webkit-transform: translateX($x);
+   transform: translateX($x);
+}
+@mixin translateXY ($x,$y) {
+  -webkit-transform:translate($x, $y);
+   transform:translate($x, $y);
+}
+
+
+  /*--------------------
+	Code By - Md Ayatullah Rahmani
+	Infoconnect ++
+	date: 05-12-2018
+--------------------*/

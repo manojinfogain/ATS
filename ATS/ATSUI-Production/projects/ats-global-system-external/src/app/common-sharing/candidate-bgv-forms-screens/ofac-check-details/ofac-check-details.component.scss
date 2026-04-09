@@ -1,0 +1,33 @@
+.error{
+    color: red;
+}
+
+.disable-pointer{
+    pointer-events: none !important;
+    cursor: not-allowed;
+    cursor: no-drop !important;
+   
+  }
+
+  // Grey out disabled or readonly fields
+.mat-form-field-disabled .mat-input-element,
+.mat-form-field-disabled .mat-select-value,
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly],
+.mat-select-disabled .mat-select-value {
+  background-color: #f0f0f0 !important;
+  color: #999 !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+// Optionally, grey out the border for disabled fields
+.mat-form-field-disabled .mat-form-field-outline,
+input[disabled],
+input[readonly] {
+  border-color: #d3d3d3 !important;
+}

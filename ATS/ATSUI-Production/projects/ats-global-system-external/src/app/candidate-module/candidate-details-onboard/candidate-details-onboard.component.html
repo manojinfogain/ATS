@@ -1,0 +1,153 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                    <div class="progress-at">
+                        <ngb-progressbar type="success" [value]="profileCompletionPercent" [animated]="true"
+                            [height]="'20px'">
+                            {{profileCompletionPercent}}%</ngb-progressbar>
+                    </div>
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <div class="candidate-screen">
+                    <div class="candidate-screen-body">
+                        <div class="candidate-tab candidate-tab-verticals">
+                            <mat-tab-group [(selectedIndex)]="selectedTabIndex"
+                                (selectedTabChange)="onTabChanged($event);" #atsOnTab>
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Personal Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <div class="form-content-wrapper">
+                                            <app-candidate-personal-details [appearance]="formAppearance"
+                                                [formClass]="formClass" #personalDetailsCom
+                                                [candidatePersonalDetails]="candidatePersonalDetails">
+                                            </app-candidate-personal-details>
+                                        </div>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.FamilyDetails">
+                                    <ng-template mat-tab-label>
+                                        Family Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-candidate-family-details [appearance]="formAppearance" [formClass]="formClass"
+                                            [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-candidate-family-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab"
+                                    [disabled]="!candidateTabConfig?.EducationalBackground">
+                                    <ng-template mat-tab-label>
+                                        Educational Background
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-candidate-education-details [appearance]="formAppearance"
+                                            [formClass]="formClass"
+                                            [candidatePersonalDetails]="candidatePersonalDetails"></app-candidate-education-details>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.TrainingCourses">
+                                    <ng-template mat-tab-label>
+                                        Training Courses Attended
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-training-courses-attended [appearance]="formAppearance" [formClass]="formClass"
+                                            [candidatePersonalDetails]="candidatePersonalDetails"></app-training-courses-attended>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab [disabled]="!candidateTabConfig?.EmploymentDetails">
+                                    <ng-template mat-tab-label>
+                                        Employment Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-employment-details [appearance]="formAppearance" [formClass]="formClass"
+                                            [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-employment-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab [disabled]="!candidateTabConfig?.SalaryDetails">
+                                    <ng-template mat-tab-label>
+                                        Salary Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-salary-details [appearance]="formAppearance" [formClass]="formClass"
+                                            #salaryDetailsCom [salaryDetails]="salaryDetails"
+                                            [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-salary-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab [disabled]="!candidateTabConfig?.UploadDocuments">
+                                    <ng-template mat-tab-label>
+                                        Upload Documents
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-document-details-sc [appearance]="formAppearance" [formClass]="formClass"
+                                            [uploadedDocumentLists]="uploadedDocumentLists"
+                                            [candidatePersonalDetails]="candidatePersonalDetails"
+                                            [employmentData]="employmentDataList"
+                                            [prevEmploymentData]="previousEmploymentList"
+                                            [uploadedDocuments]="uploadedDocumentLists">
+                                        </app-document-details-sc>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab [disabled]="!candidateTabConfig?.OtherDetails">
+                                    <ng-template mat-tab-label>
+                                        Other Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-other-details-sc [appearance]="formAppearance" [formClass]="formClass"
+                                            #otherDetailsCom [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-other-details-sc>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+
+                        </div>
+                    </div>
+
+                    <!-- <div class="conset-candidate" *ngIf="this.selectedTabIndex === 7 && isSubmitBtnShow">
+                        <mat-checkbox [required]="this.selectedTabIndex === 7 && isSubmitBtnShow" #iConfirmedCheckBox
+                        [ngClass]="iConfirmedCheckBox.touched  && iConfirmedCheckBox.invalid ? 'consent-error':'suc'">
+                            <ng-container>
+                                <span>I hereby confirm that the above details are correct.</span>
+                            </ng-container>
+                            <sup class="dangr">*</sup>
+                        </mat-checkbox>
+                    </div> -->
+                    <div class="candidate-screen-footer">
+
+                        <button type="button" class="btn btn-infocon" *ngIf="isPrevBtnShow" (click)="prevTab()">
+                            Prev
+                        </button>
+                        <button type="button" class="btn btn-infocon" (click)="nextTab()" *ngIf="isNextBtnShow">
+                            Next
+                        </button>
+                        <button type="button" class="btn btn-infocon" (click)="submitAction()" *ngIf="isSubmitBtnShow">
+                            Submit
+                        </button>
+                    </div>
+
+                </div>
+                <!-- end candidate screen -->
+
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->
+<lib-app-message></lib-app-message>

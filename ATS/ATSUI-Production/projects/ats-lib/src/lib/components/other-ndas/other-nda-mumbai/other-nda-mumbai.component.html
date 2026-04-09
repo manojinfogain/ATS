@@ -1,0 +1,640 @@
+<form [formGroup]="otherNDAForm">
+  <div class="day1-doc-main-wrapper">
+      <div class="day1-doc-main-wrapper">
+          <section class="day1-doc-sec">
+              <div class="day1-doc-sec-inner">
+                  <div class="formDay1-header">
+                      <lib-pdf-header-day1 [formId]="formId">
+                      </lib-pdf-header-day1>
+                  </div>
+                  <!-- end header -->
+                  <!-- end header -->
+                  <div class="doc-custom-digital-ui">
+                      <div class="content-inner-secv">
+                          <h3 class="font-size-new">CONFIDENTIALITY
+                              AND
+                              NON-DISCLOSURE (NDA) AGREEMENT</h3>
+                          <p>
+                              This Agreement is between
+                              <!-- __________ -->
+                              <u>{{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+'
+                                  '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName :
+                                  '')+'
+                                  '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName :
+                                  '')}}</u>
+                              (hereinafter referred to as (“Contractual”) and
+                              <u>Infogain India Pvt. Ltd.</u>
+                              (hereinafter referred to as “Infogain”) entered at
+                              <u>{{(candidatePersonalDetails?.JoiningLocation ? candidatePersonalDetails?.JoiningLocation : '')}}</u>
+                              on this
+                              <u>{{todayDate | date:'dd-MMM-YYYY'}}</u>.
+
+                          </p>
+                          <br>
+                          <p>
+                              In consideration of the employment with Infogain India (P) Ltd.,
+                              <u>{{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+'
+                                  '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName :
+                                  '')+'
+                                  '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName :
+                                  '')}}</u>
+                              agrees as follows:
+                          </p>
+                          <h3>1. Services</h3>
+
+                          <ul class="ul-common loweralpha" >
+                              <li>While employed by Infogain, Employer expects contract consultant to work with full
+                                  devotion, sincerity and honesty and to devote his/her energy and time to his/her job
+                                  at
+                                  Infogain, as per the contract agreement. </li>
+                              <li>
+                                  As a Contract Consultant, you may accept work / assignments from other companies
+                                  during the tenure of the Agreement, subject to the following:
+
+                                  <ul class="ul-common list-new" >
+                                      <li>Contract Consultant must disclose the details of such work/assignment along
+                                          with
+                                          complete details of the company / organization from which he/she is
+                                          accepting
+                                          work from
+                                          to Infogain;
+                                      </li>
+                                      <li>In addition to above, it shall not accept any work / assignment without
+                                          obtaining prior no
+                                          objection in writing from Infogain;</li>
+                                      <li> Contractor shall not accept any work/assignment which directly or
+                                          indirectly
+                                          conflicts either
+                                          the interest or business of Infogain;</li>
+                                      <li>Contractor shall not accept any work from either its competitors or any of
+                                          its
+                                          existing or
+                                          past clients;</li>
+                                      <li> Contractor shall not accept any work, which conflicts the agreed working
+                                          hours
+                                          as per
+                                          his/her contract with Infogain;</li>
+                                      <li> Contractor shall maintain absolute confidentiality with respect to his/her
+                                          contract as per
+                                          the NDA executed with Infogain;</li>
+                                      <li> Infogain reserves its right to withdraw its consent to Contractor working
+                                          on
+                                          any
+                                          work/assignment anytime without assigning any reason and in such an event,
+                                          the
+                                          Contractor shall immediately cease working on such work/assignment upon
+                                          receipt
+                                          of such
+                                          notice;</li>
+                                      <li> Failure to immediately cease to working on such work/assignment would
+                                          amount to
+                                          breach
+                                          of contract and Infogain reserve absolute and discretionary right to
+                                          terminate
+                                          the
+                                          agreement with immediate effect without notice.
+                                      </li>
+                                  </ul>
+                              </li>
+                              <br>
+                              <li>During the term of this agreement, and for one year after its termination,
+                                  expiration,
+                                  or
+                                  cancellation, contract consultant shall not:- (i) provide or offer to provide
+                                  services,
+                                  other
+                                  than through Infogain, to any client of Infogain in connection with any Engagement
+                                  with
+                                  respect to which contract consultant provided services hereunder and (ii) solicit,
+                                  offer
+                                  or in
+                                  any way, directly or indirectly, singly or in association with any other person or
+                                  entity,
+                                  encourage any employee, subcontractor or agent of Infogain to leave Infogain to work
+                                  for
+                                  the
+                                  soliciting, offering or encouraging party.
+                              </li>
+                          </ul>
+
+                          <h3>2. Protection of Infogain’s Confidential Information</h3>
+
+                          <ul class="ul-common loweralpha">
+                              <li class="left35">Existence of Confidential Information</li>
+                              <br>
+                              <p>
+                                  Infogain owns and has developed and compiled, and will develop and compile, certain
+                                  trade
+                                  secrets, proprietary techniques and confidential information, which have great value
+                                  to
+                                  its business
+                                  (referred to collectively in this Agreement as “Confidential Information”).
+                                  Confidential
+                                  Information
+                                  includes not only information disclosed by Infogain to contract consultant, but also
+                                  information
+                                  developed or learned by contract consultant during the course of employment with
+                                  Infogain.
+                                  Confidential Information includes information and knowledge that was created or
+                                  developed as a
+                                  result of Infogain’s relationship with a customer or client, and includes any
+                                  confidential information
+                                  of a customer or client learned by Contract consultant during the course of
+                                  employment
+                                  with
+                                  Infogain. Confidential Information is broadly defined, and includes all information
+                                  that
+                                  has or could
+                                  have commercial value or other utility in the business in which Infogain is engaged
+                                  or
+                                  contemplates engaging, and all information of which the unauthorized disclosure
+                                  could be
+                                  detrimental to the interest of Infogain, whether or not such information is
+                                  identified
+                                  as Confidential
+                                  Information by Infogain. By example, and without limitation, Confidential
+                                  Information
+                                  includes any
+                                  and all information concerning trade secrets, techniques, processes, formula,
+                                  computer
+                                  programs,
+                              </p>
+                          </ul>
+
+                      </div>
+                  </div>
+                  <div class="formDay1-footer">
+                      <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="1" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                      (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page1"
+                      [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                      [isVisisbleSign]="true">
+                      </lib-pdf-footer-day1>
+                  </div>
+                  <!-- end footer -->
+              </div>
+              <!-- end inner -->
+
+          </section>
+          <!-- end section -->
+
+          <section class="day1-doc-sec">
+              <div class="day1-doc-sec-inner">
+                  <div class="formDay1-header">
+                      <lib-pdf-header-day1 [formId]="formId" >
+                      </lib-pdf-header-day1>
+                  </div>
+                  <!-- end header -->
+                  <!-- end header -->
+                  <div class="doc-custom-digital-ui">
+                      <div class="content-inner-secv">
+                          <p class="left27">
+                              innovations, discoveries, improvements, research, data, know-how, formats, marketing
+                              plans,
+                              business plans, strategies, forecasts, unpublished financial information, budgets,
+                              projections, and
+                              customer identities, characteristics and agreements.
+                          </p>
+                          <br>
+                          <ol class="ul-common loweralpha" start="2">
+                              <li class="left35">Protection of Confidential Information</li>
+                              <br>
+                              <p>
+                                  Contract consultant will not, directly or indirectly, use any Confidential
+                                  Information,
+                                  either during
+                                  or after Contract consultant’s employment with Infogain, other than in Contract
+                                  consultant’s
+                                  assigned duties and consistent with Infogain’s agreement with the relevant customer
+                                  or
+                                  client of
+                                  Infogain. Contract consultant will not, directly or indirectly, make available,
+                                  sell,
+                                  disclose or
+                                  otherwise communicate to any third party any Confidential Information, either during
+                                  or
+                                  after
+                                  Contract consultant’s employment with Infogain. Contract consultant acknowledges
+                                  that he
+                                  or she
+                                  is aware that the unauthorized disclosure of Confidential Information of Infogain
+                                  maybe
+                                  highly
+                                  prejudicial to its interests, an invasion of privacy, and in improper disclosure of
+                                  trade secrets.
+                              </p>
+                              <br>
+                              <li class="left35">Delivery of Confidential Information</li>
+                              <br>
+                              <p>
+                                  Upon request or when employment with Infogain terminates, Contract consultant will
+                                  immediately
+                                  deliver to Infogain all copies of any and all data, materials and writings received
+                                  from, created for,
+                                  or belonging to Infogain, including, but not limited to, those which relate to or
+                                  contain Confidential
+                                  Information. Contract consultant will not retain any written or tangible material
+                                  (including
+                                  information stored on a computer, floppies, CDs and/or any other media) containing
+                                  any
+                                  information concerning or disclosing any Confidential Information.
+                              </p>
+                              <br>
+                              <li class="left35">Secret Information Belonging to Others</li>
+                              <br>
+                              <p>
+                                  Contract consultant represents that his or her employment with Infogain does not and
+                                  will not
+                                  breach any agreements of the Contract consultant or duties to a former employer or
+                                  any
+                                  other
+                                  third party to keep confidential information belonging to others or to assign
+                                  Inventions
+                                  (as defined
+                                  below) to them. Contract consultant will not disclose to Infogain or use or induce
+                                  Infogain to use
+                                  on its behalf any confidential information belonging to others. Contract consultant
+                                  acknowledges
+                                  that he or she has and will continue to abide by any confidentiality agreements
+                                  reached
+                                  by
+                                  him/her with third parties, including the return of all materials and confidential
+                                  information to
+                                  those third parties.
+                              </p>
+                          </ol>
+
+                          <h3>3. Inventions</h3>
+
+                          <ul class="ul-common loweralpha">
+                              <li class="left35">Assignment of Inventions</li>
+                              <br>
+                              <p>
+                                  Contract consultant hereby assigns any present or future rights he or she may have
+                                  in
+                                  any
+                                  invention, improvement, discovery, idea, process, writing, computer program
+                                  database,
+                                  documentation and other original works of authorship (referred to collectively in
+                                  this
+                                  Agreement as
+                                  “Inventions”) made or conceived by Contract consultant solely or jointly with others
+                                  which: i) is
+                                  developed in whole or in part on Infogain’s time or with the use of Infogain’s
+                                  equipment, supplies,
+                                  material, facilitates or Confidential Information; ii) is suggested by or results
+                                  from
+                                  any task
+                                  assigned to Contract consultant or work performed by Contract consultant for or on
+                                  behalf of
+                                  Infogain; or iii) relates in any manner to Infogain’s business, or Infogain’s actual
+                                  or
+                                  anticipated
+                                  research or development.
+                              </p>
+                              <br>
+                              <li class="left35">Disclosure to Infogain
+                              </li>
+                              <br>
+                              <p>
+                                  Contract consultant agrees that at all times, even after the termination of
+                                  employment,
+                                  to
+                                  promptly advise Infogain of any Inventions Contract consultant has made or
+                                  conceived,
+                                  either
+                                  jointly or on the Contract consultant’s own, wholly or in part during the Contract
+                                  consultant’s term
+                                  of employment. Infogain will hold such disclosures in confidence unless the
+                                  Invention
+                                  disclosed is
+                                  transferred to Infogain pursuant to Paragraph 3(a) hereof.
+                              </p>
+                              <br>
+                              <li class="left35">Prior Inventions</li>
+                              <br>
+                              <p>
+                                  Except as listed in Attachment A hereto, Contract consultant warrants that he or she
+                                  presently has
+                                  no right, title or interest in or to any Inventions. Contract consultant agrees that
+                                  any
+                                  invention not
+                                  so indicated in Attachment A at this time is subject to the provisions of paragraph
+                                  3(a)
+                                  hereof.
+
+                              </p>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="formDay1-footer">
+                      <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                      (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                      [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                      [isVisisbleSign]="true">
+                      </lib-pdf-footer-day1>
+                  </div>
+                  <!-- end footer -->
+              </div>
+              <!-- end inner -->
+
+          </section>
+          <!-- end section -->
+
+          <section class="day1-doc-sec">
+              <div class="day1-doc-sec-inner">
+                  <div class="formDay1-header">
+                      <lib-pdf-header-day1 [formId]="formId">
+                      </lib-pdf-header-day1>
+                  </div>
+                  <!-- end header -->
+                  <!-- end header -->
+                  <div class="doc-custom-digital-ui">
+                      <div class="content-inner-secv">
+                          <ol class="ul-common loweralpha"  start="4">
+                              <li class="left35">Acknowledgment</li>
+                              <br>
+                              <p>
+                                  Contract consultant acknowledges that the copyright and intellectual property right
+                                  in
+                                  designs,
+                                  computer programs, documentation, and other original works of authorship, created by
+                                  the
+                                  Contract consultant (solely or jointly with others) within the scope of Contract
+                                  consultant’s
+                                  employment with Infogain shall always belong to Infogain and shall remain Infogain’s
+                                  property
+                                  according to the Copyright Act’ 1957.
+                              </p>
+                              <br>
+                              <li class="left35">Moral Rights</li>
+                              <br>
+                              <p>
+                                  With regard to any of the Inventions assigned by paragraph 3 (a), Infogain and it
+                                  subsidiaries,
+                                  licensees (direct and indirect) are not required to designate Contract consultant as
+                                  author of any
+                                  Inventions, of which Infogain is always deemed to be the sole author, when
+                                  distributed
+                                  publicly or
+                                  otherwise. Contract consultant waives and releases, to the extent permitted by law,
+                                  all
+                                  rights to
+                                  the foregoing. In addition, Contract consultant hereby transfers and assigns any
+                                  “moral”
+                                  rights to
+                                  the extent such transfer or assignment is permitted by applicable law that Contract
+                                  consultant may
+                                  have in any such Invention under any copyright or other similar or dissimilar law.
+                                  Contract
+                                  consultant agrees to waive and never to assert any such “moral” rights in such
+                                  Inventions during
+                                  or after the termination of employment with Infogain.
+                                  <br>
+                                  <br>
+                                  Contract consultant also acknowledges that Infogain, its subsidiaries and assigns
+                                  have
+                                  the
+                                  unfettered right to adapt, change, modify, add to, subtract from and otherwise alter
+                                  or
+                                  deal with
+                                  any such Invention which Contract consultant authored, co-authored, invented or
+                                  co-invented, in
+                                  whatever way Infogain chooses and that Infogain may grant other such right. The
+                                  Contract
+                                  consultant once again repeats and reiterates that Infogain shall always be a deemed
+                                  author.
+                              </p>
+                              <br>
+                              <li class="left35">Assistance to Infogain</li>
+                              <br>
+                              <p>
+                                  Contract consultant agrees that at all times during and after Contract consultant’s
+                                  employment
+                                  with Infogain, the Contract consultant will do whatever Infogain requests Contract
+                                  consultant to
+                                  assign any Inventions to Infogain or to assist Infogain in filing patent
+                                  applications or
+                                  otherwise
+                                  gaining or securing title, right to use, copyrights, patents or the like for
+                                  Inventions
+                                  described in
+                                  Paragraph 3(a) hereof.
+                              </p>
+
+                              <br>
+                              <li class="left35">Injunctive Relief</li>
+                              <br>
+                              <p>
+                                  Contract consultant acknowledges that a violation of this paragraph of the Agreement
+                                  will
+                                  constitute immediate and irreparable damage to Infogain, which cannot be fully and
+                                  adequately
+                                  compensated in money and which will warrant preliminary and other injunctive relief,
+                                  an
+                                  order for
+                                  specific performance and other equitable relief, in addition to any relief or
+                                  remedies
+                                  to which
+                                  Infogain is entitled.
+                              </p>
+                          </ol>
+
+                          <h3>4. Standards of Conduct</h3>
+
+                          <p>
+                              Infogain expects its contract consultants to maintain the highest standards of business
+                              conduct,
+                              and to be totally honest and ethical in all of Infogain’s business dealings. Infogain
+                              always
+                              conducts
+                              its business in accordance will applicable rules and laws, and expects its contract
+                              consultants to do
+                              the same.
+                          </p>
+                          <br>
+                          <h3>5. Arbitration of Employment Disputes</h3>
+
+                          <p>
+                              As a condition of employment, Contract consultant agrees that any dispute arising
+                              between
+                              the
+                              parties in relation to this Agreement shall be referred to arbitration in accordance
+                              with
+                              the
+                              provisions of arbitration and Conciliation Act 1996 and the seat of the Arbitral
+                              Tribunal
+                              shall be at
+                              Delhi. The jurisdiction of courts in Delhi shall only apply to any dispute arising out
+                              of
+                              this
+                              Agreement.
+                          </p>
+
+                          <br>
+                          <h3>6. Modification</h3>
+
+                          <p>
+                              This Agreement may be modified or amended only by writing signed by the Contract
+                              consultant
+                              and any of the person i.e. Global Head -HR (Human Resources) or President or Chairman of
+                              Infogain.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="formDay1-footer">
+                      <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                      (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page3"
+                      [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                      [isVisisbleSign]="true">
+                      </lib-pdf-footer-day1>
+                  </div>
+                  <!-- end footer -->
+              </div>
+              <!-- end inner -->
+
+          </section>
+          <!-- end section -->
+
+          <section class="day1-doc-sec">
+              <div class="day1-doc-sec-inner">
+                  <div class="formDay1-header">
+                      <lib-pdf-header-day1 [formId]="formId" >
+                      </lib-pdf-header-day1>
+                  </div>
+                  <!-- end header -->
+                  <!-- end header -->
+                  <div class="doc-custom-digital-ui">
+                      <div class="content-inner-secv">
+                          <br>
+                          <h3>7. Entire Agreement</h3>
+
+                          <p>
+                              This Agreement, together with the Attachments hereto, contains the entire agreement and
+                              understanding between the parties hereto and supersedes any prior or contemporaneous
+                              written
+                              or oral agreements. Contract consultant understands that any prior agreements or
+                              representations
+                              are expressly disclaimed.
+                          </p>
+                          <br>
+                          <h3>8. Severability</h3>
+
+                          <p>
+                              The unenforceability or inapplicability of any one or more phrases and/or provisions of
+                              this
+                              Agreement shall not affect the remaining provisions of this Agreement or any part
+                              thereof.
+
+
+                          </p>
+                          <br>
+                          <h3>Contract consultant has read this Agreement, has understood and consented to its terms
+                              voluntarily.
+                          </h3>
+                          <div class="left-right-wrap">
+
+
+                                  <div class="form-card-wrapper day1-form-inc">
+                                      <div class="table-o-at">
+
+                                          <table class="table ">
+                                              <tbody>
+                                                  <tr>
+                                                      <td class="title-tb"><b>Consultant Name</b></td>
+                                                      <td>:
+                                                          {{(candidatePersonalDetails?.FirstName ?
+                                                          candidatePersonalDetails?.FirstName : '')+'
+                                                          '+(candidatePersonalDetails?.MiddleName ?
+                                                          candidatePersonalDetails?.MiddleName : '')+'
+                                                          '+(candidatePersonalDetails?.LastName ?
+                                                          candidatePersonalDetails?.LastName : '')}}
+                                                      </td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td class="title-tb"><b>Consultant Code</b> </td>
+                                                      <td>:</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td class="title-tb"><b>Date</b> </td>
+                                                      <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td class="title-tb"><b>Signature</b> </td>
+                                                      <td>:
+                                                          <!-- pending with candidate || referred back by recruiter -->
+                                                          <button *ngIf="!this.CandidateSignatureModel?.page4 && Day1FormData?.isEditable"
+                                                              type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                              Insert Sign
+                                                          </button>
+                                                          <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page4">
+                                                              <img [src]="this.CandidateSignatureModel?.page4" class="sign-img-b" />
+                                                              <!-- <mat-icon *ngIf="Day1FormData?.isEditable" matSuffix
+                                                                  
+                                                                  (click)="signUpdate(data)">edit_note</mat-icon> -->
+                                                          </div>
+                                                      </td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+
+                              <!-- end col -->
+
+                              <!-- end col -->
+                          </div>
+                          <div class="nnt-nda-f">
+                              <h3 class="font-18">Attachment A</h3>
+                              <h3 class="font-16">(Annexed to and forming an integral part of the
+                                  confidentiality
+                                  Agreement
+                                  dated&nbsp;<u>{{todayDate | date:'dd-MMM-YYYY'}}</u>)</h3>
+                              <h3 class="font-16">Invention Disclosure </h3>
+                              <br>
+                              <p>
+                                  Contract consultant represents that he or she has indicated in this Attachment all
+                                  Inventions (as
+                                  defined in the Agreement), if any, in which Contract consultant owns or has owned
+                                  any
+                                  right or
+                                  interest prior to employment with Infogain. Contract consultant agrees that any
+                                  present
+                                  or future
+                                  inventions not listed in the Attachment are subject to assignment under Paragraph
+                                  3(a)
+                                  of the
+                                  Agreement.
+                              </p>
+                              <br>
+                              <div class="nnt-bcx">
+                                  <div class="nnt-fcx">
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>Brief Description of Inventions</mat-label>
+                                          <textarea matInput formControlName="briefDesc" maxlength="1000" [readonly]="!Day1FormData?.isEditable"></textarea>
+                                      </mat-form-field>
+                                  </div>
+                                  <div class="nnt-fcx">
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>Right, Title or Interest and Date Acquired</mat-label>
+                                          <textarea matInput formControlName="remarks" maxlength="1000" [readonly]="!Day1FormData?.isEditable"></textarea>
+                                      </mat-form-field>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+                  <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [formId]="formId" [page]="4"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [candidatePersonalDetails]="candidatePersonalDetails">
+                    </lib-pdf-footer-day1>
+                  </div>
+                  <!-- end footer -->
+              </div>
+              <!-- end inner -->
+
+          </section>
+          <!-- end section -->
+      </div>
+  </div>
+</form>

@@ -1,0 +1,285 @@
+/*--------------------
+	Code By - Md Ayatullah Rahmani
+	Infoconnect ++
+	date: 05-12-2018
+--------------------*/
+@media only screen and (max-width:1024px){
+    .login-left-wrapper img{
+        height: 100%;
+    }
+    .info-connect-left {
+        position: relative;
+        top: 0px;
+        width: 100%;
+        float: none;
+        height: auto;
+        z-index: 999;
+    }
+    .info-connect-right {
+        width: 100%;
+        min-height: 0px;
+        float: none;
+    }
+    .header-right {
+        width: 100%;
+        float: none !important;
+    }
+    .logo-desk, .left-logo, .menu-arrow-sec {
+        display: none;
+    }
+    .logo-main {
+        width: auto;
+        display: block;
+    }
+    .logo-mob {
+        display: block;
+    }
+    .top-bg {
+        width: 97.1%;
+    }
+}
+@media only screen and (max-width:768px){
+
+    .login-left-wrapper {
+        float: none;
+        width: 100%;
+        position: fixed;
+        top:0px;
+        right:0px;
+        left:0px;
+        margin:auto;
+        height: 100% !important;
+    }
+    .login-left-wrapper img{
+        height: 100%;
+    }
+   .login-form-wrapper{
+    background: rgba(0, 0, 0, 0.69);
+    width: 480px;
+    margin: 0px auto;
+    box-shadow: 0px 1px 8px 2px #000;
+    margin-top: 55px;
+   }
+   .login-right-wrapper {
+    float: none;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    right:0px;
+    left:0px;
+}
+.login-header{
+    background: #fff;
+}
+.login-infogain-logo{
+    margin-top: 0px;
+    padding:5px 5px;
+}
+.login-infogain-logo {
+    width: 181px;
+}
+.login-title h1 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 15px 10px;
+}
+.login-from .mat-form-field-label{
+    color:#fff !important;
+}
+.login-from input.mat-input-element {
+    color: #fff;
+}
+.login-from {
+    padding: 30px 50px;
+    margin: 0px auto;
+}
+.login-from .mat-checkbox-frame {
+    border-color: rgb(255, 255, 255);
+}
+.remember-me{
+    color:#fff;
+}
+.login-footer {
+    background: rgba(0, 0, 0, 0.36);
+    z-index: 9999;
+}
+.login-form-row.btn-align {
+    position: relative;
+    margin-top: 45px;
+    margin-bottom: 0px;
+}
+.login-copyrights {
+    color: #ffffff;
+    font-weight: normal;
+}
+.login-page-main .footer-wrapper .copyrights {
+    color: #b6e3ff;
+}
+.footer-wrapper .copyrights{
+
+    text-align: center;
+}
+.info-connect-left{
+    margin-top: 55px;
+}
+.logo-main{
+    width: auto;
+    display: block;
+}
+.header-right{
+    width:100%;
+    float: none !important;
+}
+.logo-desk,
+.left-logo,
+.menu-arrow-sec{
+    display: none;
+}
+.logo-mob{
+    display: block;
+}
+.web-title-sec h2 {
+    font-size: 1rem;
+    padding: 7px 10px;
+}
+.user-thumb {
+    padding: 6px 2px;
+    font-size: 25px;
+}
+.user-info {
+    font-size: 0.7rem;
+    padding: 11px 5px;
+}
+.popup-overlay{
+    overflow: auto;
+}
+.infocpnnect-form-pop .form-col{
+    width: 100%;
+    float: none;
+}
+.popup-model-sm.popup-Form-Education{
+    width:80%;
+}
+.candidate-screen-form .education-form-box .candidate-screen-col {
+    width:100%;
+    float: none;
+}
+.candidate-screen-form .candidate-screen-col{
+    width:100%;
+    float: none;
+}
+.education-form-header h4 {
+    font-size: 0.8rem;
+}
+.exp-table .exp-table-cell,
+.exp-table{
+    display: block;
+}
+.popup-model-status {
+    width: 90%;
+}
+.tb-head-right .aplpha-dropdown{display: none}
+.upload-docs-wrap .tab-content-wrap .tab-body-wrap .education-form-box .upload-option .col-sm-2{
+    max-width:24%;
+    flex: 0 0 24%;
+}
+.candidate-screen-form .education-form-box .candidate-screen-col.cols-2{
+    width:100%;
+    float:none;
+}
+}
+
+@media only screen and (max-width:640px){
+    .login-form-wrapper{
+        width: 90%;
+    }
+    .page-title-left,
+    .search-input{
+        width:100%;
+        float: none !important;
+    }
+    .page-title-left .page-title {
+        padding: 4px 1px;
+        border-right: none;
+        margin-right: 0px;
+    }
+    .search-input .search-btn{
+        right:0px;
+    }
+    .popup-model-sm {
+        width:90%;
+    }
+    .infocpnnect-form-pop .form-col {
+        width: 100% !important;
+    }
+    .top-header-panel li{
+        @include border-radius(0px);
+        margin-bottom: 4px;
+    }
+    .valid-table .valid-table-cell,
+    .valid-table{
+        display: block;
+    }
+
+    .upload-docs-wrap .tab-content-wrap .tab-body-wrap .education-form-box .upload-option .col-sm-2{
+        max-width: 100%;
+        flex: 0 0 auto;
+    }
+    .candidate-screen-menu ul > li > a{
+        padding: 2px 5px;
+        font-size: 11px;
+        font-size: 11px;
+    }
+    .user-info{
+        display: none;
+    }
+    .web-account-sec .block-inlines .header-search-wrap {
+        position: relative;
+        padding: 3px 4px;
+    }
+    .web-account-sec .block-inlines .header-search-wrap .header-search-input{
+        width:100%;
+    }
+    .web-account-sec .block-inlines .header-search-wrap .header-search-input .form-control{
+        font-size: 10px;
+       padding-right: 18px;
+    }
+    .web-account-sec .block-inlines .header-search-wrap .header-search-input .header-search-btn{
+        position: absolute;
+        right:0px;
+        font-size: 12px;
+        width: 22px;
+    }
+    .header-wrapper .header-inner {
+        padding: 5px 5px;
+    }
+}
+
+@media only screen and (max-width:480px){
+    .alert-box{width:90%;}
+    .web-title-sec h2 {
+        font-size: 0.8rem;
+        padding: 11px 2px;
+    }
+    .page-title ,
+    .candidate-screen-tab-header h3{
+        text-transform: capitalize;
+    }
+}
+
+@media only screen and (max-width:360px){
+    .web-title-sec h2 {
+        font-size: 0.8rem;
+        padding: 11px 2px;
+        display: none;
+    }
+    .web-account-sec .block-inlines .header-search-wrap .search-list-dropdown{
+        max-width: 220px;
+    }
+}
+
+/*--------------------
+	Code By - Md Ayatullah Rahmani
+	Infoconnect ++
+	date: 05-12-2018
+--------------------*/

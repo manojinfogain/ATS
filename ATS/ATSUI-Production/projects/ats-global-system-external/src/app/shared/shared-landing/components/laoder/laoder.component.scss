@@ -1,0 +1,14 @@
+:host::ng-deep.loading-text{
+    top: 56% !important;
+    p{
+        font-size: 14px !important;
+    }
+}
+:host::ng-deep.overlay{
+    z-index: 999999 !important;
+}
+
+.loader-text {
+    font-size: 20px;
+    color: white;
+}

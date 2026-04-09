@@ -1,0 +1,203 @@
+// body {
+//   font-family: 'Segoe UI', sans-serif;
+//   margin: 40px;
+// }
+
+// .header {
+//   font-size: 16px;
+//   margin-bottom: 20px;
+// }
+
+// .section-title {
+//   background-color: #b2e0dc;
+//   color: #000;
+//   font-weight: bold;
+//   padding: 10px;
+//   text-align: center;
+//   margin-bottom: 15px;
+//   border: 1px solid #ccc;
+// }
+
+// ul {
+//   margin-left: 20px;
+//   line-height: 1.6;
+// }
+
+// .signature-section {
+//   margin-top: 40px;
+// }
+
+// .signature-box {
+//   display: flex;
+//   justify-content: space-between;
+//   margin-top: 20px;
+// }
+
+// .signature-box div {
+//   width: 45%;
+// }
+
+// .signature-line {
+//   border-bottom: 1px solid #000;
+//   height: 20px;
+//   margin-top: 10px;
+//   margin-bottom: 5px;
+// }
+
+// .label {
+//   font-weight: bold;
+//   font-size: 14px;
+// }
+
+// @media print {
+//   body {
+//     margin: 0;
+//   }
+//   .no-print {
+//     display: none;
+//   }
+// }
+
+// .signature-container {
+//   display: flex;
+//   align-items: center; /* vertically center */
+//   gap: 10px;           /* space between label and button */
+// }
+
+// .label {
+//   font-weight: 600;
+// }
+
+// .action-area {
+//   display: flex;
+//   align-items: center;
+//   gap: 10px; /* space between button and image/icon */
+// }
+
+// .sign-wrap img {
+//   height: 40px;   /* example size, adjust as needed */
+//   margin-right: 8px;
+// }
+
+// .sign-wrap mat-icon {
+//   cursor: pointer;
+//   color: #666;
+// }
+// .label-name-row {
+//   display: flex;
+//   align-items: center;
+//   gap: 100px;
+// }
+
+.declaration-border {
+  border: 2px solid #b2b2b2;
+  margin: 24px 24px 24px 0;
+  background: #fff;
+}
+
+.section-title {
+  background-color: #6fd0c6;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+ul {
+  margin: 0;
+  padding: 18px 24px 0 32px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.company-highlight {
+  color: #009688;
+  font-weight: bold;
+}
+
+p {
+  padding: 0 24px 18px 32px;
+  margin: 0;
+  font-size: 15px;
+}
+
+.signature-section {
+  border-top: 1px solid #b2b2b2;
+  padding: 0 0 0 0;
+  margin-top: 0;
+}
+
+.signature-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 18px 24px 0 32px;
+}
+
+.signature-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.action-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sign-wrap img {
+  max-height: 32px;
+  max-width: 120px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.signature-line {
+  border-bottom: 1px solid #000;
+  height: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  min-width: 120px;
+}
+
+.date-container {
+  min-width: 200px;
+}
+
+.label-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px 18px 32px;
+  border-top: 1px solid #b2b2b2;
+}
+
+@media print {
+  .declaration-border {
+    margin: 0;
+    border-width: 1px;
+  }
+  .no-print {
+    display: none;
+  }
+}
+.label-name-row2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px 18px 32px;
+  // border-top: 1px solid #b2b2b2;
+}

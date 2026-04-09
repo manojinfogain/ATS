@@ -1,0 +1,304 @@
+<form [formGroup]="updateTalentIdForm" (ngSubmit)="updateTalentIdHandler(updateTalentIdForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{TalentData?.talent_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>fullfillment Date:</h4>
+                            <p>{{(TalentData?.initial_fullfilment_date | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                      
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box-v-ats box-v-ats-form-f">
+                <div class="box-v-body">
+                    <div class="form-up">
+                        <div class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                            <div class="ats-form-col">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>fullfillment Date</mat-label>
+                                    <input matInput [matDatepicker]="picker2"  (dateInput)="changeDate('input', $event)" [min]="minDate" formControlName="fullfillmentDate"
+                                        >
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        <mat-icon matDatepickerToggleIcon>calendar_month
+                                        </mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error
+                                        *ngIf="getControl('fullfillmentDate')?.touched && getControl('fullfillmentDate')?.invalid">
+                                        <div *ngIf="getControl('fullfillmentDate')?.errors.required">
+                                            fullfillment Date is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+            
+                            <div class="ats-form-col" *ngIf="isReasonIdHide">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns >{{TalentData?.initial_fullfilment_date ? 'Reason' : 'Reason For Delay'}}</mat-label>
+                                    <mat-select formControlName="tagRemarkId" [required]="isReasonIdHide?true:false">
+                                        <mat-option *ngFor="let list of reasonList" [value]="list?.ID">
+                                            {{list?.tagremark}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="getControl('tagRemarkId')?.touched && getControl('tagRemarkId')?.invalid">
+                                        <div *ngIf="getControl('tagRemarkId')?.errors.required">
+                                            {{TalentData?.initial_fullfilment_date ? 'Reason' : 'Reason For Delay'}} is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                                <!-- validate -->
+            
+                            </div>
+                            <!-- end col -->
+        
+                           
+            
+                            <div class="ats-form-col" *ngIf="isReasonIdHide">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput placeholder="remarks" disableInitialSpace
+                                        formControlName="fullfillmentRemark"></textarea>
+                                </mat-form-field>
+                            </div>
+        
+                            <div class="ats-form-col" *ngIf="isLocationIdia">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns >Employment Type</mat-label>
+                                    <mat-select formControlName="employmentType" >
+                                        <mat-option *ngFor="let candType of candidateTypeData" [value]="candType?.ID">
+                                            {{candType?.Type}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="getControl('employmentType')?.touched && getControl('employmentType')?.invalid">
+                                        <div *ngIf="getControl('employmentType')?.errors.required">
+                                            Employment Type is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                                <!-- validate -->
+            
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col"  *ngIf="isLocationIdia">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label appRemoveAriaOwns >Grid Bucketing</mat-label>
+                                    <mat-select formControlName="CompRange" >
+                                        <mat-option *ngFor="let grid of gridBucketingList" [value]="grid?.Id">
+                                            {{grid?.CompBucket}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="getControl('CompRange')?.touched && getControl('CompRange')?.invalid">
+                                        <div *ngIf="getControl('CompRange')?.errors.required">
+                                            Grid Bucketing is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                                <!-- validate -->
+                                </div>
+        
+                                <div class="ats-form-col" *ngIf="isLocationIdia">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Grade</mat-label>
+                                        <mat-select formControlName="fullfillmentGrade"  (selectionChange)="getGradeId($event)">
+                                            <mat-option>
+                                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                                    [formControl]="FilterCtrlGrade" [noEntriesFoundLabel]="'No record Found'"
+                                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+        
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let data of gradeList | gradeFilter:searchInputGrade"
+                                                [value]="data.GRADE_ID">
+                                                {{data?.GRADE_NAME}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- validate -->
+                                        <mat-error *ngIf="getControl('fullfillmentGrade')?.touched && getControl('fullfillmentGrade')?.invalid">
+                                            <div *ngIf="getControl('fullfillmentGrade')?.errors.required">
+                                                Grade is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+        
+                                </div>
+                                <!-- end col -->
+        
+                                <div class="ats-form-col"  *ngIf="isLocationIdia">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Comp. Band</mat-label>
+                                        <mat-select formControlName="fullfillmentCompBand" >
+                                            <mat-option *ngFor="let data of gradeBandList" [value]="data.ID">
+                                                {{data?.Band}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- validate -->
+                                        <mat-error *ngIf="getControl('fullfillmentCompBand')?.touched && getControl('fullfillmentCompBand')?.invalid">
+                                            <div *ngIf="getControl('fullfillmentCompBand')?.errors.required">
+                                                Grade Band is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+        
+                                </div>
+                                <!-- end col -->
+        
+                                <div class="ats-form-col"  *ngIf="isLocationIdia">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label appRemoveAriaOwns >Employee referral </mat-label>
+                                        <mat-select formControlName="isEmpReferral" >
+                                            <mat-option value="Y">
+                                                Yes
+                                             </mat-option>
+                                             <mat-option value="N">
+                                                No
+                                             </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="getControl('isEmpReferral')?.touched && getControl('isEmpReferral')?.invalid">
+                                            <div *ngIf="getControl('isEmpReferral')?.errors.required">
+                                                Value for 'Employee referral' is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <!-- validate -->
+                                    </div>
+        
+                                    <div class="ats-form-col"  *ngIf="isLocationIdia">
+                                        <mat-form-field appearance="outline" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns >Sourcing from Competitors</mat-label>
+                                            <mat-select formControlName="isMandatorySourcing" >
+                                                <mat-option value="Y">
+                                                    Yes
+                                                 </mat-option>
+                                                 <mat-option value="N">
+                                                    No
+                                                 </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('isMandatorySourcing')?.touched && getControl('isMandatorySourcing')?.invalid">
+                                                <div *ngIf="getControl('isMandatorySourcing')?.errors.required">
+                                                   Value for 'sourcing from Competitors' is required.
+                                                </div>
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <!-- validate -->
+                                        </div>
+        
+                                
+                           
+            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-v-ats box-v-ats-form">
+                <div class="box-v-header">
+                      <h4>Commitment Details History</h4>
+                 </div>
+                <div class="box-v-body">
+                    <div class="table-data-scroll-pop max-height-300">
+                        <table mat-table [dataSource]="talentHistoryList" class="table-mat-info">
+                            <ng-container matColumnDef="srNo">
+                                <th mat-header-cell *matHeaderCellDef>S. No</th>
+                                <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="FullfillmentDate">
+                                <th mat-header-cell *matHeaderCellDef>Fullfillment Date</th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{element?.fullfillmentDate ? (element?.fullfillmentDate | date:'d MMM y') : 'NA'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Reason">
+                                <th mat-header-cell *matHeaderCellDef>Reason</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.ReasonFordelay ? element?.ReasonFordelay || '-' : (element?.TagRemarkName ? element?.TagRemarkName :'-')}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Remarks">
+                                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.FULFILLMENTRemarks || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="EmploymentType">
+                                <th mat-header-cell *matHeaderCellDef>Employment Type</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.FULFILLMENTEmpTypeName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="GridBucketing">
+                                <th mat-header-cell *matHeaderCellDef>Grid Bucketing</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.CompRangeName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Grade">
+                                <th mat-header-cell *matHeaderCellDef>Grade</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.FulfillmentGradeName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="CompBand">
+                                <th mat-header-cell *matHeaderCellDef>Comp. Band</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.FulfillmentCompBandName || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Employeereferral">
+                                <th mat-header-cell *matHeaderCellDef>Employee Referral</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.EmpReferral || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="SourcingfromCompetitors">
+                                <th mat-header-cell *matHeaderCellDef>Sourcing from Competitors</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.MandatorySourcing || '-'}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="modifiedOn">
+                                <th mat-header-cell *matHeaderCellDef>Modified On</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.updatedOn ? (element?.updatedOn | date: 'MMM d, y, h:mm a') : '-'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="modifiedBy">
+                                <th mat-header-cell *matHeaderCellDef>Modified By</th>
+                                <td mat-cell *matCellDef="let element"> {{element?.updatedByName || '-'}}</td>
+                            </ng-container>
+<!--                            
+                            
+                            <ng-container matColumnDef="wmgCommitDate">
+                                <th mat-header-cell *matHeaderCellDef>WMG Commit <br> Date</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.WMG_commit_date ? (element?.WMG_commit_date | date:'d MMM y') : 'NA'}}
+                                </td>
+                            </ng-container> -->
+                            
+                            
+                          
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                        </table>
+                        <app-no-result-found 
+                            *ngIf="talentHistoryList?.length === 0"></app-no-result-found>
+                    </div>
+                </div>
+            </div>
+
+            
+
+          
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon" [disabled]="updateTalentIdForm.pristine">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

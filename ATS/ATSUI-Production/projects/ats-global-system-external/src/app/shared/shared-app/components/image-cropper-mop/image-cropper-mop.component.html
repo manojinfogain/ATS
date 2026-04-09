@@ -1,0 +1,69 @@
+<div class="ats-modal-header">
+  <h1>{{modalTitle || 'add'}}</h1>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <div class="img-crop-container">
+      <div class="upload-input-sec">
+        <div class="upload-file-input upload-file-input-lg">
+          <label>Choose another file
+          </label>
+          <input type="file" [accept]="acceptedFile" (change)="fileChangeEvent($event)">
+        </div>
+      </div>
+      <!-- <div class="upload-input-sec">
+        <button type="button" mat-button color="upload">
+          <i class="svg cloud-icon"></i> <span class="up-text">Choose another file</span>
+          <input type="file" name="certificate" id="certificate" [accept]="acceptedFile"
+            (change)="fileChangeEvent($event)">
+        </button>
+      </div> -->
+      <div class="image-crop-wrapper">
+        <image-cropper [imageBase64]="selectedImage" [maintainAspectRatio]="true" [aspectRatio]="aspectRatio"
+          format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+          (cropperReady)="cropperReady($event)" (loadImageFailed)="loadImageFailed()" [autoCrop]="false"
+          [imageQuality]="imageQuality" [cropperMinWidth]="cropperMinWidth" [cropperMinHeight]="cropperMinHeight"
+          [onlyScaleDown]="true" [alignImage]="'center'" [canvasRotation]="canvasRotation"
+          [roundCropper]="roundCropper"></image-cropper>
+      </div>
+      <div class="info-sec-crop-img">
+        <h3 class="img-name">{{displayName}}</h3>
+        <!-- <div class="img-d">
+         <h3 class="img-name">H: <span>{{imageDetails?.transformed?.size?.height}}</span></h3>
+         <h3 class="img-name">W: <span>{{imageDetails?.transformed?.size?.width}} </span></h3>
+       </div> -->
+      </div>
+
+   
+    </div>
+  </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+  <button mat-stroked-button color="primary" class="btn-crop"
+  (click)="submit()">Save Image</button>
+  <button mat-stroked-button color="primary" class="btn-crop btn-crop-ic"
+  (click)="crop()" matTooltip="Preview">
+    <mat-icon>visibility</mat-icon>
+  </button>
+  <button mat-stroked-button color="primary" class="btn-crop btn-crop-ic"
+  (click)="rotateLeft()" matTooltip="Rotate">
+    <mat-icon>loop</mat-icon>
+  </button>
+  <button mat-stroked-button color="primary" class="btn-crop"
+  (click)="resetImage()">Reset</button>
+  <!-- <button class="btn-md" mat-button color="secondary" (click)="submit()" type="button">
+    Save Image
+  </button>
+  <button (click)="crop()" class="btn-md btn-icons" mat-button color="secondary" type="button" matTooltip="Preview">
+    <span class="material-icons"> visibility </span>
+  </button>
+  <button class="btn-md btn-icons" mat-button color="secondary" (click)="rotateLeft()" type="button"
+    matTooltip="Rotate">
+    <span class="material-icons"> loop </span>
+  </button>
+  <button class="btn-md btn-resets" mat-button color="secondary" (click)="resetImage()" type="button">
+    Reset
+  </button> -->
+</div>

@@ -1,0 +1,38 @@
+<form [formGroup]="partnerStatusForm" (ngSubmit)="UpdateProfile(partnerStatusForm)">
+    <div class="ats-modal-header">
+        <h1>{{this.data?.title}} - {{this.data?.PartnerName}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark">
+                <div class="ats-form-col mat-radio-ats mat-radio-btn-ats contract-radio full-width">
+                    <label class="lb-title">Status<sup>*</sup> </label>
+                    <mat-radio-group aria-label="Select an option"  formControlName="Status">
+                        <mat-radio-button value="4" checked>Active</mat-radio-button>
+                        <mat-radio-button value="5" >Inactive</mat-radio-button>
+                        <mat-radio-button value="6">Hold</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col full-width">
+                    <mat-form-field appearance="outline" class="place-from-control" >
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput placeholder="Enter Remark" formControlName="Remarks"
+                            disableInitialSpace></textarea>
+
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

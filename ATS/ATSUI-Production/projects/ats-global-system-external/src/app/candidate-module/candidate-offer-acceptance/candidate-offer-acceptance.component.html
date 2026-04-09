@@ -1,0 +1,58 @@
+<div class="ats-auth-wrapper candidate-offer-act">
+    <div class="auth-content-box">
+        <form (ngSubmit)="submitForm(offerSubmitFormGroup)" [formGroup]="offerSubmitFormGroup">
+            <div class="auth-box-card">
+                <div class="auth-box-headr">
+                    <h3>Offer Acceptance</h3>
+                </div>
+                <div class="auth-box-body">
+                    <div class="sm-text welcms">
+                        <h4 *ngIf="!invalidUrl">Welcome {{this.decryptData?.name}}</h4>
+                        <p *ngIf="invalidUrl">
+                            The url is invalid or expired.
+                        </p>
+                        <p *ngIf="isOfferaccept">Thanks for accepting the offer.</p>
+                            <p *ngIf="isOfferaccepted">You have already accepted the offer.</p>
+                    </div>
+
+                    <div class="auth-form" *ngIf="hideFormControl">
+                        <div class="auth-form-row">
+                            <div class="control-dev">
+                                <div class="control-dev-inpt">
+                                    <div class="acp-chk"
+                                        [ngClass]="{ error: getControl('status').touched && getControl('status').invalid || submit && getControl('status').invalid }">
+                                        <mat-checkbox value="120" formControlName="status" required>Offer Accept
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                                <div class="control-dev-inpt width-200">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Tentative Joining Date</mat-label>
+                                        <input matInput [matDatepicker]="picker1" [min]="minDate"
+                                            formControlName="joiningDate" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                                            <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar"
+                                                    aria-hidden="true"></i></mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end form  -->
+
+                </div>
+                <div class="auth-box-footer" *ngIf="hideFormControl">
+                    <button type="submit" class="btn btn-infocon" [disabled]="!offerSubmitFormGroup.valid">
+                        Submit
+                    </button>
+                    <button type="button" class="btn btn-simple-ats" (click)="resetForm()">Reset
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- end card -->
+        </form>
+    </div>
+</div>

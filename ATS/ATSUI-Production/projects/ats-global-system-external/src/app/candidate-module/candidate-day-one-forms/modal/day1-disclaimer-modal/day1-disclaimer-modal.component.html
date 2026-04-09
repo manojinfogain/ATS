@@ -1,0 +1,152 @@
+<form [formGroup]="submitOnbForm">
+  <div class="mat-header">
+    <h3 mat-dialog-title>{{ data?.headerText }}</h3>
+  </div>
+  <mat-dialog-content>
+    <span *ngIf="data?.type == 'DAY1'">
+      <ul>
+        <li class="list-style-none">
+          <!-- <div class="conset-candidate"> -->
+          <mat-checkbox required formControlName="iConfirmedCheck">
+            <ng-container>
+              <span
+                >I have read all below mentioned policy documents & further
+                agree to comply with all terms & conditions mentioned in these
+                policies:</span
+              >
+            </ng-container>
+            <sup class="dangr">*</sup>
+          </mat-checkbox>
+          <!-- </div> -->
+          <!-- I have read all below mentioned policy documents & further agree to comply with all terms & conditions
+                    mentioned in these policies: -->
+        </li>
+        <br />
+        <ul class="margin-left-25-list-square">
+          <li>Non-Disclosure Agreement</li>
+          <li>Prevention of Sexual Harassment Policy</li>
+          <li>Code of Conduct & Business Ethics</li>
+          <li>Anti-Corruption & Anti-Bribery Policy</li>
+          <li>Conflict of Interest Policy,</li>
+          <li>Acceptance Use of Asset Policy</li>
+          <li
+            *ngIf="
+              data?.candidatePersonalDetails?.candidateTypeId == 1 ||
+              data?.candidatePersonalDetails?.candidateTypeId == 2
+            "
+          >
+            NetApp NDA (if applicable)
+          </li>
+        </ul>
+        <br />
+        <li class="list-style-none">
+          Also, the details furnished in PF Declaration Form (Form 11), PF
+          Nomination Form (Form 2PF) & Gratuity Nomination Form (Form-F) is true
+          and correct and I, {{ data?.candidatePersonalDetails?.FullName }},
+          undertake to inform Infogain India Pvt. Ltd. about any changes
+          therein, immediately.
+        </li>
+
+        <li class="list-style-none-font-10-5">
+          <br />
+          <i
+            >( Note: Infogain will securely retain your consent for internal use
+            and audit purposes, including the recorded date and time of your
+            consent. )</i
+          >
+        </li>
+      </ul>
+    </span>
+    <span *ngIf="data?.type == 'EAF'">
+      <ul>
+        <li class="list-style-none checkbox-container11">
+          <mat-checkbox required formControlName="iConfirmedCheck">
+            <ng-container>
+              <!-- <span class="checkbox-content">
+                I, hereby give my consent to Infogain to collect, process, and
+                store my personal data for recruitment, employment and
+                administrative purposes, including assessment, background
+                verification, future employment opportunities, payroll
+                processing, benefits administration, and compliance with legal
+                and regulatory requirements. I understand that my information
+                may be shared cross-border within Infogain and its entities or
+                with relevant third parties, such as payroll providers and
+                government authorities, as necessary, and it will be handled in
+                accordance with applicable data protection laws. I believe that
+                my data will be kept confidential, and retained as required as
+                per the company policy and the legitimate interest of Infogain.
+                I believe that I have the right to access or request the
+                correction or deletion of my information as per company policy
+                and also, I have the right to withdraw my consent at any time by
+                contacting
+                <a href="mailto:DPO@infogain.com">DPO@infogain.com</a>,
+                understanding that such withdrawal may impact my employment
+                prospects.
+                <sup class="dangr">*</sup>
+              </span>
+              <br />
+              <span>
+                For further information on the processing of your personal data,
+                kindly refer the Privacy Policy available at Infogain's website
+                <a
+                  href="https://www.infogain.com/privacypolicy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  (https://www.infogain.com/privacypolicy/)</a
+                >.</span
+              >
+              <br />
+              <br /> -->
+              <span
+                >By submitting this application and the accompanying documents,
+                I <b>{{data?.candidatePersonalDetails?.FullName}}</b>, hereby confirm that all the information provided is
+                accurate and complete to the best of my knowledge. I understand
+                that any discrepancy or false document found may lead to the
+                cancellation of my candidature or employment with
+                Infogain.</span
+              >
+            </ng-container>
+          </mat-checkbox>
+        </li>
+        <!-- <li class="list-style-none">
+                    <mat-checkbox required formControlName="iConfirmedCheck">
+                        <ng-container>
+                            <span>
+                                By submitting this application and the accompanying documents, I, <b>{{data?.candidatePersonalDetails?.FullName}}</b>, 
+                                hereby confirm that 
+                            </span>
+                        </ng-container>
+                        <sup class="dangr">*</sup>
+                    </mat-checkbox>
+                </li>
+                <br>
+                <li class="margin-left-30">
+                All the information provided is accurate and complete to the best of my knowledge.  
+                </li>
+                <li class="margin-left-30">
+                    I understand that any discrepancy or false document found may lead to the
+                                cancellation of my candidature or employment with Infogain.
+                </li>
+                <li class="margin-left-30">
+                     Infogain may verify the information provided, including conducting background checks and
+                    reference checks, as part of the hiring process.
+                </li> -->
+      </ul>
+    </span>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      type="submit"
+      class="btn btn-infocon"
+      tabindex="1"
+      (click)="closeModal()"
+      [disabled]="!getControl('iConfirmedCheck').value"
+    >
+      {{ data?.buttonText?.ok }}
+    </button>
+    <!-- <button type="button" class="btn btn-simple-ats" tabindex="-1" mat-dialog-close>
+            {{data?.buttonText?.cancel}}
+        </button> -->
+  </mat-dialog-actions>
+</form>

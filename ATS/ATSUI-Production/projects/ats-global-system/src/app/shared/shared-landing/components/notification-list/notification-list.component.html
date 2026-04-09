@@ -1,0 +1,65 @@
+<div class="notification-wrap">
+    <p  *ngIf="IsNoRecord" class="no-not">No  Record Found </p>
+    <div class="notificstion-list" *ngFor="let item of notificationList; let i=index" (click)="readNotificstion(item,i)">
+        <div class="not-icon">
+            <!-- <span class="badge-not">{{item?.interviewType}}</span> -->
+            <span class="icon-rounds">
+                <img src="assets/images/interview-status-white.png" alt="">
+            </span>
+            <span class="date-not">{{item?.ModifiedOn | date:'MMM d, yy, h:mm a'}}</span>
+        </div>
+        <div class="not-det"  [ngClass]="{'unread-not':item?.IsRead == 'N'}">
+           
+            <p>
+                <ng-container *ngIf="item?.NotificationType == 'I'">
+                    <ng-container [ngSwitch]="item?.action">
+                        <ng-container *ngSwitchCase="'S'">
+                            Interview  scheduled for <span class="highlight-name">{{item?.Name}}</span>
+                            by <span class="highlight-name">{{item?.recruiter}}</span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'R'">
+                            Interview  rescheduled for <span class="highlight-name">{{item?.Name}}</span>
+                            by <span class="highlight-name">{{item?.recruiter}}</span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'C'">
+                            Interview  cancelled for <span class="highlight-name">{{item?.Name}}</span>
+                            by <span class="highlight-name">{{item?.recruiter}}</span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'F'">
+                            Interview feedback  provided by <span
+                                class="highlight-name">{{item?.interviewerName}}</span>
+                            for <span class="highlight-name">{{item?.Name}}</span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'P'">
+                             Feedback  Pending  for <span class="highlight-name">{{item?.Name}}</span>
+                             <label *ngIf="item?.interviewerEmpId != userData?.EmpNewId">Interviewer : {{item?.interviewerName}}</label>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+            </p>
+
+            <div class="bottom-not">
+                <div class="bottom-not-l">
+                    <span class="not-badge">
+                        {{item?.interviewType}}
+                    </span>
+                </div>
+                <div class="bottom-not-r"></div>
+            </div>
+
+            <!-- <ul class="action-btn-at">
+                <li>
+                    <a href="javscript:void(0)">
+                        <span class="material-icons-outlined">
+                            visibility
+                            </span>
+                    </a>
+                </li>
+            </ul> -->
+
+        </div>
+    </div>
+    <!-- end list -->
+
+</div>

@@ -1,0 +1,144 @@
+<form [formGroup]="formTalent" (ngSubmit)="SkillSubmitTalent(formTalent)">
+  <div class="ats-modal-header ata-text-cap">
+    <h1>{{ data?.title }}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+      <div class="ats-skill-grid-mandate" formArrayName="skills">
+        <table mat-table [dataSource]="dataSource" class="table-mat-info">
+          <!-- Skill Name Column -->
+          <ng-container matColumnDef="skillName">
+            <th mat-header-cell *matHeaderCellDef>Skill Name</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              {{ skillsArray.at(i).value.skillName }}
+              <!-- {{ skillsArray.at(i).value.skillid }} -->
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="skillType">
+            <th mat-header-cell *matHeaderCellDef>Skill Priority</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <div class="ats-mat-radio-ui ats-mat-radio-ui-mandat">
+                <mat-radio-group formControlName="skillType" class="rating-group">
+                  <mat-radio-button value="1" [disabled]="skillsArray.at(i)['mandatoryDisabled']"> Mandatory
+                  </mat-radio-button>
+                  <mat-radio-button value="2"> Good to Have </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="weightage">
+            <th mat-header-cell *matHeaderCellDef>Weightage % <br>(1-100)</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <input class="weightage-input" type="number" formControlName="weightage" min="1" max="100"
+                [readonly]="skillsArray.at(i).get('skillType').value !== '1' && skillsArray.at(i).get('skillType').value !== 1"
+                [ngStyle]="{
+  'background': (skillsArray.at(i).get('skillType').value !== '1' && skillsArray.at(i).get('skillType').value !== 1) ? '#f5f5f5' : ''
+}"
+                *ngIf="skillsArray.at(i).get('skillType').value === '1' || skillsArray.at(i).get('skillType').value === 1" onlyNumber (keydown)="restrictInitialZero($event, i)"
+                [ngClass]="{
+        'input-error': (skillsArray.at(i).get('skillType').value === '1' || skillsArray.at(i).get('skillType').value === 1) &&
+                      skillsArray.at(i).get('weightage').invalid &&
+                      (skillsArray.at(i).get('weightage').touched || skillsArray.at(i).get('weightage').dirty)
+      }"/>
+            </td>
+          </ng-container>
+
+          <!-- Rating Dropdown Column -->
+          <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef>Proficiency Level</th>
+            <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="i">
+              <div class="ats-mat-radio-ui ats-mat-radio-ui-mandat">
+                <mat-radio-group formControlName="rating" class="rating-group"
+                  [disabled]="!skillsArray.at(i).get('skillType')?.value">
+                  <mat-radio-button *ngFor="let profLevel of skillProficiencyLevel" [value]="profLevel?.Rating">
+                    {{profLevel?.Name}} </mat-radio-button>
+                  <!-- <mat-radio-button value="2"> Intermediate </mat-radio-button>
+                  <mat-radio-button value="3"> Proficient </mat-radio-button>
+                  <mat-radio-button value="4"> Advanced </mat-radio-button>
+                  <mat-radio-button value="5"> Expert </mat-radio-button> -->
+                </mat-radio-group>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [formGroupName]="i" [ngClass]="{
+              'highlight-row':
+                showErrorHighlight &&
+                skillsArray.at(i).get('skillType')?.value &&
+                !skillsArray.at(i).get('rating')?.value
+            }"></tr>
+        </table>
+        <p class="tx-h"><strong>*</strong> At least one skill should be marked as
+          <strong>Mandatory</strong>.
+        </p><br>
+        <p class="tx-h"><strong>**</strong> Maximum 4 skills can be marked as
+          <strong>Mandatory</strong> and the total weightage for mandatory skills should not exceed
+          <strong>100%</strong>.
+        </p>
+        <div
+          *ngIf="formTalent.get('skills')?.errors?.minMandatory && (formTalent.get('skills')?.touched || formTalent.get('skills')?.dirty)"
+          class="error-text">
+          Please select at least 1 skill as <b>Mandatory</b>.
+        </div>
+        <div
+          *ngIf="formTalent.get('skills')?.errors?.maxMandatory && (formTalent.get('skills')?.touched || formTalent.get('skills')?.dirty)"
+          class="error-text">
+          You can select a maximum of 4 skills as <b>Mandatory</b>.
+        </div>
+        <div
+          *ngIf="formTalent.get('skills')?.errors?.weightageExceeded && (formTalent.get('skills')?.touched || formTalent.get('skills')?.dirty)"
+          class="error-text">
+          Total weightage for mandatory skills cannot exceed 100%.
+        </div>
+      </div>
+      <!-- <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns >Mandatory Skills  </mat-label>
+                        <mat-select formControlName="mandateSkill" multiple #select>
+                            <mat-select-trigger>
+                                {{this.getControl('mandateSkill').value ? selectedSkills[0]?.skill : ''}}
+                                <span *ngIf="this.getControl('mandateSkill').value?.length > 1" class="example-additional-selection">
+                                  (+{{this.getControl('mandateSkill').value.length - 1}} {{this.getControl('mandateSkill').value.length === 2 ? 'other' : 'others'}})
+                                </span>
+                              </mat-select-trigger>
+                            <mat-option *ngFor="let data of mergedSelectedSkills" [value]="data?.skillid" (click)="optionClick()">
+                                {{data?.skill}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns >Good To Have Skills </mat-label>
+                        <mat-select formControlName="goodToHaveSkill" multiple #select1>
+                            <mat-select-trigger>
+                                {{this.getControl('goodToHaveSkill').value ? selectedSkillsGood[0]?.skill : ''}}
+                                <span *ngIf="this.getControl('goodToHaveSkill').value?.length > 1" class="example-additional-selection">
+                                  (+{{this.getControl('goodToHaveSkill').value.length - 1}} {{this.getControl('goodToHaveSkill').value.length === 2 ? 'other' : 'others'}})
+                                </span>
+                              </mat-select-trigger>
+                            <mat-option *ngFor="let data of mrgSelectedGoodToHaveSkills" [value]="data?.skillid" (click)="optionClickGood()">
+                                {{data?.skill}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div> -->
+    </div>
+  </div>
+  <div class="ats-modal-footer text-center">
+    <button type="submit" class="btn btn-infocon" [disabled]="
+    (formTalent.get('skills')?.errors?.weightageExceeded && (formTalent.get('skills')?.touched || formTalent.get('skills')?.dirty)) ||
+    (formTalent.get('skills')?.errors?.minMandatory && (formTalent.get('skills')?.touched || formTalent.get('skills')?.dirty)) 
+    ">Ok</button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>

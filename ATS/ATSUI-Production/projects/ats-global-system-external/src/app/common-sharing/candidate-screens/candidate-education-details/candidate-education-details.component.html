@@ -1,0 +1,185 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Education Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action" *ngIf="!isFinalSumbit">
+                <ul>
+                    <li *ngIf="isLeadershipOnboard">
+                        <!-- #085d99; -->
+                        <a href="javascript:void(0)" class="color-blue"> 
+                            <!-- <span class="material-icons">
+                                info
+                                </span> -->
+                               <b><i>*Note:-Enter all your education details from highest qualification down to Grade 10 (Secondary Level).</i></b>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"
+                            matTooltip=" Education detail of 10th Grade /Secondary school/Metric is mandatory. 
+                            ">
+                            <span class="material-icons">
+                                info
+                                </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="btn-text-at" (click)="addEducationDetails()">
+                            Add Education Details
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="cand-ot-table">
+            <table mat-table [dataSource]="educationDetailsList" class="table-mat-info">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="courseName">
+                    <th class="margin-top-minus-25" mat-header-cell *matHeaderCellDef>
+                        Course Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.courseId == 0 ? element?.courseName || '-' : element?.DEGREE_NAME || '-'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="specialization">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Specialization
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.subjectName || '-'}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="duration">
+                    <th class="duration-width" mat-header-cell *matHeaderCellDef>
+                        Duration
+                    </th>
+                    <!-- <td mat-cell *matCellDef="let element">
+                        {{element?.formDate && element?.toDate ? (element?.formDate| date:'MM-yyyy')+'-'+ (element?.toDate| date:'MM-yyyy') : '-'}}
+
+                    </td> -->
+                    <td mat-cell *matCellDef="let element">
+                        {{(element?.formDate | date:'mediumDate')|| '-'}}
+                        -
+                        {{(element?.toDate | date:'mediumDate')|| '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="yop">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Year of Passing
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.yearOfPassing || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="collegeName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        College Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.establishmentId == 4456 ? element?.establishmentName1 || '-' : element?.establishmentName || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="universityName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        University Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.affiliatedToId == 314 ? element?.affiliatedToName1 || '-' : element?.affiliatedToName || '-'}}
+                     </td>
+                </ng-container>
+
+                <ng-container matColumnDef="eduType">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Education Type
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.CourseTypeName || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="level">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Education Level
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.eduLevelName || '-'}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="grade">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Grade
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- {{element?.grade || '-'}} -->
+                        <ng-container [ngSwitch]="element?.grade">
+                            <ng-container *ngSwitchCase="'C'">
+                                CGPA  
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'S'">
+                                SGPA 
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'P'">
+                               Percentile 
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'T'">
+                                Percentage 
+                             </ng-container>
+                             <ng-container *ngSwitchDefault>
+                                Percentage 
+                             </ng-container>
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gradeValue">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Grade Value
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element?.gradeValue || '-'}}                        
+                    </td>
+                </ng-container>
+               
+
+                <ng-container matColumnDef="action" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> Action</th>
+                    <td mat-cell *matCellDef="let element" class="text-left">
+
+                        <div class="btn-action btn-action-centers">
+                            <div class="btn-act">
+                                <button mat-button type="button" matTooltip="Update Details" (click)="updateEducationDetails(element)">
+                                    <span class="material-icons-outlined">
+                                        mode_edit_outline
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="btn-act">
+                                <button mat-button type="button" matTooltip="Delete Details" (click)="deleteEducationDetails(element)">
+                                    <span class="material-icons-outlined">
+                                        delete_forever
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                    [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

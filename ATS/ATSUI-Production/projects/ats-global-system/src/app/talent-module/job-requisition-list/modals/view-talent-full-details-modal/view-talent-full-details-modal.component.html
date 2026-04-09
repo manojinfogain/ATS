@@ -1,0 +1,1375 @@
+<div class="ats-modal-header">
+    <!-- <h1>{{data.title}} {{data.CTHID}} Details</h1> -->
+    <h1>{{data?.title}} {{data?.CTHID ? '- ' + data?.CTHID: ''}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="ApprovalActionForm">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <!-- approval button for GDL -->
+            <ng-container *ngIf="data?.type =='GDL'">
+                <div class="box-v-ats box-v-ats-form">
+
+                    <div class="box-v-body approval-dp-wrap apr-dp-er">
+                        <div
+                            class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                            <div class="ats-form-col action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                                <label class="lb-title">Action<sup>*</sup> </label>
+                                <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                    formControlName="status">
+                                    <mat-radio-button value="A">Approve</mat-radio-button>
+                                    <mat-radio-button value="R"> Reject </mat-radio-button>
+                                </mat-radio-group>
+                                <!-- validate --><br>
+                                <mat-error class="error-aprrove-Reject"
+                                    *ngIf="getControl('status')?.touched && getControl('status')?.invalid">
+                                    <div *ngIf="getControl('status')?.errors.required">
+                                        Action is required.
+                                    </div>
+                                </mat-error>
+                                <!-- validate ends-->
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col" *ngIf="isRejectTalent">
+                                <mat-form-field appearance="outline">
+                                    <mat-label appRemoveAriaOwns>Reason Category</mat-label>
+                                    <mat-select formControlName="reasonCategory"
+                                        (selectionChange)="getReasonCategId($event)">
+                                        <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                            {{data?.Category}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <!-- <mat-error
+                    *ngIf="getControl('reasonCategory')?.touched && getControl('reasonCategory')?.invalid">
+                    <div *ngIf="getControl('reasonCategory')?.errors.required">
+                        Reason Category is required.
+                    </div>
+                </mat-error> -->
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col" *ngIf="isRejectTalent">
+                                <mat-form-field appearance="outline">
+                                    <mat-label appRemoveAriaOwns>Sub Reason</mat-label>
+                                    <mat-select formControlName="subReason"
+                                        [disabled]="!getControl('reasonCategory').valid">
+                                        <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                            {{data?.SubCategory}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col action-wrapper remark-wrap">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                        formControlName="remarks"></textarea>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!isIJPView">
+               
+                <div class="box-v-ats">
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Type:</h4>
+                                <p>{{talentDetailsList?.Type || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Joining Location:</h4>
+                                <p>{{talentDetailsList?.JoiningLocation || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.JoiningLocID==3">
+                                <h4>State:</h4>
+                                <p> {{talentDetailsList?.State||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.JoiningLocID==3 || talentDetailsList?.JoiningLocID==13)">
+                                <h4>City:</h4>
+                                <p>{{talentDetailsList?.City || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Requirement Type:</h4>
+                                <p>{{talentDetailsList?.ReqTypeName || '-'}}</p>
+                            </div>
+                            <!-- end  -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.DeliveryOrFunction == 1">
+                                <h4>Client Work Requirement:</h4>
+                                <p>{{talentDetailsList?.ClientWorkRequirement || '-'}}</p>
+                            </div>
+                            <!-- end  -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.ClientWorkRequirementId == 2 || talentDetailsList?.ClientWorkRequirementId == 3">
+                                <h4>Location Type:</h4>
+                                <p>{{talentDetailsList?.SubClientWorkRequirement || '-'}}</p>
+                            </div>
+                            <!-- end  -->
+                            <!-- BU renamed to MU - marketing Unit - 22-april-2024 -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1 && (talentDetailsList?.ReqTypeID==2 || talentDetailsList?.ReqTypeID==3)">
+                                <h4>Is Resource Available in MU? (Internal movement):</h4>
+                                <p>{{talentDetailsList?.IsInternel || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.ReqTypeID==4">
+                                <h4>Approved By:</h4>
+                                <p>{{talentDetailsList?.ApprovedBy || '-'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- fulfillled talent - if fulfil internally 8/ externally 6-->
+                 <div class="box-v-ats"
+                 *ngIf="(userData?.otherRoles?.IsAO === 'Y' || userData?.otherRoles?.IsHiringManager === 'Y'
+                 || userData?.otherRoles?.IsTAG === 'Y' || userData?.otherRoles?.IsWMG ==='Y') && (data?.SubStatusID === 8 || data?.SubStatusID === 6)">
+                     <div class="box-v-header">
+                         <h4>Allocation Details</h4>
+                     </div>
+                     <div class="box-v-body">
+                         <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                             <div class="view-list-bx">
+                                 <h4>Employee Name:</h4>
+                                 <p>{{allowcatedEmpDetails?.allocatedEmpName || '-'}}</p>
+                             </div>
+                             <!-- end -->
+                             <div class="view-list-bx">
+                                 <h4>Employee ID:</h4>
+                                 <p>{{allowcatedEmpDetails?.allocatedEmpId || '-'}}</p>
+                             </div>
+ 
+                             <!-- end -->
+                             <div class="view-list-bx">
+                                 <h4>Status:</h4>
+                                 <p class="fulfilled-c">{{data?.SubStatusID === 8 ? 'Fulfilled Internally' : 'Fulfilled Externally'}}</p>
+                                 
+                             </div>
+ 
+ 
+                         </div>
+                     </div>
+                 </div>
+                 <!-- end allocation details -->
+                <div class="box-v-ats" *ngIf="(talentDetailsList?.ReqTypeID==3 || talentDetailsList?.ReqTypeID==6)">
+                    <div class="box-v-header">
+                        <h4 *ngIf="talentDetailsList?.ReqTypeID==6">Conversion Details</h4>
+                        <h4 *ngIf="talentDetailsList?.ReqTypeID==3">Replacement Details</h4>
+
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.ReqTypeID==3">
+                                <h4>Replacement Reason:</h4>
+                                <p>{{talentDetailsList?.RepReason || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <!-- <h4>Replacement For:</h4> -->
+                                <h4 *ngIf="talentDetailsList?.ReqTypeID==6">Conversion For:</h4>
+                                <h4 *ngIf="talentDetailsList?.ReqTypeID==3">
+                                    {{talentDetailsList?.RepReasonID == '13'?'Rotation For:':'Replacement For:'}}
+                                </h4>
+                                <p>{{talentDetailsList?.ReplacementFor || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Designation Description:</h4>
+                                <p>{{talentDetailsList?.desigDescription || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <ng-container *ngIf="talentDetailsList?.ReqTypeID==6">
+                                <div class="view-list-bx">
+                                    <h4>Employee Contract End Date:</h4>
+                                    <p>{{talentDetailsList?.C2HEmpContractEndDate || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx">
+                                    <h4>Employee Personal Email:</h4>
+                                    <p>{{talentDetailsList?.C2HEmpEmail || '-'}}</p>
+                                </div>
+                                <!-- <div class="view-list-bx">
+                                    <h4>Conversion Remarks:</h4>
+                                    <p>{{talentDetailsList?.conversionRemarks || '-'}}</p>
+                                </div> -->
+
+                                <!-- end -->
+                            </ng-container>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Account Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <!-- <div class="view-list-bx">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>GDL:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Department:</h4>
+                                </ng-template>
+                                <p>{{talentDetailsList?.DUName || '-'}}</p>
+                            </div> -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.DeliveryOrFunction ==5">
+                                <h4>Department:</h4>
+                                <p>{{talentDetailsList?.DUName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>Account:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Sub Department:</h4>
+                                </ng-template>
+                                <!-- <p *ngIf="talentDetailsList?.ReqTypeID!=1 && talentDetailsList?.ReqTypeID!=5">
+                                    {{talentDetailsList?.AccountName || '-'}}</p>
+                                <p *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==5)">
+                                    {{talentDetailsList?.SFDCAccountName || '-'}}</p> -->
+                                <p *ngIf="talentDetailsList?.ReqTypeID!=1 ">
+                                    {{talentDetailsList?.AccountName || '-'}}</p>
+                                <p *ngIf="(talentDetailsList?.ReqTypeID==1 )">
+                                    {{talentDetailsList?.SFDCAccountName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.ReqTypeID!=1 && talentDetailsList?.ReqTypeID!=5">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>Project:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Function Name:</h4>
+                                </ng-template>
+                                <p> {{talentDetailsList?.ProjName||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx">
+                                <h4><span *ngIf="talentDetailsList?.ReqTypeID !=1">Offshore</span> Hiring Manager:</h4>
+                                <!-- *ngIf="talentDetailsList?.ReqTypeID ==2 ||talentDetailsList?.ReqTypeID ==4; " -->
+                                <ng-container>
+                                    <p>{{talentDetailsList?.OffShoreHiringManager || '-'}}</p>
+
+                                </ng-container>
+                                <!-- else createdBy
+                                <ng-template #createdBy>
+                                    <p>{{talentDetailsList?.CreatedByName || '-'}}</p>
+
+                                </ng-template> -->
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.ReqTypeID ==2 ||talentDetailsList?.ReqTypeID ==4 ||talentDetailsList?.ReqTypeID ==6">
+                                <h4>Onsite Hiring Manager:</h4>
+                                <ng-container>
+                                    <p>{{talentDetailsList?.OnsitePM || 'NA'}}</p>
+
+                                </ng-container>
+                                <!-- <ng-template #createdBy>
+                                    <p>{{talentDetailsList?.CreatedByName || '-'}}</p>
+
+                                </ng-template> -->
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1 && talentDetailsList?.ReqTypeID==2 && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>SFDC Client:</h4>
+                                <p>{{talentDetailsList?.SFDCAccountName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <!-- (talentDetailsList?.DeliveryOrFunction ==1 && talentDetailsList?.ReqTypeID==2)
+                                && (talentDetailsList?.JoiningLocID==1 || talentDetailsList?.JoiningLocID==4 
+                                || talentDetailsList?.JoiningLocID==11
+                                || talentDetailsList?.JoiningLocID==16
+                                || talentDetailsList?.JoiningLocID==10
+                                || talentDetailsList?.JoiningLocID==5
+                                || talentDetailsList?.JoiningLocID==2
+                                )
+                                &&talentDetailsList?.role_id" -->
+                            <div class="view-list-bx" *ngIf="(talentDetailsList?.DeliveryOrFunction ==1 && talentDetailsList?.ReqTypeID==2)
+                                &&talentDetailsList?.role_id">
+
+                                <h4>Role ( from pricing-RLS ):</h4>
+                                <p>{{talentDetailsList?.role_id ==9999 ? 'Other' : talentDetailsList?.RoleName || '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==2)
+                                && talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Opportunity ID:</h4>
+                                <p>{{talentDetailsList?.OpportunityName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==2)
+                                && talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>ISFDC ID:</h4>
+                                <p>{{talentDetailsList?.ISFDCID || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==2)
+                                && talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Opportunity Type:</h4>
+                                <p>{{talentDetailsList?.OppType || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==2)
+                                && talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Odds Of Winning (%):</h4>
+                                <p>{{talentDetailsList?.OddsOfWinning || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==2) && talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Booking DGM (%):</h4>
+                                <p>{{talentDetailsList?.BookingDGM || '0'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="(talentDetailsList?.ReqTypeID==1 
+                            ||talentDetailsList?.ReqTypeID==2
+                            ||talentDetailsList?.ReqTypeID==3
+                            ||talentDetailsList?.ReqTypeID==4
+                            ||talentDetailsList?.ReqTypeID==6)
+                            &&
+                            talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)
+                            ">
+                                <h4>Project End Date:</h4>
+                                <p>{{talentDetailsList?.ProjEndDate || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="(
+                            talentDetailsList?.ReqTypeID==3
+                            ||talentDetailsList?.ReqTypeID==4
+                            ||talentDetailsList?.ReqTypeID==6)
+                            &&
+                            talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID == 427 || talentDetailsList?.AccountID == 1277 || talentDetailsList?.AccountID == 405 || talentDetailsList?.AccountID == 399)
+                            ">
+                                <h4>Project End Date:</h4>
+                                <p>{{talentDetailsList?.ProjEndDate || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.ReqTypeID==1 
+                            ||talentDetailsList?.ReqTypeID==2) &&
+                            talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Close Date:</h4>
+                                <p>{{talentDetailsList?.ClosedDate || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Bid Type:</h4>
+                                <p>{{talentDetailsList?.BidType || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="(
+                                talentDetailsList?.ReqTypeID==3
+                                ||talentDetailsList?.ReqTypeID==4
+                                ||talentDetailsList?.ReqTypeID==5
+                                ||talentDetailsList?.ReqTypeID==6)
+                                &&
+                                talentDetailsList?.DeliveryOrFunction ==1  && (talentDetailsList?.AccountID == 427 || talentDetailsList?.AccountID == 1277 || talentDetailsList?.AccountID == 405 || talentDetailsList?.AccountID == 399)">
+                                <h4>Bid Type:</h4>
+                                <p>{{talentDetailsList?.BidType || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1 
+                           && (talentDetailsList?.AccountID != 427 && talentDetailsList?.AccountID != 1277 && talentDetailsList?.AccountID != 405 && talentDetailsList?.AccountID != 399)">
+                                <h4>Exclusive to Infogain:</h4>
+                                <p>{{talentDetailsList?.ExclusiveInfo || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1 && (talentDetailsList?.ReqTypeID==3 || talentDetailsList?.ReqTypeID==4 || talentDetailsList?.ReqTypeID==5 || talentDetailsList?.ReqTypeID==6 || talentDetailsList?.ReqTypeID==7)
+                           && (talentDetailsList?.AccountID == 427 || talentDetailsList?.AccountID == 1277 || talentDetailsList?.AccountID == 405 || talentDetailsList?.AccountID == 399)">
+                                <h4>Exclusive to Infogain:</h4>
+                                <p>{{talentDetailsList?.ExclusiveInfo || '-'}}</p>
+                            </div>
+                            <!-- <div class="view-list-bx" *ngIf="talentDetailsList?.DeliveryOrFunction ==1">
+                                <h4>Division:</h4>
+                                <p>{{talentDetailsList?.Division || '-'}}</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <ng-container *ngIf="!isTalentCubeVisible">
+                            <h4>Designation and Skill Details</h4>
+                        </ng-container>
+                        <ng-container *ngIf="isTalentCubeVisible">
+                            <h4>Talent Cube / Skills Details</h4>
+                        </ng-container>
+
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Talent Cube:</h4>
+                                <p>{{talentDetailsList?.TalentCubeName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Primary Skill:</h4>
+                                <p>{{talentDetailsList?.PrimaryTCSkillName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Mandatory Skills:</h4>
+                                <!-- <p>{{talentDetailsList?.MandatorySkillsName || '-'}}
+                              
+                                </p> -->
+                                <div class="ul-ratem">
+                                    <table class="table table-bordered bg-white tb-tl-ex">
+                                        <thead class="table-light">
+                                          <tr>
+                                            <th>Skill</th>
+                                            <th>Proficiency Level</th>
+                                            <th>Weightage ( % )</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr  *ngFor="let item of MandatorySkills ; let last = last">
+                                            <td>  {{item?.skillName?item?.skillName:'-'}}</td>
+                                            <td>{{item?.RatingName ||'NA'}}</td>
+                                            <td>{{item?.Weightage ? item?.Weightage + ' %' : 'NA'}}</td>
+                                          </tr>
+                                        
+                                        </tbody>
+                                      </table>
+                                    <!-- <ul>
+                                        <li *ngFor="let item of MandatorySkills ; let last = last">
+                                            {{item?.skillName?item?.skillName:'-'}}
+                                           <ng-container *ngIf="item?.rating">
+                                            (<span>Rating : {{item?.rating ||'NA'}}</span>)
+                                           </ng-container>
+                                           <span *ngIf="!last">,</span>
+                                        </li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Good To Have Skills:</h4>
+                                <!-- <p>{{talentDetailsList?.GoodToHaveSkillsName || '-'}}</p> -->
+                                <div class="ul-ratem">
+                                    <table class="table table-bordered bg-white tb-tl-ex">
+                                        <thead class="table-light">
+                                          <tr>
+                                            <th>Skill</th>
+                                            <th>Proficiency Level</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr  *ngFor="let item of GoodToHaveSkills ; let last = last">
+                                            <td>  {{item?.skillName?item?.skillName:'-'}}</td>
+                                            <td>{{item?.RatingName ||'NA'}}</td>
+                                          </tr>
+                                        
+                                        </tbody>
+                                      </table>
+                                    <!-- <ul>
+                                        <li *ngFor="let item of GoodToHaveSkills ; let last = last">
+                                            {{item?.skillName?item?.skillName:'-'}}
+                                           <ng-container *ngIf="item?.rating">
+                                            (<span>Rating : {{item?.rating ||'NA'}}</span>)
+                                           </ng-container>
+                                           <span *ngIf="!last">,</span>
+                                        </li>
+                                        <li *ngIf="GoodToHaveSkills?.length === 0">-</li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 1:</h4>
+                                <p>{{talentDetailsList?.TCSkill1Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 2:</h4>
+                                <p>{{talentDetailsList?.TCSkill2Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 3:</h4>
+                                <p>{{talentDetailsList?.TCSkill3Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 4:</h4>
+                                <p>{{talentDetailsList?.TCSkill4Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Role:</h4>
+                                <p>{{talentDetailsList?.TalentCubeRole || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Grade:</h4>
+                                <p>{{talentDetailsList?.TCGradeName || '-'}}</p>
+                            </div>
+                             <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Grade Change Reason:</h4>
+                                <p>{{talentDetailsList?.ReplGradeResName || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Experience:</h4>
+                                <p>{{talentDetailsList?.Experience || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Studio / Practice:</h4>
+                                <p>{{talentDetailsList?.Practice || '-'}}</p>
+                            </div>
+
+                            <!-- end -->
+
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Designation Categories:</h4>
+                                <p>{{talentDetailsList?.DesigCate || '-'}}</p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Exp. (yrs.):</h4>
+                                <p> {{talentDetailsList?.ExpRange||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx">
+                                <h4>Qualification:</h4>
+                                <p>{{talentDetailsList?.Qualification || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Primary Skill:</h4>
+                                <p>{{talentDetailsList?.PriSkill || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Mandatory Skills:</h4>
+                                <!-- <p>{{talentDetailsList?.MandatorySkillsName || '-'}}</p> -->
+                                <div class="ul-ratem">
+                                    <ul>
+                                        <li *ngFor="let item of MandatorySkills ; let last = last">
+                                            {{item?.skillName?item?.skillName:'-'}}
+                                           <ng-container *ngIf="item?.rating">
+                                            (<span>Rating : {{item?.rating ||'NA'}}</span>)
+                                           </ng-container>
+                                           <span *ngIf="!last">,</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Good To Have Skills:</h4>
+                                <!-- <p>{{talentDetailsList?.GoodToHaveSkillsName || '-'}}</p> -->
+                                <div class="ul-ratem">
+                                    <ul>
+                                        <li *ngFor="let item of GoodToHaveSkills ; let last = last">
+                                            {{item?.skillName?item?.skillName:'-'}}
+                                           <ng-container *ngIf="item?.rating">
+                                            (<span>Rating : {{item?.rating ||'NA'}}</span>)
+                                           </ng-container>
+                                           <span *ngIf="!last">,</span>
+                                        </li>
+                                        <li *ngIf="GoodToHaveSkills?.length === 0">-</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Sub Skills:</h4>
+                                <p>{{talentDetailsList?.SubSkill || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Additional Skills:</h4>
+                                <p>{{talentDetailsList?.AdditionalSkills || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Studio / Practice:</h4>
+                                <p>{{talentDetailsList?.Practice || '-'}}</p>
+                            </div>
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Job Family Details:</h4>
+                                <p>{{talentDetailsList?.JfName || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Grade:</h4>
+                                <p>{{talentDetailsList?.gradeLevel || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Grade Change Reason:</h4>
+                                <p>{{talentDetailsList?.ReplGradeResName || '-'}}</p>
+                            </div>
+                            <!-- <div class="view-list-bx"  *ngIf="!isTalentCubeVisible && isLocationIndia">
+                                <h4>Max Salary Annually (INR):</h4>
+                                <p>{{talentDetailsList?.MaxSalary || '-'}}</p>
+                            </div> -->
+                            <div class="view-list-bx">
+                                <h4>Employment Type:</h4>
+                                <p>{{talentDetailsList?.EmployementType || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Active Employees:</h4>
+                                <p>{{talentDetailsList?.activeEmployee || '-'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-ats" *ngIf="talentDetailsList?.IsInternelID=='N' && talentDetailsList?.ReqTypeID !=6">
+                    <div class="box-v-header">
+                        <h4>Job Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Job Summary:</h4>
+                                <p [innerHTML]="talentDetailsList?.JobSummary || '-'"></p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Job Description:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDescHtml?(jobDescHtml| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+
+                <!-- <div class="box-v-ats" *ngIf="talentDetailsList.ReqTypeID==6">
+                    <div class="box-v-header">
+                        <h4>Form 4</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Conversion For:</h4>
+                                <p>{{talentDetailsList?.JobSummary || '-'}}</p>
+                            </div>
+                           
+                            <div class="view-list-bx">
+                                <h4>Designation Description:</h4>
+                                <p>{{talentDetailsList?.JobDesc || '-'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="box-v-ats" *ngIf="!isIJPView">
+                    <div class="box-v-header">
+                        <h4>{{labelInterviewBiling}}</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <!-- online assesment new fieleds -->
+                            <ng-container *ngIf="talentDetailsList?.ReqTypeID !=6">
+                                <div class="view-list-bx" *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            &&talentDetailsList?.Tech1InterviewByName">
+                                    <h4>Interview By ( Tech 1 ):</h4>
+                                    <p>{{talentDetailsList?.Tech1InterviewByName || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx" *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            && talentDetailsList?.Tech1InterviewById==1">
+                                    <h4>Online Assessment By:</h4>
+                                    <p>{{talentDetailsList?.OnlineAssesmentByName || '-'}}</p>
+                                </div>
+                                <!-- &&
+                            talentDetailsList?.interviewBy=='O' -->
+                                <div class="view-list-bx"
+                                    *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            && talentDetailsList?.Tech1InterviewById==1 && talentDetailsList?.OnlineAssesmentById != 1">
+                                    <h4>Assessment Link:</h4>
+                                    <p>{{talentDetailsList?.AssessmentLink || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx" *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            && talentDetailsList?.Tech1InterviewById==1 &&talentDetailsList?.OnlineAssesmentById == 1">
+                                    <h4>Assessment:</h4>
+                                    <!-- <p>{{talentDetailsList?.codeByteTestId || '-'}}</p> -->
+                                    <p>{{talentDetailsList?.coderByteDisplayName || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx" *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            && talentDetailsList?.Tech1InterviewById==2
+                           ">
+                                    <!-- || talentDetailsList?.Tech1InterviewById==3 -->
+                                    <h4>Reason (For Not Opting Online Assessment):</h4>
+                                    <p>{{talentDetailsList?.ReasonNotOptName || '-'}}</p>
+                                </div>
+                                <div class="view-list-bx" *ngIf="isJoiningLocIndia && talentDetailsList?.IsInternelID=='N'
+                            && talentDetailsList?.Tech1InterviewById==3">
+                                    <h4>
+                                        <!-- Reason (For Opting External Panel): -->
+                                        Reason (For Not Opting Online Assessment And Internal Panel):
+                                    </h4>
+                                    <p>{{talentDetailsList?.ReasonforOptName || '-'}}</p>
+                                </div>
+                                <!-- ends here -->
+                                <!-- end -->
+                                <div class="view-list-bx" *ngIf="talentDetailsList?.IsInternelID=='N'">
+                                    <h4>Interviewer 1 (Technical):</h4>
+                                    <p>
+                                        <!-- {{talentDetailsList?.Interviewer1 || '-'}} -->
+                                        {{ interviewer1NameIds || '-' }}
+                                    </p>
+                                </div>
+                                <!-- end -->
+                                <div class="view-list-bx" *ngIf="talentDetailsList?.IsInternelID=='N'">
+                                    <h4>Interviewer 2 (Technical):</h4>
+                                    <p>
+                                        <!-- {{talentDetailsList?.Interviewer2 || '-'}} -->
+                                          {{ interviewer2NameIds || '-' }}
+                                    </p>
+                                </div>
+                                <div class="view-list-bx" *ngIf="talentDetailsList?.IsInternelID=='N'">
+                                    <h4>Managerial/ Management Round Panel:</h4>
+                                    <p>
+                                        <!-- {{talentDetailsList?.Interviewer2 || '-'}} -->
+                                          {{ interviewer3NameIds || '-' }}
+                                    </p>
+                                </div>
+                            </ng-container>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.DeliveryOrFunction ==1">
+                                <h4>Is Billable?:</h4>
+                                <p> {{talentDetailsList?.IsBillable||'-'}} </p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsBillableID=='Y'">
+                                <h4>Billing Type:</h4>
+                                <p> {{talentDetailsList?.BillingType ||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsBillableID=='Y'">
+                                <h4>Expected Margin(%):</h4>
+                                <p>{{talentDetailsList?.ExpMargin || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsBillableID=='Y'">
+                                <h4>Bill Rate($/Hour):</h4>
+                                <p>{{talentDetailsList?.BillingRate || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsBillableID=='Y'">
+                                <h4>Billing Hours:</h4>
+                                <p>{{talentDetailsList?.BillingHours || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsInternelID=='N'">
+                                <h4>Planned Onboarding Date:</h4>
+                                <p>{{talentDetailsList?.pOnboardDate || '-'}}</p>
+                                <!-- <p>{{(talentDetailsList?.pOnboardDate | date:'mediumDate' )||  '-'}}</p> -->
+
+                            </div>
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.IsBillableID=='Y' &&  talentDetailsList?.ReqTypeID != 5">
+                                <!-- <h4>Planned Billing Start Date:</h4> -->
+                                <h4>Initial Planned Billing Start Date:</h4>
+                                <p>{{talentDetailsList?.OrignalTargetBillingDate || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.IsBillableID=='Y' &&  talentDetailsList?.ReqTypeID != 5">
+                                <!-- <h4>Planned Billing Start Date:</h4> -->
+                                <h4>Current Planned Billing Start Date:</h4>
+                                <p>{{talentDetailsList?.BillingSDate || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.IsBillableID=='Y' &&  talentDetailsList?.ReqTypeID != 5">
+                                <h4>Billing Loss Position:</h4>
+                                <p *ngIf="talentDetailsList?.BillingLossPosition == 'Y'">{{'Yes' || '-'}}</p>
+                                <p *ngIf="talentDetailsList?.BillingLossPosition == 'N'">{{'No' || '-'}}</p>
+                                <p
+                                    *ngIf="talentDetailsList?.BillingLossPosition == '' || talentDetailsList?.BillingLossPosition == null">
+                                    {{'-'}}</p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.IsInternelID=='N' && talentDetailsList?.ReqTypeID != 6">
+                                <h4>Is Client Interview Required?</h4>
+                                <p>{{talentDetailsList?.IsClientInt || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.IsInternelID=='N'">
+                                <h4>Is Visa Ready?</h4>
+                                <p>{{talentDetailsList?.IsVisaReady || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Remarks:</h4>
+                                <p>{{talentDetailsList?.SpclReq || '-'}}</p>
+                            </div>
+                            <!-- *ngIf="hideshowBgv(data) && userData?.RoleId == 5 || hideshowBgv(data) && userData?.RoleId == 2" -->
+                            <div class="view-list-bx view-document">
+                                <div>
+                                    <h4>View Document:</h4>
+                                </div>
+                                <div>
+                                    <button mat-button type="button" [disabled]="!talentDetailsList?.ATTACHMENT"
+                                        [ngClass]="talentDetailsList?.ATTACHMENT ? 'view-pic-hover ' :''"
+                                        [matTooltip]="talentDetailsList?.ATTACHMENT ? 'Download to view file' : 'No file'"
+                                        (click)="viewDocument(talentDetailsList)">
+                                        <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="view-list-bx view-document" *ngIf="talentDetailsList?.THIDApprovalAttachment">
+                                <div>
+                                    <h4>View Approval Attachment:</h4>
+                                </div>
+                                <div>
+                                    <button mat-button type="button"
+                                        [disabled]="!talentDetailsList?.THIDApprovalAttachment"
+                                        [ngClass]="talentDetailsList?.THIDApprovalAttachment ? 'view-pic-hover ' :''"
+                                        [matTooltip]="talentDetailsList?.THIDApprovalAttachment ? 'Download to view file' : 'No file'"
+                                        (click)="viewDocumentApr(talentDetailsList)">
+                                        <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+       
+                <!-- cancel talent reason  -->
+                <div class="box-v-ats" *ngIf="data?.SubStatusID == 7">
+                    <div class="box-v-header">
+                        <h4>Reason of Talent ID Cancellation</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Cancellation Category:</h4>
+                                <p>{{talentDetailsList?.cancelCategory || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Cancellation SubCategory:</h4>
+                                <p>{{talentDetailsList?.CancelSubCategory || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Cancellation Remarks:</h4>
+                                <p>{{talentDetailsList?.cancelRemarks || '-'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- view - talent id send to tag by wmg details  -->
+                <div class="box-v-ats" *ngIf="userData?.otherRoles?.IsWMG =='Y'">
+                    <div class="box-v-header">
+                        <h4>Send to TAG Details By WMG</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Category:</h4>
+                                <p>{{talentDetailsList?.WmgCategory || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Approved By:</h4>
+                                <p>{{talentDetailsList?.WmgApprovedBy || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Approved Over:</h4>
+                                <p>{{talentDetailsList?.WmgApprovedOver || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Approved On:</h4>
+                                <!-- <p>{{talentDetailsList?.WmgApprovedOn || '-'}}</p> -->
+                                <p>{{(talentDetailsList?.WmgApprovedOn | date:'mediumDate' )|| '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>WMG Remark:</h4>
+                                <p>{{talentDetailsList?.WmgRemarks || '-'}}</p>
+                            </div>
+                            <!-- *ngIf="talentDetailsList?.THIDApprovalAttachment" -->
+                            <div class="view-list-bx view-document">
+                                <div>
+                                    <h4>View Attachment:</h4>
+                                </div>
+                                <div>
+                                    <button mat-button type="button" [disabled]="!talentDetailsList?.WmgAttachmentName"
+                                        [ngClass]="talentDetailsList?.WmgAttachmentName ? 'view-pic-hover ' :''"
+                                        [matTooltip]="talentDetailsList?.WmgAttachmentName ? 'Download to view file' : 'No file'"
+                                        (click)="viewDocumentWmg(talentDetailsList)">
+                                        <i class="fas fa-download view-pic" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- <div class="box-v-ats" *ngIf="userData?.otherRoles?.IsWMG =='Y'">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                            <h4>Send to TAG Details By WMG</h4>
+                        </div>
+                        <div class="box-v-body">
+                            <div class="table-data-scroll-pop max-height-300">
+                                <table mat-table [dataSource]="talentHistoryList" class="table-mat-info">
+                                    <ng-container matColumnDef="srNo">
+                                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Category">
+                                        <th mat-header-cell *matHeaderCellDef>Category </th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Category || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ApprovedBy">
+                                        <th mat-header-cell *matHeaderCellDef>Approved By</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.ApprovedBy || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ApprovedOver">
+                                        <th mat-header-cell *matHeaderCellDef>Approved Over</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.ApprovedBy || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ApprovedOn">
+                                        <th mat-header-cell *matHeaderCellDef>Approved On</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.fullfillmentDate ? (element?.fullfillmentDate | date:'d MMM y') :
+                                            'NA'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container class="documents" matColumnDef="attachments">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                        
+                                            Documents
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            <div class="btn-action btn-action-centers">
+                                                <div class="btn-act">
+                                                    <button [ngClass]="{'disble' : element?.IsAttachmentPresent=='N'}"
+                                                        mat-button type="button" class="btn-ey-v"
+                                                        matTooltip="View Documents "
+                                                        (click)="documentsDownload(element)">
+                                                        <i class="fa fa-folder" aria-hidden="true"></i>
+                                                    
+                                                    </button>
+                                                </div>
+                                             
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="wmgRemarks">
+                                        <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.FULFILLMENTRemarks || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found *ngIf="talentHistoryList?.length === 0"></app-no-result-found>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </ng-container>
+
+            <ng-container *ngIf="isIJPView">
+               
+                <div class="box-v-ats">
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Type:</h4>
+                                <p>{{talentDetailsList?.Type || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Joining Location:</h4>
+                                <p>{{talentDetailsList?.JoiningLocation || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.JoiningLocID==3">
+                                <h4>State:</h4>
+                                <p> {{talentDetailsList?.State||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx"
+                                *ngIf="(talentDetailsList?.JoiningLocID==3 || talentDetailsList?.JoiningLocID==13)">
+                                <h4>City:</h4>
+                                <p>{{talentDetailsList?.City || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <!-- <div class="view-list-bx">
+                                <h4>Requirement Type:</h4>
+                                <p>{{talentDetailsList?.ReqTypeName || '-'}}</p>
+                            </div> -->
+                            <!-- end  -->
+                            <!-- BU renamed to MU - marketing Unit - 22-april-2024 -->
+                            <!-- <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.DeliveryOrFunction ==1 && (talentDetailsList?.ReqTypeID==2 || talentDetailsList?.ReqTypeID==3)">
+                                <h4>Is Resource Available in MU? (Internal movement):</h4>
+                                <p>{{talentDetailsList?.IsInternel || '-'}}</p>
+                            </div> -->
+                            <!-- end -->
+                            <!-- <div class="view-list-bx" *ngIf="talentDetailsList?.ReqTypeID==4">
+                                <h4>Approved By:</h4>
+                                <p>{{talentDetailsList?.ApprovedBy || '-'}}</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                  <!-- fulfillled talent - if fulfil internally/ externally -->
+                  <div class="box-v-ats"
+                  *ngIf="(userData?.otherRoles?.IsAO === 'Y' || userData?.otherRoles?.IsHiringManager === 'Y'
+              || userData?.otherRoles?.IsTAG === 'Y' || userData?.otherRoles?.IsWMG ==='Y') && (data?.SubStatusID === 8 || data?.SubStatusID === 6)">
+                  <div class="box-v-header">
+                      <h4>Allocation Details</h4>
+                  </div>
+                  <div class="box-v-body">
+                      <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                          <div class="view-list-bx">
+                              <h4>Employee Name:</h4>
+                              <p>{{talentDetailsList?.Type || '-'}}</p>
+                          </div>
+                          <!-- end -->
+                          <div class="view-list-bx">
+                              <h4>Employee ID:</h4>
+                              <p>{{talentDetailsList?.JoiningLocation || '-'}}</p>
+                          </div>
+ 
+                          <!-- end -->
+                          <div class="view-list-bx">
+                              <h4>Status:</h4>
+                              <p>{{talentDetailsList?.ReqTypeName || '-'}}</p>
+                          </div>
+ 
+ 
+                      </div>
+                  </div>
+              </div>
+              <!-- end allocation details -->
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Account Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <!-- <div class="view-list-bx">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>GDL:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Department:</h4>
+                                </ng-template>
+                                <p>{{talentDetailsList?.DUName || '-'}}</p>
+                            </div> -->
+                            <div class="view-list-bx" *ngIf="talentDetailsList?.DeliveryOrFunction ==5">
+                                <h4>Department:</h4>
+                                <p>{{talentDetailsList?.DUName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>Account:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Sub Department:</h4>
+                                </ng-template>
+                                <!-- <p *ngIf="talentDetailsList?.ReqTypeID!=1 && talentDetailsList?.ReqTypeID!=5">
+                                    {{talentDetailsList?.AccountName || '-'}}</p>
+                                <p *ngIf="(talentDetailsList?.ReqTypeID==1 || talentDetailsList?.ReqTypeID==5)">
+                                    {{talentDetailsList?.SFDCAccountName || '-'}}</p> -->
+                                <p *ngIf="talentDetailsList?.ReqTypeID!=1 ">
+                                    {{talentDetailsList?.AccountName || '-'}}</p>
+                                <p *ngIf="(talentDetailsList?.ReqTypeID==1 )">
+                                    {{talentDetailsList?.SFDCAccountName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx"
+                                *ngIf="talentDetailsList?.ReqTypeID!=1 && talentDetailsList?.ReqTypeID!=5">
+                                <ng-container *ngIf="talentDetailsList?.DeliveryOrFunction ==1; else other">
+                                    <h4>Project:</h4>
+                                </ng-container>
+                                <ng-template #other>
+                                    <h4>Function Name:</h4>
+                                </ng-template>
+                                <p> {{talentDetailsList?.ProjName||'-'}} </p>
+                            </div>
+                            <!-- end -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <ng-container *ngIf="!isTalentCubeVisible">
+                            <h4>Designation and Skill Details</h4>
+                        </ng-container>
+                        <ng-container *ngIf="isTalentCubeVisible">
+                            <h4>Talent Cube / Skills Details</h4>
+                        </ng-container>
+
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Talent Cube:</h4>
+                                <p>{{talentDetailsList?.TalentCubeName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Primary Skill:</h4>
+                                <p>{{talentDetailsList?.PrimaryTCSkillName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Mandatory Skills:</h4>
+                                <p>{{talentDetailsList?.MandatorySkillsName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Good To Have Skills:</h4>
+                                <p>{{talentDetailsList?.GoodToHaveSkillsName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 1:</h4>
+                                <p>{{talentDetailsList?.TCSkill1Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 2:</h4>
+                                <p>{{talentDetailsList?.TCSkill2Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 3:</h4>
+                                <p>{{talentDetailsList?.TCSkill3Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Additional Skill 4:</h4>
+                                <p>{{talentDetailsList?.TCSkill4Names || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Role:</h4>
+                                <p>{{talentDetailsList?.TalentCubeRole || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Grade:</h4>
+                                <p>{{talentDetailsList?.TCGradeName || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Experience:</h4>
+                                <p>{{talentDetailsList?.Experience || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="isTalentCubeVisible">
+                                <h4>Studio / Practice:</h4>
+                                <p>{{talentDetailsList?.Practice || '-'}}</p>
+                            </div>
+
+                            <!-- end -->
+
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Designation Categories:</h4>
+                                <p>{{talentDetailsList?.DesigCate || '-'}}</p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Exp. (yrs.):</h4>
+                                <p> {{talentDetailsList?.ExpRange||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx">
+                                <h4>Qualification:</h4>
+                                <p>{{talentDetailsList?.Qualification || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Primary Skill:</h4>
+                                <p>{{talentDetailsList?.PriSkill || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Mandatory Skills:</h4>
+                                <p>{{talentDetailsList?.MandatorySkillsName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Good To Have Skills:</h4>
+                                <p>{{talentDetailsList?.GoodToHaveSkillsName || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Sub Skills:</h4>
+                                <p>{{talentDetailsList?.SubSkill || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Additional Skills:</h4>
+                                <p>{{talentDetailsList?.AdditionalSkills || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Studio / Practice:</h4>
+                                <p>{{talentDetailsList?.Practice || '-'}}</p>
+                            </div>
+
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Job Family Details:</h4>
+                                <p>{{talentDetailsList?.JfName || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Grade:</h4>
+                                <p>{{talentDetailsList?.gradeLevel || '-'}}</p>
+                            </div>
+                            <!-- <div class="view-list-bx"  *ngIf="!isTalentCubeVisible && isLocationIndia">
+                                <h4>Max Salary Annually (INR):</h4>
+                                <p>{{talentDetailsList?.MaxSalary || '-'}}</p>
+                            </div> -->
+                            <!-- <div class="view-list-bx">
+                                <h4>Employment Type:</h4>
+                                <p>{{talentDetailsList?.EmployementType || '-'}}</p>
+                            </div> -->
+                            <!-- <div class="view-list-bx" *ngIf="!isTalentCubeVisible">
+                                <h4>Active Employees:</h4>
+                                <p>{{talentDetailsList?.activeEmployee || '-'}}</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-ats" *ngIf="talentDetailsList?.IsInternelID=='N' && talentDetailsList?.ReqTypeID !=6">
+                    <div class="box-v-header">
+                        <h4>Job Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Job Summary:</h4>
+                                <p [innerHTML]="talentDetailsList?.JobSummary || '-'"></p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Job Description:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDescHtml?(jobDescHtml| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="data?.type =='GDL'">
+                <!-- <div class="box-v-ats box-v-ats-form">
+                    <div class="form-appr margin-top-10">
+                        <div
+                            class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark box-shadow-c">
+
+                            <div class="ats-form-col mat-radio-ats mat-radio-btn-ats width-280">
+                                <label class="lb-title">Action<sup>*</sup> </label>
+                                <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                    formControlName="status">
+                                    <mat-radio-button value="A">Approve</mat-radio-button>
+                                    <mat-radio-button value="R"> Reject </mat-radio-button>
+                                </mat-radio-group>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div> -->
+                <!-- new page -->
+                <div class="box-v-ats box-v-ats-form">
+
+                    <div class="box-v-body approval-dp-wrap">
+                        <div
+                            class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                            <div class="ats-form-col action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                                <label class="lb-title">Action<sup>*</sup> </label>
+                                <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                    formControlName="status">
+                                    <mat-radio-button value="A">Approve</mat-radio-button>
+                                    <mat-radio-button value="R"> Reject </mat-radio-button>
+                                </mat-radio-group>
+                                <!-- validate --><br>
+                                <mat-error class="error-aprrove-Reject"
+                                    *ngIf="getControl('status')?.touched && getControl('status')?.invalid">
+                                    <div *ngIf="getControl('status')?.errors.required">
+                                        Action is required.
+                                    </div>
+                                </mat-error>
+                                <!-- validate ends-->
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col" *ngIf="isRejectTalent">
+                                <mat-form-field appearance="outline">
+                                    <mat-label appRemoveAriaOwns>Reason Category</mat-label>
+                                    <mat-select formControlName="reasonCategory"
+                                        (selectionChange)="getReasonCategId($event)">
+                                        <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                            {{data?.Category}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <!-- <mat-error
+                    *ngIf="getControl('reasonCategory')?.touched && getControl('reasonCategory')?.invalid">
+                    <div *ngIf="getControl('reasonCategory')?.errors.required">
+                        Reason Category is required.
+                    </div>
+                </mat-error> -->
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col" *ngIf="isRejectTalent">
+                                <mat-form-field appearance="outline">
+                                    <mat-label appRemoveAriaOwns>Sub Reason</mat-label>
+                                    <mat-select formControlName="subReason"
+                                        [disabled]="!getControl('reasonCategory').valid">
+                                        <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                            {{data?.SubCategory}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <!-- end col -->
+                            <div class="ats-form-col action-wrapper remark-wrap">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                        formControlName="remarks"></textarea>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center" *ngIf="data?.type =='GDL'">
+        <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button>
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

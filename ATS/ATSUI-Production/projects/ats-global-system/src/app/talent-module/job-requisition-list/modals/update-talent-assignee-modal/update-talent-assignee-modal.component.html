@@ -1,0 +1,78 @@
+<form [formGroup]="updateTalentIdForm" (ngSubmit)="updateTalentIdHandler(updateTalentIdForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{TalentData?.talent_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>fullfillment Date:</h4>
+                            <p>{{(TalentData?.initial_fullfilment_date | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter1|| '-'}}</p>
+                        </div>
+
+                        <!-- end -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter2|| '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+
+           
+    
+                  
+
+                    <div class="ats-form-col">
+                        <app-recruiter-list-control [IdControl]="getControl('prRecEmpId')"
+                            [title]="'Primary Recruiter'" [formFieldAppearance]="'outline'" 
+                             [type]="'recruiter'" (getDataSource)="getRecEmpId($event)">
+                        </app-recruiter-list-control>
+                    </div>
+                    <div class="ats-form-col">
+                        <app-recruiter-list-control [IdControl]="getControl('srRecEmpId')"
+                            [title]="'Secondary Recruiter'" [formFieldAppearance]="'outline'" 
+                             [type]="'recruiter'" (getDataSource)="getRecEmpId($event)">
+                        </app-recruiter-list-control>
+                    </div>
+    
+               
+    
+                </div> 
+            </div>
+
+          
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

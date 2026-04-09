@@ -1,0 +1,138 @@
+<ng-container *ngIf="formId == 13 ||
+                     formId == 14||
+                     formId == 16 ||
+                     formId == 23 ||
+                     formId == 20 ||
+                     formId == 21 ||
+                     formId == 22
+                     "
+                     >
+    <div class="accept-policy-header">
+        <div class="accept-policy-header-inner">
+            <div class="acc-log-s">
+                <div class="infogain-logo-d infogain-logo-d-header">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+                </div>
+            </div>
+            <div class="acc-log-text" *ngIf="isRightTextHide">
+                <p [innerHTML]="rightTextHeader"></p>
+            </div>
+        </div>
+
+    </div>
+    <!-- end header -->
+</ng-container>
+
+<!--lateral nda forms header based on location -->
+<ng-container *ngIf="locationId == 1">
+  <div class="div-cont">
+    <table class="div-cont-tbl">
+      <tr>
+        <td  class="tbl-td">
+          <img src="/assets-lib/images/logo/logo-header1.PNG" alt="" width="600" height="100">
+        </td>
+        <td class="tbl-td-aln">
+         <div class="wrp-hd-d">
+          <h4 class="inf-h-title tbl-td-h4"><b>Infogain India Private Limited</b></h4>
+        <p>A 16 Sector -60, Gautam Buddha Nagar</p>
+        <p>Noida -201301(UP) </p>
+        <p>Phone Number – 0120 2445144/ 6226000</p>
+        <p>Email: <a href="https://info@infogain.com">info@infogain.com</a></p>
+        <p>Website: <a href="https://www.infogain.com"> www.infogain.com</a></p>
+         </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+<ng-container *ngIf="locationId == 4">
+  <div class="div-loc4">
+    <table class="div-cont-tbl">
+      <tr>
+        <td  class="tbl-td">
+          <img src="/assets-lib/images/logo/logo-header1.PNG" alt="" width="600" height="100">
+        </td>
+        <td class="tbl-td-aln">
+          <div class="wrp-hd-d">
+            <h4 class="tbl-td-h4"><b>Infogain India Private Limited</b></h4><br>
+        <p>Fortune Scion Business Centre #90B, </p>
+        <p>West Avenue 9, Electronics City Phase 1</p>
+        <p>Bengaluru – 560100, India</p>
+        <p>Phone: +91-80-4110 4560/080 4900 6900</p>
+        <p>Email: <a href="https://info@infogain.com">info@infogain.com</a></p>
+        <p>Website: <a href="https://www.infogain.com"> www.infogain.com</a></p>
+          </div>
+        
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+<ng-container *ngIf="locationId == 16">
+  <div class="div-cont">
+    <table class="div-cont-tbl">
+      <tr>
+        <td  class="tbl-td">
+          <img src="/assets-lib/images/logo/logo-header1.PNG" alt="" width="600" height="100">
+        </td>
+        <td class="tbl-td-aln">
+          <div class="wrp-hd-d">
+            <h4 class="tbl-td-h4"><b>Infogain Software Solutions Private Limited</b></h4><br>
+            <p>DLF Cyber City SEZ, Building # 14, 4th Floor, Tower B,</p>
+            <p>DLF Cyber City, Phase-3, Gurgaon 122002</p>
+            <p>Phone No.: +91 124 495 3400 Fax: 0124 495 3430</p>
+            <p>Email: <a href="https://info@infogain.com">info@infogain.com</a></p> | <p>Website: <a href="https://www.infogain.com"> www.infogain.com</a></p>
+          </div>
+       
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+<ng-container *ngIf="locationId == 5">
+  <div class="div-cont">
+    <table class="div-cont-tbl">
+      <tr>
+        <td  class="tbl-td">
+          <img src="/assets-lib/images/logo/logo-header1.PNG" alt="" width="600" height="100">
+        </td>
+        <td class="tbl-td-aln">
+          <div class="wrp-hd-d">
+            <h4 class="tbl-td-h4"><b>Infogain India Private Limited</b></h4><br>
+        <p>IndiQube Lakeview, L & T Business Park, </p>
+        <p>New Mhada Colony, Savarkar Nagar, Chandivali,</p>
+        <p>Powai, Mumbai, Maharashtra 400076</p>
+        <p>Email: <a href="https://info@infogain.com">info@infogain.com</a></p>
+        <p>Website: <a href="https://www.infogain.com"> www.infogain.com</a></p>
+          </div>
+        
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+<ng-container *ngIf="locationId == 2">
+  <div class="div-cont">
+    <table class="div-cont-tbl">
+      <tr>
+        <td  class="tbl-td">
+          <img src="/assets-lib/images/logo/logo-header1.PNG" alt="" width="600" height="100">
+        </td>
+        <td class="tbl-td-aln">
+          <div class="wrp-hd-d">
+            <h4 class="tbl-td-h4"><b>Infogain India Private Limited</b></h4><br>
+            <p>Unit No. 703, 7th Floor, Amar Tech Park, </p>
+            <p>Patil Nagar, Balewadi, Pune – 411045,</p>
+            <p>Phone: +91-20-49164000 </p>
+            <p>Email: <a href="https://info@infogain.com">info@infogain.com</a></p> , <p>Website: <a href="https://www.infogain.com"> www.infogain.com</a></p>
+          </div>
+       
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+<!--lateral nda forms header based on location -->
+
+<!--other nda forms header based on location -->
+<!-- other nda forms header based on location -->

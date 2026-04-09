@@ -1,0 +1,41 @@
+.row-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  /* vertical spacing between columns */
+
+[class*="col-"] {
+    margin-bottom: 13px;
+  }
+  
+  .content {
+    height: 100%;
+    padding: 0px 0px 9px 0px;
+    background: #ffffff;
+    box-shadow: 0px 1px 2px #00000042;
+    border: solid 1px #ddd;
+    cursor: copy;
+    .content-hh{
+        padding: 4px 8px;
+        border-bottom: solid 1px #dadada;
+    }
+    .content-bb{
+        padding: 4px 8px;
+        ul{
+          margin-left: 20px;
+        }
+    }
+    h3{
+      font-size: 14px;
+      color: #0f5c93;
+      font-weight: bold;
+    }
+  }
+
+  :host ::ng-deep .prv-jd{
+    white-space: pre-wrap;
+    ul,ol{
+      margin-left: 20px;
+    }
+  }
+

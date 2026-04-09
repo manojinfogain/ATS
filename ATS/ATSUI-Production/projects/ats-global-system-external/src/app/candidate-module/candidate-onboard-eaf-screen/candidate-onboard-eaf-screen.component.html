@@ -1,0 +1,21 @@
+
+<ng-container [ngSwitch]="authUserType">
+   <!--
+     Regular Hiring (RH) user type
+    --> 
+    <ng-container *ngSwitchCase="'RH'">
+      <app-candidate-details-onboard></app-candidate-details-onboard>
+    </ng-container>
+    <!--
+     Leadership Hiring (LH) user type
+    -->
+    <ng-container *ngSwitchCase="'LH'">
+        <app-leadership-onboard-details></app-leadership-onboard-details>
+    </ng-container>
+      <!-- Bootstrap alert for invalid cases -->
+  <div *ngSwitchDefault class="alert alert-info margin-top-20" role="alert">
+    ⚠ There is an issue with displaying the form. Please try again!
+  </div>
+  
+  </ng-container>
+  

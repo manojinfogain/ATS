@@ -1,0 +1,766 @@
+<div class="day1-doc-main-wrapper">
+    <div class="day1-doc-main-wrapper">
+
+      <section class="day1-doc-sec doc-prv-page1">
+        <div class="day1-doc-sec-inner">
+            <div class="infogain-logo-d mrg-doc-top m-log-align">
+                <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+                <!-- <img src="assets-lib/images/logo/impaqtive_logo.png" alt="" /> -->
+            </div>
+            <!-- end  -->
+            <div class="doc-page1-title m-div-marg-1">
+              <div class="m-d-tp-1">
+               <div class="m-d-tp-2">
+                <h2>Prevention of Sexual</h2>
+                <h2>Harassment Policy- Kochi</h2>
+               </div>
+
+              </div>
+            </div>
+            <div class="doc-page1-title mrg-doc-bottom">
+                <h3>Infogain India Private Limited</h3>
+            </div>
+
+            <div class="imp-dc-inf">
+                <p>
+                  This is a controlled document. Unauthorized access, copying and replication are prohibited. This document must
+                  not be copied in whole or part by any means, without the written authorization of Chief Information Security Officer
+                  (CISO), Infogain Corporation.
+                </p>
+            </div>
+        </div>
+
+    </section>
+        <section class="day1-doc-sec revision-history-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header header-border-none">
+                    <lib-pdf-header-day1 [formId]="formId" [isRightTextHide]="false"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <div class="accept-policy-content">
+
+                    <div class="table-of-content">
+                        <h5><u>Table of Contents-ban</u></h5>
+                        <ol>
+                            <li>Objective of the Policy
+                                <span class="pg-nos">02</span>
+                            </li>
+                            <li>Scope <span class="pg-nos">02</span>
+                            </li>
+                            <li>Definition Of Sexual Harassment <span class="pg-nos">02</span>
+                            </li>
+                            <li>Infogain Premises Defined <span class="pg-nos">03</span>
+                            </li>
+                            <li>Constitution of Complaint committee<span class="pg-nos">03</span>
+                            </li>
+                            <li>Procedure for filing Complaint <span class="pg-nos">03</span></li>
+                            <li>Investigation & Award of Punishment <span class="pg-nos">03</span></li>
+                            <li>Documentation<span class="pg-nos">04</span>
+                            </li>
+                            <li>Responsibilities of Management<span class="pg-nos">05</span>
+                            </li>
+                            <li>Responsibilities of Employees<span class="pg-nos">05</span>
+                            </li>
+                            <li>Responsibilities of HR<span class="pg-nos">05</span>
+                            </li>
+                            <li>Guidelines for Complaint Committee……Annexure – I<span class="pg-nos">06</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+                <div class="formDay1-footer footer-border-none">
+                    <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="1" [pageTotal]="pageTotal"
+                        [middleText]="middleText"></lib-pdf-footer-day1> -->
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="1" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page1"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+
+
+                        <h3 class="m-h-cls-1">Prevention of Sexual
+                            Harassment Policy ar </h3>
+                        <h3>1. <u>Objective:</u></h3>
+                        <p>
+                            Infogain is committed to providing a place of work free of sexual harassment, intimidation
+                            or exploitation. To
+                            ensure an environment free from sexual harassment as well as harassment on account of an
+                            individual’s race,
+                            religious creed, color, national origin, citizenship, disability, marital status, age or
+                            sex. It is expected that all
+                            employees will treat one another and visitors of Infogain with respect.
+                        </p>
+                        <br>
+                        <h3>2.<u> Scope:</u></h3>
+                        <p>The policy will cover:</p>
+                        <ol class="ul-common m-h-cls-2">
+                            <li>All Infogain employees,</li>
+                            <li>Customers, Subcontractors, Suppliers and Guests on Infogain’s premises.</li>
+                        </ol>
+                        <h3>3. <u>Definition Of Sexual Harassment:</u></h3>
+                        <p>
+                            As per <b>‘The Sexual Harassment of Women at Workplace (Prevention, Prohibition
+                                and Redressal ) Act 2013-</b> No woman employee at a work place shall be subjected to
+                            sexual harassment
+                            including unwelcome sexually determined behavior, physical contact, advances, sexually
+                            colored remarks,
+                            showing pornography, sexual demand, epithet, slur, making unsolicited invasive inquiries
+                            into private
+                            lives of employees, asking person’s sexual fantasy, consensual relationship, request for
+                            sexual favors or any
+                            other unwelcome conduct of sexual nature whether verbal, physical, graphic, or electronic or
+                            by any other
+                            actions, which may include:-
+                        </p>
+                        <br>
+                        <ol class="ul-common m-h-cls-3">
+                            <li>implied or overt promise of preferential treatment in employment; or </li>
+                            <li>implied or overt threat of detrimental treatment in employment; or </li>
+                            <li>implied or overt threat about the present of future employment status; </li>
+                            <li>conduct which interferes with work or creates an intimidating or offensive or hostile
+                                work
+                                environment; or</li>
+                            <li>humiliating conduct constituting health and safety problems. </li><br>
+                            <p>The followings would also constitute sexual harassment: </p><br>
+                            <li>
+                                Submission of unwelcome sexual advances, requests for sexual favours, and verbal
+                                or physical conduct of a sexual nature.<br>
+                                When unwelcome sexual advances, and verbal, non-verbal and/or physical conduct such as
+                                loaded
+                                comments, remarks or jokes, letters, phone calls or e-mails, gestures, exhibition of
+                                pornography, lurid
+                                stares, physical contact, stalking, touching, patting, pinching, fondling, assaulting,
+                                brushing against
+                                other's body, sounds or display of a derogatory nature have the purpose and/or effect of
+                                interfering with an individual's performance or of creating an intimidating, hostile, or
+                                offensive
+                                environment.
+
+                            </li>
+                            <li>
+                                When a person/s uses, with a sexual purpose, the body or any part of it or any object as
+                                an
+                                extension of the body in relation to another person without the latter's consent or
+                                against that
+                                person's will, such conduct will amount to sexual assault.
+
+                            </li>
+                            <li>
+                                When deprecatory comments, conduct or any such behavior is based on the gender
+                                identity/sexual
+                                orientation of the person or when hostile environment is created on the basis of a
+                                person’s gender
+                                identity/sexual orientation.
+                            </li>
+                            <li>
+                                The sexual harassment may occur irrespective of genders and will include both male &
+                                female.
+                            </li>
+
+                        </ol>
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+
+                        <h3>4. <u>Infogain Premises:</u></h3>
+                        <p>
+                            Defined as all land, offices, building, lodging, quarters, equipment’s, vehicles and parking
+                            areas under the control
+                            of Infogain. Additionally included, as Infogain premises are business trips, business
+                            related social events, such
+                            other work locations as the job site of a customer, supplier or subcontractor, including the
+                            transportation vehicles
+                            occupied during the travel to and from those locations while on company business, or any
+                            location where
+                            Infogain business is transacted.
+                        </p>
+                        <br>
+                        <h3>5.<u> Constitution Of The Complaint Committee:</u></h3>
+                        <p>For the purpose of filing complaint against sexual harassment, a committee is constituted in
+                            the organization
+                            headed by a Presiding Officer and four (4) other members. The members are:-</p>
+                        <div class="riv-table dif-locst">
+                            <table>
+                                <tr>
+                                    <th>Sr. No. </th>
+                                    <th>Core Committee Members</th>
+                                    <th>Role </th>
+                                    <th>Email Address</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Akhila Vijayan</td>
+                                    <td>Presiding Officer</td>
+                                    <td>Akhila.Vijayan@infogain.com</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Asmin Sara K </td>
+                                    <td>Member</td>
+                                    <td>Asmin.k@infogain.com</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Ajas M A
+                                    </td>
+                                    <td>Member</td>
+                                    <td>Ajas.Ma@infogain.com</td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>4</td>
+                                    <td>Jayaprada</td>
+                                    <td>External Member</td>
+                                    <td>jayaprada@posh.metisindia.com</td>
+                                </tr> -->
+                                <tr>
+                                    <td>4</td>
+                                    <td>Sahiba Singh</td>
+                                    <td>External Member</td>
+                                    <td>Sahiba@invictus.in</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Ankur Sharma</td>
+                                    <td>External Member</td>
+                                    <td>Ankur@invictus.in</td>
+                                </tr>
+                               
+                              
+                                <tr>
+                                    <td colspan="5">Or you may write to us directly at posh@infogain.com</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <h3>6. <u>Procedure For Filing Complaint</u></h3>
+                        <p>
+                            To complain for such incidence, the aggrieved employee may complain in writing through
+                            e-mail to Internal
+                            Complaint Committee at posh@infogain.com<br>
+                            The complaint may also be written individually to the Chairperson/ any member of the
+                            Committee/Superior
+                            Officer i.e. HR Head, HR Manager, Practice Director/President or Chairman/ respective HR
+                            Business Partners who
+                            would forward the same to Internal Complaint Committee. Where complaint is made to a person
+                            other than the
+                            committee, the concerned person will forward the same to the complaint committee. All these
+                            complaints will be
+                            attended with due speed and promptness. Immediate reporting helps in investigation. In case
+                            the woman has
+                            filed a verbal complain, the committee shall render all reasonable assistance to reduce the
+                            same in writing. If it
+                            cannot be reported immediately, the complaint should be registered no less than 3 months
+                            from the date of
+                            incident / date of last incident occurred. Beyond that it will be treated as time barred,
+                            basis the severity of the
+                            situation and circumstances not prevented the employee to file a complaint.
+                        </p>
+                        <br>
+                        <h3>7. <u>Investigation and Award of Punishment </u></h3>
+                        <br>
+                        <h3>7.1 Conciliation</h3>
+                        <p>
+                            On the receipt of the complaint and request of the aggrieved woman the committee, as the
+                            case may be, before
+                            initiating enquiry, takes steps to settle the matter between her and the respondent through
+                            conciliation. When the
+                            settlement is arrived at, the committee shall record the settlement and recommend the
+                            management not to take
+                            any action in the matter. The copies of the settlement will be sent to the aggrieved party
+                            and the respondent.
+                            Also for such cases no inquiry shall be conducted by the committee here on.
+                        </p>
+                        <br>
+                        <h3>7.2 Investigation when conciliation is not arrived at</h3>
+                        <p>
+                            The committee shall proceed ahead with the investigation/inquiry.
+                        </p>
+                    </div>
+                </div> 
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page3"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <ul class="ul-common m-h-cls-4">
+                            <li>
+                                Once a complaint is lodged the identity of complainant, aggrieved party and respondent
+                                will be kept
+                                strictly confidential.
+                            </li>
+                            <li>
+                                Contact between both the parties should be reduced.
+                            </li>
+                            <li>
+                                The investigation may include but not limited to summoning & enforcing the attendance of
+                                any
+                                person and examining him / her, witness examination, facts presentation etc.
+                            </li>
+                            <li>
+                                Internal complaint committee will coordinate with a third party (NGO representative) and
+                                symbiotically investigate the matter to reach a conclusion.
+                            </li>
+                            <li>
+                                The investigation shall be completed within a period of<i> 40- 60 days</i>.
+                            </li>
+                            <li>
+                                On completion of investigation the ICC shall provide a report of its findings to
+                                management within a
+                                period of 10 days from the date of completion of inquiry and such report shall be made
+                                available to
+                                the concerned parties.
+                            </li>
+                        </ul>
+
+                        <h3><u>Retaliation</u></h3>
+                        <p>
+                            <b>
+                                Retaliation against an employee who has complained about sexual harassment or any
+                                individual who has cooperated in investigation or friends or family is strictly
+                                prohibited
+                                and will
+                                not be tolerated by Infogain.
+                            </b>
+                        </p>
+                        <br>
+
+                        <h3>7.3 Other Points to be considered </h3>
+                        <ul class="ul-common m-p-cls-5">
+                            <li>
+                                Where the committee arrives at the conclusion that no satisfactory outcome can be drawn,
+                                the case
+                                should be forwarded under legal jurisdiction / to police as applicable.
+                            </li>
+                            <li>
+                                In case the committee finds the degree of offence coverable under the Indian Penal code,
+                                then this
+                                fact shall be mentioned in the report and appropriate action shall be initiated to make
+                                a police
+                                complaint within 7 days of the incident reported.
+                            </li>
+                        </ul>
+                        <br>
+                        <h3>7.4 Penalty/Punishment </h3>
+                        <ul class="ul-common m-p-cls-6">
+                            <li>
+                                Where the committee arrives at the conclusion that the allegations against the
+                                respondent have not
+                                been proved, it shall recommend to the CEO/Chairman/President not to take any action.
+                            </li>
+                            <li>
+                                Where the committee arrives at the conclusion that the allegation against the respondent
+                                has been
+                                proved, it shall recommend to the CEO/Chairman/President as the case may be. The
+                                committee may
+                                recommend, depending on the severity of the case, to take action for misconduct in
+                                accordance with
+                                the terms and condition of service rules of appointment applicable to the respondent
+                                which may
+                                include but not limited to:
+                            </li>
+                        </ul>
+                        <ul class="ul-common m-p-cls-7">
+                            <li>
+                                Counselling, verbal / written warning, job transfers / suspension, termination and legal
+                                actions as
+                                applicable.
+                            </li>
+                            <li>
+                                Monetary compensation to aggrieved party in case charges are proved (can be deducted
+                                from salary by
+                                employer) would include:
+                            </li>
+                            <ul class="ul-common m-p-cls-8">
+                                <li>
+                                    Mental trauma, pain, suffering and emotional distress caused
+                                </li>
+                                <li>
+                                    Loss in career opportunity
+                                </li>
+                                <li>
+                                    Medical expenses occurred – Physical/ psychiatric treatment
+                                </li>
+                            </ul>
+                            <li>
+                                Imprisonment may range within 1-3 years/fine/ both.
+                            </li>
+                        </ul>
+                        <br>
+                        <p>
+                            <b>
+                                Also, in case the allegations against the respondent is found false or malicious then
+                                strict
+                                action would be taken against such person to file the complaint up to and including to
+                                termination.
+                            </b>
+                        </p>
+                        <br>
+                        <h3>8. <u>Documentation </u></h3>
+                        <ul class="ul-common m-h-cls-4">
+                            <li>
+                                In event of any complaint lodged the case should be documented separately with complete
+                                and
+                                accurate documentation of complaints, investigation procedure adopted, case findings and
+                                resolution
+                                thereof and submitted to HR department.
+
+                            </li>
+                            <li>
+                                Apart from maintaining the separate files related to the cases, records of disciplinary
+                                action should be
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="4" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page4"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <p>
+                            kept in personal files of proven guilty and can be disclosed as required by law.
+
+                        </p>
+                        <ul class="ul-common m-h-cls-4">
+                            <li>
+                                Documents pertaining to the case to be maintained by Human Resource Department in strict
+                                confidence.
+                            </li>
+                        </ul>
+                        <p>
+                            <b>
+                                Note – Sexual Harassment complaints closed by committee once recommended actions are
+                                presented to management and implemented through Human Resources.
+
+                            </b>
+                        </p>
+                        <br>
+
+                        <h3>9.<u> Other Points to be considered</u>
+                            <br>
+                            To communicate and create awareness of the provisions of this policy to all employees.
+                        </h3>
+                        <p> Which would include:</p>
+                        <ul class="ul-common m-p-cls-9">
+                            <li>
+                                Special training sessions for all the employees
+                            </li>
+                            <li>
+                                Enable them to understand the meaning of sexual and other prohibited harassment;
+                            </li>
+                            <li>
+                                Ensure that they are able to identify such harassment;
+                            </li>
+                            <li>
+                                Ensure that they understand that their own conduct may be a violation of the policy and
+                                would constitute
+                                serious misconduct;
+                            </li>
+                            <li>
+                                Enable hem to understand how to prevent conduct directed toward them, or in their work
+                                environment, which they find unwelcome.
+                            </li>
+                        </ul>
+                        <br>
+                        <h3>10. <u>Responsibility of Human Resource Department</u></h3>
+                        <ul class="ul-common m-p-cls-9">
+                            <li>
+                                To ensure that all employees are made aware of the provisions of the policy.
+                            </li>
+                            <li>
+                                To ensure that the new hires as well existing employees have clearly understood the
+                                policy.
+                            </li>
+                            <li>
+                                To ensure that a duly signed copy of the certificate stating that they are aware of the
+                                policy
+                                forms the part of their personal dossier.
+                            </li>
+                            <li>
+                                Quarterly sessions highlighting the same are conducted periodically.
+                            </li>
+                            <li>
+                                Display policy at all prominent places in the organization.
+                            </li>
+                            <li>
+                                To ensure that the police verification of the cab drivers or any staff escorting the
+                                ladies in
+                                vehicle is done.
+                            </li>
+                            <li>
+                                The other staff members like office boys, assistants are made aware of the provision of
+                                the
+                                policy.
+                            </li>
+                        </ul>
+                        <br>
+                        <h3>11. <u> Responsibilities of the employees at all levels </u></h3>
+                        <ul class="ul-common m-p-cls-9">
+                            <li>
+                                To understand and comprehend the company’s policy on sexual harassment.
+
+                            </li>
+                            <li>
+                                To maintain his/her personal conduct relative to the provisions of this policy. Because
+                                sexual harassment may consist of physical, verbal or visual behavior, all employees are
+                                advised to consult Head Human Resources for guidance if they have any questions or
+                                concerns about
+                                issues related to workplace conduct or behavior.<br>
+                                “I never meant anything by this” will not be considered as valid defense against
+                                harassment.
+                            </li>
+                        </ul>
+                        <br>
+                        <p class="m-p-algn-cls1">
+                            <b>
+                                This policy supercedes all earlier policies, notification in this regard and the revised
+                                policy takes
+                                effect immediately.
+                            </b>
+                        </p>
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="5" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page5"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <h3 class="m-h-cls-5">ANNEXURE - I</h3>
+                        <br>
+                        <h3 class="m-h-cls-5">Guidelines for the
+                            Committee</h3>
+                        <br>
+                        <ol class="ul-common m-ol-cls-1">
+                            <li>All complaints to the committee should be in writing. Incase the complaint is verbal the
+                                same should be
+                                reduced in writing. </li><br>
+                            <li>Any complaint should be forwarded to the Chairperson of the complaint committee. </li><br>
+                            <li> The committee will examine the complaint meet the respondent and the complainer in an
+                                effort to arrive at
+                                conciliation. </li><br>
+                            <li> Incase the conciliation is not arrived at then the committee would proceed ahead with
+                                the investigation. </li><br>
+                            <li> Once the complaint is received the committee will call for all the witness and collect
+                                the evidence related to
+                                the complaint. </li><br>
+                            <li> The statements of all the witness in support of the complaint would be reduced in
+                                writing duly signed by the
+                                witnesses. </li><br>
+                            <li> The respondent would also be called and evidence in his support would also be collected
+                                along with the
+                                statements of the witness. </li><br>
+                            <li> Once this is done then the date and time of the first hearing is fixed. </li><br>
+                            <li> Once the investigation is done and the allegations against the respondent are proved
+                                the committee would
+                                submit the written report of the same to the CEO/Chairman/President of the organization.
+                                The quantum
+                                punishment would be decided by the committee on case to case basis. </li><br>
+                            <li> The whole process of investigation should be completed in 40-60 days. </li><br>
+                            <li> Basis the severity of offence committed the committee may define the recourse mechanism
+                                as reconciliation,
+                                proceeding further with inquiry, disciplinary actions and legal actions /police
+                                complaints. </li><br>
+                            <li> At any given point of time as required under judicial parameters the information may be
+                                disclosed to court. </li><br>
+                        </ol>
+                        <p class="m-p-cls-ex">
+
+                        </p>
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="6" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        [middleText]="middleText"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page6"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+
+                        <h3
+                            class="m-h-cls6">
+                            Undertaking on Sexual
+                            Harassment Policy
+                        </h3>
+                        <br>
+                        <br>
+                        <p>
+                            I <u>{{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}</u>
+                             have gone through the detailed policy document, understand and
+                            comprehend the company’s policy on sexual harassment and will maintain personal conduct
+                            relative to
+                            the provisions of this policy.
+
+                        </p>
+
+                        <div class="left-right-wrap m-div-cls-tp1">
+                            <div class="dp-col">
+                                <h4 class="sub-title-nda m-div-cls-tp2"><b><i>Employee: </i></b></h4>
+                                <div class="form-card-wrapper day1-form-inc">
+                                    <div class="table-o-at">
+
+                                        <table class="table ">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="title-tb"><b>Employee</b></td>
+                                                    <td>: {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}} </td>
+                                                </tr>
+                                                <tr>
+                                                  <td class="title-tb"><b>Signature</b> </td>
+                                                  <td>:
+                                                      <!-- pending with candidate || referred back by recruiter -->
+                                                      <button *ngIf="!this.CandidateSignatureModel?.page7 && Day1FormData?.isEditable"
+                                                          type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                          Insert Sign
+                                                      </button>
+                                                      <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page7">
+                                                          <img [src]="this.CandidateSignatureModel?.page7" class="sign-img-b" />
+                                                
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                                <tr>
+                                                    <td class="title-tb"><b>Employee Code</b> </td>
+                                                    <!-- <td>:</td> -->
+                                                    <td>: {{(candidatePersonalDetails?.EmployeeId ? candidatePersonalDetails?.EmployeeId : '')}} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title-tb"><b>Date</b> </td>
+                                                    <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end col -->
+
+                            <!-- end col -->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="7" [pageTotal]="pageTotal" [isVisisbleSign]="false">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+
+    </div>
+</div>

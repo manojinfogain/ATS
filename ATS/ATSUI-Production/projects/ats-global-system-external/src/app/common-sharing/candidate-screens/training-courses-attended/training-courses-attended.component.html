@@ -1,0 +1,104 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Training Courses Attended</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action" *ngIf="!isFinalSumbit">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" class="btn-text-at" (click)="addTainingDetails()">
+                            Add Courses
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="cand-ot-table">
+            <ng-container *ngIf="candidateTrainingList.length !=0">
+                <table mat-table [dataSource]="candidateTrainingList" class="table-mat-info">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="courseName">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Name Of the Course
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.courseName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="duration">
+                        <th class="duration-width" mat-header-cell *matHeaderCellDef>
+                            Duration
+                        </th>
+                        <!-- <td mat-cell *matCellDef="let element">
+                            {{element?.fromDate | date : 'dd MMM YY'}} -
+                            {{element?.toDate | date : 'dd MMM YY'}}
+                        </td> -->
+                        <td mat-cell *matCellDef="let element">
+                            {{(element?.fromDate | date:'mediumDate')|| '-'}}
+                            -
+                            {{(element?.toDate | date:'mediumDate')|| '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="instituteOrgName">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Institute/Organization
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.instituteOrgName || '-'}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="certificateAward">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Whether certificate Awarded
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.certificateAward || '-'}}
+                        </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="action" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef> Action</th>
+                        <td mat-cell *matCellDef="let element" class="text-left">
+
+                            <div class="btn-action btn-action-centers">
+                                <div class="btn-act">
+                                    <button mat-button type="button" matTooltip="Update Details"
+                                        (click)="addTainingDetails(element,'U')">
+                                        <span class="material-icons-outlined">
+                                            mode_edit_outline
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="btn-act">
+                                    <button mat-button type="button" (click)="deleteTraining(element)"
+                                        matTooltip="Delete Records">
+                                        <span class="material-icons-outlined">
+                                            delete_forever
+                                        </span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </td>
+                    </ng-container>
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                        [ngClass]="{'highlight-confirm': (row.JoineeStatus == 1 )&& (userData.RoleId == 2 || userData.RoleId == 5)}">
+                    </tr>
+                </table>
+            </ng-container>
+            <app-no-result-found *ngIf="candidateTrainingList.length === 0">
+            </app-no-result-found>
+          
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<div class="ats-modal-header">
+    <h1>{{tcJDDetails?.CubeName}} Job Description
+      <!-- ({{tcJDDetails?.CubeName}}) -->
+    </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+   
+     <section>
+        <div class="rows-flv">
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Role Description</h3>
+                </div>
+                <div class="content-bb">
+                   <div  matTooltip="Click here to copy" [innerHTML]="tcJDDetails?.RoleDesc || 'NA'" class="prv-jd" [cdkCopyToClipboard]="tcJDDetails?.RoleDesc"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Core Skills</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy" [innerHTML]="tcJDDetails?.CoreSkills || 'NA'" class="prv-jd" [cdkCopyToClipboard]="tcJDDetails?.CoreSkills"></div>
+                </div>
+               
+              </div>
+            </div>
+
+          
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Secondary Skills</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy" [innerHTML]="tcJDDetails?.SecondarySkills || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.SecondarySkills"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3> Engineering Skills</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.EngineeringSkills || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.EngineeringSkills"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3> Soft Skills and Professional Attributes</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.SoftSkillsandProfessionalAttributes || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.SoftSkillsandProfessionalAttributes"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3> Job Responsibilities</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.JobResponsibilities || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.JobResponsibilities"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3> Pre Screening Questions</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.PreScreeningQuestions || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.PreScreeningQuestions"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Selection Criteria and Interview Assessments</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy" [innerHTML]="tcJDDetails?.SelectionCriteriaandInterviewAssessments || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.SelectionCriteriaandInterviewAssessments"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Trainings Recommended</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.TrainingsRecommended || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.TrainingsRecommended"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Certifications</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.Certifications || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.Certifications"></div>
+                </div>
+               
+              </div>
+            </div>
+
+            <div class="col-md-s">
+              <div class="content colour-1">
+                <div class="content-hh">
+                    <h3>Potential For Growth</h3>
+                </div>
+                <div class="content-bb">
+                   <div matTooltip="Click here to copy"  [innerHTML]="tcJDDetails?.PotentialForGrowth || 'NA'" class="prv-jd"
+                   [cdkCopyToClipboard]="tcJDDetails?.PotentialForGrowth"></div>
+                </div>
+               
+              </div>
+            </div>
+          
+          </div>
+     </section>
+
+    </div>
+</div>
+
+<div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Close
+    </button>
+</div>

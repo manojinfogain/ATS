@@ -1,0 +1,129 @@
+.help-icon{
+   color: #2c73a5 !important;
+}
+
+.criteria-heading{
+    //font-size: 20px;
+}
+
+.criteria-popup-main{
+    max-width: 282px !important;
+}
+.criteria-class{
+    .ul{
+        li{
+          list-style: circle !important;
+        }
+    }
+}
+
+.not-eligiblle {
+    margin-right: 7rem;
+    display: flex;
+    align-items: center;
+    p{
+        margin-bottom: 0 !important;
+        background: #128012;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 6px 6px 0px 6px;
+    }
+}
+
+span.mat-tooltip-trigger.material-icons-outlined {
+    margin-top: 7px !important;
+}
+
+.div-ijp{
+    min-width: 190px;
+}
+.more-btns-ls {
+    background-color: #112ca0;
+    color: rgb(255 255 255);
+    span{
+      display: inline-block;
+      padding: 4px;
+    }
+    /* padding: 0px 5px; */
+    &:hover{
+        opacity: 0.7;
+        transition: ease 0.7s;
+        cursor: pointer;
+    }
+}
+
+.icon-label {
+    font-weight: 500;
+    padding-left: 4px;
+}
+
+/* Tab Styles */
+.ijp-tabs {
+    ::ng-deep {
+        .mat-tab-header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .mat-tab-label {
+            min-width: 160px;
+            height: 42px;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+
+            &:hover {
+                opacity: 1;
+                background-color: rgba(0, 0, 0, 0.04);
+            }
+
+            &.mat-tab-label-active {
+                opacity: 1;
+            }
+        }
+
+        .mat-tab-label-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .tab-label-text {
+            line-height: 1;
+        }
+
+        .tab-badge {
+            background-color: #f44336;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 4px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .mat-ink-bar {
+            background-color: #2196F3;
+            height: 3px;
+        }
+
+        .mat-tab-body-content {
+            overflow: visible !important;
+        }
+    }
+}
+
+.tab-content-wrapper {
+    padding: 0;
+}

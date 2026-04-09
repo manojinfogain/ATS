@@ -1,0 +1,124 @@
+<form [formGroup]="docUploadForm" (ngSubmit)="submitdocUploadForm(docUploadForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}
+             <ng-container *ngIf="data?.element?.id == 14">
+               <i> (only if  between the jobs or resigned.)</i>
+             </ng-container>
+         </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="upload-modal-form">
+                <div class="dcb-table">
+                    <table class="table table-doc-list" formArrayName="uploadDocGroup">
+                        <tbody>
+                            <!-- <ng-container *ngFor="let item of uploadDocGroup.controls; let pointIndex=index">
+                                <tr trdocumentuploadselect [element]="data"
+                                [docCategList]="docCategList" [docSubCategList]="docSubCategList"
+                                [formClass]="formClass" [appearance]="appearance" [formGroupName]="pointIndex"></tr>
+                            </ng-container> -->
+                            <tr *ngFor="let item of uploadDocGroup.controls; let pointIndex=index"
+                                [formGroupName]="pointIndex">
+
+                                <td *ngIf="isCurrentCom">
+                                    <div class="form-on-ats form-on-ats-fluid width-180" [ngClass]="formClass">
+
+                                    <div class="form-on-col">
+
+                                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                            <!-- <mat-label>Category</mat-label> -->
+                                            <mat-select placeholder="{{data?.element?.categId == 1 ? 'Current Company' : 'Previous Company'}}" formControlName="Organisation">
+                                                <mat-option *ngFor="let categ of employmentDetailsList"
+                                                    [value]="categ?.id">
+                                                    {{categ?.employerName}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <!-- end col -->
+                                </div></td>
+                                <!-- CourseId control: Only for educational documents -->
+                                <td *ngIf="data?.element?.categId == 3 && data?.element?.id != 9 && data?.element?.id != 10">
+                                    <div class="form-on-ats form-on-ats-fluid width-180" [ngClass]="formClass">
+                                        <div class="form-on-col">
+                                            <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                <mat-select placeholder="Select Course" formControlName="CaurseId">
+                                                    <mat-option *ngFor="let course of educationDetailsList" [value]="course?.courseId">
+                                                        {{course?.DEGREE_NAME}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="hidden" formControlName="subCateg" #subCateg>
+                                    <input type="hidden" formControlName="uniqId">
+                                    <!-- <ng-container *ngIf="subCateg.value == 3">
+                                        Salary Slip -{{pointIndex+1}}
+                                    </ng-container> -->
+                                    <div class="form-on-ats form-on-ats-fluid width-180"
+                                        [ngClass]="formClass">
+
+                                        <div class="form-on-col">
+
+                                            <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                <!-- <mat-label>Category</mat-label> -->
+                                                <mat-select placeholder="Select Document" formControlName="documentType"
+                                                    (selectionChange)="selectionDoc(pointIndex)"
+                                                    [readOnly]="data?.element.id == 3">
+                                                    <mat-option *ngFor="let categ of subChildDocTypeListIn"
+                                                        [value]="categ?.id">
+                                                        {{categ?.Name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ats-forms form-on-ats-fluid" [ngClass]="formClass">
+                                        <div class="ats-form-col upload-file-ats-scr">
+                                            <div class="upload-file-input-scr">
+                                                <input type="file" (change)="fileUpload($event,pointIndex)"
+                                                    [disabled]="uploadDocGroup['controls'][pointIndex]['controls'].documentType.invalid"
+                                                    [multiple]="this.data?.element.id == 3"
+                                                    [accept]="acceptedFile">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <p *ngIf="!isCurrentCompAvailable && isCurrentCom" class="tx-h"><strong>*</strong><i>Please add current (Latest) employer's details first in employment details tab.</i></p>
+            </div>
+
+            <div class="note-upload-doc-ats">
+                <p  *ngIf="data?.element?.id == 6">
+                    The photograph should be a professional one. Please do not add selfie or group photo.
+                </p>
+                <p  *ngIf="data?.element?.id == 2 || data?.element?.id == 14">
+                    Please ensure that Experience / Relieving Letter being uploaded contains the entire service duration.
+                </p>
+                <p>Files Upload Type: (.JPEG, .PNG, .PDF)</p>
+                <p>File Size: Each document type should be within 5MB size</p>
+                <p>For multiple documents of the same category (ex: Payslips) please browse all files.</p>
+                
+              </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon" [disabled]="!docUploadForm.valid">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

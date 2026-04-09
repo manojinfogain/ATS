@@ -1,0 +1,183 @@
+<form [formGroup]="pendingDocsUndertakingForm" (ngSubmit)="submitPendingDocsUndertakingForm(pendingDocsUndertakingForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper">
+
+                <!-- <h3 class="line-h">Undertaking For Current Address Proof</h3> -->
+                <div class="form-logo">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+                </div>
+                <p>
+                    I
+                    <input type="text" class="ctrl-onb text-align-center" formControlName="candidateName" readonly>
+                    certify that below mentioned documents will be shared with HR as per the date specified.
+
+                </p>
+
+                <div class="table-o-at" *ngIf="!data?.isEditable">
+                    <table mat-table [dataSource]="this.fetchedPendingDocList" class="pendTable">
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="docName">
+                            <th mat-header-cell *matHeaderCellDef class="title-tb">
+                                Pending Documents
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="title-tb">
+                                {{element?.docName|| '-'}}
+                                <!-- {{element.formTypeId}} -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="orgName">
+                            <th mat-header-cell *matHeaderCellDef class="title-tb">
+                                Organization(if applicable)
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="title-tb">
+                                {{element?.Organization|| '-'}}
+                                <!-- {{element.formTypeId}} -->
+                            </td>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="submissionDate">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Date of submission
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{(element?.SubmissionDate | date:'dd-MMM-yyyy')|| '-'}}
+                                <!-- {{element.formTypeId}} -->
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index">
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="table-o-at" *ngIf="data?.isEditable">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="pd-doc-col">Pending Documents</th>
+                                    <th>Date of submission</th>
+                                     <th *ngIf="data?.isEditable">
+                                        <a href="javascript:void(0)" (click)="addrowDoc()"
+                                                matTooltip="Add Row">
+                                                <span class="material-icons-outlined">
+                                                    add_card
+                                                </span>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="pendingDocuments">
+                                <ng-container *ngFor="let item of pendingDocumentsGroup.controls; let pointIndex=index">
+                                    <tr [formGroupName]="pointIndex">
+                                        <td class="title-tb">
+                                            <div class="form-u-ct">
+                                                <mat-form-field appearance="fill" class="dd-width dd-il" [ngClass]="{'dd-width-org':isOrganizationVisible}">
+                                                    <mat-label appRemoveAriaOwns>Select Category</mat-label>
+                                                    <mat-select formControlName="categ" [disabled]="data?.isEditable === false || pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value" (selectionChange)="addValidation(pointIndex)">
+                                                        <mat-option *ngFor="let doc of docSubCategList" [value]="doc?.id">{{doc?.Name}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="fill" class="dd-width dd-il" [ngClass]="{'dd-width-org':isOrganizationVisible}">
+                                                    <mat-label appRemoveAriaOwns>Select documents</mat-label>
+                                                    <mat-select formControlName="DocId" [disabled]="data?.isEditable === false || pendingDocumentsGroup['controls'][pointIndex]['controls']?.Id?.value" (selectionChange)="addValidation(pointIndex)">
+                                                        <mat-option *ngFor="let doc of docChildCategListFunc(pendingDocumentsGroup['controls'][pointIndex]['controls'].categ?.value,pendingDocumentsGroup['controls'][pointIndex]['controls']?.Id?.value)" [value]="doc?.id">{{doc?.Name}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="fill" class="dd-width-org dd-il" *ngIf="isOrganizationVisible" [ngClass]="{'dd-width-org':isOrganizationVisible}">
+                                                    <input matInput formControlName="Organization" [readonly]="data?.isEditable === false || pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value" placeholder="Organization Name" disableInitialSpace (change)="addValidation(pointIndex)">
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-u-ct">
+                                                <mat-form-field appearance="fill" class="ats-mat-form-field">
+                                                    <mat-label>Date of Submission</mat-label>
+                                                    <input matInput [matDatepicker]="picker1" [min]="todayDate" readonly [disabled]="data?.isEditable === false || pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value" formControlName="SubmissionDate" (dateChange)="addValidation(pointIndex)">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker1"  >
+                                                        <mat-icon matDatepickerToggleIcon>calendar_month
+                                                        </mat-icon>
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="data?.isEditable">
+                                            <button type="button" *ngIf="!pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value" mat-icon-button color="primary" matTooltip="Delete Row" (click)="deleteRow(pointIndex)">
+                                                <mat-icon>delete_forever</mat-icon>
+                                            </button>
+                                            <button type="button" *ngIf="pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value" mat-icon-button color="primary" matTooltip="Delete Record" (click)="deleteRecord(pendingDocumentsGroup['controls'][pointIndex]['controls'].Id.value, pointIndex)">
+                                                <mat-icon>delete_forever</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="form-u-ct rm-u-t margin-bottom-10">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Remarks(If any):</mat-label>
+                        <textarea matInput formControlName="remarks" [readonly]="data?.isEditable === false"></textarea>
+                    </mat-form-field>
+                </div>
+                <p>
+                    The information provided above is true to the best of my knowledge & I hold the responsibility for
+                    any discrepancy in the same.
+                </p>
+                <div class="table-o-at">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <td class="title-tb">Employee Name</td>
+                                <td>: {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+' '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}}</td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                                <td class="title-tb">Employee Code</td>
+                                <td>: {{(data?.candidatePersonalDetails?.EmployeeCode ? data?.candidatePersonalDetails?.EmployeeCode : '-')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Employee signature </td>
+                                <td>:
+                                    <button *ngIf="!signImage && data?.isEditable" type="button" class="btn btn-simple-ats"
+                                        (click)="signt(data)">
+                                        Insert Sign
+                                    </button>
+                                    <div class="sign-wrap" *ngIf="signImage">
+                                        <img [src]="signImage" />
+                                        <mat-icon *ngIf="data?.isEditable" matSuffix class="margin-left-300" (click)="signt(data)">edit_note</mat-icon>
+                                    </div>
+                                    <!-- <mat-icon matSuffix >edit_note</mat-icon> -->
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="title-tb">Date </td>
+                                <td>: {{todayDate | date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">H.R. Signature</td>
+                                <td>: </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

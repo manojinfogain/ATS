@@ -1,0 +1,1468 @@
+<div class="ats-connect-left" [hidden]="!isHideSidebar" #sidebar (click)="$event.stopPropagation()">
+  <!-- [hidden]="!isHideSidebar"  #sidebar -->
+  <div class="ats-sidbar-wrap">
+    <div class="sidebar-header-ats">
+      <div class="at-m-title">
+        <label> <span class="ath">ATS</span> Menu</label>
+      </div>
+      <div class="at-act-nv menu-a">
+        <button type="button" matTooltip="Open Menu">
+          <span class="material-icons-outlined">
+            menu
+          </span>
+        </button>
+      </div>
+      <div class="at-act-nv menu-c">
+        <button type="button" matTooltip="Close Menu" (click)="closeMenu($event)">
+          <span class="material-icons-outlined">
+            disabled_by_default
+          </span>
+        </button>
+
+      </div>
+    </div>
+    <div class="ats-sidemenu">
+      <div class="ats-nav-wrap">
+        <!---  Dashboards  --->
+        <mat-accordion>
+          <!-- talent module -->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active"
+            *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin || isHMLogin || isWmgLogin || isGDLLogin ||isFinanceLogin || isBULogin ||isAOLogin || IsIJP || IsBizOpsSecondary )">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Talent Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      downhill_skiing
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Talent Module</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <!-- <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/talent/dashboard"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Dashboard
+                  </span>
+                </a>
+              </li> -->
+              <li
+                *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin ||  isHMLogin || isWmgLogin || isGDLLogin ||isFinanceLogin || isBULogin ||isAOLogin || IsTag  || IsJDEditableRight || IsBizOpsSecondary)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/talent/job-requisition"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      explore
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Job Requisitions(Create/Approval)
+                  </span>
+                </a>
+              </li>
+
+
+              <li
+                *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin ||  isHMLogin || isWmgLogin || isGDLLogin ||isFinanceLogin || isBULogin ||isAOLogin || IsTag )">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/talent/all-job-requisition"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      explore
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    View All Job Requisitions
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="IsIJP">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/talent/internal-job-opportunity"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      approval
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                   Apply for IJP/View application status
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+          <!-- talent module ends here-->
+      
+    <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isRecLogin || isSuperAdminlogin || isAdminRenuTeamlogin || isRecAdminLogin) &&
+             (isLocationIndia(locationData)||
+             isLocationUS (locationData)
+             )">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon dashboard"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/home"
+                      routerLinkActive="active-link">TAG Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+           <mat-expansion-panel class="list-nav list-nav-hide"  *ngIf="( isPanelLogin || isSuperAdminlogin ) &&
+          (isLocationIndia(locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon dashboard"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/panel-dashboard"
+                      routerLinkActive="active-link">Panel Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+        
+
+          <!---  Dashboard GDL  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin) &&
+            (isLocationIndia(locationData)&& !isRenuTeam)&& MenuHideProd">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="GDL Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      dashboard_customize
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/du"
+                      routerLinkActive="active-link">GDL Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!--GDL new dashboard module-->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin) &&
+           (isLocationIndia(locationData)&& !isRenuTeam)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="GDL Dashboard Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      dashboard_customize
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">GDL Dashboard Module</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/du"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    GDL Dashboard
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/du-overall-hiring"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    GDL Overall Hiring
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/dashboard/permanent-hiring-details" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Permanent Hiring Details
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/dashboard/overall-hiring-offerTo-joining" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Overall Hiring ( Offer To Joining )
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/dashboard/location-specific-hiring-details" routerLinkActive="active"
+                  class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Overall Hiring ( Location Wise )
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/dashboard/source-type-hiring-details" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Overall Hiring ( Source Type )
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!--GDL new dashboard module ends-->
+
+          <!---  Dashboard BU  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin || isBULogin) &&
+          (isLocationIndia(locationData)&& !isRenuTeam)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <!-- BU renamed to MU - marketing Unit - 22-april-2024 -->
+                <label class="ats-nv-align" matTooltip="MU Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      dashboard
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/mu"
+                      routerLinkActive="active-link">MU Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+
+          <!---  Dashboard GDL  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin  || isBULogin ||isAOLogin) &&
+              (isLocationIndia(locationData)&& !isRenuTeam)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Account Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      grid_view
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/account"
+                      routerLinkActive="active-link">Account Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin  || isBULogin || isAOLogin || isPMLogin) &&
+        (isLocationIndia(locationData)&& !isRenuTeam)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Project Wise Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      space_dashboard
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/pm"
+                      routerLinkActive="active-link">Project Wise Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <mat-expansion-panel class="list-nav list-nav-hide" *ngIf="(isSuperAdminlogin ||  isDHLogin || isGDLLogin  || isBULogin || isAOLogin || isPMLogin || isHMLogin) &&
+        (isLocationIndia(locationData)&& !isRenuTeam)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Hiring Manager Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      web
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/dashboard/hiring-manager"
+                      routerLinkActive="active-link">Hiring Manager Dashboard</a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!---  Planning-Tracking Interview  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isRecLogin || isSuperAdminlogin || isAdminRenuTeamlogin || isRecAdminLogin) &&
+          (isLocationIndia(locationData)||
+           isLocationUS (locationData)
+           )">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Planning-Tracking Interview"
+                  [matTooltipPosition]="TooltipPosition" [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Planning-Tracking Interview</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/interview-schedule"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Schedule Candidate Interview
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isLocationIndia(locationData) || isLocationUS (locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/upcoming-interview"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Upcoming Interview
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="isLocationIndia(locationData)&& !isRenuTeam">
+                <a (click)="MenuHandler($event)" href="javascript:void(0)" routerLink="/bulk-interview-schedule"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      calendar_view_month
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Bulk Interview Schedule
+                  </span>
+                </a>
+              </li>
+
+              <li>
+                <a (click)="MenuHandler($event)" href="javascript:void(0)" routerLink="/reschedule-interview"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      free_cancellation
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Reschedule / Cancel Interview
+                  </span>
+                </a>
+              </li>
+
+              <li>
+                <a (click)="MenuHandler($event)" href="javascript:void(0)" routerLink="/view-edit-candidate-info"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      manage_accounts
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    View / Edit Candidate Information
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="isLocationIndia(locationData) || isLocationUS (locationData)">
+                <a (click)="MenuHandler($event)" href="javascript:void(0)" routerLink="/transfer-candidates"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined"> move_down </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Transfer Candidate
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="(isProfileApprover) || 
+           (isAdminRenuTeamlogin || isRecLogin) && isRenuTeam">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Profile Approval" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      fact_check
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/Profile/approval">
+                      Profile Approval
+                    </a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+
+          <!---  Interview Feedback  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="(isRecLogin || isPanelLogin || isSuperAdminlogin || isAdminRenuTeamlogin || isRecAdminLogin) &&
+          (isLocationIndia(locationData) ||
+          isLocationUS (locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Interview Feedback" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon int-feedback"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/interview-feedback">
+                      Interview Feedback
+                    </a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="(isPanelLogin && !isSuperAdminlogin && !isRecLogin && !isRecAdminLogin) &&
+        (isLocationIndia(locationData) || isLocationUS (locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Upcoming Interview">
+                  <span class="ats-nv-icon square-icon int-feedback"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/upcoming-interview">
+                      Upcoming Interview
+                    </a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Offer Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isApproverLogin || isRecLogin || isSuperAdminlogin || isAdminRenuTeamlogin|| IsUSHrRole|| isRenuTeam) &&
+          (isLocationIndia(locationData)||
+          isLocationUS (locationData)
+          )">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Offer Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon offer-module"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Offer Module</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li *ngIf="(isApproverLogin || IsDelegationAdmin) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/delegate-rights"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Delegate Rights
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="(isApproverLogin || isRecLogin || isSuperAdminlogin) && isRenuTeam === false">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/offer-approval"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Offer Approval
+                  </span>
+                </a>
+              </li>
+              <!-- G5 and Above offer approval Menu -->
+              <li *ngIf="isRenuTeam || isAdminRenuTeamlogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="offer/offer-approval"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Offer Approval
+                  </span>
+                </a>
+              </li>
+              <!-- G5 and Above offer Gen Menu -->
+              <li *ngIf="isRenuTeam || isAdminRenuTeamlogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="offer/offer-generation"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-module"></span>
+                  <span class="ats-nv-link">
+                    Offer Generation
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="(isRecLogin || isSuperAdminlogin) && isRenuTeam === false">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/offer-generation"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-module"></span>
+                  <span class="ats-nv-link">
+                    Offer Generation
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="IsUSHrRole">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/hr-offer-approval"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-module"></span>
+                  <span class="ats-nv-link">
+                    HR Offer Approval
+                  </span>
+                </a>
+              </li>
+
+              <!-- transfer approval by DP -->
+
+              <!-- <li
+              *ngIf="(isApproverLogin || isSuperAdminlogin) && isRenuTeam === false">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/transfer-request-approval"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Transfer Approval
+                  </span>
+                </a>
+              </li> -->
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!---  Buddy Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="( IsRM || isPMLogin || isHMLogin || isHRBPLogin || isAOLogin) &&
+          isLocationIndia(locationData)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Buddy Program" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <!-- <span class="ats-nv-icon square-icon offer-module"></span> -->
+                  <span class="ats-nv-icon square-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      diversity_3
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Buddy Program</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/buddy-screen"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <!-- <span class="ats-nv-icon round-icon offer-apr"></span> -->
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      group
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Buddy Program
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!---  transfer approval on reopen Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="isApproverLogin">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Transfer Approval Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon int-feedback"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Transfer Approval</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+
+              <!-- transfer approval by DP -->
+              <li *ngIf="isApproverLogin && isRenuTeam === false">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/transfer-request-approval"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Transfer Approval
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!--- isHrLogin || isHrKochiLogin   --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isRecLogin || isSuperAdminlogin || isHrLogin || isIssLogin || isHrPayrollLogin || IsRM || isAdminRenuTeamlogin || isHrKochiLogin || IsPipeLineAdminAccess) &&
+          (isLocationIndia(locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Onboarding" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      diversity_1
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Onboarding</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <!-- leadership- onBoard -->
+              <li
+                *ngIf="(isAdminRenuTeamlogin || isHrLogin || isHrPayrollLogin || (isRecLogin && isRenuTeam) || isHrKochiLogin   )">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/leadership-onboard"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Leadership Onboard
+                  </span>
+                </a>
+              </li>
+              <li
+                *ngIf="(isSuperAdminlogin || isHrLogin || IsIssEmailUpLogin || isAdminRenuTeamlogin || isIssLogin || isHrKochiLogin)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/pipeline-joinee-leadership"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <!-- <span class="material-symbols-outlined">
+                    join
+                    </span> -->
+                  <span class="ats-nv-link">
+                    Pipeline Joinee Leadership
+                  </span>
+                </a>
+              </li>
+              <!-- leadership-hiring ends-->
+              <li
+                *ngIf="(isSuperAdminlogin || isHrLogin || IsIssEmailUpLogin || isAdminRenuTeamlogin ||  isRecLogin|| isHrKochiLogin || IsPipeLineAdminAccess)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/pipeline-joinee-candidate"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Pipeline Joinee Candidate
+                  </span>
+                </a>
+              </li>
+              <li
+                *ngIf="(isRecLogin || isSuperAdminlogin || isHrLogin || isHrPayrollLogin || isAdminRenuTeamlogin || isHrKochiLogin)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/onboard-candidate"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Onboarding Candidates List
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isSuperAdminlogin || isHrLogin|| isRecLogin || IsRM ||IsIssAssestDlLogin || isHrKochiLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-verification"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Candidate Verification
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="(isHrLogin || isHrKochiLogin) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/upload-itinerary-document"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Upload Itinerary Document
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isSuperAdminlogin || isHrLogin || IsIssAssestDlLogin || isHrKochiLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-verification-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Candidate Verification Report
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isHrLogin || isHrKochiLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/onboarding-candidates-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Onboarding Candidates Report
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isHrLogin || isHrKochiLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/candidate-wise-pending-doc-report" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Candidate Wise Pending Documents Report
+                  </span>
+                </a>
+              </li>
+               <li *ngIf="isHrLogin || isHrKochiLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-dropout-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Candidate Dropout Report
+                  </span>
+                </a>
+              </li>
+                <!-- piepline history role 5 / 10 / 15 IsPipeLineAdminAccess -->
+              <li *ngIf="isSuperAdminlogin || isAdminRenuTeamlogin || IsPipeLineAdminAccess">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/pipeline-candidate-history"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                   Manual Pipeline Mailer History
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  BGV Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="( IsRM || isHrLogin ) &&
+          isLocationIndia(locationData)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Background Verification" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon int-feedback"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Background Verification</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li *ngIf="( IsRM || isHrLogin ) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-candidates-list"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    BGV Candidates List
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="( isHrLogin ) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/employee-wise-bgv-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Employee Wise BGV Report
+                  </span>
+                </a>
+              </li>
+              <!-- <li *ngIf="( isHrLogin ) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/check-wise-bgv-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Check Wise BGV Report
+                  </span>
+                </a>
+              </li>    -->
+              <li *ngIf="( isHrLogin ) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/detailed-bgv-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Detailed BGV Report
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="( isHrLogin ) && isLocationIndia(locationData)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/add-remove-account-for-dt"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon offer-apr"></span>
+                  <span class="ats-nv-link">
+                    Add / Remove Account For DT
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!---  search Module  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="(isRecLogin || isSuperAdminlogin || isAdminRenuTeamlogin || isRecAdminLogin) &&
+          (isLocationIndia(locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Candidate Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      manage_search
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/candidate-module">
+                      Candidate Module
+                    </a>
+                  </span>
+                </label>
+
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Partner  Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isRecLogin || isSuperAdminlogin || isRecAdminLogin || IsTagLeadApprover || IsPartnerApprover || IsAdminProfileTransferLogin) &&
+          (isLocationIndia(locationData) || isLocationUS (locationData)) &&(isRenuTeam === false)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Partner Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-m"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Partner Module</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/partner-registration"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon partner-regs"></span>
+                  <span class="ats-nv-link">
+                    Partner Registration
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="isSuperAdminlogin || isRecAdminLogin || IsPartnerApprover">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/partner-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon partner-details"></span>
+                  <span class="ats-nv-link">
+                    Partner Details
+                  </span>
+                </a>
+              </li>
+              <li
+                *ngIf="(isLocationIndia(locationData)) && (isSuperAdminlogin || isRecAdminLogin || IsPartnerApprover)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/contract-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <!-- <span class="ats-nv-icon round-icon partner-contract-details"></span> -->
+                  <span class="ats-nv-icon round-icon partner-details"></span>
+                  <!-- <span class="material-icons-outlined">
+                    fact_check
+                  </span> -->
+                  <span class="ats-nv-link">
+                    Partner Contract Details
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/user-registration"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon user-regs"></span>
+                  <span class="ats-nv-link">
+                    User Registration
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isSuperAdminlogin || isRecAdminLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/user-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon user-details"></span>
+                  <span class="ats-nv-link">
+                    User Details
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/assign-talentId-partner"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon assign-tl"></span>
+                  <span class="ats-nv-link">
+                    Assign Talent ID To Partner
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isRecLogin || isSuperAdminlogin || IsTagLeadApprover">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/partner-talentId-list"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon assign-tl-1"></span>
+                  <span class="ats-nv-link">
+                    Partner Talent ID list
+                  </span>
+                </a>
+              </li>
+              <!-- candidate-list-profile-by-partner -->
+              <li *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin || IsAdminProfileTransferLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/partner-profiles"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon assign-tl-1"></span>
+                  <span class="ats-nv-link">
+                    Partner Profiles
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Partner  dashboard  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isVendorLogin">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Dashboard" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      dashboard
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/partner/dashboard">
+                      Dashboard
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Partner  uload profile  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isVendorLogin">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Upload Candidate Profile" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/add-candidate-profile">
+                      Upload Candidate Profile
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Partner  candidate profile list  --->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isVendorLogin">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Candidate Profile List" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up1">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/candidate-profile-list">
+                      Candidate Profile List
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!---  Candidate Connect  --->
+          <!-- <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active"
+          *ngIf="isRecLogin || isSuperAdminlogin || isRecAdminLogin">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <label class="ats-nv-align">
+                <span class="ats-nv-icon square-icon candidate-connect">
+                </span>
+                <span class="ats-nv-link">
+                  <a href="javascript:void(0)" title="" routerLink="/candidate-connect">
+                    Candidate Connect
+                  </a>
+                </span>
+              </label>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel> -->
+          <!-- end -->
+
+          <!---  Candidate Connect ar  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isRecLogin || isSuperAdminlogin || isHrAdminLogin || isRenuTeam)&&
+          (isLocationIndia(locationData) )">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Candidate Connect Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Candidate Connect Module</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-connect"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon square-icon candidate-connect"></span>
+                  <span class="ats-nv-link">
+                    Candidate Connect
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a (click)="MenuHandler($event)" href="javascript:void(0)" routerLink="/candidate-tracker"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      connect_without_contact
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Candidate Connect Tracker
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </mat-expansion-panel>
+          <!---  Candidate Connect ends--->
+          <!---  Report  Module  --->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active" *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin || isRecAdminLogin || isRecLogin|| 
+          isDHLogin || isGDLLogin  || isBULogin || isAOLogin ||isRenuTeam ||isWmgLogin || IsVideoComparisonReportAccess || IsUatReportAccess) &&
+          (isLocationIndia(locationData)|| isLocationUS (locationData)
+          )">
+            <!-- && !isRenuTeam -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Reports" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon reports-ic"></span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Reports</a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <!-- <li *ngIf="isSuperAdminlogin && !isRenuTeam">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/panel-wise-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Panel Wise Report
+                  </span>
+                </a>
+              </li> -->
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="uat//panel-wise-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Panel Wise Report
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/recruiter-wise-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    TAG Team Report
+                  </span>
+                </a>
+              </li>
+
+
+              <!-- <li *ngIf="specialLogin">
+              <a href="javascript:void(0)" routerLink="/employee-referral-report" routerLinkActive="active"
+                class="ats-nv-align">
+                <span class="ats-nv-icon round-icon pan-reports"></span>
+                <span class="ats-nv-link">
+                  Employee Referral Report
+                </span>
+              </a>
+            </li> -->
+              <li *ngIf="(isSuperAdminlogin && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="https://reports.infogain.com/reports/report/Talent/Talent%20TAG%20and%20WMG%20Report"
+                  target="_blank" rel="nofollow" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    <label class="">Open</label> Position Report
+                  </span>
+                </a>
+              </li>
+              <!-- end -->
+              <!-- <li *ngIf="isSuperAdminlogin && specialLogin  && !isRenuTeam">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="uat/open-position-report-uat"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    <label class="">Open</label> Position Report UAT
+                  </span>
+                </a>
+              </li> -->
+              <!-- end -->
+              <li
+                *ngIf="((isSuperAdminlogin || isRecAdminLogin || isRecLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/recruiter-productivity-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Recruiter Productivity Report
+                  </span>
+                </a>
+              </li>
+              <!-- end -->
+              <li
+                *ngIf="((isSuperAdminlogin || isDHLogin || isGDLLogin  || isBULogin || isAOLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/salary-deviation-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Salary Deviation Report
+                  </span>
+                </a>
+              </li>
+              <!-- end -->
+              <li *ngIf="((isSuperAdminlogin ) && !isRenuTeam) && (isLocationUS(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="us/salary-deviation-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Salary Deviation Report
+                  </span>
+                </a>
+              </li>
+              <!-- end -->
+
+              <!-- <li *ngIf="isSuperAdminlogin && specialLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="uat/salary-deviation-report-uat"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Salary Deviation Report UAT
+                  </span>
+                </a>
+              </li> -->
+              <!-- end -->
+
+              <li
+                *ngIf="((isSuperAdminlogin || isDHLogin || isGDLLogin  || isBULogin || isAOLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-offer-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Candidate Offer Report
+                  </span>
+                </a>
+              </li>
+              <!-- <li *ngIf="isSuperAdminlogin && specialLogin && MenuHideProd">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="uat/candidate-offer-report-uat"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Candidate Offer Report UAT
+                  </span>
+                </a>
+              </li> -->
+              <!-- end -->
+              <li
+                *ngIf="((isSuperAdminlogin || isRecAdminLogin || isRecLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)"
+                  routerLink="/current-address-confirmation-report" routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Current Address Confirmation Status Report
+                  </span>
+                </a>
+              </li>
+              <!-- end -->
+              <!-- end -->
+              <li
+                *ngIf="((isSuperAdminlogin || isRecAdminLogin || isRecLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/interview-process-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Interview Process Report
+                  </span>
+                </a>
+              </li>
+              <!-- <li *ngIf="isSuperAdminlogin && specialLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="uat/interview-process-report-uat"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Interview Process Report UAT
+                  </span>
+                </a>
+              </li> -->
+
+              <li
+                *ngIf="((isSuperAdminlogin || isRecAdminLogin || isRecLogin ) && !isRenuTeam) && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/employee-referral-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Employee Referral Report
+                  </span>
+                </a>
+              </li>
+              <!-- end isSuperAdminlogin || -->
+              <li *ngIf=" (isRenuTeam || isAdminRenuTeamlogin)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/hiring-tracker"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Hiring Tracker
+                  </span>
+                </a>
+              </li>
+              <li *ngIf=" (isRenuTeam || isAdminRenuTeamlogin)  && (isLocationIndia(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-wise-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Candidate Wise Report
+                  </span>
+                </a>
+              </li>
+              <li *ngIf="isWmgLogin">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/ijp-report"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    IJP Report
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="((isRecLogin || isSuperAdminlogin) && isRenuTeam === false) && (isLocationUS(locationData))">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="us/hiring-tracker"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon pan-reports"></span>
+                  <span class="ats-nv-link">
+                    Hiring Tracker
+                  </span>
+                </a>
+              </li>
+
+                <li *ngIf="((isSuperAdminlogin  || IsVideoComparisonReportAccess || isHrLogin || IsIssAssestDlLogin || isHrKochiLogin) && !isRenuTeam) && (isLocationIndia(locationData))">
+                  <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/candidate-interview-onboarding-video-Report"
+                    routerLinkActive="active" class="ats-nv-align">
+                    <span class="ats-nv-icon round-icon pan-reports"></span>
+                    <span class="ats-nv-link">
+                      Interview to Onboarding Video Comparison Report
+                    </span>
+                  </a>
+                </li>
+                <!-- poland demand report -->
+                 <!-- && (isLocationIndia(locationData))
+                  *ngIf="((isSuperAdminlogin ) && !isRenuTeam) " -->
+                <li *ngIf="((IsUatReportAccess ) && !isRenuTeam) && (isLocationIndia(locationData))">
+                  <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/poland-demand-report"
+                    routerLinkActive="active" class="ats-nv-align">
+                    <span class="ats-nv-icon round-icon pan-reports"></span>
+                    <span class="ats-nv-link">
+                      Poland Demand Report
+                    </span>
+                  </a>
+                </li>
+              </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isCanLogin">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Candidate Screen" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up1">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/candidate-screen">
+                      Candidate Screen
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+
+          <!-- admin module - for all kind of admin action -->
+          <!-- || isHrAdminLogin)&&
+          (isLocationIndia(locationData) -->
+          <mat-expansion-panel class="list-nav" routerLinkActive="active"
+            *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Admin Module" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      admin_panel_settings
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Admin Module</a>
+                  </span>
+
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/company-master"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <!-- <span class="ats-nv-icon square-icon candidate-connect"></span> -->
+
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      add_business
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Company Master
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+          <!-- admin module ends here -->
+
+          <mat-expansion-panel class="list-nav" routerLinkActive="active"
+            *ngIf="((isSuperAdminlogin || isRecLogin || isPanelAccess && !isRenuTeam))&& (isLocationIndia(locationData))">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Panel Self-Nomination" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      free_cancellation
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)">Panel Self-Nomination </a>
+                  </span>
+
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ul class="ats-submenu">
+              <li *ngIf="(isSuperAdminlogin)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/panel-list"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <!-- <span class="ats-nv-icon square-icon candidate-connect"></span> -->
+
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      person_add_alt
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Panel List
+                  </span>
+                </a>
+              </li>
+              <!-- <li *ngIf="(isSuperAdminlogin || isAdminRenuTeamlogin)"> -->
+              <li *ngIf="(isSuperAdminlogin || isRecLogin || isPanelAccess)">
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/published-job-listing"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <!-- <span class="ats-nv-icon square-icon candidate-connect"></span> -->
+
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      published_with_changes
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    Published Job Listings
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+          <!-- admin module ends here -->
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+</div>

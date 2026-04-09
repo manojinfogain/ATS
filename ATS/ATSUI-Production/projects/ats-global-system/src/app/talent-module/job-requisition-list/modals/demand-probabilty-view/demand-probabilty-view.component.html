@@ -1,0 +1,340 @@
+<div class="ats-modal-header ata-text-cap">
+    <h1>Demand Fulfillment Prediction</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+         <!-- Loading State -->
+      <div *ngIf="isLoadingApiData" class="loading-container">
+        <div class="loading-content">
+          <mat-spinner diameter="50" color="primary"></mat-spinner>
+          <h4>{{ loadingMessage }}</h4>
+          <p>Processing demand quality analysis, probability calculations, and resource matching...</p>
+        </div>
+      </div>
+        <mat-tab-group *ngIf="!isLoadingApiData" [(selectedIndex)]="selectedTabIndex">
+            <!-- Tab 1: Probability on Demand Creation -->
+            <mat-tab label="Probability on Demand Creation">
+                <section class="top-section mat-elevation-z2">
+                    <div class="top-section-left">
+                        <ng-container [ngSwitch]="demandProbData?.predicted_status">
+                            <ng-container *ngSwitchCase="'CANCELLED'">
+                                <mat-icon color="primary" class="prd-icon">cancel</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'FULFILLED EXTERNALLY'">
+                                <mat-icon color="primary" class="prd-icon">check_circle</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'INTERNALLY FULFILLED'">
+                                <mat-icon color="primary" class="prd-icon">check_circle</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>-</ng-container>
+                        </ng-container>
+
+                        <h4><label>Predicted Outcome</label><span>Likely to be
+                                {{demandProbDetails?.NormalizeStatus}}
+                            </span></h4>
+
+                    </div>
+                    <div class="top-section-right">
+                        <!-- <button mat-icon-button color="primary" (click)="reloadPrediction()" aria-label="Reload Prediction">
+                            <mat-icon>refresh</mat-icon>
+                        </button> -->
+                        <!-- <mat-progress-bar mode="determinate" value="{{demandProbData?.confidence || 0}}" color="primary"></mat-progress-bar>
+          <p class="confidence-text">Overall Confidence: {{demandProbData?.confidence || 0}} %</p> -->
+
+                    </div>
+                </section>
+                <section class="probability-section">
+                    <div class="row">
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Normalized Probabilities</h5>
+                                        <p class="subtitle">A demand-fulfillment prediction derived from past trends and normalized by resource match and JD quality.</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Cancellation</label>
+                                                <span>{{demandProbDetails?.P_c_percent || 0}} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbDetails?.P_c_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>External Fulfillment</label>
+                                                <span>{{ demandProbDetails?.P_e_percent || 0 }} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbDetails?.P_e_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Internal Fulfillment</label>
+                                                <span>{{ demandProbDetails?.P_i_percent || 0 }} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbDetails?.P_i_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+
+                                    </div>
+
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Resource Match</h5>
+                                        <p class="subtitle">Internal candidate availability</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+                                        <div class="probability-bars-item">
+                                            <div class="match-rsr">
+                                                <label>Matching Resources</label>
+                                                <span class="spv">
+                                                    <a href="javascript:void(0)">{{demandProbDetails?.RMCount
+                                                        || 0}}</a>
+                                                    <span> found</span>
+                                                </span>
+                                            </div>
+
+                                            <div class="match-rsr margin-top-15">
+                                                <label>Matching Demand</label>
+                                                <span class="spv">
+                                                    <a href="javascript:void(0)">{{demandProbDetails?.demandCountTotal
+                                                        || 0}}</a>
+                                                    <span> found</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="probability-bars-item">
+                    <div class="d-flex justify-content-between">
+                      <label>Fullfillment Probability</label>
+                      <span>{{ProbabilityData?.OverallProbability || 0}}%</span>
+                    </div>
+                    <mat-progress-bar [value]="ProbabilityData?.OverallProbability || 0" color="accent"></mat-progress-bar>
+                  </div> -->
+
+
+                                    </div>
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Job Description Quality</h5>
+                                        <p class="subtitle">Role clarity and alignment</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Quality Score</label>
+                                                <span>{{demandProbDetails?.JDQ ||
+                                                    0}}%</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbDetails?.JDQ || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="lbb-tnb">
+                                            <ul class="list-group">
+                                                <!-- <li class="list-group-item">{{this.jobQualityData['Job Summary']?.Reason}}</li> -->
+                                                <!-- <li class="list-group-item">{{this.jobQualityData['Job Description']?.Reason}}</li> -->
+                                                <li class="list-group-item" *ngFor="let reason of JDReasonListDm">{{
+                                                    reason
+                                                    }}</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                    </div>
+                </section>
+            </mat-tab>
+            <!-- Tab 2: Probability Live -->
+            <mat-tab label="Current Probability">
+                <section class="top-section mat-elevation-z2" *ngIf="!isLoadingApiData">
+                    <div class="top-section-left">
+                        <ng-container [ngSwitch]="demandProbData?.predicted_status">
+                            <ng-container *ngSwitchCase="'CANCELLED'">
+                                <mat-icon color="primary" class="prd-icon">cancel</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'FULFILLED EXTERNALLY'">
+                                <mat-icon color="primary" class="prd-icon">check_circle</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'INTERNALLY FULFILLED'">
+                                <mat-icon color="primary" class="prd-icon">check_circle</mat-icon>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>-</ng-container>
+                        </ng-container>
+
+                        <h4><label>Predicted Outcome</label><span>Likely to be
+                                {{NormalizeStatus}}
+                            </span></h4>
+
+                    </div>
+                    <div class="top-section-right">
+                        <button mat-icon-button color="primary" (click)="reloadPrediction()" aria-label="Reload Prediction"
+                        matTooltip="Refresh Prediction">
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                        <!-- <mat-progress-bar mode="determinate" value="{{demandProbData?.confidence || 0}}" color="primary"></mat-progress-bar>
+          <p class="confidence-text">Overall Confidence: {{demandProbData?.confidence || 0}} %</p> -->
+
+                    </div>
+                </section>
+                <section class="probability-section" *ngIf="!isLoadingApiData">
+                    <div class="row">
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Normalized Probabilities</h5>
+                                        <p class="subtitle">A demand-fulfillment prediction derived from past trends and normalized by resource match and JD quality.</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Cancellation</label>
+                                                <span>{{demandProbabilityResult?.P_c_percent || 0}} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbabilityResult?.P_c_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>External Fulfillment</label>
+                                                <span>{{ demandProbabilityResult?.P_e_percent || 0 }} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbabilityResult?.P_e_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Internal Fulfillment</label>
+                                                <span>{{ demandProbabilityResult?.P_i_percent || 0 }} %</span>
+                                            </div>
+                                            <mat-progress-bar [value]="demandProbabilityResult?.P_i_percent || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+
+                                    </div>
+
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Resource Match</h5>
+                                        <p class="subtitle">Internal candidate availability</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+                                        <div class="probability-bars-item">
+                                            <div class="match-rsr">
+                                                <label>Matching Resources</label>
+                                                <span class="spv">
+                                                    <a href="javascript:void(0)"
+                                                        (click)="openListAvailableResource()">{{ProbabilityData?.EmployeeCount
+                                                        || 0}}</a>
+                                                    <span> found</span>
+                                                </span>
+                                            </div>
+
+                                            <div class="match-rsr margin-top-15">
+                                                <label>Matching Demand</label>
+                                                <span class="spv">
+                                                    <a href="javascript:void(0)">{{ProbabilityData?.DemandCountTotal
+                                                        || 0}}</a>
+                                                    <span> found</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="probability-bars-item">
+                    <div class="d-flex justify-content-between">
+                      <label>Fullfillment Probability</label>
+                      <span>{{ProbabilityData?.OverallProbability || 0}}%</span>
+                    </div>
+                    <mat-progress-bar [value]="ProbabilityData?.OverallProbability || 0" color="accent"></mat-progress-bar>
+                  </div> -->
+
+
+                                    </div>
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                        <div class="col-md-4 d-flex">
+                            <mat-card class="example-card  flex-fill" appearance="outlined">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        <h5>Job Description Quality</h5>
+                                        <p class="subtitle">Role clarity and alignment</p>
+                                    </mat-card-title>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="probability-bars">
+
+                                        <div class="probability-bars-item">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Quality Score</label>
+                                                <span>{{this.jobQualityData['Job Description Quality Score (%)'] ||
+                                                    0}}%</span>
+                                            </div>
+                                            <mat-progress-bar
+                                                [value]="this.jobQualityData['Job Description Quality Score (%)'] || 0"
+                                                color="accent"></mat-progress-bar>
+                                        </div>
+                                        <div class="lbb-tnb">
+                                            <ul class="list-group">
+                                                <!-- <li class="list-group-item">{{this.jobQualityData['Job Summary']?.Reason}}</li> -->
+                                                <!-- <li class="list-group-item">{{this.jobQualityData['Job Description']?.Reason}}</li> -->
+                                                <li class="list-group-item" *ngFor="let reason of reasonJdQ">{{ reason
+                                                    }}</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </mat-card-content>
+
+                            </mat-card>
+                        </div>
+                    </div>
+                </section>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+        Cancel
+    </button>
+</div>

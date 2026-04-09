@@ -1,0 +1,28 @@
+@media print{
+
+    .erp-main-header,
+    .fourqt-Panel-Form,
+    .fourqt-breadcrumb,
+    .erp-search-input,
+    .fourqt-action-icon {
+        display: none;
+    }
+    .fix-table-header{
+        overflow: visible !important;
+        max-height: none;
+    }
+    table.table-fourqt th{
+        position:static !important;
+    }
+    table.table-fourqt td, table.table-fourqt th {
+        font-size: 12px;
+        padding: 4px 4px;
+        border: 1px solid #f4f5f8;
+    }
+    .fourqt-title.print-title{
+        display: block;
+    }
+    .total-record{
+        display: none;
+    }
+}

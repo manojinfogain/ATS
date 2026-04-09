@@ -1,0 +1,155 @@
+.slot-section{
+    display: flex;
+     justify-content: space-between;
+    .slot-calender{
+        width:650px;
+        // background: red;
+        .fc .fc-toolbar.fc-header-toolbar {
+            margin-bottom: 1em;
+        }
+        .fc-theme-standard th{
+            padding: 2px 0px;
+           font-size: 15px;
+        }
+        .fc-theme-standard td{
+            padding: 2px 0px;
+           font-size: 15px;
+           a{
+            color: #000;
+           }
+        //    &>:hover{
+        //     background: #f8f8f8;
+        //    }
+        }
+        
+        .fc .fc-toolbar-title{
+            font-size: 14px;
+            font-family:  $font-semiBold;
+          //  background: #0a71b9;
+            // padding: 8px 10px;
+            color: #0a71b9;
+        }
+        .fc .fc-button-primary {
+            background-color:#0a71b9;
+            border-color:#0a71b9;
+            // color: var(--fc-button-text-color);
+        }
+
+        .fc .fc-button-primary:disabled {
+            background-color: #e1e1e1;
+            border-color: #b9b9b9;
+            color: #000;
+        }
+        .fc .fc-daygrid-day.fc-day-today {
+            background-color: #ff4081;
+           a{
+            color: #fff;
+           }
+        }
+    }
+    .slot-list{
+        width:calc(100% - 670px);
+        .slot-list-wrap{
+            border: solid 1px #f6f1f1;
+            padding: 0px 0px;
+            .slot-list-header{
+                display: flex;
+                justify-content: space-between;
+                padding: 5px 10px;
+                align-items: center;
+                border-bottom: solid 1px #f6f1f1;
+                h4{
+                    font-size: 14px;
+                    font-family:  $font-semiBold;
+                  //  background: #0a71b9;
+                    // padding: 8px 10px;
+                    color: #0a71b9;
+                }
+            }
+            .slot-list-content{
+                padding: 5px 8px;
+                max-height: calc(100vh - 220px);
+                overflow: auto;
+                .table-mat-info td.mat-cell, 
+                .table-mat-info td.mat-footer-cell, 
+                .table-mat-info th.mat-header-cell{
+                    font-size: 13px;
+                    padding: 10px 10px !important;
+                }
+                .btn-action .btn-act .mat-button {
+                    color: #2c73a5;
+                    font-size: 16px;
+                }
+                .slot-sec-v{
+                    // background: #f8f8f8;
+                    /* margin-bottom: 3px; */
+                    margin-top: 8px;
+                    box-shadow: 0px 1px 4px #0000004a;
+                    padding: 4px 10px;
+                    .ngb-tp-input-container{
+                        .btn-sm, .btn-group-sm > .btn {
+                            padding: 0px 0px;
+                            font-size: 11px;
+                            line-height: 1;
+                            border-radius: 0.2rem;
+                        }
+                        .form-control {
+                            height: 27px;
+                            padding: 0px 0px;
+                            font-size: 13px;
+                            line-height: 1.5;
+                            border-radius: 0.2rem;
+                            &[readonly]{
+                             background: #fff;
+                            }
+                        }
+                    }
+
+                }
+            }
+            .slot-list-footer{
+                padding:8px 4px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+
+
+.slot-add-new{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0px 1px 4px #0000004a;
+    .slot-sec-v{
+        // box-shadow: 0px 1px 4px #0000004a;
+        padding: 4px 10px;
+        width: 225px;
+        display: flex;
+        justify-content: center;
+        .ngb-tp-input-container{
+            .btn-sm, .btn-group-sm > .btn {
+               // padding: 0px 0px;
+               // font-size: 11px;
+                line-height: 1;
+                border-radius: 0.2rem;
+                // pointer-events: none;
+            }
+            .form-control {
+              //  height: 27px;
+                padding: 0px 0px;
+               // font-size: 13px;
+                line-height: 1.5;
+                border-radius: 0.2rem;
+                &[readonly]{
+                 background: #fff;
+                 pointer-events: none;
+                }
+            }
+        }
+
+    }
+}

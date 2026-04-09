@@ -1,0 +1,185 @@
+
+    <div class="ats-modal-header">
+        <h1>{{candData?.name || '-'}} </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+           <div class="view-list-dt-wrap">
+               <div class="view-list-bx">
+                   <h4>Candidate Name:</h4>
+                   <p>{{candData?.name || '-'}}</p>
+               </div>
+               <!-- end -->
+               <div class="view-list-bx">
+                <h4>Candidate Email:</h4>
+                <p>{{candData?.email || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="view-list-bx">
+                <h4>Contract Type:</h4>
+                <p>{{candData?.contractName || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4> Talent ID:</h4>
+                <p>{{candData?.talentId || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Total Experience:</h4>
+                <p>
+                    {{candData?.total_experience+' Year' || ''}} 
+                    {{candData?.total_exp_month+' Month' || ''}} 
+                </p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Relevent Experience:</h4>
+                <p>
+                    {{candData?.relevent_experience+' Year' || ''}} 
+                    {{candData?.relevent_exp_month+' Month' || ''}} 
+                </p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Skill:</h4>
+                <p>{{candData?.primaryskill || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Additional Skill:</h4>
+                <p>{{candData?.secondaryskill || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Mobile Number :</h4>
+                <p>{{candData?.mobile_number?'+'+candData?.countryCodeNum+'-'+candData?.mobile_number:'-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId != 3">
+                <h4>Country :</h4>
+                <p>{{candData?.country_name || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4>State :</h4>
+                <p>{{candData?.state_name || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>City :</h4>
+                <p>{{candData?.cityName || '-'}}</p>
+            </div>
+            <!-- end -->
+           
+            <div class="view-list-bx">
+                <h4>Currency Type :</h4>
+                <p>{{candData?.currency_name || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Salary Type :</h4>
+                <p>
+                    <ng-container [ngSwitch]="candData?.SalaryType">
+                        <ng-container *ngSwitchCase="1">
+                          Annual
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                          Monthly
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                          Hourly
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                         -
+                      </ng-container>
+
+                      </ng-container>
+                </p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId != 3 && candData?.contractID !== 2">
+                <h4>Current CTC :</h4>
+                <p>
+                    <ng-container *ngIf="candData?.currency_type == 1">
+                        <!-- {{(candData?.current_ctc | currency: 'INR':true) || '-'}} -->
+                        {{((candData?.current_ctc?(candData?.current_ctc |
+                            currency:'INR':true): '-')|amountMask:data?.OfferStatusId)}}
+                      </ng-container>
+                      <ng-container *ngIf="candData?.currency_type == 2">
+                        <!-- {{(candData?.current_ctc| currency) || '-'}} -->
+                        {{((candData?.current_ctc?(candData?.current_ctc |
+                            currency): '-')|amountMask:data?.OfferStatusId)}}
+                      </ng-container>
+                      <ng-container *ngIf="candData?.currency_type == 3">
+                        <!-- {{(candData?.current_ctc | currency: 'EUR':true) || '-'}} -->
+                        {{((candData?.current_ctc?(candData?.current_ctc |
+                            currency:'EUR':true): '-')|amountMask:data?.OfferStatusId)}}
+                      </ng-container>
+                  </p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4> {{candData?.HiringLocationId == 3?'Candidate Salary':'Expected CTC'}}</h4>
+                <p>
+                    <ng-container *ngIf="candData?.currency_type == 1">
+                        <!-- {{(candData?.expected_ctc | currency: 'INR':true) || '-'}} -->
+                        {{((candData?.expected_ctc ?(candData?.expected_ctc |
+                            currency:'INR':true): '-')|amountMask:data?.OfferStatusId)}}
+                           
+                      </ng-container>
+                      <ng-container *ngIf="candData?.currency_type == 2">
+                        <!-- {{(candData?.expected_ctc| currency) || '-'}} -->
+                        {{((candData?.expected_ctc?(candData?.expected_ctc |
+                            currency): '-')|amountMask:data?.OfferStatusId)}}
+                      </ng-container>
+                      <ng-container *ngIf="candData?.currency_type == 3">
+                        <!-- {{(candData?.expected_ctc | currency: 'EUR':true) || '-'}} -->
+                        {{((candData?.expected_ctc?(candData?.expected_ctc |
+                            currency:'EUR':true): '-')|amountMask:data?.OfferStatusId)}}
+                      </ng-container>
+                </p>
+               
+            </div>
+            <!-- end -->
+            <div class="view-list-bx">
+                <h4>Notice Period :</h4>
+                <p>{{candData?.notice_period?candData?.notice_period+' Days': '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.crCompanyName">
+                <h4>Current Company :</h4>
+                <p>{{candData?.crCompanyName || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" >
+                <h4>Education Qualification :</h4>
+                <p>{{candData?.eduQualification || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4>Work/Visa status :</h4>
+                <p>{{candData?.WorkVisaName || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4>Visa Expiry Date  :</h4>
+                <p>{{candData?.visaExpireDate || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4>LinkedIn profile link :</h4>
+                <p><a [href]='candData?.Link' target="_blank">View</a></p>
+            </div>
+            <!-- end -->
+            <div class="view-list-bx" *ngIf="candData?.HiringLocationId == 3">
+                <h4>Relocation :</h4>
+                <p>{{candData?.RelocationType || '-'}}</p>
+            </div>
+            <!-- end -->
+           
+           </div>
+        </div>
+    </div>

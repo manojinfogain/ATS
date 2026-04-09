@@ -1,0 +1,98 @@
+<form [formGroup]="accessCardForm" (ngSubmit)="submitAccessCardForm(accessCardForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper">
+                <!-- <h3 class="line-h">Personal Details For Access-card</h3> -->
+                <div class="form-logo">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+                </div>
+                <div class="table-o-at">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="title-tb">Name</td>
+                                <td>  {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+' '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Emergency Contact Number<span class="mand-sign">*</span></td>
+                                <td> <input type="text" class="ctrl-onb" formControlName="em_ContactNumber" maxlength="15" disableInitialSpace mobNumber required [readonly]="data?.isEditable === false">
+                                    <br><mat-error *ngIf="getControl('em_ContactNumber')?.touched && getControl('em_ContactNumber')?.invalid">
+                                        <!-- <div *ngIf="getControl('em_ContactNumber')?.errors.required">
+                                            Emergency Contact Number is required.
+                                        </div> -->
+                                        <ng-container *ngIf="getControl('em_ContactNumber')?.errors?.minlength">
+                                            Please enter 10 digit valid number.
+                                        </ng-container>
+
+                                        <ng-container *ngIf="getControl('em_ContactNumber')?.errors?.maxlength">
+                                            Please enter 10 digit valid number.
+                                        </ng-container>
+                                    </mat-error>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Blood Group</td>
+                                <td>{{(data?.candidatePersonalDetails?.BloodGroup ? data?.candidatePersonalDetails?.BloodGroup : '')}}
+                                    <ng-container [ngSwitch]="data?.candidatePersonalDetails?.BloodGroupRh">
+                                        <ng-container *ngSwitchCase="'P'">
+                                            (+Positive)
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'N'">
+                                            (-Negative)
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'U'">
+                                            Unknown
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            
+                                        </ng-container>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                                <td class="title-tb">Employee Code</td>
+                                <td>-</td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2">
+                                <td class="title-tb">Current Address</td>
+                                <td>
+                                    {{(data?.candidatePersonalDetails?.AddressLine1 ? data?.candidatePersonalDetails?.AddressLine1 : '')+' '+
+                                    (data?.candidatePersonalDetails?.AddressLine2 ? data?.candidatePersonalDetails?.AddressLine2 : '')+' '+
+                                    (data?.candidatePersonalDetails?.AddressLine3 ? data?.candidatePersonalDetails?.AddressLine3 : '')+','+
+                                    (data?.candidatePersonalDetails?.cr_city ? data?.candidatePersonalDetails?.cr_city : '')+','+
+                                    (data?.candidatePersonalDetails?.cr_state ? data?.candidatePersonalDetails?.cr_state : '')+','+
+                                    (data?.candidatePersonalDetails?.cr_countryName ? data?.candidatePersonalDetails?.cr_countryName : '')+','+
+                                    (data?.candidatePersonalDetails?.cr_postalCode ? data?.candidatePersonalDetails?.cr_postalCode : '')}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2">
+                                <td class="title-tb">Phone No.</td>
+                                <td>
+                                    {{data?.candidatePersonalDetails?.phone || '-'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+
+      
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

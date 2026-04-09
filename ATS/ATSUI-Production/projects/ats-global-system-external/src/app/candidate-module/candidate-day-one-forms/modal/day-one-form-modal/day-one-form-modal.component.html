@@ -1,0 +1,190 @@
+<div class="ats-modal-header">
+  <h1>{{data?.title}}</h1>
+  <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+  <div class="ats-modal-body">
+    <ng-container [ngSwitch]="data?.formTypeId">
+      <ng-container *ngSwitchCase="13">
+        <lib-acceptable-use-of-asset-policy #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-acceptable-use-of-asset-policy>
+      </ng-container>
+      <ng-container *ngSwitchCase="14">
+        <lib-anti-corrupt-anti-policy #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-anti-corrupt-anti-policy>
+      </ng-container>
+      <ng-container *ngSwitchCase="15">
+        <lib-code-conduct-business-ethics-policy #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-code-conduct-business-ethics-policy>
+      </ng-container>
+      <ng-container *ngSwitchCase="18">
+        <lib-nda-lateral #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-nda-lateral>
+      </ng-container>
+      <ng-container *ngSwitchCase="19">
+        <lib-netapp-nda #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-netapp-nda>
+      </ng-container>
+      <ng-container *ngSwitchCase="16">
+        <lib-conflictof-interes-policy #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-conflictof-interes-policy>
+      </ng-container>
+      <ng-container *ngSwitchCase="17">
+        <lib-lateral-nda-emp-nnt #ndaLateralNNTFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-emp-nnt>
+      </ng-container>
+      <ng-container *ngSwitchCase="23">
+        <lib-posh-doc #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-doc>
+      </ng-container>
+      <ng-container *ngSwitchCase="30">
+        <lib-posh-adt #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-adt>
+      </ng-container>
+      <ng-container *ngSwitchCase="31">
+        <lib-posh-doc-nnt-banglore #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-doc-nnt-banglore>
+      </ng-container>
+      <ng-container *ngSwitchCase="20">
+        <lib-posh-doc-banglore #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-doc-banglore>
+      </ng-container>
+      <ng-container *ngSwitchCase="21">
+        <lib-posh-doc-mumbai #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-doc-mumbai>
+      </ng-container>
+      <ng-container *ngSwitchCase="22">
+        <lib-posh-doc-pune #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-posh-doc-pune>
+      </ng-container>
+      <ng-container *ngSwitchCase="24">
+        <lib-trainees-dcthird-party-contractual-nda-nnt #traineesDCTNDAFormComNNT #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-trainees-dcthird-party-contractual-nda-nnt>
+      </ng-container>
+      <ng-container *ngSwitchCase="25">
+        <lib-trainees-dcthird-party-contractual-nda #traineesDCTNDAFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-trainees-dcthird-party-contractual-nda>
+      </ng-container>
+      <ng-container *ngSwitchCase="35">
+        <lib-dap-form #Day1FormTemp (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)"
+          [signPrevData]="signPrevData" [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-dap-form>
+      </ng-container>
+      <ng-container *ngSwitchCase="45">
+        <lib-lateral-nda-bengaluru #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-bengaluru>
+      </ng-container>
+      <ng-container *ngSwitchCase="43">
+        <lib-lateral-nda-gurugram #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-gurugram>
+      </ng-container>
+      <ng-container *ngSwitchCase="44">
+        <lib-lateral-nda-mumbai #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-mumbai>
+      </ng-container>
+      <ng-container *ngSwitchCase="42">
+        <lib-lateral-nda-noida #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-noida>
+      </ng-container>
+      <ng-container *ngSwitchCase="41">
+        <lib-lateral-nda-pune #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-pune>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="40">
+        <lib-other-nda-bengaluru #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-other-nda-bengaluru>
+      </ng-container>
+      <ng-container *ngSwitchCase="39">
+        <lib-other-nda-gurugram #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-other-nda-gurugram>
+      </ng-container>
+      <ng-container *ngSwitchCase="38">
+        <lib-other-nda-mumbai #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-other-nda-mumbai>
+      </ng-container>
+      <ng-container *ngSwitchCase="37">
+        <lib-other-nda-noida #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-other-nda-noida>
+      </ng-container>
+      <ng-container *ngSwitchCase="36">
+        <lib-other-nda-pune #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-other-nda-pune>
+      </ng-container>
+      <!-- new form for impqtive kochi posh 46 -->
+      <ng-container *ngSwitchCase="46">
+        <lib-posh-doc-impaqtive-kochi #Day1FormTemp
+          [candidatePersonalDetails]="candidatePersonalDetails"
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData" [Day1FormData]="data"></lib-posh-doc-impaqtive-kochi>
+      </ng-container>
+      <!-- impqtive  47 netapp nda -->
+      <ng-container *ngSwitchCase="47">
+        <lib-netapp-nda-impaqtive #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-netapp-nda-impaqtive>
+      </ng-container>
+      <!--   48 lateral nda impqtive--> 
+      <ng-container *ngSwitchCase="48">
+        <lib-lateral-nda-impaqtive-kochi #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-lateral-nda-impaqtive-kochi>
+       <!-- <lib-lateral-nda-noida #ndaLateralFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data"></lib-lateral-nda-noida> -->
+          
+      </ng-container>
+      <!-- impqtive   trainees  49-->
+      <ng-container *ngSwitchCase="49">
+        <lib-training-third-party-contractual-nda-impaqtive #traineesDCTNDAFormCom #Day1FormTemp
+          (getLatestSignatureDataPageWise)="getLatestSignatureDataPageWise($event)" [signPrevData]="signPrevData"
+          [candidatePersonalDetails]="candidatePersonalDetails" [Day1FormData]="data">
+        </lib-training-third-party-contractual-nda-impaqtive>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        -
+      </ng-container>
+    </ng-container>
+
+  </div>
+
+</div>
+<div class="ats-modal-footer text-center">
+  <button *ngIf="data?.isEditable" type="submit" class="btn btn-infocon" (click)="FinalSubmit()">
+    {{data?.Status == 'D' ? 'Update' : 'Save'}}
+  </button>
+  <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+  </button>
+</div>

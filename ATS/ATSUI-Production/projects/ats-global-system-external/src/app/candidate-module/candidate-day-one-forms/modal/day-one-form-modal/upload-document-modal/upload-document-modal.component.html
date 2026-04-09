@@ -1,0 +1,52 @@
+<form [formGroup]="uploadDocumentForm" (ngSubmit)="confirmAlertSubmit(uploadDocumentForm)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>
+            Upload Document
+            <!-- {{data?.title}} {{data?.CTHID ? '- ' + data?.CTHID : '-'}} -->
+
+        </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <div class="ats-form-col width-half">
+                    <ng-container>
+                    <label>Upload {{data?.title}}
+                        <sup class="error">*</sup></label>
+                    <div class="ats-forms form-on-ats-fluid">
+                        <div class="ats-form-col upload-file-ats-scr">
+                            <div class="upload-file-input-scr"
+                                [ngClass]="getControl('uploadForm').touched && getControl('uploadForm').invalid ? 'error-file-input':'suc'">
+                                <input type="file" formControlName="uploadForm" required (change)="fileUpload($event)" required>
+                                <mat-error
+                                    *ngIf="getControl('uploadForm')?.touched && getControl('uploadForm')?.invalid">
+                                    <div *ngIf="getControl('uploadForm')?.errors.required">
+                                        Please choose a file
+                                    </div>
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    </ng-container>
+                </div>
+
+                <!-- <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'">
+                        <textarea class="remark-field" matInput placeholder="Remarks" maxlength="150"
+                            formControlName="remarks" disableInitialSpace></textarea>
+                    </mat-form-field>
+                </div> -->
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit Document
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button> -->
+    </div>
+</form>

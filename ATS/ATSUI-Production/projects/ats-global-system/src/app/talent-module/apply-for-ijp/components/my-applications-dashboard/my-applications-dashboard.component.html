@@ -1,0 +1,412 @@
+<div class="my-applications-dashboard">
+  <!-- Dashboard Stats Section -->
+  <div class="dashboard-stats-container">
+    <div class="dashboard-header-box">
+      <div class="dashboard-header">
+        <div class="header-left-section">
+          <h3 class="dashboard-title"><span *ngIf="!isWmgUser">My </span>Applications Overview</h3>
+        </div>
+        <div class="header-center-section">
+          
+          <div class="view-type-toggle">
+            <mat-radio-group [(ngModel)]="viewType" (change)="onViewTypeChange(viewType)">
+              <mat-radio-button value="ALL" class="radio-option">All</mat-radio-button>
+              <mat-radio-button value="IJP" class="radio-option">IJP</mat-radio-button>
+              <mat-radio-button value="WMG" class="radio-option">Proposals</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="header-right-section">
+          <div class="emp-sle-rvr-vv">
+            <ng-container *ngIf="isRightsViewIJP">
+            <mat-form-field appearance="outline" class="employee-select-field">
+              <mat-label>Select Employee</mat-label>
+              <input matInput [formControl]="employeeCtrl" [matAutocomplete]="auto"
+                aria-label="Search and select employee">
+              <mat-icon matSuffix *ngIf="employeeCtrl.value" (click)="clearEmployee()"
+                class="clear-icon">close</mat-icon>
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEmployee"
+                (optionSelected)="onEmployeeSelected($event)">
+                <mat-option *ngFor="let emp of filteredEmployees$ | async" [value]="emp">
+                  {{ emp.fullName }} ({{ emp.empNewId }})
+                </mat-option>
+                <mat-option *ngIf="(filteredEmployees$ | async)?.length === 0" disabled>
+                  No employees found
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="dashboard-header-box">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title">My Applications Overview</h3>
+        <div class="view-type-toggle">
+          <mat-radio-group [(ngModel)]="viewType" (change)="onViewTypeChange(viewType)">          <mat-radio-button value="ALL" class="radio-option">All</mat-radio-button>          <mat-radio-button value="IJP" class="radio-option">IJP</mat-radio-button>
+            <mat-radio-button value="WMG" class="radio-option">Proposals</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="stats-cards-wrapper">
+      <!-- <div class="stat-card total clickable" (click)="onStatCardClick(11)" matTooltip="Click to view all due proposals">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">work_outline</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.total }}</div>
+          <div class="stat-label">Due Proposals</div>
+        </div>
+      </div> -->
+
+      <div class="stat-card shortlisted clickable" (click)="onStatCardClick(1)"
+        matTooltip="Click to view proposed applications">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">verified</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.proposed }}</div>
+          <div class="stat-label">Proposed</div>
+        </div>
+      </div>
+
+      <div class="stat-card interview clickable" (click)="onStatCardClick(3)"
+        matTooltip="Click to view applications in client interview stage">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">event</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.interview }}</div>
+          <div class="stat-label">Client Interview Stage</div>
+        </div>
+      </div>
+
+      <div class="stat-card wmg-pending clickable" (click)="onStatCardClick(5)"
+        matTooltip="Click to view pending with WMG approval">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">pending_actions</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.wmgPending }}</div>
+          <div class="stat-label">Pending with WMG Approval</div>
+        </div>
+      </div>
+
+      <div class="stat-card train-deploy clickable" (click)="onStatCardClick(4)"
+        matTooltip="Click to view train & deploy applications">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">school</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.trainDeploy }}</div>
+          <div class="stat-label">Train & Deploy</div>
+        </div>
+      </div>
+
+      <div class="stat-card selected clickable" (click)="onStatCardClick(2)"
+        matTooltip="Click to view selected applications">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">check_circle</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.selected }}</div>
+          <div class="stat-label">Selected</div>
+        </div>
+      </div>
+
+
+      <div class="stat-card rejected clickable" (click)="onStatCardClick(0)"
+        matTooltip="Click to view rejected applications">
+        <div class="stat-icon">
+          <span class="material-icons-outlined">cancel</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ applicationStats.rejected }}</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application History Section -->
+  <div class="application-history-container">
+    <mat-card>
+      <div class="card">
+        <div class="card-header card-header-flex">
+          <div class="ats-left-h">
+            <h3 class="section-title"><span *ngIf="!isWmgUser">My </span>Applications {{ selectedTileLabel ? selectedTileLabel : ''}}</h3>
+          </div>
+          <div class="erp-search-input ats-right-h">
+            <div class="filter-at-wrapper">
+              <div class="s-fil">
+                <div class="act-header-btn criteria-class">
+                  <ul>
+                    <li>
+                      <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                        matTooltip="Search By Requisition ID" [placeHolder]="'Search by Requisition ID'"
+                        [searchServerSide]="true" [isReset]="isResetSearch">
+                      </app-search-filter>
+                    </li>
+                    <li>
+                      <button mat-button (click)="onStatCardClick(null)" matTooltip="Refresh">
+                        <span class="material-icons-outlined">refresh</span>
+                      </button>
+                    </li>
+                    <li>
+                      <!-- <a href="javascript:void(0)" [ngClass]="{'disable-dowlnd-btn': applicationHistoryList?.length === 0}"
+                        (click)="exportAsXLSX()">
+                        <span class="material-icons-outlined" matTooltip="Download History">
+                          download                    
+                        </span>
+                      </a> -->
+                      <button mat-button (click)="exportAsXLSX()" matTooltip="Download Document" [disabled]="applicationHistoryList?.length === 0">
+                        <span class="material-icons-outlined">download</span>
+                      </button>
+                    </li>
+                    <li>
+                      <app-filter-sort (getSortFormData)="getSortData($event)" [form]="sortFormFilter" [account]="true"
+                        [accountMulti]="true" [companyLocation]="true" [LocationMulti]="true" [grade]="true"
+                        [gradeMulti]="true" [gradeIds]="[203, 219,220,205,206,207,208]" [ijpStatus]="true"
+                        [ijpStatusMulti]="true" [screenType]="'D'">
+                      </app-filter-sort>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="table-scroll-bd">
+            <table mat-table [dataSource]="applicationHistoryList" class="table-mat-info" id="exportTable">
+
+              <!-- Applied Date Column -->
+              <ng-container matColumnDef="appliedDate">
+                <th mat-header-cell *matHeaderCellDef>Applied Date</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.AppliedOn | date: 'dd-MMM-yyyy' || '-' }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sourceType">
+                <th mat-header-cell *matHeaderCellDef>Source Type</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.SourceTypeName || '-' }}
+                </td>
+              </ng-container>
+
+              <!-- Requisition ID Column -->
+              <ng-container matColumnDef="requisitionId">
+                <th mat-header-cell *matHeaderCellDef>Requisition ID</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.TalentId || '-' }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ijpName">
+                <th mat-header-cell *matHeaderCellDef>Job Summary</th>
+                <td mat-cell *matCellDef="let element" class="wht-break">
+                  <!-- <div class="position-info">
+                    <div class="position-name"> -->
+                  <!-- {{ element?.ijpName || '-' }} -->
+                  <!--</div>
+                     <div class="designation">{{ element?.IJPdesignation || '-' }}</div> 
+                  </div>-->
+                  {{(element?.ijpName| slice:0:20) || '-'}}{{ element?.ijpName?.length > 20 ?'...' :
+                  ''}}
+                  <ng-container *ngIf="element?.ijpName?.length > 20">
+                    <a href="javascript:void(0)" (click)="openPop(element?.ijpName,'Job Summary')"
+                      popoverClass="list-popover-wrapper" [ngbPopover]="popContent" class="wht-more">More</a>
+                  </ng-container>
+                </td>
+              </ng-container>
+
+              <!-- Position/Role Column -->
+              <ng-container matColumnDef="positionRole">
+                <th mat-header-cell *matHeaderCellDef>Designation ( Role )</th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- <div class="position-info">
+                    <div class="position-name">{{ element?.ijpName || '-' }}</div> 
+                    <div class="designation"> -->
+                  {{ element?.IJPdesignation || '-' }}
+                  <!-- </div>
+                  </div> -->
+                </td>
+              </ng-container>
+
+              <!-- Account Column -->
+              <ng-container matColumnDef="account">
+                <th mat-header-cell *matHeaderCellDef>Account</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.accountName || '-' }}
+                </td>
+              </ng-container>
+
+              <!-- Location Column -->
+              <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef>Location</th>
+                <td mat-cell *matCellDef="let element" class="wht-break">
+                  <!-- {{ element?.locationName || '-' }} -->
+                  {{(element?.locationName| slice:0:12) || '-'}}{{ element?.locationName?.length > 12 ?'...' :
+                  ''}}
+                  <ng-container *ngIf="element?.locationName?.length > 12">
+                    <a href="javascript:void(0)" (click)="openPop(element?.locationName,'Location')"
+                      popoverClass="list-popover-wrapper" [ngbPopover]="popContent" class="wht-more">More</a>
+                  </ng-container>
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Application Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container [ngSwitch]="element?.statusId">
+                    <ng-container *ngSwitchCase="0">
+                      <button class="btn-status-dg rejects" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="1">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="11">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="2">
+                      <button class="btn-status-dg shortlisted" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="3">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="4">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="5">
+                      <button class="btn-status-dg schedule" type="button">
+                        {{ element?.statusName }}
+                      </button>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      {{ element?.statusName || '-' }}
+                    </ng-container>
+                  </ng-container>
+                </td>
+              </ng-container>
+
+              <!-- Rejection Reason Column -->
+              <ng-container matColumnDef="rejectionReason">
+                <th mat-header-cell *matHeaderCellDef>Rejection Details</th>
+                <td mat-cell *matCellDef="let element">
+                  <div *ngIf="element?.AppliedStatusId == 0" class="rejection-info">
+                    <div class="reject-reason" *ngIf="element?.RejectReason">
+                      <strong>Reason:</strong> {{ element?.RejectReason }}
+                    </div>
+                    <div class="reject-remarks" *ngIf="element?.RejectionRemarks">
+                      <strong>Remarks:</strong> {{ element?.RejectionRemarks }}
+                    </div>
+                  </div>
+                  <span *ngIf="element?.AppliedStatusId != 0">-</span>
+                </td>
+              </ng-container>
+
+              <!-- WMG Status Column -->
+              <ng-container matColumnDef="wmgStatus">
+                <th mat-header-cell *matHeaderCellDef>WMG Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container *ngIf="element?.WMGStatus">
+                    <div class="wmg-status-info">
+                      <span class="wmg-badge" [ngClass]="{
+                              'proposed': element?.WMGStatusId == 1,
+                              'interview': element?.WMGStatusId == 2,
+                              'selected': element?.WMGStatusId == 3
+                            }">
+                        {{ element?.WMGStatus }}
+                      </span>
+                    </div>
+                  </ng-container>
+                  <span *ngIf="!element?.WMGStatus">-</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="grade">
+                <th mat-header-cell *matHeaderCellDef>Grade</th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.GradeName || '-'}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prSkill">
+                <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                  Primary Skill </th>
+                <td mat-cell *matCellDef="let element;">
+                  {{element?.PrimaryskillName || '-'}}
+                </td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <div class="btn-action btn-action-centerz">
+                    <div class="btn-act">
+                      <button mat-button type="button" matTooltip="View Application Details"
+                        (click)="viewApplicationDetails(element)">
+                        <span class="material-icons-outlined">visibility</span>
+                      </button>
+                      <button mat-button type="button" matTooltip="View Feedback History"
+                        (click)="viewFeedbackHistory(element)">
+                        <!-- <span class="material-icons-outlined">visibility</span> -->
+                        <i class=" font-size-s material-icons-outlined">
+                          pending_actions
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <app-no-result-found [searchedValue]="searchInput"
+              *ngIf="applicationHistoryList?.length === 0 || applicationHistoryList?.length === null">
+            </app-no-result-found>
+          </div>
+
+          <div class="ats-paging-sec">
+            <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+              (sendPagingData)="getPagingData($event)">
+            </app-custom-paginator>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<ng-template #popContent>
+  <div class="popover-wraps">
+    <div class="popover-wrap-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="popover-wrap-body">
+      <div class="list-chip">
+        {{dtData}}
+      </div>
+    </div>
+  </div>
+</ng-template>

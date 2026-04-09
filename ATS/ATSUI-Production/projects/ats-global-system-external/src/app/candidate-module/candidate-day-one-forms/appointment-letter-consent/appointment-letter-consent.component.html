@@ -1,0 +1,167 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <div class="candidate-screen">
+                    <div class="candidate-screen-body">
+                        <div class="candidate-onb-wrapper">
+                            <div class="onboarding-form-list">
+                                <div class="cand-ot-table ">
+                                    <div class="appointment-file-down-uplod-wrapper">
+                                        <form [formGroup]="appointmentLetterForm"
+                                            (ngSubmit)="submitAppointmentLetterForm(appointmentLetterForm)">
+                                            <div class="ats-modal-header">
+                                                <!-- <h1>Anayt</h1> -->
+                                                <!-- <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button> -->
+                                            </div>
+                                            <div mat-dialog-content>
+                                                <div class="ats-modal-body">
+                                                    <div class="form-card-wrapper upload-can-pnb-form">
+
+                                                        <div class="form-download-wrapper" role="alert">
+                                                            <button mat-button type="button" class="act-button"
+                                                                (click)="downloadDocuments($event)">
+                                                                <!-- <span class="material-icons-outlined">
+                                                                       download
+                                                                 </span> -->
+                                                                Download Appointment Letter
+                                                            </button>
+                                                        </div>
+                                                        <div class="form-upload-wrapper">
+                                                            <div class="download-wrap wrapper-com">
+                                                            </div>
+                                                            <div class="dvo-f"
+                                                                class="upload-wrapper wrapper-com mat-elevation">
+                                                                <div class="upload-wrap">
+                                                                    <ng-container>
+                                                                        <label>Upload Appointment Letter
+                                                                            <sup>*</sup></label>
+                                                                        <div class="ats-forms form-on-ats-fluid">
+                                                                            <div
+                                                                                class="ats-form-col upload-file-ats-scr">
+                                                                                <div class="upload-file-input-scr"
+                                                                                    [ngClass]="getControl('uploadForm').touched && getControl('uploadForm').invalid ? 'error-file-input':'suc'">
+                                                                                    <input type="file"
+                                                                                        formControlName="uploadForm"
+                                                                                        required
+                                                                                        (change)="fileUpload($event)">
+                                                                                    <mat-error
+                                                                                        *ngIf="getControl('uploadForm')?.touched && getControl('uploadForm')?.invalid">
+                                                                                        <div
+                                                                                            *ngIf="getControl('uploadForm')?.errors.required">
+                                                                                            Please choose a file
+                                                                                        </div>
+                                                                                    </mat-error>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                            <!-- ends -->
+                                                            <div class="conset-candidate">
+                                                                <mat-checkbox required
+                                                                    formControlName="iConfirmedCheckBox">
+                                                                    <ng-container>
+                                                                        <span class="font-size-11-5">I have read all the terms & conditions outlined in the appointment letter and provide my consent to them.</span>
+                                                                    </ng-container>
+                                                                    <sup class="dangr">*</sup>
+
+                                                                </mat-checkbox>
+                                                                <mat-error
+                                                                    *ngIf="getControl('iConfirmedCheckBox')?.touched && getControl('iConfirmedCheckBox')?.invalid">
+                                                                    <div
+                                                                        *ngIf="getControl('iConfirmedCheckBox')?.errors.required">
+                                                                        Consent is required
+                                                                    </div>
+                                                                </mat-error>
+                                                            </div>
+                                                            <!-- endss -->
+
+                                                        </div>
+                                                        <div class="candidate-screen-footer text-align-left">
+
+                                                            <button type="submit" class="btn btn-infocon">
+                                                                Submit
+                                                            </button>
+                                                            <button type="button" (click)="resetFrom()"
+                                                                class="btn btn-infocon">
+                                                                Clear
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end -->
+                            <div class="onb-form-guideline">
+                                <h3>Welcome Aboard {{candidatePersonalDetails?.FullName}}!</h3>
+                                <div class="onb-bullet-list">
+                                    <ul>
+                                        <li class="list-style-none">We're excited to have you join us, and
+                                            want to ensure that your onboarding experience is as smooth as possible.
+                                            Here are some important guidelines to help you get started:</li>
+                                        <ul class="margin-left-26">
+                                            <li>Onboarding forms have been sent to you. Please complete and upload
+                                                them to the portal by 07:00 AM on your scheduled start date.</li>
+                                            <li>Some of these forms can be filled out directly on the portal, while
+                                                others, specifically the statutory forms, need to be downloaded,
+                                                completed, and then uploaded on the portal.</li>
+                                            <li>Leave the 'Employee Code' field blank, as it will be assigned to you
+                                                on your first day.</li>
+                                            <li>{{candidatePersonalDetails?.OnboardSpoc}} - name of your Onboarding SPOC (Single Point of Contact) in the HR
+                                                column</li>
+                                            <li>Please give your acceptance on below mentioned mandate documents on
+                                                Day 1 itself, by signing on all the pages of these documents-</li>
+                                            <ul class="list-style-square">
+                                                <li>
+                                                    Acceptable Use of Asset Policy
+                                                </li>
+                                                <li>Prevention of Sexual Harassment Policy</li>
+                                                <li>Non-Disclosure Agreement</li>
+                                                <li>Code of Conduct & Business Ethics Policy</li>
+                                                <li>Anti-Corruption & Anti-Bribery Policy</li>
+                                                <li>Conflict of Interest Policy</li>
+                                            </ul>    
+                                            <li>
+                                                All official induction invitations and email communications will be
+                                                sent to your official Email ID once you're fully onboarded.
+                                            </li>                                            
+                                        </ul>
+                                      
+                                        <li class="list-style-none">
+                                            Thank you for choosing to be a part of our team!
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- end candidate screen -->
+
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,43 @@
+.non-clickable {
+    pointer-events: none;
+    cursor: default;
+    opacity: 70%;
+}
+
+// .header-otp {
+//     display: flex;
+//     justify-content: center;
+//     width: 100%;
+
+//     h3 {
+//         width: 51%;
+//         background-color: green !important;
+
+//     }
+
+//     .back-to-login {
+//         text-align: right;
+//         background: red;
+//         width: 21%;
+//     }
+// }
+// .parent-arrow-otp-login {
+//     display: flex;
+
+//     .btn-arrow-back-v {
+//         width: 10% !important;
+//         position: relative;
+
+//         .icon-bk {
+//             font-size: 20px;
+//             position: absolute;
+//             left: 12px;
+//             top: 12px;
+//             cursor: pointer;
+//         }
+//     }
+
+//     h3 {
+//         width: 77%;
+//     }
+// }

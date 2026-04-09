@@ -1,0 +1,109 @@
+<form [formGroup]="professioanalReferencesForm" (ngSubmit)="updateProfRefForm(professioanalReferencesForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="screen-mat-card">
+                <div class="screen-mat-card-b">
+
+                    <div class="table-screen-form">
+                        <table class="table  table-screen-opt">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name<sup>*</sup></th>
+                                    <th scope="col"> Designation<sup>*</sup></th>
+                                    <th scope="col">Name of Organization<sup>*</sup></th>
+                                    <th scope="col">Mobile No.<sup>*</sup></th>
+                                    <th scope="col">Email ID<sup>*</sup></th>
+                                </tr>
+                                <!-- <ng-container
+                                    *ngFor="let item of ReferencesGroup.controls; let pointIndex=index"> -->
+                                <tr>
+                                    <td>
+                                        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                            <div class="form-on-col">
+                                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                    <input matInput type="text" placeholder="Name" maxlength="250"
+                                                        disableInitialSpace formControlName="Name" required onlyAlphabets appCapitalizeWords>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                            <div class="form-on-col">
+                                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                    <input matInput type="text" placeholder="Designation"
+                                                        maxlength="250" disableInitialSpace
+                                                        formControlName="Designation" required onlyAlphabets>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                            <div class="form-on-col">
+                                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                    <input matInput type="text" placeholder="Name of Organization"
+                                                        maxlength="250" disableInitialSpace
+                                                        formControlName="Organization" required validationSpecialCharacter>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                            <div class="form-on-col">
+                                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                    <input matInput type="text" placeholder="Mobile No." maxlength="10"
+                                                        disableInitialSpace formControlName="Mobile" required mobNumber>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                            <div class="form-on-col">
+                                                <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                                    <input matInput type="text" placeholder="Email" maxlength="250"
+                                                        disableInitialSpace formControlName="Email" required>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <!-- end col -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- </ng-container> -->
+
+
+
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

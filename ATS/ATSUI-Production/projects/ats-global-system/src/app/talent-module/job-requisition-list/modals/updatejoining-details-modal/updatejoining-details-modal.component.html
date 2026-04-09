@@ -1,0 +1,73 @@
+<form [formGroup]="joindetailsForm" (ngSubmit)="updateTalentIdHandler(joindetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{data?.TalentID}}vvvvvvv</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="form-up">
+                <div
+                    class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+
+
+                    <div class="ats-form-col full-width">
+
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns > Candidate Name</mat-label>
+                            <mat-select formControlName="EmpId" (selectionChange)="JoinedEmployeeListChange($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCandidateJoined"
+                                        [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                        [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let list of candidateJoinedList | candidateJoinedListPipe:searchJoinedCandidate"
+                                    [value]="list?.EmplyeeID"> {{list?.EmployeeName}} ({{list?.EmplyeeID}})
+                                </mat-option>
+                                <!--  -->
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="ats-form-col full-width">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label> Joining Date</mat-label>
+                            <input matInput [matDatepicker]="picker3" readonly placeholder="Joining Date"
+                                formControlName="dateOfJoing" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="ats-form-col full-width">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label> Comments</mat-label>
+                            <textarea matInput placeholder="Comments" maxlength="500" disableInitialSpace
+                                formControlName="remarks"></textarea>
+                            <mat-hint class="hint-wrap"
+                                align="end">{{getControl('remarks')?.value?getControl('Comment')?.value?.length:0}}/500</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

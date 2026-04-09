@@ -1,0 +1,109 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} - {{data?.CTHID}}</h1>
+    <!-- <p>test : {{data?.OldSTATUS_ID }} - {{data?.OldSTATUSName }}</p> -->
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+        <!-- end -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Internal Job Posting</h4>
+            </div>
+            <div class="form-appr">
+                <form [formGroup]="submitInternalJobPostingForm">
+                    <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col width-full">
+                            <mat-form-field  [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>IJP Name</mat-label>
+                                <input [readonly]="data?.OldSTATUS_ID == 26 || this.data?.OldSTATUS_ID == 28" matInput
+                                    formControlName="IjpName" [disabled]="isDisabled" placeholder="IJP Name"
+                                    disableInitialSpace>
+                            </mat-form-field>
+                        </div>
+                        <div class="ats-form-col">
+                            <div class="show-only-name-wrap">
+                                <div class="names-only">
+                                    <label class="label-heading">Primary Skill</label>
+                                    <p>{{data?.PriSkill || '-'}} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col">
+                            <mat-form-field  [appearance]="formAppearance" class="ats-mat-form-field">
+                                <mat-label>IJP Start Date</mat-label>
+                                <input matInput [matDatepicker]="picker1" formControlName="startDateIJP" readonly
+                                [disabled]="data?.OldSTATUS_ID == 26 || this.data?.OldSTATUS_ID == 28"
+                                    placeholder="IJP Start Date"  (dateInput)="changeStartDate('input', $event)">
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col">
+                            <mat-form-field  [appearance]="formAppearance" class="ats-mat-form-field">
+                                <mat-label>IJP End Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="endDateIJP" [min]="minDate2"
+                                    readonly placeholder="IJP End Date" >
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col width-full">
+                            <div class="editor" [ngClass]="{'desc-error' :( getControl('ijpJobDescription')?.touched && getControl('ijpJobDescription')?.invalid) || (getControl('ijpJobDescription')?.touched && editorLen.length <100)}">
+                                <label class="lb-nx-title">IJP Job Description:</label>
+                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                                </ngx-editor-menu>
+                                <ngx-editor [editor]="editor" formControlName="ijpJobDescription"  [placeholder]="'Job Description'">
+                                </ngx-editor>
+                            
+                                <div class="ngx-error" *ngIf="(getControl('ijpJobDescription')?.touched && getControl('ijpJobDescription')?.invalid) || ((getControl('ijpJobDescription')?.touched && editorLen.length <100))">
+                                    <div *ngIf="getControl('ijpJobDescription')?.errors?.minlength || editorLen.length <100">
+                                        <span class="error-text">
+                                            At least 100 characters required</span>
+                                    </div>
+                                </div>
+                              </div>
+                            <!-- <mat-form-field  [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>IJP Job Description:(Min 100 chars and max 3000 chars)</mat-label>
+                                <textarea class="job-descrp" #ijpJobDescrip matInput formControlName="ijpJobDescription"
+                                    placeholder="IJP Job Description" minlength="100" maxlength="3000"
+                                    disableInitialSpace
+                                    [readonly]="data?.OldSTATUS_ID == 26 || this.data?.OldSTATUS_ID == 28"></textarea>
+                                <mat-hint class="hint-wrap" align="end">{{ijpJobDescrip.value.length}}/3000</mat-hint>
+                                <mat-error
+                                    *ngIf="getControl('ijpJobDescription')?.touched && getControl('ijpJobDescription')?.invalid">
+                                    <div *ngIf="getControl('ijpJobDescription')?.errors?.minlength">
+                                        <span class="error-text">
+                                            At least 100 characters required</span>
+                                    </div>
+                                    <div *ngIf="getControl('ijpJobDescription')?.errors?.maxlength">
+                                        <span class="error-text">
+                                            Maximum 3000 characters required</span>
+                                    </div>
+                                </mat-error>
+                            </mat-form-field> -->
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- end -->
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="internalJobPostingHandler(submitInternalJobPostingForm)">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

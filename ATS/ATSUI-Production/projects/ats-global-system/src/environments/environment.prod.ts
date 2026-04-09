@@ -1,0 +1,16 @@
+export const environment = {
+  production: true,
+  name: 'Production',
+  locationWise:true,
+  defaultSSO: true,
+  isNotification:false,
+  apiKey: 'xxxMqwDCt+j+pQSxjzbXoCSvvxx=',
+  apiBaseUrl: 'https://atsapijava.infogain.com:7070/',
+  apiMainUrl: 'https://atsapijava.infogain.com:7070/info/',
+  apiBaseUrlNet:'https://atsapi.infogain.com/',
+  apiMainUrlNet:'https://atsapi.infogain.com/api/',
+  clientId:'8e9af8aa-9f68-47eb-b2e5-dabb5803dfbe',
+  redirect_uri:'https://ats.infogain.com/login',
+  clientSecret:'R4N8Q~nRv.puSJ3VGTN7aL.gLbheyk95vIds1dt~',
+  IOnboardAppURl:'https://ionboard.infogain.com/login',
+};

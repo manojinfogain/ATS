@@ -1,0 +1,33 @@
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+
+ .h3-One{font-size: 18px; text-align: center;}
+ .h3-Two{font-size: 16px;text-align: center;}
+ .h3-Three{font-size: 16px;text-align: center;}
+
+.ul-common-tag{margin-left: 27px;}
+
+.margin-top-10{margin-top: 10px;}
+.padding-top-10{padding-bottom: 350px !important;}
+}

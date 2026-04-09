@@ -1,0 +1,448 @@
+.box-v-body {
+    padding: 5px 5px 0px 5px !important;
+}
+
+.form-on-col-job {
+    width: 50% !important;
+    padding: 5px 5px 0 5px;
+}
+
+.job-descrp {
+    height: 35px !important;
+}
+
+
+//ats-form-col
+// old form-on-col 
+
+.ats-form-col {
+    .mat-form-field .mat-form-field-label {
+        font-size: 13px !important;
+        color: #201d1df2 !important;
+        font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    }
+
+}
+
+.show-only-name-wrap {
+    .names-only {
+        h4 {
+            // color: black !important;
+            // color: #029bcf !important;
+        }
+    }
+}
+
+.mat-form-field-subscript-wrapper {
+    /* margin-top: 0.6666666667em; */
+    top: calc(100% - 1.5em) !important;
+}
+
+.upload-file-input input {
+    font-size: 9px !important;
+}
+
+.box-v-ats.box-v-ats-form .box-v-body {
+    padding: 12px 0px 0px 0px !important;
+}
+
+.ats-forms.ats-forms-horz3 .ats-form-col {
+    width: 79.3% !important;
+}
+
+.mat-error {
+    margin-top: 0px !important;
+}
+
+.upload-file-input label {
+    font-size: 10px !important;
+}
+
+.upload-file-input label sup {
+    font-size: 14px !important;
+    top: 1px !important;
+}
+
+// .ats-forms.ats-form-dark .ats-form-col .mat-error {
+//     display: block !important;
+// }
+
+.view-document {
+    width: 10%;
+}
+
+.view-pic-hover:hover {
+    color: #1f6a9f !important;
+    font-size: 16px !important;
+    transition: 0.3s ease-out !important;
+}
+
+.view-btn-handle {
+    display: flex !important;
+}
+
+.btn-act {
+    margin-top: 10px !important;
+}
+
+.mat-form-field-label-wrapper {
+    overflow: unset !important;
+    /* pointer-events: none; */
+}
+
+//latest for ui 
+
+.ats-forms.ats-form-normal-font .ats-form-col .mat-form-field .mat-form-field-label {
+    font-size: 12px !important;
+    color: black !important;
+}
+
+.full-width-important {
+    width: 100% !important;
+}
+
+.full-width {
+    width: 100%;
+}
+
+
+////attechment small size
+//  .upload-file-input input {
+// border: solid 1px #ddd;/
+// width: 100%;
+// height: 24px;
+// font-size: 9px;
+
+// }
+
+// job details hint
+.mat-form-field-subscript-wrapper {
+    margin-top: 0.9em !important;
+}
+
+.file-upld-wrp {
+    .ats-form-col {
+        padding: 0 !important;
+    }
+}
+
+//job descr font
+.form-on-col-job {
+    .job-text-hint {
+        // font-size: 10px !important;
+    }
+}
+
+.hint-wrap {
+    margin-top: 3px !important;
+}
+
+/**testing**/
+// mat-form-field {
+//     mat-label {
+//         font-size: 12px !important;
+//         color: #212529 !important;
+
+//     }
+// }
+
+.ats-forms.ats-forms-horz3 .action-wrapper {
+    width: 19.3% !important;
+}
+
+//approval part css
+
+.approval-dp-wrap {
+    .error-aprrove-Reject {
+        display: inline-block !important;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-flex {
+        margin-top: 0 !important;
+    }
+
+    .remark-wrap {
+
+        //  margin-top: 2px !important;
+        textarea#mat-input-4 {
+            height: 47px !important;
+        }
+    }
+
+    .error-aprrove-Reject {
+        margin-top: 4px !important;
+    }
+
+    .ats-forms.ats-form-dark .ats-form-col .mat-error {
+        display: inline-block !important;
+    }
+
+    .ats-form-col {
+        .mat-form-field {
+            font-size: 9px;
+            padding-top: 12px;
+
+            .mat-form-field-label {
+                font-size: 11px !important;
+            }
+        }
+    }
+}
+
+
+.border-error {
+    border: solid 1px #f44336 !important;
+}
+
+.dgm-track-tc {
+    .box-v-ats {
+        .box-v-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 7px;
+
+            .lft-go {
+                display: flex;
+                align-items: center;
+            }
+
+        }
+    }
+}
+
+:host ::ng-deep .tc-help-wrap {
+    display: flex;
+    align-items: center;
+    border: solid 1px #0874a5;
+    background-color: #0874a5;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    label {
+        font-size: 12px;
+        padding-right: 4px;
+        color: #fff;
+        padding-left: 4px;
+        cursor: pointer;
+
+    }
+
+    .mat-fab {
+        height: 26px !important;
+        width: 30px !important;
+        background-color: #0874a5;
+        border-radius: unset;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        line-height: 31px;
+
+        .mat-button-wrapper {
+            padding: 4px 0 !important;
+
+            .mat-icon {
+                font-size: 18px;
+
+                animation: zoom-in-zoom-out 1.7s ease infinite;
+            }
+        }
+
+    }
+}
+
+:host ::ng-deep .mat-select-search-no-entries-found {
+    padding: 5px !important;
+    color: #4e4d4d;
+}
+
+.cb-btn {
+    background: #1f6a9f;
+    display: inline-block;
+    color: #fff;
+    padding: 3px 4px;
+}
+
+@keyframes zoom-in-zoom-out {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(1.2, 1.2);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+
+.editor {
+    border: 1px solid rgb(85 203 243);
+    border-radius: 4px;
+    box-shadow: 0px 16px 9px -15px #156b8980;
+    position: relative;
+    margin-top: 13px;
+
+    .lb-nx-title {
+        position: absolute;
+        top: -19px;
+        font-size: 12px;
+    }
+
+    ul,
+    ol {
+        margin-left: 20px;
+    }
+
+    &.desc-error {
+        border: 1px solid red;
+
+        .lb-nx-title {
+            color: red;
+        }
+    }
+
+    .btn-jd-suggestion {
+        position: absolute;
+        top: 2px;
+        right: 0px;
+        padding: 4px 12px;
+        box-shadow: none;
+        border-radius: 6px;
+    }
+
+}
+
+:host ::ng-deep .NgxEditor__MenuBar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+:host ::ng-deep .NgxEditor {
+    border: none;
+
+    .CodeMirror {
+        border: 1px solid #eee;
+        height: auto;
+        margin-bottom: 0.7rem;
+
+        pre {
+            white-space: pre !important;
+        }
+    }
+}
+
+:host ::ng-deep .NgxEditor__Content {
+    max-height: 203px !important;
+    overflow: auto;
+    min-height: 202px;
+
+    ol,
+    ul,
+    dl {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        margin-left: 14px;
+    }
+}
+
+.ngx-error {
+    padding: 6px;
+    color: red;
+
+}
+
+
+.disable-pointer {
+    pointer-events: none !important;
+    cursor: not-allowed;
+}
+
+.req-field {
+    color: red;
+    // font-size: 20px;}
+}
+
+:host ::ng-deep .mt-preff {
+    .mat-icon {
+        font-size: 18px !important;
+    }
+}
+
+:host ::ng-deep .asst-from-sc {
+    .ats-forms.ats-forms-horz4 {
+        .ats-form-col {
+            width: 20% !important;
+        }
+
+    }
+}
+
+.btn-reset-wrap {
+    text-align: right !important;
+
+    .btn-reset {
+        padding: 4px 5px !important;
+        font-size: 0.7rem !important;
+        background: #1f6a9f;
+        margin-right: 10px;
+        outline: none;
+        color: #fff;
+        &:hover {
+            opacity: 80%;
+        }
+    }
+}
+
+.rating-header{
+    padding: 2px 10px !important;
+    span {
+        font-size: 21px;
+    }
+}
+  :host ::ng-deep .apr-dp-er{
+  
+    .remark-wrap{
+         .mat-form-field .mat-form-field-label{
+            margin-top: -7px !important;
+         }
+        textarea.mat-input-element{
+            height: 10px !important;
+        }
+    }
+  }
+
+  .checkbox-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    height: 60px; /* Adjust this value to match your form field heights */
+  }
+
+  /* Add these styles to your component's stylesheet */
+.questions-section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .txtarea-ans textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .txtarea-ans-add {
+    width: 100%;
+  }
+  
+  .delete-btn-q {
+    padding: 0 10px;
+  }

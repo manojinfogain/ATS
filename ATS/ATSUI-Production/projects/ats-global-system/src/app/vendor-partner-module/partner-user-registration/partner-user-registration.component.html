@@ -1,0 +1,119 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <form [formGroup]="userRegistrationForm" (ngSubmit)="registerPartner(userRegistrationForm)">
+                    <div class="ats-content-card">
+                        <div class="ats-content-card-body   ats-form-ui-enhance-font">
+                            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark ats-form-normal-font ">
+                                <div class="ats-form-col">
+                                    <div class="error-outside-control">
+                                     <app-partner-list-control [formFieldAppearance]="'outline'" [parentIdControl]="getControl('PartnerID')"
+                                     [required]="true"  [partnerStatus]="'4'"></app-partner-list-control>
+                                     <div class="mt-error-ats" *ngIf="getControl('PartnerID').touched && getControl('PartnerID').invalid">
+                                         <span *ngIf="getControl('PartnerID').errors.required">
+                                             Partner is required.
+                                         </span>
+                                     </div>
+                                    </div>
+                                 </div>
+                                 <!-- end col -->
+
+                                 <div class="ats-form-col"  *ngIf="isLocationUS">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label> Name </mat-label>
+                                        <input matInput placeholder="Name" maxlength="250" formControlName="Name" disableInitialSpace 
+                                       >
+                                        <mat-error *ngIf="getControl('Name').touched && getControl('Name').invalid">
+                                            <div *ngIf="getControl('Name').errors.required">
+                                                 Name is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                                <div class="ats-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Email ID </mat-label>
+                                        <input matInput placeholder="Email ID" disableInitialSpace maxlength="250" formControlName="Email"
+                                            disableInitialSpace required>
+                                        <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+                                        <mat-error *ngIf="getControl('Email').touched && getControl('Email').invalid">
+                                            <div *ngIf="getControl('Email').errors.required">
+                                                Email ID is required.
+                                            </div>
+                                            <div *ngIf="getControl('Email').errors.pattern">
+                                                Please enter valid Email ID.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="ats-form-col"  *ngIf="isLocationUS">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Contact No</mat-label>
+                                        <input matInput placeholder="Contact No" formControlName="ContactNo" onlyNumber minlength="4" [maxlength]="isLocationUS ? 30 : 10"
+                                            disableInitialSpace>
+                                        <mat-error *ngIf="getControl('ContactNo').touched && getControl('ContactNo').invalid">
+                                            <div *ngIf="getControl('ContactNo').errors.required">
+                                                Contact No is required.
+                                            </div>
+                                            <div *ngIf="getControl('ContactNo').errors.minlength">
+                                                Minimum 4 number required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+
+                                <div class="ats-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Remarks</mat-label>
+                                        <textarea matInput placeholder="Enter Remark" 
+                                            formControlName="Remarks" disableInitialSpace></textarea>
+                                        <mat-error
+                                            *ngIf="getControl('Remarks').touched && getControl('Remarks').invalid">
+                                            <div *ngIf="getControl('Remarks').errors.required">
+                                                Remarks is required.
+                                            </div>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </div>
+                        <div class="ats-content-card-footer">
+                            <button type="submit" class="btn btn-infocon">Submit
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <button type="button" class="btn btn-simple-ats" (click)="resetForm()">Reset
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <!-- <button type="button" class="btn btn-infocon" (click)="gotPartnerDetailsPage()">
+                                View User List  <i class="fa fa-user"></i>
+                              </button> -->
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- end content body -->
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

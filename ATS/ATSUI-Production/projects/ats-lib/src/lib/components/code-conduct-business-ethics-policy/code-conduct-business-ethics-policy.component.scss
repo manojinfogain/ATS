@@ -1,0 +1,96 @@
+// .table-of-content .menu-subs ol.sec-ol {
+//     margin-left: -92px;
+//     margin-top: 26px;
+// }
+// .table-of-content .menu-subs ol.sec-ol li .pg-nos{
+//     right: auto;
+//     left: 60%;
+// }
+
+// .table-of-content .menu-subs ol.sec-ol .menu-subs2 ol.sec-ol {
+//     margin-left: -177px;
+//     margin-top: 26px
+// }
+// .table-of-content .menu-subs ol.sec-ol li.menu-subs2 ol.sec-ol li .pg-nos{
+//     right: auto;
+//     left: 72.5%;
+//     background: red;
+// }
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+
+.mrg-doc-top{
+  margin-top: 300px;
+}
+
+.mrg-doc-bottom{
+  margin-bottom: 300px;
+}
+
+.bordered-box {
+  border: 1px solid black;
+  padding: 20px 50px;
+}
+
+.flex-center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.font-size-xx-large {
+  font-size: xx-large;
+}
+
+.list-disc-ml-27 {
+  list-style-type: disc;
+  margin-left: 27px;
+}
+
+.padding-left-35 {
+  padding-left: 35px;
+}
+
+.margin-left-26-important {
+  margin-left: 26px !important;
+}
+
+.padding-bottom-400-important {
+  padding-bottom: 400px !important;
+}
+
+.padding-bottom-350-important {
+  padding-bottom: 350px !important;
+}
+
+.text-center-font-19 {
+  text-align: center;
+  font-size: 19px;
+}
+
+.margin-left-300 {
+  margin-left: 300px;
+}

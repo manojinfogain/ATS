@@ -1,0 +1,50 @@
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+
+.margin-left-27 {
+    margin-left: 27px;
+}
+
+.padding-bottom-250 {
+    padding-bottom: 250px;
+}
+
+.font-14-center {
+    font-size: 14px;
+    text-align: center;
+}
+
+.font-16-center {
+    font-size: 16px;
+    text-align: center;
+}
+
+.margin-left-100 {
+    margin-left: 100px;
+}
+
+.margin-left-300 {
+    margin-left: 300px;
+}

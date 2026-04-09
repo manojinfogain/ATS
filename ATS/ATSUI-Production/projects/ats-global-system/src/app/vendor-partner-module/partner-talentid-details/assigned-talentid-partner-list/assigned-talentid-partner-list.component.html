@@ -1,0 +1,186 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h">
+                                <div class="ats-radio-btn">
+                                    <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedItem"
+                                    (change)="getFilterVal($event)"
+                                        >
+                                        <mat-radio-button value="T">Total Positions</mat-radio-button>
+                                        <mat-radio-button value="I">Positions In Progress</mat-radio-button>
+                                        <mat-radio-button value="Y">Positions Yet To Start</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Talent Id'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"
+                                            matTooltip="Search By Talent ID"></app-search-filter>
+                                    </div>
+                                    <!-- <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <li>
+                                                    <button type="button" class="btn btn-infocon" (click)="pendingWithMeModal(candidateList)">
+                                                      Pending with Me 
+                                                      <i class="fa fa-user"></i>
+                                                     
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="btn btn-infocon" (click)="gotoUser()">
+                                                        Assign Talent ID <i class="fa fa-user"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button mat-button class="act-button" matTooltip="Download Report"
+                                                        (click)="exportExcelClientEnd()">
+                                                        <span class="material-icons-outlined">
+                                                            download
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort [form]="sortFormFilter"
+                                                        [isResetForm]="isResetFilter" [PartnerID]="true"
+                                                        [PartnerMulti]="true" (getSortFormData)="getSortData($event)"
+                                                        [dateRange]="true" [statusAssign]="true"
+                                                        [dateRangeTitle]="'Date'" [isPractice]="true"
+                                                        [practiceMulti]="true" [account]="true" [accountMulti]="true"
+                                                        [checkboxPendingWithMe]="true"></app-filter-sort>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <ng-container matColumnDef="talentId">
+                                        <th mat-header-cell *matHeaderCellDef>Talent ID</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.TalentId || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="skill">
+                                        <th mat-header-cell *matHeaderCellDef>Skill</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.SkillName || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="exp">
+                                        <th mat-header-cell *matHeaderCellDef>Experience</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Experience || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="location">
+                                        <th mat-header-cell *matHeaderCellDef>Location</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.LocationName|| '-'}}</td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="contractType">
+                                        <th mat-header-cell *matHeaderCellDef>Contract Type</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Contracttype|| '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="state">
+                                        <th mat-header-cell *matHeaderCellDef>State</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.state ||
+                                            '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="city">
+                                        <th mat-header-cell *matHeaderCellDef>City</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.city || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="salaryType">
+                                        <th mat-header-cell *matHeaderCellDef>Salary Type</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.salaryType || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="maxRate">
+                                        <th mat-header-cell *matHeaderCellDef>Max Rate</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.maxrate || '-'}}</td>
+                                    </ng-container>  
+                                    <ng-container matColumnDef="designation">
+                                        <th mat-header-cell *matHeaderCellDef>Designation</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.designation || '-'}}</td>
+                                    </ng-container>
+                                     <ng-container matColumnDef="profileSubmitted">
+                                        <th mat-header-cell *matHeaderCellDef>Profiles Count</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.ProfileSubmitted|| '-'}}</td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="assignedBy">
+                                        <th mat-header-cell *matHeaderCellDef>Assigned By</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Assignedby|| '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="action-td">
+                                                <div class="btn-action btn-action-center btn-singles">
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button"
+                                                            matTooltip="View Requirements"
+                                                            (click)="viewTalentIdDetails(element.thid)">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-act" *ngIf="selectedItem == 'I'">
+                                                        <button mat-button type="button"
+                                                            matTooltip="View Profiles List"
+                                                            (click)="viewProfilesList(element.thid)">
+                                                            <i class="fa fa-list" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button"
+                                                            matTooltip="Upload Profile"
+                                                            (click)="uploadProfile(element.thid)">
+                                                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput"
+                                    *ngIf="candidateList?.data?.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage" (sendPagingData)="getPagingData($event)">
+                                </app-custom-paginator>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

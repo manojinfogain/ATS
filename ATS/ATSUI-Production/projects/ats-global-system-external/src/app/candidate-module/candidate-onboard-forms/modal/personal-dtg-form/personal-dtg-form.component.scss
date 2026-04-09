@@ -1,0 +1,21 @@
+.title-tb{
+    width:230px
+}
+.line-h{
+    // text-align: center;
+    // margin-bottom: 11px;
+}
+
+.mat-error {
+    margin: -15px 0px 10px 0px !important;
+}
+
+.mand-sign{
+    color: red;
+}
+
+.mat-select-disabled{
+    ::ng-deep .mat-select-value{
+        color: black;
+    }
+}

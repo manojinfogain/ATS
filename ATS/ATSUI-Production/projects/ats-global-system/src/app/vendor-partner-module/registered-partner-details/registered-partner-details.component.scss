@@ -1,0 +1,50 @@
+.contract-col {
+    min-width: 190px !important;
+
+}
+
+:host ::ng-deep.wht-break {
+    white-space: nowrap !important;
+
+}
+
+// .popover-wraps {
+//     top: 74px;
+// }
+
+::ng-deep .popover-body {
+    // margin-top: 4rem;
+
+}
+
+td {
+    text-align: center;
+}
+
+.example-box.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .example-chip .cdk-drop-list-dragging {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .chip-content {
+    border: solid #80808057 1px;
+    margin: 2px 4px 4px 0;
+    padding: 7px 2px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.width-contract{
+    min-width: 200px !important;
+}
+.width-contract-date{
+    min-width: 250px !important;
+}
+
+.mat-standard-chip {
+   
+    font-size: 13px;
+}

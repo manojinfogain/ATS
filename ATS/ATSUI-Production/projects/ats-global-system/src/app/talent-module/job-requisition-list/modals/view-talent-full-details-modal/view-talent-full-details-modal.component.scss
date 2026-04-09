@@ -1,0 +1,145 @@
+.job-details {
+    .view-list-bx {
+        padding: 5px;
+        width: 40%;
+        background: #ffffff;
+    }
+}
+
+.box-v-ats {
+    padding-bottom: 0 !important;
+}
+
+:host ::ng-deep .jd-js-width {
+    width: 100% !important;
+    min-height: 100px !important;
+    padding: 10px 10px 22px 10px;
+    word-wrap: break-word;
+
+    h4 {
+        font-size: 11.6px !important;
+       // font-family: Montserrat-Medium;
+    }
+
+    .pre-view-s {
+        margin-top: 4px !important;
+       font-size: 11px !important;
+        word-spacing: 1px ;
+        white-space: pre-wrap;
+        ul,ol{
+            margin-left: 20px;
+        }
+    }
+}
+
+.view-document{
+    width: 10%;
+}
+// i.fas.fa-download.view-pic:hover {
+//     color: blue !important;
+// }
+
+
+.view-pic-hover:hover {
+    color: #1f6a9f !important;
+    font-size: 16px !important;
+    transition:   0.3s ease-out !important;
+}
+
+//approval part css
+
+.approval-dp-wrap{
+    .error-aprrove-Reject{
+        display: inline-block !important;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-flex {
+        margin-top: 0 !important;
+    }
+    .remark-wrap{
+      //  margin-top: 2px !important;
+      textarea#mat-input-4{
+        height: 47px !important;
+      }
+    }
+ .error-aprrove-Reject{
+    margin-top: 4px !important;
+ }
+    .ats-forms.ats-form-dark .ats-form-col .mat-error {
+        display: inline-block !important;
+    }
+  
+    .ats-form-col {
+        .mat-form-field {
+            font-size: 9px;
+            padding-top: 12px;
+            .mat-form-field-label {
+                font-size: 11px !important;
+            }
+        }
+    }
+}
+
+:host ::ng-deep .apr-dp-er{
+  
+    .remark-wrap{
+         .mat-form-field .mat-form-field-label{
+            margin-top: -7px !important;
+         }
+        textarea.mat-input-element{
+            height: 10px !important;
+        }
+    }
+  }
+
+  .fulfilled-c{
+    background-color: green;
+    color: white;
+    width: 116px;
+    padding: 1px 8px !important;
+    border-radius: 2px;
+  }
+  .ul-ratem{
+    ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li{
+            display: inline-block;
+            font-size: 10px;
+            font-family: Montserrat-Medium;
+          //  margin-right: 5px;
+          //  margin-bottom: 4px;
+           // background: #ecf7ff;
+           // padding: 4px 4px;
+            span{
+             //   background: #fded66;
+               // font-size: 11px;
+             //   padding: 2px 4px;
+                border-radius: 3px;
+            }
+        }
+    }
+  }
+
+  .tb-tl-ex th, .tb-tl-ex td {
+    border: 1px solid #dee2e6;
+    font-size: 11px;
+    padding: 3px 5px;
+    vertical-align: middle;
+}
+
+.width-230 {
+    width: 230px;
+}
+
+.width-280 {
+    width: 280px;
+}
+
+.max-height-300 {
+    max-height: 300px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}

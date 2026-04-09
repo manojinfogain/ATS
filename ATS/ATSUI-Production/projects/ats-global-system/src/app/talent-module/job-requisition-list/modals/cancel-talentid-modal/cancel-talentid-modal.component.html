@@ -1,0 +1,58 @@
+<form [formGroup]="formCancelTalent" (ngSubmit)="cancelTalent(formCancelTalent)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}} {{data?.CTHID ? '- ' + data?.CTHID + ' ?' : '-'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns >Reason Category </mat-label>
+                        <mat-select formControlName="reasonCategories"
+                           (selectionChange)="getReasonCategId($event)" >
+                            <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                {{data?.Category}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label appRemoveAriaOwns >Sub Reason </mat-label>
+                        <mat-select formControlName="cancelReasonSub"
+                        [disabled]="!getControl('reasonCategories').valid">
+                            <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                {{data?.SubCategory}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'">
+                        <textarea class="remark-field" matInput placeholder="Remarks"   maxlength="150"
+                            formControlName="remarks" disableInitialSpace></textarea>
+                    </mat-form-field>
+                    <!-- <mat-error *ngIf="getControl('remarks').touched && getControl('remarks').invalid">
+                        <div *ngIf="getControl('remarks').errors.required">
+                            Remark is required.
+                        </div>
+                        <div *ngIf="getControl('remarks')?.errors?.minlength">
+                            <span class="error-text">
+                                At least 5 characters required.</span>
+                        </div>
+                    </mat-error> -->
+                </div>
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button> -->
+    </div>
+</form>

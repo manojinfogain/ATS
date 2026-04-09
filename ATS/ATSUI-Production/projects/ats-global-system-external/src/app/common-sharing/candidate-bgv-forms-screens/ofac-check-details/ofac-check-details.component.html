@@ -1,0 +1,117 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>OFAC Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="can-view-wrap" *ngIf="isFinalSumbit">
+            <div class="can-list-view">
+                <h5>Name:</h5>
+                <p>{{addedOFACCheckDet?.CandidateName || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Father's Name:</h5>
+                <p>{{addedOFACCheckDet?.FatherName || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Date of Birth:</h5>
+                <p>{{addedOFACCheckDet?.DateOfBirth | date:'mediumDate' || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Identity Proof Document:</h5>
+                <p>{{addedOFACCheckDet?.DocumentTypeName || '-'}}</p>
+            </div>
+            <!-- <div class="can-list-view">
+                <h5>Document Name:</h5>
+                <p>{{addedOFACCheckDet?.DocumentName || '-'}}</p>
+            </div> -->
+            <div class="can-list-view">
+                <h5>Preview {{PreviewName}}:</h5>
+                <p>
+                    <button type="button" class="btn-ey-v" (click)="previewDocument(this.addedOFACCheckDet)">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                </p>
+            </div>
+        </div>
+        <div class="form-can-wrap" *ngIf="!isFinalSumbit">
+            <form [formGroup]="OFACCheckDetailsForm">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Name</mat-label>
+                            <input matInput type="text" formControlName="CandidateName" maxlength="250"
+                                disableInitialSpace onlyAlphabets
+                                [readonly]="isFinalSumbit || candidatePersonalDetails.CandidateName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Father's Name</mat-label>
+                            <input matInput type="text" formControlName="FatherName" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit || candidatePersonalDetails.FatherName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="DateOfBirth"
+                                [max]="maxDate" [disabled]="isFinalSumbit || candidatePersonalDetails.DOB">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Identity Proof Document</mat-label>
+                            <mat-select formControlName="DocumentTypeId" (selectionChange)="onIdTypeChange($event)">
+                                <mat-option *ngFor="let data of idTypeList" [value]="data?.Id">{{data?.DocumentName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="pr-ctr-action" *ngIf="isDocumentAvailable">
+                        <div class="action-view-nms">
+
+                            <button mat-button type="button" class="btn-ey-vst"
+                                (click)="previewDocument(this.docDetails[0])">Preview {{PreviewName}} <span
+                                    class="material-icons-outlined">
+                                    preview
+                                </span></button>
+                        </div>
+                    </div>
+                    <div class="form-on-col" *ngIf="!isDocumentAvailable">
+
+                        <div class="ats-forms form-on-ats-fluid" [ngClass]="formClass">
+                            <div class="ats-form-col upload-file-ats-scr">
+                                <div class="upload-file-input-scr">
+                                    <label> Upload Document
+                                        <sup *ngIf="isFileReq">*</sup>
+                                    </label>
+                                    <input type="file" formControlName="UploadDocument1" (change)="fileUpload($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

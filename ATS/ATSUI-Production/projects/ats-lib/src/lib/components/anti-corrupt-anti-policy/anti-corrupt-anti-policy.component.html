@@ -1,0 +1,998 @@
+<div class="day1-doc-main-wrapper">
+    <section class="day1-doc-sec doc-prv-page1">
+        <div class="day1-doc-sec-inner">
+            <div class="infogain-logo-d mrg-doc-b mrg-doc-t">
+                <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+            </div>
+            <!-- end  -->
+            <div class="doc-page1-title mrg-doc-b">
+                <h3>Anti-Corruption & <br>
+                    Anti-Bribery Policy
+                </h3>
+            </div>
+            <div class="doc-page1-title doc-page1-title-com anti-corp-title mrg-doc-b">
+                <h3>Infogain Corporation</h3>
+                <p>485, Alberto Way</p>
+                <p>Suite 100, Los Gatos</p>
+                <p>CA 95032, USA</p>
+            </div>
+            <div class="doc-page1-title doc-page1-title-can mrg-cand-name-r">
+                <h3>Employee Name : {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}</h3>
+            </div>
+            <div class="imp-dc-inf">
+                <p>
+                    This is a controlled document. Unauthorized access, copying and replication are prohibited. This
+                    document must not
+                    be copied in whole or part by any means, without the written authorization of Head of Quality,
+                    Infogain India Pvt. Limited.
+                </p>
+            </div>
+        </div>
+
+    </section>
+    <!-- end section -->
+    <section class="day1-doc-sec revision-history-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <div class="accept-policy-content">
+
+                <div class="riv-table">
+                    <table>
+                        <tr>
+                            <th>Version
+                                No.</th>
+                            <th>Release Date</th>
+                            <th>Author</th>
+                            <th>Details of Changes</th>
+                            <th>Reviewed By</th>
+                            <th>Approved By
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>1.0</td>
+                            <td>3rd October, 2022</td>
+                            <td>HR</td>
+                            <td>New Policy-Global</td>
+                            <td>Head-Sustainability</td>
+                            <td>CFO & CPO</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+            <div class="formDay1-footer">
+                <!-- [isVisisbleSign]="true" -->
+                <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9" (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page2"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true"
+                    [isSignEditable]="Day1FormData?.isEditable"></lib-pdf-footer-day1> -->
+                <lib-pdf-footer-day1 [formId]="formId" [page]="2" [pageTotal]="9" [leftText]="leftText" [candidatePersonalDetails]="candidatePersonalDetails"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+
+    <section class="day1-doc-sec revision-history-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <div class="accept-policy-content">
+
+                <div class="table-of-content">
+                    <h5>Table of Contents</h5>
+                    <ol>
+                        <li>PURPOSE
+                            <span class="pg-nos">4</span>
+                        </li>
+                        <li>INTENDED AUDIENCE <span class="pg-nos">4</span>
+                        </li>
+                        <li>ABBREVIATIONS, ACRONYMS AND DEFINITIONS <span class="pg-nos">4</span></li>
+                        <li class="menu-subs">DESCRIPTION <span class="pg-nos">4</span>
+                            <ol class="sec-ol">
+                                <li> Introduction <span class="pg-nos">4</span></li>
+                                <li>Our Policy <span class="pg-nos">5</span></li>
+                                <li>Relationships with third parties <span class="pg-nos">7</span></li>
+                                <li>Record keeping and Internal Controls <span class="pg-nos">8</span></li>
+                                <li> Compliance Procedures and Training. <span class="pg-nos">8</span></li>
+                                <li>Reporting Requirements <span class="pg-nos">9</span></li>
+                            </ol>
+                        </li>
+
+                        <li>ANNEXURE
+                            <span class="pg-nos">9</span>
+                        </li>
+                        <li>DISCLAIMER
+                            <span class="pg-nos">9</span>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+            <div class="formDay1-footer">
+                <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9" (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page3"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1> -->
+                <lib-pdf-footer-day1 [formId]="formId" [page]="3" [pageTotal]="9" [leftText]="leftText" [candidatePersonalDetails]="candidatePersonalDetails"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page3"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true">
+                </lib-pdf-footer-day1>
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+                    <ol>
+                        <li class="heading-dl">
+                            1. PURPOSE
+
+                        </li>
+                        <div class="p-doc-txts">
+                            <p>Infogain is committed to conducting all aspects of its business in keeping with the
+                                highest legal and ethical
+                                standards and expects all employees and other persons acting on its behalf to uphold
+                                this commitment.
+                                This policy emphasizes zero tolerance approach to bribery and corruption. It establishes
+                                the
+                                principles with respect to applicable Anti-Bribery and Anti-Corruption laws.
+                                The policy provides information and guidance on how to recognize and deal with bribery
+                                and
+                                corruption issue. It guides employees to act professionally, fairly and with utmost
+                                integrity in all business
+                                dealings and relationships</p><br><br>
+
+                        </div>
+                        <li class="heading-dl">
+                            2. INTENDED AUDIENCE
+                        </li>
+                        <div class="p-doc-txts">
+                            <p>This Policy is applicable to all staff working with or acting on behalf of the Company.
+                                This policy is
+                                applicable specifically to the following professionals to ensure we follow all legal
+                                requirements and
+                                continue to maintain the standards of business conduct:</p>
+
+                        </div>
+                        <ul class="list-resetul list-disc">
+                            <li>All Executive Management, Senior Management, Directors (executive and non–executive if
+                                any),</li>
+                            <li>All Employees (On-roll) of the Company.</li>
+                            <li> All Direct contracted and Sub Contracted staff working at any point in time at various
+                                work
+                                locations of the Company or at the Client Premises</li>
+                        </ul><br><br>
+
+                        <li class="heading-dl">
+                            3. ABBREVIATIONS, ACRONYMS AND DEFINITIONS
+                        </li>
+
+                        <div class="riv-table dif-locst">
+                            <table>
+                                <tr>
+                                    <th>Abbreviation </th>
+                                    <th>Definition</th>
+                                </tr>
+                                <tr>
+                                    <td>FCPA</td>
+                                    <td>Foreign Corrupt Practices Act</td>
+                                </tr>
+                                <tr>
+                                    <td>CFO</td>
+                                    <td>Chief Finance Officer</td>
+                                </tr>
+                                <tr>
+                                    <td>CXO</td>
+                                    <td>Chief Executive Officer</td>
+                                </tr>
+                                <tr>
+                                    <td>CPO</td>
+                                    <td>Chief People Officer</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br><br>
+                        <li class="heading-dl">
+                            4. DESCRIPTION
+                        </li>
+
+                        <ol>
+                            <li class="heading-dl2"> 4.1. Introduction </li>
+                            <div class="p-doc-txts">
+                                <p>Infogain (or the “Company”), is committed to conducting all aspects of its business
+                                    in keeping with the highest
+                                    legal and ethical standards and expects all employees and other persons acting on
+                                    its behalf to uphold this
+                                    commitment. In accordance with this commitment, the Company has adopted this
+                                    Anti-Corruption Compliance
+                                    Policy (the “Policy”), which is applicable to all directors, officers, employees,
+                                    agents, representatives, and other
+                                    associated persons of the Company (collectively “Company Personnel”).</p><br>
+                                <p>In brief, the Company will not tolerate bribery, kickbacks, or corruption of any
+                                    kind, directly or through third
+                                    parties, whether or not explicitly prohibited by this Policy or by law. Company
+                                    Personnel are not permitted to
+                                    give or offer anything of value (including gifts, hospitality, or entertainment) to
+                                    anyone for the purpose of
+                                    improperly obtaining or retaining a business advantage. Similarly, Company Personnel
+                                    may not solicit or
+                                    accept such improper payments.
+                                </p><br>
+                                <p>This Policy and the internal controls herein have been designed to prevent bribery
+                                    from occurring, avoid the
+                                    appearance of wrongdoing and enable the Company to respond promptly and effectively
+                                    to
+                                </p>
+                            </div>
+
+                        </ol>
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1 [formId]="formId" [page]="4" [pageTotal]="9" [leftText]="leftText" [candidatePersonalDetails]="candidatePersonalDetails"
+                (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page4"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+
+                    <ol>
+                        <div class="p-doc-txts">
+                            <p>any inquiries about its conduct. Company employees who violate this Policy may be subject
+                                to disciplinary action, up to and
+                                including termination. The pages that follow provide a general guide to anti-corruption
+                                compliance but do not
+                                address every potential scenario that may implicate issues bearing on compliance with
+                                this Policy. Therefore,
+                                any Company Personnel who has any questions concerning the requirements of this Policy
+                                should consult with
+                                their immediate supervisor and your HR business partner.</p>
+                        </div><br>
+
+                        <li class="heading-dl2"> 4.2 Our Policy </li>
+
+
+                        <ul class="list-resetul list-upper-alpha">
+                            <li class="heading-dl2">A. Company Personnel shall not be permitted to pay or receive
+                                bribes. </li>
+                            <div class="p-doc-txts">
+                                <p>Company Personnel must conduct their activities in full compliance with this Policy,
+                                    the laws of the European
+                                    Union all applicable anti-corruption laws, including the UK Bribery Act and the
+                                    United States Foreign Corrupt
+                                    Practices Act (“FCPA”).</p><br>
+                                <p>
+                                    Under this Policy, Company Personnel are not permitted to give or offer anything of
+                                    value, directly or indirectly,
+                                    to any Government Official* or any commercial party for the purpose of improperly
+                                    obtaining or retaining a
+                                    business advantage. “Anything of value” should be broadly interpreted to include
+                                    cash, gifts to family members,
+                                    the forgiveness of a debt, loans, personal favors, entertainment, meals and travel,
+                                    political and charitable
+                                    contributions, business opportunities, and medical care, among other items. Simply
+                                    put, bribes, kickbacks, or
+                                    similar payments are never permitted, whether made to a Government Official or to
+                                    the customers, investors,
+                                    clients, or other private parties. Similarly, Company Personnel may not solicit or
+                                    accept such payments. </p><br>
+                                <p>
+                                    If confronted with a request or demand for an improper payment or other violation of
+                                    this Policy, the request or
+                                    demand must be immediately rejected and reported to the Company’s CFO. Similarly, if
+                                    any employee or agent
+                                    knows or believes that an improper payment has been or will be made, the employee or
+                                    agent must also report
+                                    such payment to the Company’s CFO. The Company’s policy is that no adverse
+                                    employment action will be
+                                    taken against any personnel in retaliation for, honestly and in good faith,
+                                    reporting a violation or suspected
+                                    violation of anti-corruption laws or this Policy.
+                                </p><br>
+                            </div>
+                            <li class="heading-dl2">A. Gifts, Meals, Entertainment, and Employment</li>
+                            <div class="p-doc-txts">
+                                <p>This Policy sets forth various rules relating to gifts, entertainment, travel, meals,
+                                    lodging, and employment. All
+                                    such expenditures must be recorded accurately in the books and records of the
+                                    Company, in accordance with
+                                    Section IV below</p>
+
+                            </div>
+
+                            <ul class="list-resetul list-decimal">
+                                <li class="heading-dl2"> 1. Gifts </li>
+                                <div class="p-doc-txts">
+                                    <p>As a general matter, the Company competes for and earns business through the
+                                        quality of its personnel,
+                                        products, and services, not with gifts or lavish entertainment. The use of
+                                        Company funds or assets for gifts,
+                                        gratuities, or other favors to Government Officials or any other individual or
+                                        entity (in the private or public sector)
+                                        that has the power to decide or influence the Company’s commercial activities is
+                                        prohibited, unless all of the
+                                        following circumstances are met.</p>
+                                </div>
+
+                                <ol class="list-resetul list-decimal margin-left-55">
+                                    <li>1. the gift does not involve cash or cash equivalent gifts (e.g., gift cards,
+                                        store
+                                        cards, or gambling
+                                        chips);</li>
+                                    <li>2. the gift is permitted under both local law and the guidelines of the
+                                        recipient’s
+                                        employer; </li>
+                                    <li>3. the gift is presented openly with complete transparency; </li>
+                                </ol>
+                                <div class="note-qt">
+                                    <p> *The term “Government Official” includes all officers or employees of a
+                                        government department, agency or instrumentality; permitting
+                                        agencies; customs officials; candidates for political office; and officials of
+                                        public international organizations (e.g., the Red Cross). This
+                                        term also includes officers or employees of government-owned or controlled
+                                        commercial enterprises such as state-owned or controlled
+                                        universities, airlines, oil companies, health care facilities or other vendors.
+                                        The term also includes family members and close
+                                        associates of such individuals (e.g., it is not permissible to give a lavish
+                                        gift to the sibling, spouse or child of a government employee if
+                                        a gift to the individual would be prohibited under this Policy).</p>
+
+                                </div>
+
+                            </ul>
+                        </ul>
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="5" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page5"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+
+                    <ol>
+                        <ol class="list-resetul list-decimal margin-left-55" start="4">
+                            <li>4. the gift does not involve cash or cash equivalent gifts (e.g., gift cards, store
+                                cards, or gambling
+                                chips);</li>
+                            <li>5. the gift is permitted under both local law and the guidelines of the recipient’s
+                                employer; </li>
+                            <li>6. the gift is permitted under both local law and the guidelines of the recipient’s
+                                employer; </li>
+                        </ol><br>
+                        <div class="p-doc-txts">
+                            <p><b>
+                                    Gifts that do not fall specifically within the above guidelines require advance
+                                    consultation and
+                                    approval by CFO.
+                                </b></p><br>
+                            <p>Note that the provision of gifts, as well as the reporting requirements, in this Policy,
+                                apply even if Company
+                                Personnel are not seeking reimbursement for the expenses (i.e. paying these expenses out
+                                of your pocket
+                                does not avoid these requirements)</p>
+                            <p>
+                                Company Personnel must not accept or permit any member of his or her immediate family to
+                                accept any gifts,
+                                gratuities, or other favors from any customer, supplier, or other person doing or
+                                seeking to do business with
+                                the Company, other than items of nominal value. Any gifts that are not of nominal value
+                                should be returned
+                                immediately and reported to your supervisor. If immediate return is not practical, they
+                                should be given to the
+                                Company for charitable disposition.
+                            </p>
+
+                        </div>
+                        <br>
+                        <li class="heading-dl2"> 2. Meals, Entertainment, Travel, and Lodging </li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>Common sense and moderation should prevail in business entertainment and the payment of
+                                travel and
+                                lodging expenses engaged in on behalf of the Company. Company Personnel should provide
+                                business
+                                entertainment to or from anyone doing business with the Company only if the
+                                entertainment is infrequent,
+                                modest, and intended to serve legitimate business goals.</p>
+                            <p>
+                                Meals, entertainment, travel, and lodging should never be offered as a means of
+                                influencing another person’s
+                                business decision. Each should only be offered if it is appropriate, reasonable for
+                                promotional purposes,
+                                offered or accepted in the normal course of an existing business relationship, and if
+                                the primary subject of
+                                discussion or purpose of travel is business. The appropriateness of a particular type of
+                                entertainment, travel,
+                                and lodging, of course, depends upon both the reasonableness of the expense and the type
+                                of activity
+                                involved. This is determined based on whether or not the expenditure is sensible and
+                                proportionate to the
+                                nature of the individual involved. Adult entertainment is strictly prohibited.
+                            </p>
+                            <p>
+                                Expenses for meals, entertainment, travel, and lodging for Government Officials or any
+                                other individual or
+                                entity (in the private or public sector) that has the power to decide or influence the
+                                Company’s commercial
+                                activities may be incurred without prior approval by CXO only if <i><b>all</b></i> of
+                                the following
+                                conditions are met:
+
+                            </p>
+                            <br>
+                            <ul class="common-list-f list-lower-alpha-ml-55">
+                                <li>
+                                    The expenses are bona fide and related to a legitimate business purpose and the
+                                    events
+                                    involved are attended by appropriate Company representatives;
+                                </li>
+                                <li>
+                                    The cost of the meal, entertainment, travel, or lodging is less than $100 in India
+                                    per person
+                                    and USD200 per person in the rest of the world, and;
+                                </li>
+                                <li>The meal, entertainment, travel, or lodging is permitted by the rules of the
+                                    recipient’s employer
+                                    (if applicable).
+                                </li>
+                            </ul>
+
+
+                        </div>
+                        <div class="p-doc-txts">
+                            <p>For all such expenses, the reimbursement request must identify the total number of all
+                                attendees and their
+                                names, employer, and titles (if possible). All expense reimbursements must be supported
+                                by receipts, and
+                                expenses and approvals must be accurately and completely recorded in the Company’s
+                                records. In all
+                                instances, Personnel must ensure that the recording of the expenditure associated with
+                                meals, lodging, travel
+                                or entertainment clearly reflects the true purpose of the expenditure. </p>
+                            <br><br>
+                            <p>Note that the provision of meals, entertainment, travel, and lodging as well as the
+                                reporting requirements, in
+                                this Policy, apply even if Company personnel are not seeking reimbursement for the
+                                expenses (<i>i.e.</i> paying
+                                these expenses out of your pocket does not avoid these requirements).</p>
+
+                        </div>
+
+
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1  [formId]="formId" [page]="6" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9" [leftText]="leftText"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page6"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+                    <ol>
+                        <div class="p-doc-txts">
+                            <p>When possible, meals, entertainment, travel, and lodging payments should be made directly
+                                by the Company
+                                to the provider of the service and should not be paid directly as a reimbursement. Per
+                                diem allowances may
+                                not be paid to a Government Official or any other individual (in the private or public
+                                sector) that has the power
+                                to decide or influence the Company’s commercial activities for any reason.</p><br>
+                            <p>
+                                <b>
+                                    Any meal, entertainment, travel, or lodging expense greater than USD100 in India and
+                                    USD200 in the
+                                    rest of the world per person, and any expense at all that is incurred for meals,
+                                    entertainment, travel,
+                                    or lodging unrelated to a legitimate business purpose, must be pre-approved by
+                                    company CFO.
+                                </b>
+                            </p><br>
+                            <p>
+                                Please note that in addition to traditional gifts, meals, entertainment, and travel that
+                                are provided to business
+                                relationships where Company Personnel are not in attendance shall be considered gifts,
+                                and subject to the
+                                rules and requirements for gifts specified in this Policy
+                            </p>
+                        </div>
+
+                        <br>
+                        <li class="heading-dl2"> 3. Employment/Internships</li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>On occasion, Government Officials or the Company’s business partners may request that
+                                Company provide
+                                internships or employment to certain individuals. Offering internships or employment to
+                                Government Officials
+                                or a Company’s business partners may be viewed as providing an item of value.
+                            </p>
+                            <p>
+                                This Policy sets forth guidance for handling such requests from Government Officials or
+                                the Company’s
+                                business partners. If a candidate is interviewed for an internship or employment
+                                <u>within</u>
+                                the ordinary course of
+                                filling a position, CPO must be notified of the candidate’s relationship with a
+                                Government Official or Company’s
+                                business partner. If a candidate related to a Government Official or Company business
+                                partner is interviewed
+                                <u>outside</u> of the ordinary course of filling a position, any internship or
+                                employment offer
+                                must be pre-approved
+                                by CPO and CFO.
+                            </p>
+                        </div>
+                        <br>
+                        <li class="heading-dl2"> B. Political Contributions and Charitable Donations</li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>Company Personnel may not make political or charitable donations, whether in their name
+                                or in the name of
+                                the Company, to obtain or retain business or to gain an improper business advantage. Any
+                                political or
+                                charitable contributions by the Company must be permitted under the law, permissible
+                                pursuant to the terms
+                                of this Policy, made to a bona fide organization, and in the case of political
+                                contributions or charitable
+                                contributions connected to any Government Official or government, an entity made with
+                                the prior approval of
+                                CFO. In certain instances where there is a heightened risk of corruption, CFO may
+                                require diligence to be
+                                conducted. The CFO must be notified if a Government Official solicits a political or
+                                charitable contribution in
+                                connection with any government action related to the Company or its affiliates.
+                                Individual employees or agents
+                                may not make political contributions on behalf of the Company or its affiliates. </p>
+
+
+                        </div>
+                        <br>
+                        <li class="heading-dl2">4.3 Relationships with Third Parties </li>
+                        <br>
+                        <div class="p-doc-txts">
+                            <p>Anti-corruption laws prohibit indirect payments made through a third party, including
+                                giving anything of value
+                                to a third party while knowing that value will be given to a Government Official for an
+                                improper purpose.
+                                Therefore, Company Personnel should avoid situations involving third parties that might
+                                lead to a violation of
+                                this Policy. </p>
+                            <p>
+                                Company Personnel who deal with third parties are responsible for taking reasonable
+                                precautions to ensure
+                                that the third parties conduct business ethically and comply with this Policy. Such
+                                precautions may include,
+                                for third parties representing the Company before governmental entities, conducting
+                                integrity due diligence
+                                review of a third party, inserting appropriate anti-corruption compliance provisions in
+                                the third party’s written
+                                contract, requiring the third party to certify that it has not violated and will not
+                                violate this Policy and any
+                                applicable anti-corruption laws during the course of its business with the Company, and
+                                monitoring the
+
+                            </p>
+
+                        </div>
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1 [formId]="formId" [page]="7" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9" [leftText]="leftText"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page7"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+                    <ol>
+                        <div class="p-doc-txts">
+                            <p>reasonableness and legitimacy of the services provided by and the compensation paid to
+                                the third party during
+                                the engagement. Company Personnel retaining third parties that will be representing the
+                                Company before
+                                governmental entities must discuss the engagement with CFO before hiring the third
+                                party. Any doubts
+                                regarding the scope of appropriate due diligence efforts in this regard should be
+                                resolved by contacting CFO.
+                            </p>
+                            <p>
+                                In addition, once a third party is engaged, Company Personnel who deal with third
+                                parties must always be
+                                aware of potential red flags. Red flags are certain actions or facts that should alert a
+                                company that there is a
+                                high possibility of improper conduct by a third party. A red flag does not mean that
+                                something illegal has
+                                happened, but rather that further investigation is necessary. Red flags are highly
+                                fact-dependent, but some
+                                examples of red flags are:
+                            </p>
+                            <ul class="common-list-f list-disc-ml-55">
+                                <li>Unusual or excessive payment requests, such as requests for over-invoicing, up-front
+                                    payments,
+                                    ill-defined or last-minute payments, success fees, unusual commissions, or
+                                    mid-stream
+                                    compensation payments;</li>
+                                <li>
+                                    Requests for payments to an account in a country other than where the third party is
+                                    located or
+                                    is working on behalf of the Company;
+                                </li>
+                                <li>
+                                    Requests for payment to another third party, to a numbered account, or in cash or
+                                    other
+                                    untraceable funds;
+                                </li>
+                                <li>
+                                    Requests for political or charitable contributions;
+                                </li>
+                                <li>
+                                    The third party is related to a Government Official or has a close personal or
+                                    business relationship
+                                    with a Government Official;
+                                </li>
+                                <li>Any refusal or hesitancy by the third party to disclose its owners, partners, or
+                                    principals;</li>
+                                <li>The third-party use holding companies or other methods to obscure its ownership,
+                                    without
+                                    adequate business justification;</li>
+                                <li>The third-party expresses a desire to keep his representation of the Company or the
+                                    terms of his
+                                    retention secret; or</li>
+                                <li>The third-party has little experience in the industry but claims to “know the right
+                                    people”;</li>
+                            </ul>
+                            <p>If Company Personnel have reason to suspect that a third party is engaging in potentially
+                                improper
+                                conduct, they shall report the case to CFO immediately. The Company shall conduct an
+                                investigation and
+                                stop further payments to the third party if the Company’s suspicions are verified
+                                through the investigation. </p>
+
+
+                        </div>
+                        <br>
+                        <li class="heading-dl2"> 4.4 Recordkeeping and Internal Controls</li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>This Policy requires that all expenditures made by the Company are accurately reflected
+                                in the Company’s
+                                financial records and that all payments made with Company funds, or on behalf of the
+                                Company, have been
+                                properly authorized. Company Personnel must follow all applicable standards, principles,
+                                laws, and practices
+                                for accounting and financial reporting. Company Personnel must be timely and complete
+                                when preparing all
+                                reports and records required by management. In particular, Company Personnel should
+                                ensure that no part
+                                of any payment is to be made for any purpose other than that to be fully and accurately
+                                described in the
+                                Company’s books and records. Company Personnel should use their best efforts to ensure
+                                that all
+                                transactions, dispositions, and payments involving Company funds or assets are properly
+                                and accurately
+                                recorded in the Company’s financial records. No undisclosed or unrecorded accounts are
+                                to be established
+                                for any purpose. False or artificial entries are not to be made in the Company’s books
+                                and records for any
+                                reason. Finally, personal funds must not be used to accomplish what is otherwise
+                                prohibited by this Policy.
+                                The CFO is primarily responsible for the oversight and enforcement of this Policy. The
+                                Company will conduct
+                                periodic audits of its books and records to monitor compliance with this Policy.
+                            </p>
+                        </div>
+                        <br>
+
+
+
+
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1 [formId]="formId" [page]="8" [candidatePersonalDetails]="candidatePersonalDetails"
+                    [pageTotal]="9" [leftText]="leftText"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page8"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+
+
+
+    <section class="day1-doc-sec">
+        <div class="day1-doc-sec-inner">
+            <div class="formDay1-header">
+                <lib-pdf-header-day1 [rightTextHeader]="rightTextHeader" [formId]="formId"></lib-pdf-header-day1>
+            </div>
+            <!-- end header -->
+            <!-- end header -->
+            <div class="accept-policy-content accept-policy-content-anti">
+                <div class="cont-mani-scv">
+                    <ol>
+                        <li class="heading-dl2"> 4.5. Compliance Procedures and Training</li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>
+                                As part of the Company’s ongoing commitment to anti-corruption compliance, all employees
+                                must receive and
+                                review a copy of this Policy. All such employees must then acknowledge that they (1)
+                                have reviewed the
+                                Policy; (2) agree to abide by the Policy; and (3) agree to report any potential
+                                violations of the Policy to the
+                                CFO.
+
+                            </p>
+
+
+                        </div>
+                        <br>
+
+                        <li class="heading-dl2">4.6. Reporting Requirements</li>
+                        <br>
+                        <div class="p-doc-txts">
+
+                            <p>
+                                The Company takes its commitment to anti-corruption compliance very seriously and
+                                expects all Company
+                                Personnel to share that commitment. The Company therefore expects and requires any
+                                Company Personnel
+                                who have knowledge of, or reason to suspect, any violation of this Policy to contact the
+                                CFO immediately.
+                                Reports may be made anonymously. If any Company Personnel fail to report known or
+                                suspected violations,
+                                then the relevant Company Personnel may be subject to disciplinary action, up to and
+                                including termination.
+                                In addition, the company may choose to take legal action as per the local laws.
+
+                            </p>
+                            <p>
+                                It is the Company’s policy that, if the report of known or suspected violations is made
+                                honestly and in good
+                                faith, no adverse employment-related action will be taken against any Company Personnel
+                                in retaliation for
+                                reporting a violation or suspected violation of anti-corruption laws or this Policy.
+                                Please review the
+                                whistleblower policy for further details.
+                                All questions regarding this Policy should be directed to <a
+                                    href="mailto:legal@infogain.com">legal@infogain.com</a>
+                            </p>
+
+
+                        </div>
+                        <br>
+                        <li class="heading-dl">
+                            5. ANNEXURE
+                        </li>
+                        <h4 class="text-center-underline">EMPLOYEE ANTI-CORRUPTION POLICY
+                            CERTIFICATIONS</h4>
+                        <div class="p-doc-txts">
+                            <p>This is to acknowledge that I have received, read and fully understood the Company’s
+                                Anti-Corruption
+                                Compliance Policy (the “Policy”). I agree to comply with all the rules contained
+                                therein. I agree to report
+                                any potential violations to the CFO. I will participate in the Company’s anti-corruption
+                                training on a
+                                periodic basis. I understand that failure to comply with the Policy, the FCPA, U.K.
+                                Bribery Act and any
+                                other applicable anti-corruption laws may result in immediate termination and
+                                prosecution, with penalties
+                                including fines and/or imprisonment. Should I have any questions regarding the Policy or
+                                find any
+                                deviations or violations, I will contact the CFO immediately.
+                            </p>
+
+                        </div>
+                        <div class="form-card-wrapper day1-form-inc">
+                            <div class="table-o-at">
+                                <table class="table ">
+                                    <tbody>
+                                        <tr>
+                                            <td class="title-tb">Name</td>
+                                            <td>: {{(candidatePersonalDetails?.FirstName ?
+                                                candidatePersonalDetails?.FirstName : '')+'
+                                                '+(candidatePersonalDetails?.MiddleName ?
+                                                candidatePersonalDetails?.MiddleName : '')+'
+                                                '+(candidatePersonalDetails?.LastName ?
+                                                candidatePersonalDetails?.LastName : '')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Employee ID </td>
+                                            <!-- <td>:</td> -->
+                                            <td>: {{(candidatePersonalDetails?.EmployeeId ? candidatePersonalDetails?.EmployeeId : '')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Company </td>
+                                            <td>:
+                                                <ng-container [ngSwitch]="candidatePersonalDetails?.divisionid">
+                                                    <ng-container *ngSwitchCase="1">
+                                                        Infogain India Pvt. Ltd.
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        NGGAWE NIRMAN TECHNOLOGIES (An Infogain Company)
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        Infogain India Pvt. Ltd.
+                                                    </ng-container>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Date </td>
+                                            <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Signature </td>
+                                            <td>:
+                                                <!-- pending with candidate || referred back by recruiter -->
+                                                <button *ngIf="!this.CandidateSignatureModel?.page9 && Day1FormData?.isEditable"
+                                                    type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                    Insert Sign
+                                                </button>
+                                                <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page9">
+                                                    <img [src]="this.CandidateSignatureModel?.page9" class="sign-img-b" />
+                                                    <!-- <mat-icon *ngIf="Day1FormData?.isEditable" matSuffix
+                                                        class="margin-left-100"
+                                                        (click)="signUpdate(data)">edit_note</mat-icon> -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="p-doc-txts">
+                            <p><b class="text-underline">Delivery Instructions</b></p>
+                            <br>
+                            <p>
+                                Upon initial roll-out of the Policy, all current employees should complete this form and
+                                copy of the
+                                acknowledgment will be shared with the employee and the HR.
+                            </p>
+                            <br>
+                            <p>New employees should complete this form immediately upon hiring.</p>
+
+                        </div>
+                        <br>
+                        <br>
+
+                        <li class="heading-dl">
+                            DISCLAIMER
+                        </li>
+
+                        <div class="p-doc-txts">
+                            <p>The Management has the right to review, modify and rescind this policy at any given point
+                                of time.
+                            </p>
+
+                        </div>
+
+                    </ol>
+                </div>
+            </div>
+            <div class="formDay1-footer">
+                <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="9"
+                    [pageTotal]="9"></lib-pdf-footer-day1>
+                <!-- <div class="signature-wrapper">
+                        <div *ngIf="!isPgae9" class="add-sign-btn">
+                            <button type="button" class="btn btn-simple-ats btn-sign"  [matTooltip]="tooltipSign"
+                            (click)="Addsign(9)">
+                                Add Signature
+                            </button>
+                        </div>
+                        <div  *ngIf="isPgae9"  class="show-signature">
+                          <img [src]="signature" alt="sign"/>
+                        </div>
+                    </div> -->
+            </div>
+            <!-- end footer -->
+        </div>
+        <!-- end inner -->
+
+    </section>
+    <!-- end section -->
+
+</div>

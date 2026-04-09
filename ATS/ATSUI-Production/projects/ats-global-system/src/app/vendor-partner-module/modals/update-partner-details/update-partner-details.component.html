@@ -1,0 +1,38 @@
+<form [formGroup]="partnerRegistrationForm" (ngSubmit)="UpdateProfile(partnerRegistrationForm)">
+    <div class="ats-modal-header">
+        <h1>{{this.data?.title}} - {{this.data?.PartnerName}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark ats-form-normal-font ">
+                <app-partner-form [form]="partnerRegistrationForm" [startEndDateReq]="startDateEndDate" [CountryId]="this.data?.CountryID" [minDate]="StartDate"
+                 [readOnlyEmail]="true"  [data]="this.data" [isContractsNew]="false">
+                </app-partner-form>
+            </div>
+            <!-- [readOnlyFields]="true" -->
+        </div> 
+    </div>
+
+    <!-- <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div> -->
+    <div class="ats-modal-footer" *ngIf="this.data?.type != 'P'" >
+        <button type="button" class="btn btn-infocon" (click)="UpdateProfile(partnerRegistrationForm, 'U')">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>
+<div class="ats-modal-footer" *ngIf="this.data?.type == 'P'">
+    <button type="button" class="btn btn-infocon" (click)="UpdateProfile(partnerRegistrationForm, 'A')">
+        Submit
+    </button>
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+    </button>
+</div>

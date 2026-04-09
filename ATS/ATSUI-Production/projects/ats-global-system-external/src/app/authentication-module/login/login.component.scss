@@ -1,0 +1,48 @@
+.login-infogain-logo img {
+    max-width: 240px;
+}
+.login-left-wrapper {
+    background: linear-gradient(-45deg, #5cf2e9, #266da0, #084673, #00c3c5, #255273, #154b71);
+    background-size: 200% 200%;
+    animation: gradientBG 12s ease infinite;
+    padding: 5px;
+}
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.login-form-row{
+    margin-top: 38px;
+}
+.login-page-footer .copyrights {
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #333333;
+}
+.login-page-footer {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    padding: 6px 0px 14px 0px;
+    bottom: -42px;
+
+}
+.top-bg {
+    position: absolute;
+    width: 98.3%;
+    background: #63c6c6;
+    height: 60px;
+    top: 10px;
+    z-index: 99;
+}
+
+.login-Allignment{text-align:center}

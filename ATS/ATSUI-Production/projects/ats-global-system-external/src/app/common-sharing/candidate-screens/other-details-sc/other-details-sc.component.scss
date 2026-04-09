@@ -1,0 +1,55 @@
+p{
+    margin-bottom: 0 !important;
+}
+
+
+// #table1 {
+//     border-collapse: collapse;
+//   }
+
+
+
+// .quest-sec{
+//   margin-top:10px;
+// }
+
+table {
+    width: 100% !important;
+    // tr.bordered{
+    //     border: 1px solid 1px rgb(216, 16, 16) !important;
+    // }
+}
+
+
+.error-border-red {
+    border: red 1px solid !important;
+}
+
+:host ::ng-deep mat-checkbox .mat-checkbox-layout {
+    display: unset !important;
+}
+sup{
+    color: red;
+    margin-top: 5px !important;
+}
+.consent-error {
+    color: #ff0000c9;
+    border: solid 0.1px;
+    padding: 3px 9px;
+}
+
+.height-69 {
+    height: 69px;
+}
+
+.width-200 {
+    width: 200px;
+}
+
+.width-300 {
+    width: 300px;
+}
+
+.height-42 {
+    height: 42px;
+}

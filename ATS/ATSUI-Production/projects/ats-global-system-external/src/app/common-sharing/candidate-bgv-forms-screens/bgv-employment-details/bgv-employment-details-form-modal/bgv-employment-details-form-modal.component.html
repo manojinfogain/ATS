@@ -1,0 +1,213 @@
+<form [formGroup]="employmentDetailsForm" (ngSubmit)="submitEmpDetailsForm(employmentDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Select Employer</mat-label>
+                            <mat-select formControlName="CompanyType" [disabled]="data?.type == 2"
+                                (selectionChange)="selectEmployer($event?.value)">
+                                <mat-option value="C"
+                                    *ngIf="!this.data?.isCurrentEmployerAdded || this.data?.CompanyType == 'C'">Current
+                                    Employer</mat-option>
+                                <mat-option value="P1"
+                                    *ngIf="(this.data?.isCurrentEmployerAdded && !this.data?.isPrev1EmployerAdded) || this.data?.CompanyType == 'P1'">Previous
+                                    Employer 1</mat-option>
+                                <mat-option value="P2"
+                                    *ngIf="(this.data?.isCurrentEmployerAdded && this.data?.isPrev1EmployerAdded && !this.data?.isPrev2EmployerAdded) || this.data?.CompanyType == 'P2'">Previous
+                                    Employer 2</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Candidate Name -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Candidate Name </mat-label>
+                            <input matInput formControlName="CandidateName" maxlength="250" disableInitialSpace
+                                onlyAlphabets
+                                [readonly]="isFinalSumbit || detailsToFreeze.CandidateName">
+                        </mat-form-field>
+                    </div> -->
+
+                    <!-- Payroll Organization -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Payroll Organization </mat-label>
+                            <!-- <span mat-hint class="field-hint">
+                Please type first 3 letters of your company name, if company not found in the list then type oth and select other from the list then write the company name in the below input box
+              </span> -->
+                            <input matInput formControlName="PayloadOrganization" maxlength="250" disableInitialSpace
+                                onlyAlphabets
+                                [readonly]="isFinalSumbit || detailsToFreeze?.PayloadOrganization">
+                        </mat-form-field>
+                    </div>                   
+
+                    <!-- DOJ -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>DOJ (DD/MM/YYYY) </mat-label>
+                            <input matInput formControlName="DOJ" placeholder="DD/MM/YYYY"
+                                [readonly]="isFinalSumbit || detailsToFreeze?.DOJ">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Currently working for the company -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Currently working for the company </mat-label>
+                            <mat-select formControlName="CurrentlyWithSameCompany"
+                                [disabled]="isFinalSumbit || detailsToFreeze?.CurrentlyWithSameCompany">
+                                <!-- <mat-option value="">--Select--</mat-option> -->
+                                <mat-option value="Yes">Yes</mat-option>
+                                <mat-option value="No">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Designation -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Designation</mat-label>
+                            <input matInput formControlName="Designation" maxlength="100" disableInitialSpace
+                                onlyAlphabets
+                                [readonly]="isFinalSumbit || detailsToFreeze?.Designation">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Employee Code -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Employee Code </mat-label>
+                            <input matInput formControlName="EmployeeId" maxlength="10" disableInitialSpace
+                                alphaNumericForAdd
+                               >
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Reporting Manager's Name & Designation -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Reporting Manager's Name & Designation</mat-label>
+                            <input matInput formControlName="RMNameDesignation" maxlength="100" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Reporting Manager's Contact Number -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Reporting Manager's Contact Number </mat-label>
+                            <input matInput formControlName="RMContactNumber" maxlength="10" required
+                                disableInitialSpace mobNumber minlength="10" [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Reporting Manager's Email ID -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Reporting Manager's Email ID </mat-label>
+                            <input matInput formControlName="RMEmailId" maxlength="100" required disableInitialSpace
+                                [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- HR Manager's Name & Designation -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>HR Manager's Name & Designation</mat-label>
+                            <input matInput formControlName="HRNameDesignation" maxlength="100" disableInitialSpace
+                                onlyAlphabets required [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- HR Manager's Contact Number -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>HR Manager's Contact Number </mat-label>
+                            <input matInput formControlName="HRContactNumber" maxlength="10" required
+                                disableInitialSpace mobNumber minlength="10" [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- HR Manager's Email ID -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>HR Manager's Email ID </mat-label>
+                            <input matInput formControlName="HREmailId" maxlength="100" required disableInitialSpace
+                                [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Employment Proof Document</mat-label>
+                            <mat-select formControlName="DocumentTypeId" (selectionChange)="onIdTypeChange($event)"
+                                [disabled]="isFinalSumbit">
+                                <mat-option *ngFor="let data of idTypeList" [value]="data?.Id">{{data?.DocumentName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="pr-ctr-action" *ngIf="isDocumentAvailable">
+                        <div class="action-view-nms">
+                            <ng-container *ngIf="docDetails?.length === 1">
+                                <button mat-button type="button" class="btn-ey-vst"
+                                    (click)="previewDocument(docDetails[0])">
+                                    Preview {{PreviewName}}
+                                    <span class="material-icons-outlined">preview</span>
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="docDetails?.length > 1">
+                                <div class="preview-btns-row">
+                                    <button mat-button type="button" class="btn-ey-vst" *ngFor="let doc of docDetails; let i = index"
+                                        (click)="previewDocument(doc)">
+                                        Preview {{PreviewName+ ' ' + (i + 1)}} 
+                                        <span class="material-icons-outlined">preview</span>
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- <div class="pr-nxt-action" *ngIf="isDocumentAvailable">
+                        <div class="action-view-nms">
+                            <div *ngIf="docDetails?.length > 0">
+                                <div *ngFor="let doc of docDetails">
+                                    <button mat-button type="button" class="btn-ey-vst"
+                                        (click)="previewDocument(doc)">Preview Document <span
+                                            class="material-icons-outlined">
+                                            preview
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-on-col" *ngIf="!isDocumentAvailable">
+
+                        <div class="ats-forms form-on-ats-fluid" [ngClass]="formClass">
+                            <div class="ats-form-col upload-file-ats-scr">
+                                <div class="upload-file-input-scr" [ngClass]="getControl('UploadDocument1').touched && getControl('UploadDocument1').invalid ? 'error-file-input':'suc'">
+                                    <label> Upload Document
+                                        <sup *ngIf="isFileReq">*</sup>
+                                    </label>
+                                    <input type="file" formControlName="UploadDocument1" (change)="fileUpload($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,579 @@
+<div class="search-filter-wrapper">
+    <div class="search-main-wrap">
+        <div class="search-filter-header">
+            <div class="search-title">
+                <h3>Filters</h3>
+            </div>
+            <div class="search-action-wrap">
+                
+                <button class="clear-btn btn-hide-l" type="button" (click)="clearAll()"
+                *ngIf="nameControl.value ||
+                    emailControl.value ||
+                    lastUpdatedProfileControl.value != null ||
+                    candidateSkillControl?.value?.length !=0 ||
+                    intStatusControl?.value?.length !=0 ||
+                    offerStatusControl?.value?.length !=0 ||
+                    subListTypeInt?.value?.length !=0 ||
+                    subListTypeOff?.value?.length !=0 ||
+                    noticePeriodControl.value != '0' ||
+                    recruiterControl.value != 'all' ||
+                    requisitionTypeControl.value != 'all' ||
+                    accountIdControl?.value?.length !=0 || ProjectIDControl?.value?.length !=0 ||
+                    expControl.value[0]?.toString() != '0' ||  expControl.value[1]?.toString() != '30' ||
+                    candidateSourceControl?.value?.length !=0 ||
+                    talentIdControl.value != 'all' ||
+                    hiringManagerControl.value != 'all' ||
+                    partnerControl.value != 'all'" 
+                >Clear All</button>
+                <button class="clear-btn btn-hide-l apply btn-animate-ats" type="button" (click)="apply()"
+                *ngIf="nameControl.value ||
+                    emailControl.value ||
+                    lastUpdatedProfileControl.value != null ||
+                    candidateSkillControl?.value?.length !=0 ||
+                    intStatusControl?.value?.length !=0 ||
+                    offerStatusControl?.value?.length !=0 ||
+                    subListTypeInt?.value?.length !=0 ||
+                    subListTypeOff?.value?.length !=0 ||
+                    noticePeriodControl.value != '0' ||
+                    recruiterControl.value != 'all' ||
+                    requisitionTypeControl.value != 'all' ||
+                    accountIdControl?.value?.length !=0 || ProjectIDControl?.value?.length !=0 ||
+                    expControl.value[0]?.toString() != '0' ||  expControl.value[1]?.toString() != '30' ||
+                    candidateSourceControl?.value?.length !=0 ||
+                    talentIdControl.value != 'all' ||
+                    hiringManagerControl.value != 'all' ||
+                    partnerControl.value != 'all'" >Apply</button>
+                <button class="clear-btn backbtn left-s" type="button" (click)="toggleClass()" matTooltip="Hide Filter">
+                    <i class="fa fa-arrow-left " aria-hidden="true"></i>
+                </button>
+                <button class="clear-btn backbtn right-s" type="button" (click)="toggleClass()"
+                    matTooltip="Show Filter">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="search-filter-body">
+            <form [formGroup]="searchFilterFormGroup">
+                <div class="search-filter-form">
+                    <div class="search-form-box"   [ngClass]="{'act': nameControl.value}">
+                        <div class="search-form-box-header">
+                            <h4>Search By Name</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('name')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" class="ats-from-control">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput placeholder="Enter Name" formControlName="name" disableInitialSpace>
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act': emailControl.value}">
+                        <div class="search-form-box-header" >
+                            <h4>Search By Email/Mobile</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('email')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" class="ats-from-control">
+                                    <mat-label>Email/Mobile</mat-label>
+                                    <input matInput placeholder="Enter Email/Mobile No." formControlName="email"
+                                        disableInitialSpace>
+                                    <!-- <mat-error *ngIf="emailControl.touched && emailControl.invalid">
+                                        <div *ngIf="emailControl.errors.pattern">
+                                            Please enter valid Email ID.
+                                        </div>
+                                    </mat-error> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act': lastUpdatedProfileControl.value != '0'}">
+                        <div class="search-form-box-header" >
+                            <h4>Last updated Profile</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" (click)="resetFilter('postDate')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input ats-radio-wrap">
+                                <mat-radio-group (change)="lastUpdateProf($event)" formControlName="lastUpdatedProfile">
+                                    <mat-radio-button class="example-radio-button" value="0">
+                                        Any
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="1">
+                                        Today
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="7">
+                                        Last 7 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="30">
+                                        Last 30 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="90">
+                                        Last 90 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="180">
+                                        Last 180 days
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+                    <div class="search-form-box"  [ngClass]="{'act': candidateSkillControl?.value?.length !=0}">
+                        <div class="search-form-box-header" >
+                            <h4>Candidate Skill</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('skill')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-skill-set [panelIdControl]="candidateSkillControl" [title]="'Select Skill'"
+                                    [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+                                    (getSkillIdOutput)="getSkillId($event)" [isMultiple]="true">
+                                </app-skill-set>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+                    <div class="search-form-box"  [ngClass]="{'act': intStatusControl?.value?.length !=0}">
+                        <div class="search-form-box-header" >
+                            <h4>Interview Status</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('intStatus')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-master-global-form-control [title]="'Select Interview Status'"
+                                    [type]="'intstatusMulti'" [formControlOpt]="intStatusControl"
+                                    (getValFromControl)="getIdForIntSubList($event)" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'">
+                                </app-master-global-form-control>
+                            </div>
+                            <div class="search-box-input cand-module-drop-reason-mt" *ngIf="isIntSubList">                               
+                                <app-sub-list-control [IdControl]="subListTypeInt" [title]="'Sub Status For Drop'" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'" [isMultiple]="true" [Ids]="intSubListIds">
+                                </app-sub-list-control>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box"  [ngClass]="{'act': offerStatusControl?.value?.length !=0}">
+                        <div class="search-form-box-header" >
+                            <h4>Offer Status</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('offerStatusControl')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input cand-module-ofr-sts">
+                                <app-offer-status-control [title]="'Select Offer Status'" [offerStatusControlOpt]="offerStatusControl"
+                                    [formFieldAppearance]="'outline'" [floatLabel]="'always'" (getDataSource)="getIdForOffSubList($event)"
+                                   [isMultiple]="true">
+                                </app-offer-status-control>
+                            </div>
+                            <div class="search-box-input cand-module-drop-reason-mt" *ngIf="isOffSubList">                               
+                                <app-sub-list-control [IdControl]="subListTypeOff" [title]="'Sub Status For Drop'" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'" [isMultiple]="true" [Ids]="offSubListIds">
+                                </app-sub-list-control>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->                    
+
+                    <div class="search-form-box" [ngClass]="{'act': noticePeriodControl.value != '0'}">
+                        <div class="search-form-box-header">
+                            <h4>Notice Period</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" (click)="resetFilter('np')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input ats-radio-wrap">
+                                <mat-radio-group  (change)="noticperiod($event)" formControlName="noticePeriod">
+                                    <mat-radio-button class="example-radio-button" value="0">
+                                        Any
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="15">
+                                        Less than 15 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="30">
+                                        Less than 30 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="45">
+                                        Less than 45 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="60">
+                                        Less than 60 days
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" value="90">
+                                        Less than 90 days
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box"  [ngClass]="{'act': recruiterControl.value != 'all'}">
+                        <div class="search-form-box-header">
+                            <h4>Recruiter</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('rec')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-recruiter-list-control [IdControl]="recruiterControl" [title]="'Select Recruiter'"
+                                    [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+                                    [type]="'recruiter'" (getDataSource)="getRecEmpId($event)">
+                                </app-recruiter-list-control>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+                    <div class="search-form-box" [ngClass]="{'act':requisitionTypeControl.value != 'all'}">
+                        <div class="search-form-box-header">
+                            <h4>Requisition Type</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('requisition')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-requisition-type-control [title]="'Select Requisition Type'"
+                                    [formControlOpt]="requisitionTypeControl" (getValFromControl)="getReqType($event)"
+                                    [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true">
+                                </app-requisition-type-control>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+                    <div class="search-form-box"  [ngClass]="{'act':accountIdControl?.value.length != 0 || ProjectIDControl?.value.length != 0}">
+                        <div class="search-form-box-header">
+                            <h4>Account/Project</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('account')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <div class="sb-ctrl">
+                                    <app-account-list-control [IdControl]="accountIdControl" [title]="'Select Account'"
+                                        [formFieldAppearance]="'outline'" [floatLabel]="'always'"
+                                        (getDataSource)="getAccount($event)" [isMultiple]="true" [showOkButton]="true">
+                                    </app-account-list-control>
+                                </div>
+                                <div class="sb-ctrl">
+                                    <app-project-list-control [IdControl]="ProjectIDControl" [title]="'Select Project'"
+                                        [formFieldAppearance]="'outline'" [floatLabel]="'always'"
+                                        (getDataSource)="getProject($event)" [isMultiple]="true"
+                                        [filterIdBy]="acListId">
+                                    </app-project-list-control>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act':expControl.value[0]?.toString() != '0' ||  expControl.value[1]?.toString() != '30'}">
+                        <div class="search-form-box-header" >
+                            <h4>Candidate Experience </h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" (click)="resetFilter('exp')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <ngx-slider (userChangeEnd)="expControlUpdate()" formControlName="candidateExperience"
+                                    [options]="optionsExp"></ngx-slider>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act':candidateSourceControl?.value?.length !=0}">
+                        <div class="search-form-box-header" >
+                            <h4>Candidate Source</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('source')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-candidate-source-control [IdControl]="candidateSourceControl"
+                                    [title]="'Select Source'" [formFieldAppearance]="'outline'" [floatLabel]="'always'"
+                                    [isAllOption]="true" (getDataSource)="getSource($event)" [isMultiple]="true">
+                                </app-candidate-source-control>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+
+                    <div class="search-form-box" [ngClass]="{'act':talentIdControl.value != 'all'}">
+                        <div class="search-form-box-header" >
+                            <h4>Talent Id</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('talent')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-talent-id-control-all [isShowSearchIcon]="false"
+                                    [talentIdControl]="talentIdControl" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'" [isAllOption]="true"
+                                    (getDataTalentId)="getTalentId($event)">
+                                </app-talent-id-control-all>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act':hiringManagerControl.value != 'all'}">
+                        <div class="search-form-box-header" >
+                            <h4>Hiring Manager</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('hiring')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <app-recruiter-list-control [IdControl]="hiringManagerControl"
+                                    [title]="'Select Hiring Manager'" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'" [isAllOption]="true" [type]="'hiringManager'"
+                                    (getDataSource)="getHiringMEmpId($event)">
+                                </app-recruiter-list-control>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                    <div class="search-form-box" [ngClass]="{'act':partnerControl.value != 'all'}">
+                        <div class="search-form-box-header" >
+                            <h4>Partner</h4>
+                            <div class="sb-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" (click)="hideShow($event)">
+                                            <i class="fa fa-minus f-min" aria-hidden="true" matTooltip="Hide"></i>
+                                            <i class="fa fa-plus f-pl" aria-hidden="true" matTooltip="Show"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" matTooltip="Reset" (click)="resetFilter('partner')">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-form-box-body">
+                            <div class="search-box-input">
+                                <!-- <app-recruiter-list-control [IdControl]="hiringManagerControl"
+                                    [title]="'Select Hiring Manager'" [formFieldAppearance]="'outline'"
+                                    [floatLabel]="'always'" [isAllOption]="true" [type]="'hiringManager'"
+                                    (getDataSource)="getHiringMEmpId($event)">
+                                </app-recruiter-list-control> -->
+                                <app-partner-list-control [formFieldAppearance]="'outline'"  [parentIdControl]="partnerControl"
+                                 [floatLabel]="'always'" [title]="'Select Partner'" [isAllOption]="true"></app-partner-list-control>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end box -->
+
+                </div>
+                <!-- end form -->
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end search sec -->

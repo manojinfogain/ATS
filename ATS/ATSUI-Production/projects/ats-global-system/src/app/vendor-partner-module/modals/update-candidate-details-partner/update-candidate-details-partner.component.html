@@ -1,0 +1,21 @@
+<form [formGroup]="updateProfileForm" (ngSubmit)="UpdateProfile(updateProfileForm)">
+    <div class="ats-modal-header">
+        <h1>Update Candidate Details</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark">
+                <app-upload-profile-form class="cs-blok" [isEditUpdateForm]="true" [CurrentSalReq]="CurrentSalReq" [emailReadOnly]="true" [resumeMandatory]="false" [CountryId]="CountryId" [form]="updateProfileForm" (getResumeOutput)="getResume($event)" #formRef></app-upload-profile-form>
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

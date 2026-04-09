@@ -1,0 +1,261 @@
+<div class="day1-doc-main-wrapper">
+    <div class="day1-doc-main-wrapper">
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <!-- <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1> -->
+                </div>
+                <div class="form-logo">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <h2 class="text-align-center">DAP JOINING FORM</h2>
+                        <!-- <p>
+                            The Management has the right to review, modify and rescind this policy at any given point of time.
+                        </p> -->
+                        <br>
+                        <br>
+                        <div class="form-card-wrapper day1-form-inc">
+                            <div class="table-o-at padding-bottom-300">
+    
+                                <table class="table ">
+                                    <tbody>
+                                        <tr>
+                                            <td class="title-tb">NAME OF THE DAP</td>
+                                            <td>: 
+                                                <!-- {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}  -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}} 
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">PARENT DAP COMPANY NAME </td>
+                                            <td>: 
+                                                <!-- {{(candidatePersonalDetails?.PartnerName ? candidatePersonalDetails?.PartnerName : '')}}  -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{(candidatePersonalDetails?.PartnerName ? candidatePersonalDetails?.PartnerName : '')}} 
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">DATE OF JOINING INFOGAIN ON CONTRACT </td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.DateOfJoining ? (candidatePersonalDetails?.DateOfJoining | date:'dd-MMM-YYYY') : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.DateOfJoining ? (candidatePersonalDetails?.DateOfJoining | date:'dd-MMM-YYYY') : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">DATE OF BIRTH </td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.dob ? (candidatePersonalDetails?.dob | date:'dd-MMM-YYYY') : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.dob ? (candidatePersonalDetails?.dob | date:'dd-MMM-YYYY') : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">CORRESPONDENCE ADDRESS </td>
+                                            <td>: 
+                                                <u>{{candidatePersonalDetails?.TemporaryAddress ? candidatePersonalDetails?.TemporaryAddress+', '+candidatePersonalDetails?.cr_postalCode : ''}}</u>
+                                                <!-- <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.TemporaryAddress ? candidatePersonalDetails?.TemporaryAddress+', '+candidatePersonalDetails?.cr_postalCode : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span> -->
+                                            </td>
+                                            <!-- cr_postalCode -->
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">PERMANENT ADDRESS </td>
+                                            <td>: 
+                                                <u>{{candidatePersonalDetails?.PermanentAddress ? candidatePersonalDetails?.PermanentAddress+', '+candidatePersonalDetails?.pr_postalCode : ''}}</u>
+                                                <!-- <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.PermanentAddress ? candidatePersonalDetails?.PermanentAddress : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">PERSONAL CONTACT NUMBER </td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.phone ? candidatePersonalDetails?.phone : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.phone ? candidatePersonalDetails?.phone : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">EMERGENCY CONTACT NUMBER </td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.EmergencyContactNumber ? candidatePersonalDetails?.EmergencyContactNumber : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.EmergencyContactNumber ? candidatePersonalDetails?.EmergencyContactNumber : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">CONTACT PERSON NAME</td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.Contactname ? candidatePersonalDetails?.Contactname : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.Contactname ? candidatePersonalDetails?.Contactname : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">RELATION
+                                            </td>
+                                              <td>: 
+                                                <!-- {{candidatePersonalDetails?.Contactname ? candidatePersonalDetails?.Relation : ''}} -->
+                                                    <span class="paragraphP">
+                                                        <span class="span1">
+                                                            <span class="span2">
+                                                                {{candidatePersonalDetails?.Contactname ? candidatePersonalDetails?.Relation : ''}}
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">PERSONAL E-MAIL ID</td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.email ? candidatePersonalDetails?.email : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.email ? candidatePersonalDetails?.email : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">PRIMARY SKILLS</td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.skillName ? candidatePersonalDetails?.skillName : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.skillName ? candidatePersonalDetails?.skillName : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">TOTAL EXPERIENCE (In Years)</td>
+                                            <td>: 
+                                                <!-- {{candidatePersonalDetails?.totalExp ? candidatePersonalDetails?.totalExp+' years' : ''}}{{candidatePersonalDetails?.totalExpMonth ? candidatePersonalDetails?.totalExpMonth+' months' : ''}} -->
+                                                <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.totalExp ? candidatePersonalDetails?.totalExp+' years' : ''}}{{candidatePersonalDetails?.totalExpMonth ? candidatePersonalDetails?.totalExpMonth+' months' : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">RELEVANT EXPERIENCE IN RQUIRED SKILLS </td>
+                                            <td>: 
+                                               <u>{{candidatePersonalDetails?.releventExp ? candidatePersonalDetails?.releventExp+' years' : ''}}{{candidatePersonalDetails?.releventExpMonth ? candidatePersonalDetails?.releventExpMonth+' months' : ''}}</u>
+                                                <!-- <span class="paragraphP">
+                                                    <span class="span1">
+                                                        <span class="span2">
+                                                            {{candidatePersonalDetails?.releventExp ? candidatePersonalDetails?.releventExp+' years' : ''}}{{candidatePersonalDetails?.releventExpMonth ? candidatePersonalDetails?.releventExpMonth+' months' : ''}}
+                                                        </span>
+                                                    </span>
+                                                </span> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- <td class="title-tb">PRIMARY SKILLS</td> -->
+                                            <td colspan="4">{{'I hereby certify that the above information is correct.'}}</td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td class="title-tb">Signature </td>
+                                            <td>: -->
+                                                <!-- <button *ngIf="!this.CandidateSignatureModel?.page1 && Day1FormData?.isEditable"
+                                                    type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                    Insert Sign
+                                                </button>
+                                                <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page1">
+                                                    <img [src]="this.CandidateSignatureModel?.page1" class="sign-img-b" />
+                                                  
+                                                </div> -->
+                                                <!-- <button *ngIf="!signImage" type="button" class="btn btn-simple-ats" (click)="signt(data)">
+                                                    Insert Sign
+                                                </button>
+                                                <div class="sign-wrap" *ngIf="signImage" >
+                                                    <img [src]="signImage" />
+                                                    <mat-icon *ngIf="data?.isEditable" matSuffix (click)="signt(data)">edit_note</mat-icon>
+                                                </div>
+                                            </td>
+                                        </tr> -->
+                                        <!-- <tr>
+                                            <td class="title-tb">DATE</td>
+                                            <td >: {{todayDate ? (todayDate | date:'dd-MMM-YYYY') : ''}}</td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="1"
+                        [pageTotal]="pageTotal"
+                    [isVisisbleSign]="false"></lib-pdf-footer-day1> -->
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="1" [isSignEditable]="Day1FormData?.isEditable"
+                    [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                    (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page1"
+                    [CandidateSignatureModel]="CandidateSignatureModel"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+    
+        </section>
+        <!-- end section -->
+    </div>

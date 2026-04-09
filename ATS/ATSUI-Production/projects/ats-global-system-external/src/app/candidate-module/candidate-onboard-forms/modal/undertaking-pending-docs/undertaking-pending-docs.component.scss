@@ -1,0 +1,39 @@
+.pd-doc-col{
+    width: 500px !important;
+}
+
+.dd-width{
+    width:48% !important;
+}
+.dd-il {
+    display: inline-block !important;
+    margin-left: 5px;
+}
+.dd-width-org{
+    width:32% !important;
+}
+
+table.pendTable{
+    width:100%;
+    margin-bottom: 40px;
+    th{
+        font-weight: 600;
+    }
+    td,th{
+        border:solid 1px  black;
+        padding: 10px 5px;
+        font-size: 15px;
+    }
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-left-300 {
+    margin-left: 300px;
+}

@@ -1,0 +1,27 @@
+ //IE
+//  margin-bottom:20px;
+@supports (-ms-ime-align: auto) {
+    .infocpnnect-form-pop.res-form-small .form-col {
+        margin-bottom:20px;
+    }
+    .candidate-screen-form .education-form-box .candidate-screen-col{
+        min-height: 40px;
+    }
+    .mat-form-field-prefix .mat-icon-button, .mat-form-field-suffix .mat-icon-button{
+        position:absolute;
+        top:-21px;
+        right:0px;
+    }
+  }
+
+  @media all and (-ms-high-contrast:none)
+  {
+  *::-ms-backdrop, .candidate-screen-form .education-form-box .candidate-screen-col{
+    min-height: 42px;
+}
+.mat-form-field-prefix .mat-icon-button, .mat-form-field-suffix .mat-icon-button{
+    position:absolute;
+    top:-21px;
+    right:0px;
+}
+  }

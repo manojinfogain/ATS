@@ -1,0 +1,196 @@
+<!-- (ngSubmit)="submitTalentFormsHandler(submitPendingForms)" -->
+<form [formGroup]="submitPendingForms" (ngSubmit)="submitTalentFormsHandler(submitPendingForms)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <!-- <div class="box-v-ats">
+             
+                <div class="box-v-body">
+                    
+                </div>
+
+            </div> -->
+            <div class="table-data-scroll-pop2  table-data-scroll-pop-interv-details min-height-200">
+                <table mat-table [dataSource]="dataSource"  class="table-mat-info table-mat-info-fdp">
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="h-check"> 
+                            <mat-checkbox [matTooltip]="checkboxLabel()" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()" [aria-label]="checkboxLabel()">
+                          </mat-checkbox>
+                             </th>
+                        <td mat-cell *matCellDef="let row" class="text-center" (click)="$event.stopPropagation()">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="SNum">
+                        <th mat-header-cell *matHeaderCellDef> SNo. </th>
+                        <td mat-cell *matCellDef="let element;let i =index" (click)="$event.stopPropagation()"> {{i+1}} </td>
+                    </ng-container>                
+                    <ng-container matColumnDef="talent_id">
+                        <th mat-header-cell *matHeaderCellDef> Talent ID </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.talent_id}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="partnerName">
+                        <th mat-header-cell *matHeaderCellDef> Partner Name </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.PartnerName}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="primaryRecruiter">
+                        <th mat-header-cell *matHeaderCellDef> Primary Recruiter </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.primaryrecruiterName}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="secondaryRecruiter">
+                        <th mat-header-cell *matHeaderCellDef> Secondary Recruiter </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.secondaryrecruiterName}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="contractType">
+                        <th mat-header-cell *matHeaderCellDef> Employement Type(s) </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.ContractType}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="AccountName">
+                        <th mat-header-cell *matHeaderCellDef> Account Name </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.AccountName}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Practice">
+                        <th mat-header-cell *matHeaderCellDef> Studio</th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.Practice}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="reasonForAssing">
+                        <th mat-header-cell *matHeaderCellDef> Reason for Assign </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.reason}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="assignBy">
+                        <th mat-header-cell *matHeaderCellDef >Assigned By</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.modifiedByName || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="assignOn">
+                        <th mat-header-cell *matHeaderCellDef>Assigned On</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.assignedOn || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Remarks">
+                        <th mat-header-cell *matHeaderCellDef >Remark</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.remarks|| '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Approver">
+                        <th mat-header-cell *matHeaderCellDef> Approver </th>
+                        <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> {{element.ApproverName}} {{element.isSelectedForm}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="approvalStatus">
+                        <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+                        <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()">
+                            <div [ngSwitch]="element?.ApprovalStatus">
+                                <div *ngSwitchCase="'A'">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        {{element?.ApprovalStatusLabel}}
+                                    </button>
+                                </div>
+                                <div *ngSwitchCase="'R'">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.ApprovalStatusLabel}}
+                                    </button>
+                                </div>
+                                <div *ngSwitchCase="'P'">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.ApprovalStatusLabel}}
+                                    </button>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    _
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef >Status</th>
+                        <td mat-cell *matCellDef="let element"  (click)="$event.stopPropagation()">
+                            <div [ngSwitch]="element?.status">
+                                <div *ngSwitchCase="1">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        Assigned
+                                    </button>
+                                </div>
+                                <div *ngSwitchCase="0">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        Not Assigned
+                                    </button>
+                                </div>
+
+                            </div>
+                        </td>
+                    </ng-container>
+                   
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput" *ngIf="pendingTalentList.length === 0"></app-no-result-found>
+            </div>
+            <!-- <div class="box-v-ats ats-connect-bx">
+                <mat-selection-list #formsList formControlName="formsList">
+                    <mat-list-option *ngFor="let forms of onbFormsList" [value]="forms?.Id">
+                      {{forms.Name}}
+                    </mat-list-option>
+                  </mat-selection-list>
+            </div> -->
+           
+        </div>
+       
+    </div>
+    <div div class="box-v-ats bx-v-appr box-v-ats-form" *ngIf="pendingTalentList.length > 0">
+
+        <div class="box-v-body approval-dp-wrap">
+            <div
+                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                <div class="ats-form-col action-wrapper mat-radio-ats mat-radio-btn-ats width-230">
+                    <label class="lb-title">Action<sup>*</sup> </label>
+                    <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                        formControlName="status">
+                        <mat-radio-button value="A">Approve</mat-radio-button>
+                        <mat-radio-button value="R"> Referred Back </mat-radio-button>
+                    </mat-radio-group>
+                    <!-- validate --><br>
+                    <mat-error class="error-aprrove-Reject"
+                        *ngIf="getControl('status')?.touched && getControl('status')?.invalid">
+                        <div *ngIf="getControl('status')?.errors.required">
+                            Action is required.
+                        </div>
+                    </mat-error>
+                    <!-- validate ends-->
+                </div>
+                <!-- end col -->
+               
+                <!-- end col -->
+                <div class="ats-form-col action-wrapper remark-wrap">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                            formControlName="remarks"></textarea>
+                    </mat-form-field>
+                    <mat-error class="error-aprrove-Reject"
+                    *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                    <div *ngIf="getControl('remarks')?.errors.required">
+                        Remark is required.
+                    </div>
+                </mat-error>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center" >
+        <button type="submit"  class="btn btn-infocon" *ngIf="pendingTalentList.length > 0">
+            Submit
+        </button>
+        <!-- <button type="button"  (click)="openSubmitModal(submitPendingForms,'R')" [disabled]="this.selection.selected.length === 0" class="btn btn-infocon">
+            Referred Back
+        </button> -->
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

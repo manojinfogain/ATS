@@ -1,0 +1,43 @@
+.btn-flex-add{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+        padding-right: 4px;
+        font-size: 20px;
+    }
+}
+
+.disabled-link {
+    pointer-events: none;
+    color: #ccc;
+}
+
+.ats-modal-body {
+  overflow: visible !important; 
+  max-height: unset !important;
+  height: auto !important;
+  padding-bottom: 0;
+}
+
+.mat-dialog-content {
+  overflow: visible !important; 
+  max-height: unset !important;
+  padding-bottom: 0;
+}
+
+.profile-list-wrapper {
+  overflow: visible !important;
+  max-height: unset !important;
+  height: auto !important;
+}
+
+.table-data-scroll-pop {
+  max-height: 60vh; 
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.min-height-200 {
+  min-height: 200px;
+}

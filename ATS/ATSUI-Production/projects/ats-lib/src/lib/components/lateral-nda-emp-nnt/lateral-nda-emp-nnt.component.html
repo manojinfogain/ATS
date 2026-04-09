@@ -1,0 +1,541 @@
+<form [formGroup]="ndaLateralNNTForm">
+    <div class="day1-doc-main-wrapper">
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="doc-custom-digital-ui  nda-form-sec">
+                    <div class="ndv-row-wrap">
+                        <div class="ndv-col-wrap ndv-col-wrap-l">
+                            <h3>CONFIDENTIALITY AND NON DISCLOSURE (NDA) AGREEMENT</h3>
+                            <p>
+                                This Agreement is between the <strong>Employee</strong> and
+                                <strong>NGGAWE NIRMAN TECHNOLOGIES (An
+                                    Infogain Company).</strong> (hereinafter referred
+                                to as “NNT”).
+                            </p>
+                            <p>
+                                In consideration of the employment with
+                                <strong>NNT</strong>, Employee agrees as
+                                follows:
+                            </p>
+                            <h4 class="sub-title-nda">1. Services</h4>
+                            <ol type="a" class="ul-common margin-left-27">
+                                <li>While employed by NNT, Employer
+                                    expects Employee to work with full
+                                    devotion, sincerity and honesty and to
+                                    devote his/her energy and time to
+                                    his/her job at NNT. For this reason,
+                                    second jobs/ part-time gainful
+                                    employment in any manner
+                                    whatsoever are prohibited. </li>
+                                <br>
+                                <li>During the term of this agreement, and
+                                    for one year after its termination,
+                                    expiration, or cancellation, Employee
+                                    shall not :- (i) provide or offer to
+                                    provide services, other than through
+                                    NNT, to any client of NNT in connection
+                                    with any Engagement with respect to
+                                    which Employee provided services
+                                    hereunder (ii) solicit, offer or in any
+                                    way, directly or indirectly, singly or in
+                                    association with any other person or
+                                    entity, encourage any employee,
+                                    subcontractor or agent of NNT to leave
+                                    NNT to work for the soliciting, offering
+                                    or encouraging party.
+                                </li>
+
+                            </ol>
+                            <br>
+                            <h4 class="sub-title-nda">2. Protection of NNT’s Confidential
+                                Information</h4>
+                            <h5 class="child-title-nda">a. Existence of Confidential
+                                Information
+
+                            </h5>
+                            <P>NNT owns and has developed and compiled,
+                                and will develop and compile, certain trade
+                                secrets, proprietary techniques and confidential
+                                information, which have great value to its
+                                business (referred to collectively in this
+                                Agreement as “Confidential Information”).
+                                Confidential Information includes not only
+                                information disclosed by NNT to Employee, but
+                                also information developed or learned by
+                                Employee during the course of employment
+                                with NNT. Confidential Information includes
+                                information and knowledge that was created or
+                                developed as a result of NNT’s relationship with
+                                a customer or client, and includes any
+                                confidential information of a customer or client
+                                learned by Employee during the course of
+                                employment with NNT. Confidential
+                            </P>
+                        </div>
+                        <!-- end left -->
+                        <div class="ndv-col-wrap ndv-col-wrap-r">
+                            <p>
+                                Information is broadly defined, and includes all
+                                information that has or could have commercial
+                            </p>
+                            <br>
+                            <p>
+                                value or other utility in the business in which
+                                NNT is engaged or contemplates engaging, and
+                                all information of which the unauthorized
+                                disclosure could be detrimental to the interest
+                                of NNT, whether or not such information is
+                                identified as Confidential Information by NNT.
+                                By example, and without limitation,
+                                Confidential Information includes any and all
+                                information concerning trade secrets,
+                                techniques, processes, formula, computer
+                                programs, innovations, discoveries,
+                                improvements, research, data, know-how,
+                                formats, marketing plans, business plans,
+                                strategies, forecasts, unpublished financial
+                                information, budgets, projections, and
+                                customer identities, characteristics and
+                                agreements.
+                            </p>
+                            <h5 class="child-title-nda">b. Protection of Confidential
+                                Information
+                            </h5>
+                            <p>
+                                Employee will not, directly or indirectly, use
+                                any Confidential Information, either during or
+                                after Employee’s employment with NNT, other
+                                than in Employee’s assigned duties and
+                                consistent with NNT’s agreement with the
+                                relevant customer or client of NNT. Employee
+                                will not, directly or indirectly, make available,
+                                sell, disclose or otherwise communicate to any
+                                third party any Confidential Information, either
+                                during or after Employee’s employment with
+                                NNT. Employee acknowledges that he or she is
+                                aware that the unauthorized disclosure of
+                                Confidential Information of NNT maybe highly
+                                prejudicial to its interests, an invasion of
+                                privacy, and in improper disclosure of trade
+                                secrets.
+                            </p>
+                            <h5 class="child-title-nda">c. Delivery of Confidential
+                                Information
+                            </h5>
+                            <p>
+                                Upon request or when employment with NNT
+                                terminates, Employee will immediately deliver
+                                to NNT all copies of any and all data, materials
+                                and writings received from, created for, or
+                                belonging to NNT, including, but not limited to,
+                                those which relate to or contain Confidential
+                                Information. Employee will not retain any
+                                written or tangible material (including
+                                information stored on a computer, floppies,
+                                CDs and/or any other media) containing any
+                                information concerning or disclosing any
+                                Confidential Information.
+                            </p>
+                            <h5 class="child-title-nda">d. Secret Information Belonging to
+                                Others
+                            </h5>
+                            <p>
+                                Employee represents that his or her
+                                employment with NNT does not and will not
+                            </p>
+                        </div>
+                        <!-- end right -->
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [isMiddleTextHide]="false" [isSignHide]="true"
+                        [formId]="formId" [page]="1" [pageTotal]="pageTotal"  [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page1"
+                        [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="doc-custom-digital-ui  nda-form-sec">
+                    <div class="ndv-row-wrap">
+                        <div class="ndv-col-wrap ndv-col-wrap-l">
+                            <p>
+                                breach any agreements of the Employee or
+                                duties to a former employer or any other
+                                third defined below) to them. Employee will
+                                not disclose to NNT or use or induce NNT
+                                to use on its behalf any confidential
+                                information belonging to others. Employee
+                                party to keep confidential information
+                                belonging to others or to assign Invention
+                                Acknowledges that he or she has and will
+                                continue to abide by any
+                                confidentiality agreements reached
+                                by him/her with third parties,
+                                including the return of all materials
+                                and confidential information to those
+                                third parties.
+                            </p>
+                            <h4 class="sub-title-nda">3. Inventions</h4>
+                            <h5 class="child-title-nda t-align-nda">a. Assignment of Inventions</h5>
+                            <P>Employee hereby assigns any present or future
+                                rights he or she may have in any invention,
+                                improvement, discovery, idea, process,
+                                writing, computer program database,
+                                documentation and other original works of
+                                authorship (referred to collectively in this
+                                Agreement as “Inventions”) made or conceived
+                                by Employee solely or jointly with others
+                                which: i) is developed in whole or in part on
+                                NNT’s time or with the use of NNT’s
+                                equipment, supplies, material, facilitates or
+                                Confidential Information; ii) is suggested by or
+                                results from any task assigned to Employee or
+                                work performed by Employee for or on behalf
+                                of NNT; or iii) relates in any manner to NNT’s
+                                business, or NNT’s actual or anticipated
+                                research or development.
+                            </P>
+                            <h5 class="child-title-nda t-align-nda">b. Disclosure to NNT</h5>
+                            <p>
+                                Employee agrees that at all times, even after
+                                the termination of employment, to promptly
+                                advise NNT of any Inventions Employee has
+                                made or conceived, either jointly or on the
+                                Employee’s own, wholly or in part during the
+                                Employee’s term of employment. NNT will hold
+                                such disclosures in confidence unless the
+                                Invention disclosed is transferred to NNT
+                                pursuant to Paragraph 3(a) hereof.
+                            </p>
+                            <h5 class="child-title-nda t-align-nda">c. Prior Inventions </h5>
+                            <p>
+                                Except as listed in Attachment A hereto,
+                                Employee warrants that he or she presently
+                                has no right, title or interest in or to any
+                                Inventions. Employee agrees that any
+                                invention not so indicated in Attachment A at
+                                this time is subject to the provisions of
+                                paragraph 3(a) hereof.
+                            </p>
+
+
+                        </div>
+                        <!-- end left -->
+                        <div class="ndv-col-wrap ndv-col-wrap-r">
+                            <h5 class="child-title-nda t-align-nda">d. Acknowledgment
+                            </h5>
+                            <p>
+                                Employee acknowledges that the copyright and
+                                intellectual property right in designs, computer
+                                programs, documentation, and other original
+                                works of authorship, created by the Employee
+                                (solely or jointly with others) within the scope
+                                of Employee’s employment with NNT shall
+                                always belong to NNT and shall remain NNT’s
+                                property according to the Copyright Act’ 1957.
+
+                            </p>
+                            <h5 class="child-title-nda t-align-nda">e. Moral Rights
+                            </h5>
+                            <p>
+                                With regard to any of the Inventions assigned
+                                by paragraph 3 (a), NNT and it subsidiaries,
+                                licensees (direct and indirect) are not required
+                                to designate Employee as author of any
+                                Inventions, of which NNT is always
+
+                            </p>
+                            <br>
+                            <br>
+                            <p>deemed to be the sole author, when
+                                distributed publicly or otherwise. Employee
+                                waives and releases, to the extent permitted
+                                by law, all rights to the foregoing. In addition,
+                                Employee hereby transfers and assigns any
+                                “moral” rights to the extent such transfer or
+                                assignment is permitted by applicable law that
+                                Employee may have in any such Invention
+                                under any copyright or other similar or
+                                dissimilar law. Employee agrees to waive and
+                                never to assert any such “moral” rights in such
+                                Inventions during or after the termination of
+                                employment with NNT.</p>
+                            <br>
+                            <p>
+                                Employee also acknowledges that NNT, its
+                                subsidiaries and assigns have the unfettered
+                                right to adapt, change, modify, add to,
+                                subtract from and otherwise alter or deal with
+                                any such Invention which Employee authored,
+                                co-authored, invented or co-invented, in
+                                whatever way NNT chooses and that NNT may
+                                grant other such right. The Employee once
+                                again repeats and reiterates that NNT shall
+                                always be a deemed author.
+                            </p>
+                            <h5 class="child-title-nda t-align-nda">g. Assistance to NNT
+                            </h5>
+                            <p>
+                                Employee agrees that at all times during and
+                                after Employee’s employment with NNT, the
+                                Employee will do whatever NNT requests
+                                Employee to assign any Inventions to NNT or
+                                to assist NNT in filing patent applications or
+                                otherwise gaining or securing title, right to
+                                use, copyrights, patents or the like for
+                                Inventions described in Paragraph 3(a) hereof.
+                            </p>
+                            <br>
+
+                            <h5 class="child-title-nda t-align-nda">h. Injunctive Relief</h5>
+                        </div>
+                        <!-- end right -->
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [isMiddleTextHide]="false" [isSignHide]="true"
+                        [formId]="formId" [page]="2" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="doc-custom-digital-ui  nda-form-sec">
+                    <div class="ndv-row-wrap">
+                        <div class="ndv-col-wrap ndv-col-wrap-l">
+                            <p>
+                                Employee acknowledges that a violation of this
+                                paragraph of the Agreement will constitute
+                                immediate and irreparable damage to NNT,
+                                which cannot be fully and adequately
+                                compensated in money and which will warrant
+                                preliminary and other injunctive relief, an
+                                order for specific performance and other
+                                equitable relief, in addition to any relief or
+                                remedies to which NNT is entitled.
+                            </p>
+                            <h4 class="sub-title-nda">4. Standards of Conduct</h4>
+                            <p>
+                                NNT expects its employees to maintain the
+                                highest standards of business conduct, and to
+                                be totally honest and ethical in all of NNT’s
+                                business dealings. NNT always conducts its
+                                business in accordance will applicable rules and
+                                laws, and expects its employees to do the
+                                same.
+                            </p>
+                            <h4 class="sub-title-nda">5. Arbitration of Employment Disputes</h4>
+                            <p>
+                                As a condition of employment, Employee
+                                agrees that any dispute arising between the
+                                parties in relation to this Agreement shall be
+                                referred to arbitration in accordance with the
+                                provisions of arbitration and Conciliation Act
+                                1996 and the seat of the Arbitral Tribunal shall
+                            </p>
+
+                            <div class="form-card-wrapper day1-form-inc">
+                                <div class="table-o-at">
+
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>
+                                                <td class="title-tb">Employee Name</td>
+                                                <td>: {{(candidatePersonalDetails?.FirstName ?
+                                                    candidatePersonalDetails?.FirstName : '')+'
+                                                    '+(candidatePersonalDetails?.MiddleName ?
+                                                    candidatePersonalDetails?.MiddleName : '')+'
+                                                    '+(candidatePersonalDetails?.LastName ?
+                                                    candidatePersonalDetails?.LastName : '')}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-tb">Employee Code: </td>
+                                                <td>: </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-tb">Date: </td>
+                                                <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-tb">Signature </td>
+                                                <td>:
+                                                    <!-- pending with candidate || referred back by recruiter -->
+                                                    <button *ngIf="!this.CandidateSignatureModel?.page3 && Day1FormData?.isEditable"
+                                                        type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                        Insert Sign
+                                                    </button>
+                                                    <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page3">
+                                                        <img [src]="this.CandidateSignatureModel?.page3" class="sign-img-b" />
+                                                        <!-- <mat-icon *ngIf="Day1FormData?.isEditable" matSuffix class="margin-left-100"
+                                                            (click)="signUpdate(data)">edit_note</mat-icon> -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end left -->
+                        <div class="ndv-col-wrap ndv-col-wrap-r">
+                            <p>
+                                be at Delhi. The jurisdiction of courts in Delhi
+                                shall only apply to any dispute arising out of
+                                this Agreement.
+                            </p>
+
+                            <h4 class="sub-title-nda">6. Modification</h4>
+                            <p>
+                                This Agreement may be modified or amended
+                                only by writing signed by the Employee and
+                                any of the person i.e. Global Head -HR (Human
+                                Resources) or President or Chairman of NNT.
+                            </p>
+                            <h4 class="sub-title-nda">7. Entire Agreement
+                            </h4>
+                            <p>
+                                This Agreement, together with the
+                                Attachments hereto, contains the entire
+                                agreement and understanding between the
+                                parties hereto and supersedes any prior or
+                                contemporaneous written or oral agreements.
+                                Employee understands that any prior
+                                agreements or representations are expressly
+                                disclaimed.
+                            </p>
+                            <h4 class="sub-title-nda">8. Severability
+                            </h4>
+                            <p>
+                                The unenforceability or inapplicability of any
+                                one or more phrases and/or provisions of this
+                                Agreement shall not affect the remaining
+                                provisions of this Agreement or any part
+                                thereof.
+                            </p>
+                            <br>
+                            <br>
+                            <h4 class="sub-title-nda">For NGGAWE NIRMAN TECHNOLOGIES (An
+                                Infogain Company) :
+                            </h4>
+                            <div class="form-card-wrapper day1-form-inc">
+                                <div class="table-o-at">
+
+                                    <table class="table ">
+                                        <tbody>
+                                            <!-- <tr>
+                                            <td class="title-tb">Employee Name</td>
+                                            <td>: <input type="text" class="ctrl-onb"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Employee Code: </td>
+                                            <td>:<input type="text" class="ctrl-onb"></td>
+                                        </tr> -->
+                                            <tr>
+                                                <td class="title-tb">Date </td>
+                                                <td>: </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title-tb">Signature </td>
+                                                <td>:
+                                                    <!-- <button *ngIf="!signImage" type="button" class="btn btn-simple-ats"
+                                                    (click)="signt(data)">
+                                                    Insert Sign
+                                                </button>
+                                                <div class="sign-wrap" *ngIf="signImage">
+                                                    <img [src]="signImage" />
+                                                    <mat-icon matSuffix class="margin-left-300"
+                                                        (click)="signt(data)">edit_note</mat-icon>
+                                                </div> -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <p class="padding-bottom-250">
+
+                            </p>
+                        </div>
+                        <!-- end right -->
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [isMiddleTextHide]="false" [isSignHide]="true"
+                        [formId]="formId" [page]="3" [pageTotal]="pageTotal"
+                        [isVisisbleSign]="false"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="doc-custom-digital-ui  nda-form-sec">
+                    <h3 class="font-14-center">Employee has read this Agreement, has understood
+                        and
+                        consented to its terms voluntarily.</h3>
+                    <h3 class="font-16-center">Attachment A</h3>
+                    <h3 class="font-14-center">(Annexed to and forming an integral part of the
+                        confidentiality Agreement) </h3>
+                    <h3 class="font-14-center">Invention Disclosure</h3>
+                    <br>
+                    <p>
+                        Employee represents that he or she has indicated in this Attachment all Inventions (as defined
+                        in
+                        the
+                        Agreement), if any, in which Employee owns or has owned any right or interest prior to
+                        employment
+                        with NNT. Employee agrees that any present or future inventions not listed in the Attachment are
+                        subject to assignment under Paragraph 3(a) of the Agreement.
+
+                    </p>
+                    <br>
+                    <div>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Brief Description of Inventions</mat-label>
+                            <textarea matInput formControlName="briefDesc" maxlength="1000" [readonly]="!Day1FormData?.isEditable"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Right, Title or Interest and Date Acquired</mat-label>
+                            <textarea matInput formControlName="remarks" maxlength="1000" [readonly]="!Day1FormData?.isEditable"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [isMiddleTextHide]="false" [isSignHide]="true"
+                        [formId]="formId" [page]="4" [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page4"
+                    [CandidateSignatureModel]="CandidateSignatureModel" [isSignEditable]="Day1FormData?.isEditable"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+    </div>
+</form>

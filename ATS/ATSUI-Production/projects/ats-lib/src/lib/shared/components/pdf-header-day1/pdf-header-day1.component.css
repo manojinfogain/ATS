@@ -1,0 +1,30 @@
+.inf-h-title{
+   
+}
+.wrp-hd-d{
+    h4{
+        font-size: 17px;
+        margin-bottom: 6px !important;
+    }
+    p{
+        font-size: 14px;
+    }
+}
+.div-cont{
+    height: 120px; background-color: white;
+}
+.div-cont-tbl{
+    width: 100%;
+}
+.tbl-td{
+    width: 50%;
+}
+.tbl-td-aln{
+    text-align: end;line-height: 1px;
+}
+.tbl-td-h4{
+    margin-bottom: 5px;
+}
+.div-loc4{
+    height: 140px; background-color: white;
+}

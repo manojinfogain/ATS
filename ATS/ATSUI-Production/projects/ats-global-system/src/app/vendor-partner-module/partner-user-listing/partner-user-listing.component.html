@@ -1,0 +1,140 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search By Name/Email'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                              <li>
+                                                <button type="button" class="btn btn-infocon" (click)="gotoUser()">
+                                                    User Registration  <i class="fa fa-user"></i>
+                                                  </button>
+                                              </li>
+                                              <li>
+                                                <app-filter-sort  
+                                                [form]="sortFormFilter"
+                                                [isResetForm]="isResetFilter"
+                                                [PartnerID]="true" [PartnerMulti]="true"
+                                                (getSortFormData)="getSortData($event)"
+                                                ></app-filter-sort>
+                                              </li>
+                                            
+                                            </ul>
+                                          </div>
+                                       
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="candidateList" class="table-mat-info">
+                                    <ng-container matColumnDef="Name">
+                                        <th mat-header-cell *matHeaderCellDef> User Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.Name || '-'}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="PartnerName">
+                                        <th mat-header-cell *matHeaderCellDef>Partner Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.PartnerName || '-'}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="contact">
+                                        <th mat-header-cell *matHeaderCellDef> Contact No. </th>
+                                        <td mat-cell *matCellDef="let element;">
+                                            {{element.ContactNo || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Email Id</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.Email || '-'}}
+                                        </td>
+                                    </ng-container>
+                                   
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.Remarks || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            {{element?.status === 1? 'Active':'Inactive'}}
+                                            <!-- <mat-slide-toggle class="mat-togglt-act" [checked]="element?.status === '1'"></mat-slide-toggle> -->
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <!-- {{element?.status || '-'}} -->
+                                            <div class="action-td">
+                                                <mat-slide-toggle class="mat-togglt-act"
+                                                    [checked]="element?.status === 1"
+                                                    (change)="confirmAlertActiveDeactive($event,element)"
+                                                    [matTooltip]="element?.status === 1?'Inactive':'Active'">
+                                                </mat-slide-toggle>
+                                                <div class="btn-action btn-action-center btn-single">
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button"
+                                                        [disabled]="element?.status === 0"
+                                                            matTooltip="Send Reset Password"
+                                                            (click)="resendPasswordEmail(element)">
+                                                            <i class="fa fa-key" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="candidateList.length === 0">
+                                </app-no-result-found>
+                            </div>
+                            <div class="ats-paging-sec" *ngIf="paginationData?.Total > 10">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total" [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

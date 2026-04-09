@@ -1,0 +1,133 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <div class="candidate-screen">
+                    <div class="candidate-screen-body">
+                        <div class="candidate-tab candidate-tab-verticals">
+                            <mat-tab-group [(selectedIndex)]="selectedTabIndex"
+                                (selectedTabChange)="onTabChanged($event);" #atsOnTab>
+                                <mat-tab labelClass="active-tab">
+                                    <ng-template mat-tab-label>
+                                        Personal Information
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <div class="form-content-wrapper">
+                                            <app-personal-information [appearance]="formAppearance"
+                                                [formClass]="formClass" #personalDetailsCom
+                                                [candidatePersonalDetails]="candidatePersonalDetails">
+
+                                            </app-personal-information>
+                                        </div>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.CurrentAddressDetails">
+                                    <ng-template mat-tab-label>
+                                        Current Address Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-current-address-details [appearance]="formAppearance"
+                                            [formClass]="formClass" #currentAddressCom [candidatePersonalDetails]="candidatePersonalDetails">
+
+                                        </app-current-address-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.CRCDetails"
+                                   >
+                                    <ng-template mat-tab-label>
+                                        Criminal Through E-Court - Permanent Address Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-crc-info-details [appearance]="formAppearance"
+                                            [formClass]="formClass" #crcDetailsFormCom [candidatePersonalDetails]="candidatePersonalDetails"></app-crc-info-details>
+                                    </ng-template>
+                                </mat-tab>
+
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.HighestEducationDetails">
+                                    <ng-template mat-tab-label>
+                                        Highest Education Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-highest-education-details [appearance]="formAppearance"
+                                            [formClass]="formClass" #highestEducationFormCom [candidatePersonalDetails]="candidatePersonalDetails"></app-highest-education-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.EmploymentDetails">
+                                    <ng-template mat-tab-label>
+                                       Employment Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-bgv-employment-details [appearance]="formAppearance" [formClass]="formClass" [candidatePersonalDetails]="candidatePersonalDetails" [candidateEmploymentDetailsEAF]="candidateEmploymentDetailsEAF"
+                                            #employmentDetailsCom [employmentDataList]="employmentDataList" [previousEmploymentList]="previousEmploymentList"
+                                            [uploadedDocumentLists]="uploadedDocumentLists">
+                                        </app-bgv-employment-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.GlobalDBCheckDetails">
+                                    <ng-template mat-tab-label>
+                                        Global Database Check Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-global-db-check-details [appearance]="formAppearance" [formClass]="formClass"
+                                            #globalDBCheckDetailsFormCom [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-global-db-check-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.OFACDetails">
+                                    <ng-template mat-tab-label>
+                                        OFAC Details
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-ofac-check-details [appearance]="formAppearance" [formClass]="formClass"
+                                            #OFACCheckDetailsFormCom [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-ofac-check-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab labelClass="active-tab" [disabled]="!candidateTabConfig?.DigitalLOA">
+                                    <ng-template mat-tab-label>
+                                        Letter Of Authorization
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <app-digital-loa [appearance]="formAppearance" [formClass]="formClass"
+                                            #currentDigitalLOAFormCom [candidatePersonalDetails]="candidatePersonalDetails">
+                                        </app-digital-loa>
+                                    </ng-template>
+                                </mat-tab>
+
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                    <div class="candidate-screen-footer">
+                        <button type="button" class="btn btn-infocon" *ngIf="isPrevBtnShow" (click)="prevTab()">
+                            Prev
+                        </button>
+                        <button type="button" class="btn btn-infocon" (click)="nextTab()" *ngIf="isNextBtnShow">
+                            Next
+                        </button>
+                        <button type="button" class="btn btn-infocon" (click)="submitAction()" *ngIf="isSubmitBtnShow">
+                            Save
+                        </button>
+                        <!-- [disabled]="!BGVDigitalLOADetails?.ID && !BGVDigitalLOADetails?.SignatureFileName && !BGVDigitalLOADetails?.SignatureFilePath" -->
+                        <button type="button" class="btn btn-infocon" (click)="submitFinalAction()" *ngIf="isSubmitBtnShow && !_globalMethod.isBGVFinalSubmit()">
+                            Final Submit
+                        </button>
+                    </div>
+
+                </div>
+                <!-- end candidate screen -->
+
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

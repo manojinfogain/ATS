@@ -1,0 +1,72 @@
+<form [formGroup]="downloadUploadForm" (ngSubmit)="submitDownloadUploadForm(downloadUploadForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper upload-can-pnb-form">
+
+                <div class="alert alert-warning" role="alert" *ngIf="data?.formTypeId != 32">
+                    Please download the statutory form  by clicking the download option and upload this after get it filled.<br>
+                    <i><span class="dangr">( Note:  To prevent delay in onboarding process, please fill the statutory form thoroughly and review it before proceeding.)</span></i>
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="data?.formTypeId == 32">
+                    Please Upload Cancelled Cheque / Bank Statement - For PF.<br>
+                    <!-- <i><span class="dangr">( Note:  To prevent delay in onboarding process, please fill the statutory form thoroughly and review it before proceeding.)</span></i> -->
+                </div>
+                <div class="form-download-action" [ngClass]="{'canc-chq': data?.formTypeId == 32}">
+                    <!-- <div class="download-form-btno mat-elevation-z8s">
+                        <button type="button" class="btn btn-infocon" 
+                        (click)="dwnloadForm()">
+                            Download Form <span class="material-icons-outlined">
+                                download
+                                </span>
+                        </button>
+                    </div> -->
+                    <div class="upload-form-btno mat-elevation-z5" >
+                        <div class="download-form-btno download-form-btno-ab mat-elevation-z5" *ngIf="data?.formTypeId != 32">
+                            <button type="button" class="btn btn-infocon" 
+                            (click)="downloadDocuments()">
+                                Download Form <span class="material-icons-outlined">
+                                    download
+                                    </span>
+                            </button>
+                        </div>
+                       <div class="dvo-f" [ngClass]="getControl('uploadForm').touched && getControl('uploadForm').invalid ? 'error-file-input':'suc'">
+                        <ng-container *ngIf="data?.isEditable">
+                            <label>Upload {{data?.formTypeId != 32 ? 'form' : data?.title }} <sup class="dangr">*</sup></label>
+                            <div class="ats-forms form-on-ats-fluid">
+                                <div class="ats-form-col upload-file-ats-scr">
+                                    <div class="upload-file-input-scr">
+                                        <input type="file" formControlName="uploadForm" required (change)="fileUpload($event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <!-- <ng-container *ngIf="!data?.isEditable">
+                            <button type="button" class="btn btn-infocon" 
+                            >
+                               Preview Form <span class="material-icons-outlined">
+                                    download
+                                    </span>
+                            </button>
+                        </ng-container> -->
+                       </div>
+                    </div>  
+                </div>
+               
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,25 @@
+.us-ats{
+    .act-header-btn {
+        ul {
+            li{
+                .act-button {
+                    min-width: 31px;
+                    color: #1f6a9f;
+                    padding: 0 4px;
+                    background: none;
+                    border-radius: 2px;
+                    box-shadow: none;
+                    line-height: 30px;
+
+                    &.filter-btn {
+                        background: none;
+                        border-radius: 0px;
+                        box-shadow: none;
+                        color: #1f6a9f;
+                    }
+                }
+            }
+        }
+    }
+  
+}

@@ -1,0 +1,121 @@
+:host::ng-deep .highlight-row {
+  background-color: #ffdddd !important; /* Light red background */
+//  border: 2px solid red;
+}
+
+:host::ng-deep .ats-mat-radio-ui-mandat {
+  .mat-radio-group {
+    .mat-radio-button {
+        background: #f0f0f0;
+        margin-right: 10px;
+        color: #145786;
+        padding: 2px 6px;
+        border-radius: 2px;
+        margin-bottom: 2px;
+      .mat-radio-label {
+        .mat-radio-label-content{
+            font-size: 12px;
+
+        }
+        .mat-radio-container {
+          width: 12px;
+          height: 12px;
+          .mat-radio-outer-circle{
+            height: 12px;
+            width: 12px;
+            border-width: 1px;
+            border-color: #1f6a9f;
+            background: #ffffff;
+          }
+          .mat-radio-inner-circle{
+            height: 12px;
+            width: 12px;
+          }
+        }
+      }
+      &.mat-radio-checked {
+        background: #1f6a9f;
+        color: #fff;
+        .mat-radio-label{
+            .mat-radio-container{
+                .mat-radio-outer-circle{}
+                .mat-radio-inner-circle{
+                    background: #1f6a9f;
+                }
+
+            }
+        }
+    }
+    }
+  }
+}
+
+.weightage-input {
+  width: 70px;
+  height: 24px;
+  border: 2px solid #bce3fa;
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  text-align: center;
+  margin-left: 15px;
+}
+
+.weightage-input:focus {
+  outline: none;
+  border: 2px solid #3ec6fa;
+  box-shadow: 0 0 0 2px #eaf7fe;
+}
+
+.weightage-input[readonly] {
+  background: #f5f5f5;
+  color: #888;
+}
+
+/* Remove number input spinners in Chrome, Safari, Edge */
+.weightage-input::-webkit-outer-spin-button,
+.weightage-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove number input spinners in Firefox */
+.weightage-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.tx-h{
+    padding: 2px 10px;
+    margin: 0;
+    font-size: 11px;
+    background: #ffff93;
+    margin-top: 3px;
+    display: inline-block;
+    color: #3c0404;
+    margin-top: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-size: 13px;
+  margin: 4px 0 0 0;
+  padding: 2px 8px;
+  background: #fff4f4;
+  border-left: 3px solid #d32f2f;
+  border-radius: 2px;
+  font-weight: 500;
+  display: block;
+}
+
+.input-error {
+  border: 1px solid red !important;
+  background: #fff0f0 !important;
+}

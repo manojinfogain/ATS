@@ -1,0 +1,96 @@
+<ng-container [formGroup]="group" >
+    <div  [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label> Flat, Floor, House No, Building, Apartment, Suite,
+                Unit</mat-label>
+            <input matInput
+                placeholder="Flat,Floor,House No,Building,Apartment,Suite,Unit"
+                required maxlength="60" libDisableInitialSpace formControlName="addressLine1">
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter Flat, Floor, House No, Building, Apartment, Suite,
+                Unit
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+    <div [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label> Area, Street, Sector, Village</mat-label>
+            <input matInput
+                placeholder="Area, Street, Sector, Village"
+                required maxlength="60" libDisableInitialSpace
+                formControlName="addressLine2">
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter Area, Street, Sector, Village
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+
+    <div [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label> Landmark, Locality</mat-label>
+            <input matInput
+                placeholder="Landmark, Locality"
+                maxlength="60" libDisableInitialSpace
+                formControlName="addressLine3">
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter Landmark, Locality etc.
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+
+    <div [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label> City </mat-label>
+            <input matInput placeholder="City" maxlength="60" libNumericAndAlphabets
+            libDisableInitialSpace formControlName="city" required>
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter City Name
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+
+    <div [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label>State, Province, Region </mat-label>
+            <input matInput placeholder="State, Province, Region" libNumericAndAlphabets
+                maxlength="60" libDisableInitialSpace
+                formControlName="state" required>
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter State, Province, Region Name
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+
+    <div [ngClass]="formColClass">
+        <mat-form-field [appearance]="appearance" class="place-from-control">
+            <mat-label>Zip/Postal Code </mat-label>
+            <input matInput placeholder="Zip/Postal Code" maxlength="10"
+                libDisableInitialSpace formControlName="postalCode" libOnlyNumber>
+            <mat-hint align="end" class="mat-hint-ad">
+                Enter Zip/Postal Code
+            </mat-hint>
+        </mat-form-field>
+
+    </div>
+    <!-- end -->
+    <div [ngClass]="formColClass">
+        <lib-country-list-code [parentIdControl]="getControl('country')"
+            [country]="true" 
+            [title]="'Country'" [formFieldAppearance]="appearance"
+            [required]="true" [apiBaseUrlMaster]="apiBaseUrlMaster">
+        </lib-country-list-code>
+      
+        
+    </div>
+    <!-- end -->
+</ng-container>

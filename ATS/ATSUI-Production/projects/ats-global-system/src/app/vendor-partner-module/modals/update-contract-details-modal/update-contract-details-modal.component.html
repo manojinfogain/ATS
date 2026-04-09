@@ -1,0 +1,93 @@
+<form [formGroup]="formUpdateContract" (ngSubmit)="updateEndDateHandler(formUpdateContract)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}} - ( {{data?.contractTypeName}} )</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font manage-talent-body">
+            <!-- <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div
+                        class="view-list-dt-wrap view-list-commit-date-talent view-list-dt-appr view-list-dt-rp box-shadow-c">
+
+                        <div class="view-list-bx">
+                            <h4>Partner Name:</h4>
+                            <p>{{data?.partnerName || '-'}}</p>
+                        </div>
+                     
+
+                    </div>
+                </div>
+            </div> -->
+            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <div class="ats-form-col"  [ngClass]="{'disable-pointer': this.data?.type =='U'}">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label appRemoveAriaOwns>Contract Type</mat-label>
+                        <mat-select [disableOptionCentering]="true" required formControlName="ContractTypeID">
+                            <mat-option *ngFor="let list of data?.partnerContractsList" [value]="list.ID">
+                                {{list?.ContractType}}
+                            </mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col" [ngClass]="{'disable-pointer': this.data?.type =='U'}">
+                    <mat-form-field appearance="outline" class="place-from-control23424">
+                        <mat-label appRemoveAriaOwns>Contract Availability</mat-label>
+                        <mat-select [disableOptionCentering]="true" required
+                            (selectionChange)="contractHandler($event)"
+                            formControlName="ContractAvailability">
+                            <mat-option value="Y">
+                                Yes
+                            </mat-option>
+                            <mat-option value="N">
+                                No
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-error
+                        *ngIf="getControl('ContractTypeID').touched && getControl('ContractTypeID').invalid">
+                        <div *ngIf="getControl('ContractTypeID').errors.required">
+                            Contract Type is required.
+                        </div>
+                    </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'" class="ats-mat-form-field">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="StartDate"
+                        (dateInput)="changeDate($event)" readonly
+                            placeholder="Start Date" [min]="disablePastDate" [required]="isDateRequired">
+                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                            <mat-icon matDatepickerToggleIcon>calendar_month
+                            </mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'" class="ats-mat-form-field">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="EndDate" readonly
+                            placeholder="End Date" [min]="minDate" [required]="isDateRequired">
+                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                            <mat-icon matDatepickerToggleIcon>calendar_month
+                            </mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <!-- end col -->
+            </div>
+            <div class="ats-modal-footer">
+                <button type="submit" class="btn btn-infocon">
+                    Submit
+                </button>
+                <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+                </button> -->
+            </div>
+        </div>
+    </div>
+  
+</form>

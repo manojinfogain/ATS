@@ -1,0 +1,25 @@
+.ats-modal-header{
+    position: absolute;
+}
+.msg-educ{
+    color:red;
+   
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    font-size: 13px;
+    font-style: italic;
+    p{
+        position: relative;
+        span{
+            position: absolute;
+            left: -20px;
+            bottom: -2px;
+            font-size: 20px;
+        }
+    }
+}
+
+.higher-educ{
+    color: #085d99 !important;
+}

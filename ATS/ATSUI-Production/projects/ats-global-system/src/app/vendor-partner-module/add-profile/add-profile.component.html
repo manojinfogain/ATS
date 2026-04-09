@@ -1,0 +1,47 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+            <form [formGroup]="uploadProfileForm" (ngSubmit)="uploadProfile(uploadProfileForm)">
+              <div class="ats-content-card">
+                  <div class="ats-content-card-body">
+                    <div class="form-pt-wrap">
+                        <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark">
+                            <app-upload-profile-form class="cs-blok" [form]="uploadProfileForm" (getResumeOutput)="getResume($event)" #formRef></app-upload-profile-form>
+                            
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ats-content-card-footer">
+                    <button type="submit" class="btn btn-infocon">Submit
+                        <i class="fa fa-save"></i>
+                    </button>
+                    <button type="button"  class="btn btn-simple-ats" (click)="resetForm()">Reset
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                    <!-- <button type="button" class="btn btn-infocon" (click)="gotPartnerDetailsPage()">
+                        View Profiles List  <i class="fa fa-user"></i>
+                      </button> -->
+                  </div>
+                
+              </div>
+            </form>
+            </div>
+            <!-- end content body -->
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

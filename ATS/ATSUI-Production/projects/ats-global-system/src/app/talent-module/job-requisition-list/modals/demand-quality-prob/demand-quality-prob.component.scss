@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+// Loading state styles
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 40px 20px;
+    width: 100%;
+    position: relative;
+    
+    .loading-content {
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        mat-spinner {
+            margin: 0 auto 20px auto;
+        }
+        
+        h4 {
+            margin: 0 0 10px 0;
+            color: #0a71b9;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        p {
+            margin: 0;
+            color: #6a6a6a;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 400px;
+            text-align: center;
+        }
+    }
+}
+
+// Fade in animation for content
+.content-container {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+h6{
+    font-size: 13px;
+    color: #a2a2a2;
+    font-weight: normal;
+    padding: 1px 0px 9px 15px;
+}
+:host ::ng-deep.probability-section {
+    padding: 10px;
+
+    .mat-card {
+        padding: 7px 5px;
+
+        .mat-card-header-text {
+            margin: 0;
+        }
+
+        .mat-card-header {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 14px;
+        }
+
+        .mat-card-header .mat-card-title {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: #0a71b9;
+            padding: 3px 16px;
+
+            h5 {
+                margin-bottom: 0;
+                font-size: 0.9rem;
+                color: #020b11;
+                padding: 3px 3px;
+            }
+
+            p {
+                margin: 0;
+                font-size: 12px;
+                font-weight: normal;
+                color: #6a6a6a;
+            }
+        }
+
+        .probability-bars {
+            font-family: "Inter", sans-serif;
+            padding: 0px 15px;
+            .lbb-tnb {
+                    .list-group-item {
+                        padding: 0.25rem 0.35rem;
+                        font-size: 12px;
+                    }
+                }
+
+            .probability-bars-item {
+                margin-bottom: 16px;
+
+
+                label {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #555;
+                    margin-bottom: 10px;
+                }
+
+                span {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #000;
+                }
+
+                .match-rsr {
+                    label {
+                        display: block;
+                    }
+
+                    span {
+                        display: inline-block;
+                        margin-top: 4px;
+                        font-weight: bold;
+                        font-size: 22px;
+
+                        span {
+                            font-size: 16px;
+                            font-weight: normal;
+                            color: #555;
+                        }
+                        a {
+                            text-decoration: none;
+                            color: #0a71b9;
+                            cursor: pointer;
+                            display: inline-block;
+                            padding-right: 4px;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+
+                .mat-progress-bar.mat-accent .mat-progress-bar-buffer {
+                    background-color: #cbd0e9;
+                }
+
+                .mat-progress-bar.mat-accent .mat-progress-bar-fill::after {
+                    background-color: #2b66c3;
+                }
+            }
+        }
+
+        .probability-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .probability-list li {
+            display: flex;
+            justify-content: space-between;
+            /* left label, right value */
+            padding: 8px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            /* optional separator */
+            font-size: 14px;
+        }
+
+        .probability-list li:last-child {
+            border-bottom: none;
+            /* remove border for last item */
+        }
+
+        .probability-list .label {
+            font-weight: 500;
+            color: #555;
+            /* label color */
+        }
+
+        .probability-list .value {
+            // font-weight: 600;
+            color: #000;
+            /* value color */
+        }
+
+    }
+}
+
+.confirm-msg1 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.ftp-hldr {
+    padding: 10px 12px;
+}
+
+.top-section {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-family: "Inter", sans-serif;
+    padding: 10px 12px;
+       background: #ffffe5;
+
+    .top-section-left {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .prd-icon {
+            font-size: 40px;
+            height: auto;
+            width: auto;
+                color: #837e28;
+        }
+
+        h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin: 0 0 0 14px;
+            align-items: center;
+            line-height: 26px;
+
+            span {
+                display: block;
+                font-family: "Inter", sans-serif;
+            }
+
+            label {
+                color: #5e5e5e;
+                font-size: 12px;
+                display: block;
+            }
+        }
+    }
+
+    .top-section-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* flex-direction: row; */
+        /* width: 230px; */
+        flex-wrap: wrap;
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.text-center {
+    text-align: center;
+}

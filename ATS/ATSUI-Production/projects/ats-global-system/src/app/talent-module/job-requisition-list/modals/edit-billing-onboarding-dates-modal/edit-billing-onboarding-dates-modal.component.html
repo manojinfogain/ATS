@@ -1,0 +1,163 @@
+<div class="bulk-action-modal-container">
+    <!-- Modal Header -->
+    <div class="modal-header" [ngClass]="getActionColorClass()">
+        <div class="header-content">
+            <div class="action-icon">
+                <mat-icon>{{ getActionIcon() }}</mat-icon>
+            </div>
+            <div class="header-text">
+                <h2 class="modal-title">{{ getActionTitle() }} Records</h2>
+                <p class="record-count">{{ recordCount }} record(s) selected across all pages</p>
+            </div>
+        </div>
+        <button mat-icon-button class="close-button" (click)="onCancel()" matTooltip="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+
+        <!-- Validation Error Alert -->
+        <div class="validation-error-alert" *ngIf="showValidationError && bulkActionForm.invalid">
+            <mat-icon class="error-icon">error</mat-icon>
+            <div class="error-content">
+                <h5>Validation Error</h5>
+                <!-- <p>{{ getValidationErrorMessage() }}</p> -->
+                 <p>Please fill all mandatory fields.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="bulkActionForm" (ngSubmit)="onSubmit()">
+
+            <!-- Action Summary -->
+            <!-- <div class="action-summary">
+                <div class="summary-card" [ngClass]="getActionColorClass()">
+                    <div class="summary-icon">
+                        <mat-icon>{{ getActionIcon() }}</mat-icon>
+                    </div>
+                    <div class="summary-content">
+                        <h4>Update
+                            {{ recordCount }} Record{{ recordCount > 1 ? 's' : '' }}
+                        </h4>
+                        <p>
+                            This action will update all selected records across multiple pages.
+                            This operation cannot be undone.
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Sample Records Display -->
+            <div class="sample-records" *ngIf="selectedRecords.length > 0">
+                <h5>Selected Records:</h5>
+                <div class="records-list">
+                    <div class="record-item" *ngFor="let record of selectedRecords.slice(0, 5)">
+                        <div class="record-info">
+                            <span class="record-id">{{ record.CTHID }}</span>
+                            <span class="record-designation">{{ record.DesigName }}</span>
+                            <span class="record-account">{{ record.AccountName }}</span>
+                        </div>
+                        <div class="record-status">
+                            <span class="status-badge" [ngClass]="'status-' + record.SubStatusID">
+                                {{ record.SubStatus }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="more-records" *ngIf="recordCount > 5">
+                        <span class="more-text">... and {{ recordCount - 5 }} more records</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remarks Section -->
+            <div class="remarks-section">
+                <!-- <div class="field-group">
+          <label for="remarks" class="field-label required">
+            <mat-icon class="label-icon">comment</mat-icon>
+            Remarks for {{ actionType === 'approve' ? 'Approval' : 'Rejection' }}
+          </label>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Enter detailed remarks for this bulk {{ actionType }} action</mat-label>
+            <textarea 
+              #remarksField
+              matInput 
+              formControlName="remarks"
+              placeholder="Please provide detailed reasons for this bulk {{ actionType }} action..."
+              rows="4"
+              maxlength="500">
+            </textarea>
+            <mat-hint align="end">{{ getRemarksCharacterCount() }}/500</mat-hint>
+            <mat-error *ngIf="hasRemarksError()">
+              {{ getRemarksErrorMessage() }}
+            </mat-error>
+          </mat-form-field>
+
+          <div class="remarks-guidelines">
+            <h6><mat-icon>info</mat-icon> Guidelines for Remarks:</h6>
+            <ul>
+              <li>Minimum 10 characters required</li>
+              <li>Include specific reasons for {{ actionType === 'approve' ? 'approval' : 'rejection' }}</li>
+              <li>Mention any conditions or next steps if applicable</li>
+              <li>Be clear and professional in your communication</li>
+            </ul>
+          </div>
+        </div> -->
+                <div class="flex-gap-16">
+                    <div class="flex-half">
+                        <mat-form-field [appearance]="'outline'" class="ats-mat-form-field full-width">
+                            <mat-label appRemoveAriaOwns>Planned Onboarding Date</mat-label>
+                            <input matInput [matDatepicker]="picker11" formControlName="plannedOnBoardingDate" readonly
+                                placeholder="Planned Onboarding Date" [min]="disablePastDate"
+                                (dateInput)="changeDateOnb('input', $event)"
+                                [matDatepickerFilter]="excludePastAndWeekendDates">
+                            <mat-datepicker-toggle matSuffix [for]="picker11">
+                                <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker11></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex-half" *ngIf="data?.isBillableSelected == 'Y'">
+                        <mat-form-field [appearance]="'outline'" class="ats-mat-form-field full-width">
+                            <mat-label appRemoveAriaOwns>Planned Billing Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="plannedBillingStartDate" readonly
+                                placeholder="Planned Billing Start Date"
+                                (dateInput)="changeDateBilling('input', $event)"
+                                [matDatepickerFilter]="excludePastAndWeekendDatesBill">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+        <div class="footer-actions">
+            <button mat-raised-button type="submit" [ngClass]="getActionColorClass()" class="action-button"
+                (click)="onSubmit()" [disabled]="isSubmitting">
+                <mat-icon *ngIf="!isSubmitting">{{ getActionIcon() }}</mat-icon>
+                <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+                <span *ngIf="!isSubmitting">{{ getActionButtonText() }} ({{ recordCount }})</span>
+                <span *ngIf="isSubmitting">Processing...</span>
+            </button>
+            <button mat-stroked-button type="button" class="cancel-button" (click)="onCancel()"
+                [disabled]="isSubmitting">
+                <mat-icon>close</mat-icon>
+                Cancel
+            </button>
+        </div>
+
+        <!-- Warning Message -->
+        <div class="warning-message">
+            <mat-icon>warning</mat-icon>
+            <span>This bulk {{ actionType }} action will affect {{ recordCount }} records and cannot be undone.</span>
+        </div>
+    </div>
+</div>

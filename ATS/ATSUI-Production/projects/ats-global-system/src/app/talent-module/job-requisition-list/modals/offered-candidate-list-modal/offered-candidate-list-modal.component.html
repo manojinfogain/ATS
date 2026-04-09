@@ -1,0 +1,276 @@
+<!-- <h1 mat-dialog-title>Hi </h1> -->
+<div class="ats-modal-header">
+    <h1>{{data.title}} - {{data?.CTHID}}</h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av"></div>
+                <div class="search-bars">
+                    <div class="filter-at-wrapper">
+                        <div class="s-fil">
+                        </div>
+                        <div class="s-fil">
+                            <div class="act-header-btn">
+                                <ul>
+                                    <ng-container *ngIf="(data?.SubStatusID == 3) || (data?.isExceptionOfferAllowed == 'Y')">
+                                    <li *ngIf="(offerCandidateJoined?.length == 0 && data?.IsMannualOffer == 'Y') ||
+                                      (offerCandidateJoined?.length == 0 && data?.isExceptionOfferAllowed == 'Y')">
+                                      <button type="button" (click)="openAddOfferCModal()" class="btn btn-infocon btn-flex-add">
+                                        <span class="material-icons-outlined">
+                                            add_circle_outline
+                                            </span> Add Offered Candidate 
+                                      </button>
+                                    </li>
+                                </ng-container>
+                                    <li class="dash-dnld-icon">
+                                        <a href="javascript:void(0)"
+                                            [ngClass]="{'disable-dowlnd-btn': offerCandidateList?.length === 0 ||data?.SubStatusID ==6}"
+                                            (click)="exportAsXLSX()">
+                                            <span class="material-icons-outlined" matTooltip="Download List">
+                                                download
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <!-- <li *ngIf="data?.reportType=='BU' ||data?.reportType=='DU' ||data?.reportType=='hm' ">
+                        <app-filter-sort [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                          (getSortFormData)="getSortData($event)" [dateRange]="false" [dateRangeTitle]="' Offer Date'"
+                          [account]="true" [accountMulti]="true" [dateRangeStartToEnd]="false"
+                          [dateRangeTitle2]="'Joining Date'" [IsAccountByDu]="data?.reportType=='hm'?false:true"
+                          [duIdList]="duId" [filterAccount]="filterByBu">
+                        </app-filter-sort>
+                      </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-data-scroll-pop min-height-200">
+                <table mat-table [dataSource]="offerCandidateList" class="table-mat-info">
+                    <ng-container matColumnDef="srNo">
+                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="thid">
+                        <th mat-header-cell *matHeaderCellDef>Talent ID</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.TalentID || '-'}}</td>
+
+                    </ng-container>
+                    <ng-container matColumnDef="empName">
+                        <th mat-header-cell *matHeaderCellDef>Candidate Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.CandidateName || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="sourceName">
+                        <th mat-header-cell *matHeaderCellDef>Source Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.SourceName=='0'|| element?.SourceName==null? 'NA' : element?.SourceName}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="sourceType">
+                        <th mat-header-cell *matHeaderCellDef>Source Type</th>
+                        <td mat-cell *matCellDef="let element">
+                            <ng-container [ngSwitch]="element?.SourceId">
+                                <ng-container *ngSwitchCase="4">
+                                    {{ element?.Source + ' ('+element?.ReferrerName +')' }}
+                                </ng-container>
+                                <ng-container *ngSwitchCase="13">
+                                    {{ element?.Source + ' ('+element?.SubProfileName +')' }}
+                                 </ng-container>
+                                <ng-container *ngSwitchCase="5">
+                                    {{ element.SourceName!='0' && element.SourceName!=null ? element?.Source + ' ('+element?.SourceName +')' : element?.Source }}
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    {{ element?.Source }}
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="OfferDate">
+                        <th mat-header-cell *matHeaderCellDef>Offer Date</th>
+                        <td mat-cell *matCellDef="let element"> {{(element?.OfferedDate | date:'d MMM y') || '-'}}
+                            <!-- {{(element?.DateOfOffer | date:'mediumDate') || '-'}} -->
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tentativeJoiningDate">
+                        <th mat-header-cell *matHeaderCellDef>Tentative Joining <br> Date</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{(element?.DateOfJoining | date:'d MMM y') || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="maxSalaryAnnual">
+                        <th mat-header-cell *matHeaderCellDef>Max Salary <br> Annually </th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element?.MaxSalary || '-'}}</td> -->
+                        <td mat-cell *matCellDef="let element">  {{((element?.MaxSalary ? element?.MaxSalary :'-')|amountMask:data?.SubStatusID)}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="currencyName">
+                        <th mat-header-cell *matHeaderCellDef>Currency </th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element?.MaxSalary CurrencyTypeId=4 || '-'}}</td> -->
+                        <td mat-cell *matCellDef="let element">  {{element?.CurrencyTypeName || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="offerSalaryAnnual">
+                        <th mat-header-cell *matHeaderCellDef>Offer Salary <br> Annually  </th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element?.OfferedCTC || '-'}}</td> -->
+                        <td mat-cell *matCellDef="let element">  {{((element?.OfferedCTC ? (element?.OfferedCTC  | currency:'PLN':'symbol':'1.2-2') :'-')|amountMask:data?.SubStatusID)}}</td>
+                       
+                    </ng-container>
+                    <ng-container matColumnDef="vaeriance">
+                        <th mat-header-cell *matHeaderCellDef> Variance ( % )</th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element?.Variance || '-'}}</td> -->
+                        <td mat-cell *matCellDef="let element">  {{((element?.Variance ? element?.Variance :'-')|amountMask:data?.SubStatusID)}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="comments">
+                        <th mat-header-cell *matHeaderCellDef> Comments</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.ijpName || '-'}}</td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef><i class="fas fa-user-tie "></i> Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <ng-container [ngSwitch]="element?.OfferStatusId">
+                                <ng-container *ngSwitchCase="20">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="40">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="60">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="80">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="30">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="50">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="70">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="90">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="110">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="120">
+                                    <button class="btn-status-dg offergen" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="100">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="10">
+                                    <button class="btn-status-dg holds" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="140">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="160">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="180">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="200">
+                                    <button class="btn-status-dg shortlisted" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="220">
+                                    <button class="btn-status-dg rejects" type="button">
+                                        {{element?.OfferStatus}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <ng-container *ngIf="element?.OfferStatus == 'Joined' || element?.OfferStatus == 'Offered'">
+                                        <!-- Default case for any other status -->
+                                       
+                                        <button class="btn-status-dg shortlisted" type="button">
+                                            {{element?.OfferStatus || '-'}}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="element?.OfferStatus == 'Declined'">                                       
+                                        <button class="btn-status-dg rejects" type="button">
+                                            {{element?.OfferStatus || '-'}}
+                                        </button>
+                                    </ng-container>
+                                  
+                                </ng-container>
+                            </ng-container>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>Action </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <div class="btn-action">
+                                <div class="btn-act">
+                                    <button mat-button type="button" matTooltip="Provide Joining Details"
+                                        (click)="updatejoiningDetails(element)" [disabled]="element?.IsATSDB == 'Y' ||element?.OfferStatus == 'Joined' || element?.OfferStatus == 'Declined' || offerCandidateJoined.length >=1">
+                                        <span class="material-icons-outlined">
+                                            person_add
+                                            </span>
+                                    </button>
+                                </div>
+                                <div class="btn-act" *ngIf="data?.LocationID == 13">
+                                    <button mat-button type="button" matTooltip="View  Offer Details"
+                                      (click)="viewOfferDetailsModal(element)">
+                                      <span class="material-icons-outlined">
+                                        preview
+                                      </span>
+                                    </button>
+                                  </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+
+                <app-no-result-found [searchedValue]="searchInput"
+                    *ngIf="offerCandidateList?.length === 0"></app-no-result-found>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="ats-modal-footer">
+      <app-custom-paginator [total]="paginationData?.Total" (sendPagingData)="getPagingData($event)"
+        [pageSizeOptions]="pazeOption" [pageSize]="pazeSize"></app-custom-paginator>
+    </div>  -->

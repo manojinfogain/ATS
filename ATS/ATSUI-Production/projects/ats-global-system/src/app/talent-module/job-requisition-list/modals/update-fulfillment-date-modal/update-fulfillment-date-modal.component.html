@@ -1,0 +1,70 @@
+<form [formGroup]="formUpdateFulfilmentTalent" (ngSubmit)="updateFulfillment(formUpdateFulfilmentTalent)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}} {{data?.CTHID ? '- ' + data?.CTHID  : '-'}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font manage-talent-body">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-commit-date-talent view-list-dt-appr view-list-dt-rp box-shadow-c">
+                        
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                <!-- <div class="ats-form-col width-half ">
+                    <mat-form-field [appearance]="'outline'">
+                        <mat-label>Reason Category </mat-label>
+                        <mat-select formControlName="reasonCategories"
+                           (selectionChange)="getReasonCategId($event)" >
+                            <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                {{data?.Category}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+                <div class="ats-form-col width-half">
+                    <mat-form-field [appearance]="'outline'" class="ats-mat-form-field">
+                        <mat-label>Select Commit Date</mat-label>
+                        <input matInput [matDatepicker]="picker1"
+                            formControlName="fulfilmentDate" readonly
+                            placeholder="Commit Date" [min]="disablePastDate"
+                            >
+                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                            <mat-icon matDatepickerToggleIcon>calendar_month
+                            </mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                
+                <div class="ats-form-col">
+                    <mat-form-field [appearance]="'outline'">
+                        <textarea class="remark-field" matInput placeholder="Remarks"   maxlength="150"
+                            formControlName="remarks" disableInitialSpace></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button> -->
+    </div>
+</form>

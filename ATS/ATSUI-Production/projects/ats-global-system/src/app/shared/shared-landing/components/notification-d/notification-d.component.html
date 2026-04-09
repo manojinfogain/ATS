@@ -1,0 +1,52 @@
+<button mat-button class="user-button" [matMenuTriggerFor]="appMenu">
+    <label class="menu-tab-sec">
+        <span class="material-icons-outlined icon-ntf" [matBadge]="allNotificationCount['AllCount']" matBadgeColor="warn">
+            notifications_active
+        </span>
+    </label>
+</button>
+
+<mat-menu #appMenu="matMenu" class="notification-pop" xPosition="before">
+    <ng-template matMenuContent>
+        <div class="not-wrapper" (click)="$event.stopPropagation()">
+            <div class="not-head">
+                <h5>Notifications</h5>
+                <a href="javascript:void(0)" (click)="marlAllAsRead()">Mark all as read</a>
+
+            </div>
+            <div class="not-body">
+                <div class="not-tab">
+                    <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChanged($event.index);">
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>All <span class="sb-count">{{allNotificationCount['AllCount']}}</span></span>
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-notification-list (RefreshCount)="RefreshCount($event)"></app-notification-list>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>Interview <span class="sb-count">{{allNotificationCount['InterviewCount']}}</span></span>
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-notification-list [type]="'I'"></app-notification-list>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <span>Offer <span class="sb-count">{{allNotificationCount['OfferCount']}}</span></span>
+                            </ng-template>
+                            <ng-template matTabContent>
+                                <app-notification-list [type]="'O'"></app-notification-list>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+            <!-- <div class="not-foot">
+                <a href="javascript:void(0)">View ALL</a>
+            </div> -->
+        </div>
+    </ng-template>
+</mat-menu>

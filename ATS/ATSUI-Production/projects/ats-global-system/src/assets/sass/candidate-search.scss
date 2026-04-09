@@ -1,0 +1,342 @@
+
+
+.search-candidate-page{
+    @include flexbox();
+    @include justify-content(space-between);
+    .search-filter-wrapper{
+        width: 300px;
+        min-height: calc(100vh - 200px);
+        background: #fff;
+        box-shadow: 0 1px 8px 0 rgb(0 0 0 / 6%);
+        
+        
+        .search-main-wrap{
+            .search-filter-header{
+                @include flexbox(); 
+                @include justify-content(space-between);
+                padding: 8px 10px;
+                border-bottom: solid 1px #f3f3f3;
+                .search-title{
+                    h3{
+                        font-family: $font-semiBold;
+                        font-size:16px;
+                        color: #0a71b9;
+                        
+                    }
+                }
+
+                .search-action-wrap{
+                    .clear-btn{
+                        color: white;
+                        outline: none;
+                        border: none;
+                        background: #d10824;
+                        padding: 4px 6px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        margin-left: 3px;
+                        &.backbtn{
+                            background: #09a3ab;
+                            padding: 4px 10px;
+                        }
+                        &.right-s{
+                            display: none;
+                        }
+                        &.apply{
+                            background: #1f6a9f;
+                        }
+                    }
+
+                   
+                }
+            }
+           .search-filter-body{
+            padding: 10px 10px; 
+            max-height: calc(100vh - 210px);
+            overflow: auto;
+           }
+            .search-filter-form{
+                .search-form-box{
+                    border:solid 1px #36d1d9;
+                    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 6%);
+                    margin-bottom: 11px;
+                    border-radius: 4px;
+                    .search-form-box-header{
+                        position: relative;
+                        border-bottom:solid 1px #36d1d9;
+                        padding: 5px 5px;
+                        h4{
+                            font-family: Montserrat-SemiBold;
+                            font-size: 13px;
+                            color: #029da5;
+                            padding: 4px 4px;
+                            
+                        }
+                        .sb-action{
+                            position: absolute;
+                            top: 7px;
+                            right: 10px;
+                           ul{
+                            @include resetUl();
+                            @include flexbox();
+                               li{
+                                .f-min{
+                                    display: none;
+                                }
+                                 button{
+                                    background: none;
+                                    outline: none;
+                                    border: none;
+                                    color: #ffffff;
+                                    background: #029da5;
+                                    
+                                    border-radius: 2px;
+                                    margin-left: 7px;
+                                    font-size: 11px;
+                                    i{
+                                        padding:2px 4px;
+                                    }
+                                 }
+                               }
+                           }
+                        }
+
+                        &.frmHideHd{
+                            border-bottom: none;
+                            .sb-action{
+                                ul{
+                                    li{
+                                        .f-min{
+                                            display: inline-block;
+                                        }
+                                        .f-pl{
+                                            display: none
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                      
+                    }
+                    &.act{
+                        .search-form-box-header{
+                            background: #4AA96C;
+                            /* background: #77D970; */
+                            background: #FF0075;
+                            background: #FBFF00;
+                            h4{
+                                // color: #ffffff;
+                                
+                            }
+                            .sb-action{
+                                ul{
+                                    li{
+                                      button{
+                                        // background: white;
+                                        // color: #FF0075;
+                                      }
+                                  }
+                            }
+                         }
+                        }
+                       
+                    }
+                    .search-form-box-body{
+                        padding: 15px 17px;
+                        display: none;
+                        &.frmHide{
+                            display: block;
+                        }
+                        .ngx-slider .ngx-slider-pointer {
+                            width: 18px  !important;
+                            height: 18px !important;
+                            top: -7px  !important;
+                            border-radius: 4px;
+                            background: #e10bd0;
+                        }
+                        .ngx-slider .ngx-slider-pointer:after {
+                            width: 6px !important;
+                            height: 6px !important;
+                            top: 6px !important;
+                            left: 6px !important;
+                        }
+                        .ngx-slider .ngx-slider-selection {
+                            background: #e10bd0;
+                        }
+                        .ngx-slider .ngx-slider-bar{
+                            background: #ff64f3;
+                        }
+                        .ngx-slider .ngx-slider-bubble{
+                            color: #121100;
+                            font-size: 11px;
+                            background: #ffec07;
+                            padding: 1 px 6 px;
+                            font-weight: 600;
+                            box-shadow: 0px -1px 5px #9d9103;
+                        }
+                    }
+                   
+                    .mat-form-field{
+                        margin-bottom: 0px !important;
+                        width:100%;
+                    }
+                    .mat-form-field-appearance-outline .mat-form-field-wrapper{
+                        margin-bottom: 0px !important;
+                    }
+                    .mat-form-field-wrapper {
+                        padding-bottom: 0em;
+                    }
+                    .mat-form-field-label{
+                        font-size: 14px;
+                    }
+                    .mat-form-field-outline{
+                        // box-shadow: 0px 4px 4px #0000002b;
+                    }
+
+                    &:nth-child(even) {
+                        background: #f5fffe;
+                      }
+                    .search-box-input{
+                        &.ats-radio-wrap{
+                           
+                            .mat-radio-button{
+                                display: block;
+                                margin-bottom: 9px;
+                                .mat-radio-container{
+                                   height: 15px;
+                                   width: 15px;
+                                }
+                                .mat-radio-outer-circle{
+                                    height: 15px;
+                                    width: 15px;
+                                }
+                                .mat-radio-inner-circle{
+                                    height: 15px;
+                                    width: 15px; 
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+
+    .search-result-wrapper{
+        width:calc(100% - 310px);
+        min-height: 100px;
+        background: #fff;
+        box-shadow: 0 1px 8px 0 rgb(0 0 0 / 6%);
+    }
+}
+
+
+.page-fluid-wrap{
+    .search-candidate-page {
+        .search-filter-wrapper{
+            width: 114px;
+            overflow: hidden;
+            transition: ease 0.7s;
+            .search-main-wrap{
+                .search-filter-header {
+                    // background: #1f6a9f;
+                    .search-title h3{
+                        // font-size: 14px;
+                        // color: #fff;
+                    }
+                    .search-action-wrap {
+                        .clear-btn.backbtn{
+                            // background: #ffffff;
+                            // color: #1f6a9f;
+                            // font-size: 17px;
+                        }
+                        .btn-hide-l{
+                          display: none;
+                        }
+                        .right-s{
+                            display: block;
+                        }
+                        .left-s{
+                            display: none;
+                        }
+                    }
+                }
+                .search-filter-body{
+                 width: 300px;
+                 opacity: 0.3;
+                 transition: ease 0.7s;
+                }
+            }
+        }
+        .search-result-wrapper{
+            width: calc(100% - 120px);
+            transition: ease 0.7s;
+        }
+    }
+}
+
+
+
+
+
+
+  
+  .loader-modal{
+    background: rgba(0, 0, 0, 10/100);
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    @include flexbox();
+    @include justify-content(center);
+    @include align-items(center);
+    .loader-inner{
+      width:50px;
+      .mat-progress-spinner{
+        width: 40px !important;
+        height:40px !important;
+        svg{
+          width:40px !important;
+          height:40px !important;
+        } 
+        circle {
+          stroke: #dcfc9a;
+      }
+      }
+    }
+  
+  }
+
+  .slider-exp-control{
+    .ngx-slider .ngx-slider-pointer {
+        width: 18px  !important;
+        height: 18px !important;
+        top: -7px  !important;
+        border-radius: 4px;
+        background: #e10bd0;
+    }
+    .ngx-slider .ngx-slider-pointer:after {
+        width: 6px !important;
+        height: 6px !important;
+        top: 6px !important;
+        left: 6px !important;
+    }
+    .ngx-slider .ngx-slider-selection {
+        background: #e10bd0;
+    }
+    .ngx-slider .ngx-slider-bar{
+        background: #ff64f3;
+    }
+    .ngx-slider .ngx-slider-bubble{
+        color: #121100;
+        font-size: 11px;
+        background: #ffec07;
+        padding: 1 px 6 px;
+        font-weight: 600;
+        box-shadow: 0px -1px 5px #9d9103;
+    }
+  }

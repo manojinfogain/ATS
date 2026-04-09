@@ -1,0 +1,49 @@
+.aprover-dt-list .table-mat-info td.mat-cell, .aprover-dt-list .table-mat-info td.mat-footer-cell, .aprover-dt-list .table-mat-info th.mat-header-cell {
+    font-size: 12px;
+    padding: 5px 5px !important;
+}
+.show-selected-skills-wrap {
+    padding-left: 11px !important;
+    span{
+        font-weight: 600;
+    }
+}
+.text-filter-alert {
+    padding: 26px 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #797979;
+}
+.box-v-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mat-and-lable{
+    position: relative;
+    margin-left: 12px;
+    &::after{
+        content: "With";
+        position: absolute;
+        top: 12px;
+        left: -19px;
+        font-size: 11px;
+    }
+}
+
+.padding-top-0 {
+    padding-top: 0px;
+}
+
+.width-250 {
+    width: 250px;
+}
+
+.padding-5-4 {
+    padding: 5px 4px;
+}
+
+.max-height-270 {
+    max-height: 270px;
+}

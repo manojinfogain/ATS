@@ -1,0 +1,186 @@
+<div class="can-temp-body">
+    <!-- <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Professional References</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div> -->
+    <!-- end head -->
+    <div class="can-temp-b">
+        <form [formGroup]="otherDetailsform">
+            <div class="document-sc-vb">
+                <section class=" Questionnaire-sec">
+                  
+                   
+
+                    <!-- new table start here -->
+                    <div class="screen-mat-card">
+                        <div class="screen-mat-card-h">
+                            <h4>Professional References (minimum two) </h4>
+                        </div>
+                        <div class="screen-mat-card-b">
+                            <!--  -->
+                            <div class="table-screen-form" *ngIf="candidateReferenceDetails?.length ===0">
+                                <table class="table  table-screen-opt" formArrayName="References">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col"> Designation</th>
+                                            <th scope="col">Name of Organization</th>
+                                            <th scope="col">Mobile No.</th>
+                                            <th scope="col">Email ID</th>
+                                        </tr>
+                                        <ng-container
+                                            *ngFor="let item of ReferencesGroup.controls; let pointIndex=index">
+                                            <tr [formGroupName]="pointIndex">
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Name"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Name" onlyAlphabets (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Designation"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Designation" onlyAlphabets (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text"
+                                                                    placeholder="Name of Organization" maxlength="250"
+                                                                    disableInitialSpace formControlName="Organization" validationSpecialCharacter (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Mobile No."
+                                                                    maxlength="10" disableInitialSpace
+                                                                    formControlName="Mobile" mobNumber (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Email"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Email" (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+
+
+
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="reffrred-view-wrap" *ngIf="candidateReferenceDetails?.length !=0">
+                                <div class="dcb-table">
+                                    <table mat-table [dataSource]="candidateReferenceDetails" class="table-mat-info">
+                                        <ng-container matColumnDef="Name">
+                                            <th mat-header-cell *matHeaderCellDef>Name</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.name || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Email">
+                                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.email || ''}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Mobile">
+                                            <th mat-header-cell *matHeaderCellDef> Mobile No.</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.phone || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Designation">
+                                            <th mat-header-cell *matHeaderCellDef> Designation</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.designation || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Organization">
+                                            <th mat-header-cell *matHeaderCellDef> Organization</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.orgName || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef> Action </th>
+                                            <td mat-cell *matCellDef="let element">
+
+                                                <div class="btn-action btn-action-centers">
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button" matTooltip="Update Details" (click)="openUpdateProRefModal(element)">
+                                                            <span class="material-icons-outlined">
+                                                                mode_edit_outline
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="refrredTableColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: refrredTableColumns;"></tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!-- end view -->
+                        </div>
+                    </div>                   
+
+                </section>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<form [formGroup]="reopenTalentIdForm" (ngSubmit)="reopenTalentIdHandler(reopenTalentIdForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{TalentData?.talent_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Requisition Id Details</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>fullfillment Date:</h4>
+                            <p>{{(TalentData?.initial_fullfilment_date | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter1|| '-'}}</p>
+                        </div>
+
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter2|| '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+            <div class="box-v-ats">
+                <div class="box-v-header">
+                    <h4>Joined Candidate Details</h4>
+                </div>
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx" *ngIf="this.data?.LocationID == 1 || this.data?.LocationID == 2 ||  this.data?.LocationID == 4 || this.data?.LocationID == 5 || this.data?.LocationID == 16 || this.data?.LocationID == 21 || this.data?.LocationID == 11 || this.data?.LocationID == 10">
+                            <h4>CID:</h4>
+                            <p>{{joinedCandData?.Cid || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{joinedCandData?.CandidateName || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Email Id:</h4>
+                            <p>{{joinedCandData?.CandidateEmail || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Status:</h4>
+                            <p>{{joinedCandData?.Status|| '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Joining Date:</h4>
+                            <p>{{(joinedCandData?.DateOfJoining | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Employee Id:</h4>
+                            <p>{{joinedCandData?.EmpId || '-'}}</p>
+                        </div>
+                      
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+            
+            <label class="hlt">Note: You need to transfer the joined candidate on another talent id first in order to re-open this.</label>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon" [disabled]="this.joinedEmpList?.length == 0">
+            Transfer & Re-Open
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

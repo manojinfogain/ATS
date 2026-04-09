@@ -1,0 +1,51 @@
+.title-tb{
+    white-space: nowrap;
+}
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+.div-h3-aln{
+    font-size: 20px;text-align: center;text-decoration: underline;
+}
+.div-ul-cmn-low{
+    list-style-type: lower-alpha;margin-left: 27px;
+}
+.div-ul-ml{
+    list-style-type: disc;margin-left: 5px;
+}
+.li-ml{
+    margin-left: 35px;
+}
+.p-ml{
+    margin-left: 27px;
+}
+.h4-pad{
+    padding: 8px 0px 2px 10px;
+}
+.h3-atch{
+    font-size: 18px;
+}
+.h3-anx{
+    font-size: 16px
+}

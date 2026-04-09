@@ -1,0 +1,313 @@
+<div class="ats-modal-header">
+    <!-- <h1>{{data.title}} {{data.CTHID}} Details</h1> -->
+    <h1>{{'View Posted Job Details'}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <ng-container>
+               
+                <div class="box-v-ats">
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx" *ngIf="jobDetails?.Locations && jobDetails.Locations.length > 0">
+                                <h4>Location:</h4>
+                                <p>{{jobDetails?.Locations ? showPostingLocations(jobDetails?.Locations) : '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Title:</h4>
+                                <p>{{jobDetails?.Title || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Salary Currency:</h4>
+                                <p>{{jobDetails?.SalaryCurrency || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Minimum Salary:</h4>
+                                <p> {{jobDetails?.MinSalary||'-'}} </p>
+                            </div>
+                            <!-- end -->
+
+                            <div class="view-list-bx">
+                                <h4>Maximum Salary:</h4>
+                                <p>{{jobDetails?.MaxSalary || '-'}}</p>
+                            </div>
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Show Salary:</h4>
+                                <p>{{jobDetails?.ShowSalary == true ? 'Yes' : 'No'}}</p>
+                            </div>
+                            <!-- end  -->
+                            <!-- BU renamed to MU - marketing Unit - 22-april-2024 -->
+                            <!-- <div class="view-list-bx">
+                                <h4>Employment Type:</h4>
+                                <p>{{jobDetails?.EmploymentType || '-'}}</p>
+                            </div> -->
+                            <!-- end -->
+                            <div class="view-list-bx">
+                                <h4>Work Mode:</h4>
+                                <p>{{jobDetails?.WorkMode || '-'}}</p>
+                            </div>
+                             <div class="view-list-bx">
+                                <h4>Minimum Work Experience:</h4>
+                                <p>{{jobDetails?.MinWorkExperience ? jobDetails?.MinWorkExperience+' year(s)' : '-'}}</p>
+                            </div>
+                            <!-- end -->
+                             <div class="view-list-bx">
+                                <h4>Maximum Work Experience:</h4>
+                                <p>{{jobDetails?.MaxWorkExperience ? jobDetails?.MaxWorkExperience+' year(s)' : '-'}}</p>
+                            </div>
+                            <!-- end --> 
+                             <div class="view-list-bx">
+                                <h4>Course Type:</h4>
+                                 <p>
+                                    {{jobDetails?.EducationQualifications ? showCourseType(jobDetails?.EducationQualifications) : '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                             <div class="view-list-bx">
+                                <h4>Qualification:</h4>
+                                  <p>
+                                    {{jobDetails?.EducationQualifications ? showQualification(jobDetails?.EducationQualifications) : '-'}}
+                                </p>
+                            </div>
+                            <!-- end -->
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Job Details</h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Job Description:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Description ?(jobDetails?.Description| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-v-ats" *ngIf="jobDetails?.Questions?.length > 0">
+                    <div class="box-v-header">
+                        <h4>Questions</h4>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 0">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width" >
+                                <h4>Question 1:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[0]?.questionText ?(jobDetails?.Questions[0]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 1">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 2:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[1]?.questionText ?(jobDetails?.Questions[1]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 2">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 3:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[2]?.questionText ?(jobDetails?.Questions[2]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 3">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 4:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[3]?.questionText ?(jobDetails?.Questions[3]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 4">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 5:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[4]?.questionText ?(jobDetails?.Questions[4]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 5">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 6:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[5]?.questionText ?(jobDetails?.Questions[5]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 6">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 7:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[6]?.questionText ?(jobDetails?.Questions[6]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 7">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 8:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[7]?.questionText ?(jobDetails?.Questions[7]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 8">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 9:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[8]?.questionText ?(jobDetails?.Questions[8]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-v-body" *ngIf="jobDetails?.Questions?.length > 9">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">                        
+                            <div class="view-list-bx jd-js-width">
+                                <h4>Question 10:</h4>
+                                <div class="pre-view-s" [innerHTML]="jobDetails?.Questions[9]?.questionText ?(jobDetails?.Questions[9]?.questionText| safeHtml): '-'"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                                        
+                </div>
+                <div class="box-v-ats">
+                    <div class="box-v-header">
+                        <h4>Posted Job Status </h4>
+                    </div>
+                    <div class="box-v-body">
+                        <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                            <div class="view-list-bx">
+                                <h4>Status:</h4>
+                                <p>
+                                    <ng-container [ngSwitch]="data?.PostedStatus">
+                                        <ng-container *ngSwitchCase="'CREATED'">
+                                            <button class="btn-status-dg shortlisted" type="button">
+                                                {{'Published'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'CREATE_PENDING'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'Publish Pending'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'REFRESHED'">
+                                            <button class="btn-status-dg shortlisted" type="button">
+                                                {{'Refreshed'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'REFRESH_PENDING'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'Refresh Pending'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'UPDATE_PENDING'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'Update Pending'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'UPDATE_FAILED'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                {{'Update Failed'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'UPDATED'">
+                                            <button class="btn-status-dg shortlisted" type="button">
+                                                {{'Updated'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'DELETED'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                {{'Deactivated'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'DELETE_PENDING'">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{'Deactivation Pending'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'CREATE_FAILED'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                {{'Publish Failed'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="'EXPIRED'">
+                                            <button class="btn-status-dg rejects" type="button">
+                                                {{'Expired'}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            <button class="btn-status-dg" type="button">
+                                                {{'Not Published'}}
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                </p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>URL:</h4>
+                                <p>{{jobDetails?.JobStatus['Naukri']?.Url || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Initial Publish Date:</h4>
+                                <p>{{(jobDetails?.JobStatus['Naukri']?.PostedDate  | date:'mediumDate') || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Expiry Date:</h4>
+                                <p>{{(jobDetails?.JobStatus['Naukri']?.ExpiryDate  | date:'mediumDate')|| '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Job Id:</h4>
+                                <p>{{jobDetails?.JobStatus['Naukri']?.JobId || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Refresh Count:</h4>
+                                <p>{{jobDetails?.JobStatus['Naukri']?.RefreshedCount || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Refresh Date:</h4>
+                                <p>{{jobDetails?.JobStatus['Naukri']?.RefreshedCount ? (jobDetails?.JobStatus['Naukri']?.RefreshedDate  | date:'mediumDate') : '-'}}</p>
+                            </div>
+                             <div class="view-list-bx">
+                                <h4>Reference Code:</h4>
+                                <p>{{jobDetails?.ReferenceCode || '-'}}</p>
+                            </div>
+                            <div class="view-list-bx">
+                                <h4>Unpublish Date:</h4>
+                                <p>{{(data?.UnpublishDate | date:'mediumDate') || '-'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <ng-container>
+            </ng-container>
+
+        <!-- </div> -->
+
+    <!-- </div> -->
+    <div class="ats-modal-footer text-center" >
+        <!-- <button type="button" class="btn btn-infocon" (click)="submitApprove(ApprovalActionForm)">
+            Submit
+        </button> -->
+
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

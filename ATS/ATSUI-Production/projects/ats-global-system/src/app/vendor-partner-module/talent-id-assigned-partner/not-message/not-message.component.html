@@ -1,0 +1,22 @@
+<div class="ats-modal-header">
+    <h1>Message</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body">
+        <h6 class="sm-t">Following Partner contract has been expired. Please unselect these parntner to continue:</h6>
+        <div class="msg-list" *ngIf="data">
+            <mat-list>
+                <mat-list-item *ngFor="let item of data"  class="err">
+                    <mat-icon mat-list-icon>error</mat-icon>
+                    <div class="mat-line-v">{{item?.PartnerName}}</div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</div>
+<div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+        OK
+    </button>
+</div>

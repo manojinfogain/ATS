@@ -1,0 +1,198 @@
+<form [formGroup]="updateFamilyDetailsForm" (ngSubmit)="submitForm(updateFamilyDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Relationship</mat-label>
+                            <mat-select formControlName="relationship" required [disabled]="data?.type == 2" (selectionChange)="selectRelation($event?.value)">
+                                <mat-option *ngFor="let list of familyListFiltered" [value]="list?.REL_ID">
+                                    {{list?.REL_NAME}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="relationshipControl?.touched && relationshipControl?.invalid">
+                            <div *ngIf="relationshipControl?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label> Name</mat-label>
+                            <input matInput type="text" onlyAlphabets formControlName="familyMemberName" required
+                                minlength="3" maxlength="150">
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('familyMemberName')?.touched && getControl('familyMemberName')?.invalid">
+                            <!-- <div *ngIf="getControl('familyMemberName')?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('familyMemberName')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="memberDob"
+                                [max]="today">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="memberDobControl?.touched && memberDobControl?.invalid">
+                            <div *ngIf="memberDobControl?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label> Address</mat-label>
+                            <input matInput type="text" formControlName="address" minlength="5" maxlength="250">
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('address')?.touched && getControl('address')?.invalid">
+                            <div *ngIf="getControl('address')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText2}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Location</mat-label>
+                            <input matInput type="text" formControlName="currentlocation" alphaNumericForAdd minlength="3" maxlength="150">
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('currentlocation')?.touched && getControl('currentlocation')?.invalid">
+                            <!-- <div *ngIf="getControl('currentlocation')?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div> -->
+                            <div *ngIf="getControl('currentlocation')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Dependent</mat-label>
+                            <mat-select formControlName="dependent">
+                                <mat-option value="Y">Yes</mat-option>
+                                <mat-option value="N">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="dependentControl?.touched && dependentControl?.invalid">
+                            <div *ngIf="dependentControl?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Gender</mat-label>
+                            <mat-select formControlName="gender" required>
+                                <mat-option *ngFor="let list of genderList" [value]="list?.ID">{{list?.Name}}
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="genderControl?.touched && genderControl?.invalid">
+                            <div *ngIf="genderControl?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Minor</mat-label>
+                            <mat-select formControlName="minor" (selectionChange)="selectMinor($event?.value)">
+                                <mat-option value="Y">Yes</mat-option>
+                                <mat-option value="N">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="minorControl?.touched && minorControl?.invalid">
+                            <div *ngIf="minorControl?.errors?.required">
+                                <span class="require-field">{{requireText}}</span>
+                            </div>
+                        </mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="isGuardianShow">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Guardian Name</mat-label>
+                            <input matInput type="text" onlyAlphabets minlength="3" formControlName="guardianName"
+                                maxlength="150">
+                        </mat-form-field>
+                        <mat-error *ngIf="getControl('guardianName')?.touched && getControl('guardianName')?.invalid">
+                            <div *ngIf="getControl('guardianName')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText1}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="isGuardianShow">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Guardian Address</mat-label>
+                            <input matInput type="text" formControlName="guardianAddress" minlength="5" maxlength="250">
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('guardianAddress')?.touched && getControl('guardianAddress')?.invalid">
+                            <div *ngIf="getControl('guardianAddress')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText2}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Occupation</mat-label>
+                            <mat-select formControlName="occupation">
+                                <mat-option *ngFor="let list of occupationList" [value]="list?.id">{{list?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name Of Organization (If Any)</mat-label>
+                            <input matInput type="text" formControlName="organizatonName" numericAndAlphabets minlength="5" maxlength="150">
+                        </mat-form-field>
+                        <mat-error
+                            *ngIf="getControl('organizatonName')?.touched && getControl('organizatonName')?.invalid">
+                            <div *ngIf="getControl('organizatonName')?.errors?.minlength">
+                                <span class="error-text">{{requireMinCharacText2}}</span>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,68 @@
+<form [formGroup]="partnerStatusForm" (ngSubmit)="approveRejected(partnerStatusForm)">
+    <div class="ats-modal-header">
+        <h1 *ngIf="this.data?.type=='A'">Approve All Selected Talent ID To Assign To Partner</h1>
+        <h1 *ngIf="this.data?.type=='R'">Reffered Back All Selected Talent ID</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark">
+                <!-- <div class="ats-form-col mat-radio-ats mat-radio-btn-ats contract-radio full-width"
+                *ngIf="data?.type == 'A'">
+                    <label class="lb-title">Action<sup>*</sup> </label>
+                    <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                        formControlName="Action">
+                        <mat-radio-button value="A">Approve</mat-radio-button>
+                        <mat-radio-button value="R"> Referred Back </mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+                <!-- end col -->
+                <div class="ats-form-col full-width" *ngIf="data?.type == 'C'">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label appRemoveAriaOwns >TAG Lead Approver</mat-label>
+                        <mat-select formControlName="TAGLeadID">
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                    [formControl]="FilterCtrlTAG" [noEntriesFoundLabel]="'No record Found'"
+                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let list of tagHeadList | panelFilter:searchInput"
+                                [value]="list.empnewid">
+                                {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                            </mat-option>
+                        </mat-select>
+                       
+                        <mat-error
+                            *ngIf="getControl('TAGLeadID')?.touched && getControl('TAGLeadID')?.invalid">
+                            <div *ngIf="getControl('TAGLeadID')?.errors.required">
+                                TAG Lead Approver is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col full-width">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput placeholder="Enter Remark" formControlName="Remarks"
+                            disableInitialSpace></textarea>
+
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

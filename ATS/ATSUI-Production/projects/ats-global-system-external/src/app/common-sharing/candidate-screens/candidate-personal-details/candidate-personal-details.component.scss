@@ -1,0 +1,10 @@
+.error{
+    color: red;
+}
+
+.disable-pointer{
+    pointer-events: none !important;
+    cursor: not-allowed;
+    cursor: no-drop !important;
+   
+  }

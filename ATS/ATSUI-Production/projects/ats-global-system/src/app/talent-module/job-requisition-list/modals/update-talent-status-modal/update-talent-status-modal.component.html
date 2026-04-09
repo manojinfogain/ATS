@@ -1,0 +1,309 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} - {{data?.CTHID}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+        <!-- <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Candidate Details</h4>
+            </div>
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4>Candidate Name:</h4>
+                        <p>{{offerAprDt?.Name || '-'}}</p>
+                    </div>
+                    
+                    <div class="view-list-bx">
+                        <h4>Candidate Email:</h4>
+                        <p>{{offerAprDt?.email || '-'}}</p>
+                    </div>
+                 
+
+                </div>
+            </div>
+        </div> -->
+        <!-- end -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Update Status</h4>
+            </div>
+
+            <div class="form-appr">
+                <form [formGroup]="updateTalentForm">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Talent Status</mat-label>
+                                <mat-select formControlName="Status" required (selectionChange)="statusChange($event)">
+                                    <mat-option *ngFor="let list of talentStatusList" [value]="list?.id">
+                                        {{list?.SUB_STATUS_NAME}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && USEmployeeIdCTRL">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Employee List</mat-label>
+                                <mat-select formControlName="USEmployeeId" [disabled]="isDisabled">
+                                    <mat-option>
+                                        <ngx-mat-select-search class="mat-selec-search-youxta"
+                                            [formControl]="FilterCtrlUSEmployee"
+                                            [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                            [clearSearchInput]="false">
+
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option
+                                        *ngFor="let list of USEmployeeList | USEmployeeFilter:searchInputUSEmployee"
+                                        [value]="list?.empnewid">
+                                        {{list?.fullName+' ( '+list?.empnewid+' ) '}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && USEmployeeIdCTRL">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Profile Source Type</mat-label>
+                                <mat-select formControlName="profileSource" [disabled]="isDisabled" (selectionChange)="profileSourceChange($event)">
+                                    <mat-option *ngFor="let list of ProfileSourceList" [value]="list?.id">
+                                        {{list?.Name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isVisibleRefName">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Referrer Name</mat-label>
+                                <input matInput placeholder="Referrer Name" maxlength="250" disableInitialSpace
+                                    formControlName="referrerName" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isVisibleExtPortal">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns>External Portal</mat-label>
+                                <mat-select formControlName="externalPortal" required>
+                                    <mat-option *ngFor="let list of externalPortalList" [value]="list.Id">
+                                        {{list.Name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && USEmployeeIdCTRL">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Offer Date</mat-label>
+                                <input matInput [matDatepicker]="pickerOD"
+                                    [required]="isVisibleForTag && USEmployeeIdCTRL" formControlName="DateOfOffer"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="pickerOD">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #pickerOD>
+                                </mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && USEmployeeIdCTRL">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Joining Date</mat-label>
+                                <input matInput [matDatepicker]="pickerJD" [min]="getControl('DateOfOffer')?.value"
+                                    [required]="isVisibleForTag && USEmployeeIdCTRL" formControlName="DateOfJoining"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="pickerJD">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #pickerJD>
+                                </mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <!-- <div class="ats-form-col">
+                                <app-employee-list [panelIdControl]="getControl('SelectEmployee')"
+                                [formFieldAppearance]="formAppearance" [required]="true"
+                                [title]="'Select Employee'" 
+                                [isEmpListAll]="false" 
+                                [showSelectedValue]="true" [isEmpListServerSide]="true"></app-employee-list>
+                        </div> -->
+                        <div class="ats-form-col arrow-inp-wrap" *ngIf="isFUllFIlmentWMg">
+                            <app-employee-list [panelIdControl]="getControl('SelectEmployee')"
+                                [formFieldAppearance]="formAppearance" (getDataEmp)="getDataEmployeeWmg($event)"
+                                [title]="'Employee Name'" [isEmpListAll]="false" [required]="isFUllFIlmentWMg"></app-employee-list>
+                        </div>
+                        <!-- end col -->
+                        <!-- for wmg - in selection of refer back dropdown -->
+                        <div class="ats-form-col" *ngIf="onlyForWMg">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Refer Back Reason</mat-label>
+                                <mat-select formControlName="wmgReferReason">
+                                    <mat-option *ngFor="let list of referBackReasonByWmgList" [value]="list?.ID">
+                                        {{list?.REJECT_REASON}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <!-- <mat-error *ngIf="getControl('Status')?.touched && getControl('Status')?.invalid">
+                                <div *ngIf="getControl('Status')?.errors.required">
+                                    Status is required.
+                                </div>
+                            </mat-error> -->
+                        </div>
+                        <!--  -->
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && reasonCTRL">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Reason</mat-label>
+                                <mat-select formControlName="reason" (selectionChange)="getReasonId($event)">
+                                    <mat-option *ngFor="let list of backToWmgReasonList" [value]="list?.ID">
+                                        {{list?.SENDBACK_REASON}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <!-- <mat-error *ngIf="getControl('Status')?.touched && getControl('Status')?.invalid">
+                                <div *ngIf="getControl('Status')?.errors.required">
+                                    Status is required.
+                                </div>
+                            </mat-error> -->
+                        </div>
+                        <!--  -->
+                        <div class="ats-form-col" *ngIf="isVisibleForTag && subReasonCTRL">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Sub Reason</mat-label>
+                                <mat-select formControlName="subReason">
+                                    <mat-option *ngFor="let list of subReason" [value]="list?.value">
+                                        {{list?.subReason}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- validate -->
+                            <!-- <mat-error *ngIf="getControl('Status')?.touched && getControl('Status')?.invalid">
+                                <div *ngIf="getControl('Status')?.errors.required">
+                                    Status is required.
+                                </div>
+                            </mat-error> -->
+                        </div>
+                        <!-- show employee name when drodown will be ''fulfiled internally'' -->
+                        <!--  -->
+                        <div class="ats-form-col arrow-inp-wrap" *ngIf="isVisibleForTag && employeeCTRL">
+                            <app-employee-list [panelIdControl]="getControl('employeeName')"
+                                [formFieldAppearance]="formAppearance" (getDataEmp)="getDataInt($event)"
+                                [title]="'Employee Name'"
+                                [isEmpListAll]="false"></app-employee-list>
+                        </div>
+                        <!-- end col -->
+                        <div class="ats-form-col" *ngIf="!issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput placeholder="remarks" maxlength="250" disableInitialSpace
+                                    formControlName="remarks">
+                            </mat-form-field>
+                            <!-- validate -->
+                            <!-- <mat-error *ngIf="getControl('remarks')?.touched && getControl('remarks')?.invalid">
+                                <div *ngIf="getControl('remarks')?.errors.required">
+                                    Remark is required.
+                                </div>
+                            </mat-error> -->
+                            <!-- validate ends-->
+                        </div>
+                        <!-- end -->
+                        <!-- send to tag by wmg section starts -->
+                        <div class="ats-form-col" *ngIf="issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Category</mat-label>
+                                <mat-select formControlName="talentStatusCategory" (selectionChange)="talentCategoryChangeID($event)">
+                                    <mat-option *ngFor="let list of sendToTagByWMGCategList" [value]="list?.ID">
+                                        {{list?.Send_Reason}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+
+                        <div class="ats-form-col arrow-inp-wrap" *ngIf="issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Approved By</mat-label>
+                                <mat-select formControlName="ApprovedBy"
+                                    (selectionChange)="approvedByChangeId($event)">
+                                    <mat-option *ngFor="let list of approveByList" [value]="list?.ID">
+                                        {{list?.ApprovedBy}}</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col" *ngIf="issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label appRemoveAriaOwns >Approved Over</mat-label>
+                                <mat-select formControlName="ApprovedOver">
+                                    <mat-option *ngFor="let list of sendToTagApprovedOverList" [value]="list?.ID">
+                                        {{list?.Name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- end -->
+                        <div class="ats-form-col" *ngIf="issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="ats-mat-form-field">
+                                <mat-label>Approved On</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="ApprovedOnDate" readonly
+                                    placeholder="Approved On">
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon>calendar_month
+                                    </mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="ats-form-col" *ngIf="issendToTagSelected">
+                            <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                <mat-label>WMG Remarks</mat-label>
+                                <textarea matInput placeholder="WMG Remarks" maxlength="200" minlength="10"
+                                    disableInitialSpace formControlName="wmgRemarks" #wmgRemark></textarea>
+                                <mat-hint class="hint-wrap" align="end">{{wmgRemark.value.length}}/200</mat-hint>
+                            </mat-form-field>
+
+                            <mat-error *ngIf="getControl('wmgRemarks')?.touched && getControl('wmgRemarks')?.invalid &&getControl('wmgRemarks')?.errors.minlength">
+                                <!-- <div *ngIf="getControl('wmgRemarks')?.errors.required">
+                                    Remark is required.
+                                </div> -->
+                                <div >
+                                    <span> Atleast 10 characters required. </span>
+                                </div>
+                            </mat-error>
+                        </div>
+
+                        <!-- <div class="ats-form-col">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font  ats-forms-horz3 form-outline-ats ats-form-dark file-upld-wrp"
+                                [ngClass]="getControl('attechmentFile').touched && getControl('attechmentFile').invalid ? 'error-file-input':'suc'">
+                                 -->
+                        <div class="ats-form-col upload-file-ats view-btn-handle" *ngIf="issendToTagSelected">
+                            <div class="upload-file-input">
+                                <label> Attachment <span *ngIf="isAttachmentRequired">(Optional)</span> 
+                                    <span class="error" *ngIf="!isAttachmentRequired">*</span>
+                                    <!-- <sup>*</sup> -->
+                                </label>
+                                <input type="file" formControlName="attechmentFile" #fileBGV1
+                                    (change)="fileUpAttachement($event)">
+                                <mat-error
+                                    *ngIf="getControl('attechmentFile')?.touched && getControl('attechmentFile')?.invalid">
+                                    <div *ngIf="getControl('attechmentFile')?.errors.required">
+                                        Please choose a file.
+                                    </div>
+                                </mat-error>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- end -->
+        </div>
+        <!-- end -->
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" [disabled]="isDisabled" (click)="updateTalentHandler(updateTalentForm)">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

@@ -1,0 +1,438 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Other Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <form [formGroup]="otherDetailsform">
+            <div class="document-sc-vb">
+                <section class=" Questionnaire-sec">
+                    <div class="doc-up-l Questionnaire-wrapper">
+                        <div class="screen-mat-card">
+                            <div class="screen-mat-card-h">
+                                <h4>Questionnaire </h4>
+                            </div>
+                            <div class="screen-mat-card-b">
+                                <div class="questionare-wrap">
+                                    <ng-container  *ngIf="isHideAllControl" formArrayName="Questionire">
+                                        <ng-container
+                                            *ngFor="let item of questionareGroup.controls; let pointIndex=index">
+                                            <div class="questionare-row" [formGroupName]="pointIndex">
+                                                <input type="hidden" formControlName="questId">
+                                                <input type="hidden" formControlName="quest" #questT>
+                                                <div class="quest-in">
+                                                    <h4>{{questT.value}} <span class="error-red">*</span></h4>
+                                                    <div class="ats-radio-mat-flat ats-quest-rd">
+                                                        <mat-radio-group aria-label="Select an option"
+                                                            formControlName="yesNo"
+                                                            (change)="getYesNo($event,pointIndex)">
+                                                            <mat-radio-button value="Y">Yes</mat-radio-button>
+                                                            <mat-radio-button value="N">No</mat-radio-button>
+                                                        </mat-radio-group>
+                                                    </div>
+                                                    <div class="text-qs">
+                                                        <mat-form-field class="ats-mat-form-field"
+                                                            [appearance]="appearance">
+                                                            <textarea matInput placeholder="Enter Details" class="height-69"
+                                                                formControlName="details"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                        </ng-container>
+                                    </ng-container>
+
+
+                                    <ng-container *ngIf="candidateQuestionareDetails?.length ==0">
+                                        <div class="questionare-row">
+                                            <div class="quest-in">
+                                                <h4>Your Location preference: <span class="error-red">*</span></h4>
+                                                <div class="ats-radio-mat-flatx width-200">
+                                                    <mat-form-field class="ats-mat-form-field width-300"
+                                                        [appearance]="appearance">
+                                                        <mat-label appRemoveAriaOwns >Location:</mat-label>
+                                                        <mat-select placeholder="Select Location"
+                                                            formControlName="prefLocId">
+                                                            <mat-option *ngFor="let list of locList" 
+                                                            [matTooltip]="list?.LocName"
+                                                                [value]="list?.LocID">
+                                                                {{list?.LocName}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="checkbox-wrapper mt22-ml16">
+                                                    <mat-checkbox 
+                                                    [ngClass]="getControl('locationConsent')?.touched  && getControl('locationConsent')?.invalid ? 'consent-error':'suc'" formControlName="locationConsent">
+                                                        <sup class="dangr">*</sup>
+                                                        <ng-container>
+                                                            <span >
+                                                                I will be ready to work from the designated Infogain payroll location, Infogain
+                                                                office or the <br> client office, depending on the role and business needs at the
+                                                                time of my employment and in <br> the future.
+                        
+                                                            </span>
+                                                        </ng-container>
+                                                    </mat-checkbox>
+                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="questionare-row">
+                                            <div class="quest-in">
+                                                <h4>What are your specific strengths & Improvement Areas? <span class="error-red">*</span></h4>
+                                                <div class="text-qs">
+                                                    <mat-form-field class="ats-mat-form-field"
+                                                        [appearance]="appearance">
+                                                        <textarea matInput placeholder="Enter Details" class="height-42"
+                                                            formControlName="strengthsImpArea"></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="questionare-row">
+                                            <div class="quest-in">
+                                                <h4>What are the latest technological domains you should consider acquiring or enhancing your skills in? <span class="error-red">*</span></h4>
+                                                <div class="text-qs">
+                                                    <mat-form-field class="ats-mat-form-field"
+                                                        [appearance]="appearance">
+                                                        <textarea matInput placeholder="Enter Details"
+                                                            formControlName="techAreaImprove"></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+                                    </ng-container>
+
+
+                                </div>
+                                <!-- end -->
+
+                                <div class="questionare-view-wrap"  *ngIf="candidateQuestionareDetails?.length !=0">
+                                    <div class="dcb-table">
+                                        <table mat-table [dataSource]="candidateQuestionareDetails"
+                                            class="table-mat-info">
+                                            <ng-container matColumnDef="quest">
+                                                <th mat-header-cell *matHeaderCellDef>Question</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.question || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="ans">
+                                                <th mat-header-cell *matHeaderCellDef> Answer </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.yesNo?element?.yesNo == 'Y'?'Yes':'No':''}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="comment">
+                                                <th mat-header-cell *matHeaderCellDef> Comment</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element?.details || '-'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                                <td mat-cell *matCellDef="let element">
+
+                                                    <div class="btn-action btn-action-centers">
+                                                        <div class="btn-act">
+                                                            <button mat-button type="button" (click)="openUpdateOtherDetailsModal(element)"
+                                                                matTooltip="Update Details">
+                                                                <span class="material-icons-outlined">
+                                                                    mode_edit_outline
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <!-- end view -->
+
+                            </div>
+                        </div>
+                        <!-- end -->
+                    </div>
+
+                     <div class="screen-mat-card" *ngIf="candidateQuestionareDetails?.length !=0">
+                        <div class="screen-mat-card-h">
+                            <div class="screen-mat-card-h-t">
+                                <h4>Other Information</h4>
+                            </div>
+                            <div class="screen-mat-card-h-t" *ngIf="!isFinalSumbit && hideEditOtherInfo">
+                                <div class="ul-action">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" 
+                                                matTooltip="Update Details" (click)="openUpdateOtherInfoModal()">
+                                                <span class="material-icons-outlined">
+                                                    mode_edit_outline
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="screen-mat-card-b">
+                              <div class="other_view_in">
+                                    <div class="col-md-view">
+                                        <div class="oth-b-ms">
+                                            <h4>Your Location preference: </h4>
+                                            <p>{{candidateOtherDetails?.locationPreferenceName}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-view">
+                                        <div class="oth-b-ms">
+                                            <h4>Location preference Consent: </h4>
+                                            <p>{{candidateOtherDetails?.locationConsent == 1 ? 'Yes' : '-'}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-view">
+                                        <div class="oth-b-ms">
+                                            <h4>What are your specific strengths & Improvement Areas? </h4>
+                                            <p>{{candidateOtherDetails?.strengthsImprovementArea}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-view">
+                                        <div class="oth-b-ms">
+                                            <h4>What are the latest technological domains you should consider acquiring or enhancing your skills in? </h4>
+                                            <p>{{candidateOtherDetails?.techAreaImprove}}</p>
+                                        </div>
+                                    </div>
+                              </div>
+                        </div>
+                    </div>
+                    <!-- <div class="screen-mat-card" *ngIf="candidateQuestionareDetails?.length ==0">
+                        <div class="screen-mat-card-h">
+                            <h4>Other Information </h4>
+                        </div>
+                        <div class="screen-mat-card-b">
+                            <div class="questionare-wrap">
+                                <ng-container *ngIf="candidateQuestionareDetails?.length ==0">
+                                    <div class="questionare-row">
+                                        <div class="quest-in">
+                                            <h4>Your Location preference: <span class="error-red">*</span></h4>
+                                            <div class="ats-radio-mat-flatx width-200">
+                                                <mat-form-field class="ats-mat-form-field"
+                                                    [appearance]="appearance">
+                                                    <mat-label>Your Location preference:</mat-label>
+                                                    <mat-select placeholder="Select Location"
+                                                        formControlName="prefLocId">
+                                                        <mat-option *ngFor="let list of locList"
+                                                            [value]="list?.LocID">
+                                                            {{list?.LocName}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="checkbox-wrapper mt22-ml16">
+                                                <mat-checkbox 
+                                                [ngClass]="getControl('locationConsent')?.touched  && getControl('locationConsent')?.invalid ? 'consent-error':'suc'" formControlName="locationConsent">
+                                                    <sup class="dangr">*</sup>
+                                                    <ng-container>
+                                                        <span >
+                                                            I will be ready to work from the designated Infogain payroll location, Infogain
+                                                            office or the <br> client office, depending on the role and business needs at the
+                                                            time of my employment and in <br> the future.
+                    
+                                                        </span>
+                                                    </ng-container>
+                                                </mat-checkbox>
+                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- new table start here -->
+                    <div class="screen-mat-card">
+                        <div class="screen-mat-card-h">
+                            <h4>Professional References (minimum two) </h4>
+                        </div>
+                        <div class="screen-mat-card-b">
+
+                            <div class="table-screen-form" *ngIf="candidateReferenceDetails?.length ===0">
+                                <table class="table  table-screen-opt" formArrayName="References">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col"> Designation</th>
+                                            <th scope="col">Name of Organization</th>
+                                            <th scope="col">Mobile No.</th>
+                                            <th scope="col">Email ID</th>
+                                        </tr>
+                                        <ng-container
+                                            *ngFor="let item of ReferencesGroup.controls; let pointIndex=index">
+                                            <tr [formGroupName]="pointIndex">
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Name"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Name" onlyAlphabets (change)="applyValidation(pointIndex)" appCapitalizeWords>
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Designation"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Designation" onlyAlphabets (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text"
+                                                                    placeholder="Name of Organization" maxlength="250"
+                                                                    disableInitialSpace formControlName="Organization" validationSpecialCharacter (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Mobile No."
+                                                                    maxlength="10" disableInitialSpace
+                                                                    formControlName="Mobile" mobNumber (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-on-ats form-on-ats-fluid" [ngClass]="formClass">
+                                                        <div class="form-on-col">
+                                                            <mat-form-field class="ats-mat-form-field"
+                                                                [appearance]="appearance">
+                                                                <input matInput type="text" placeholder="Email"
+                                                                    maxlength="250" disableInitialSpace
+                                                                    formControlName="Email" (change)="applyValidation(pointIndex)">
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+
+
+
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="reffrred-view-wrap" *ngIf="candidateReferenceDetails?.length !=0">
+                                <div class="dcb-table">
+                                    <table mat-table [dataSource]="candidateReferenceDetails" class="table-mat-info">
+                                        <ng-container matColumnDef="Name">
+                                            <th mat-header-cell *matHeaderCellDef>Name</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.name || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Email">
+                                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.email || ''}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Mobile">
+                                            <th mat-header-cell *matHeaderCellDef> Mobile No.</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.phone || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Designation">
+                                            <th mat-header-cell *matHeaderCellDef> Designation</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.designation || '-'}}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Organization">
+                                            <th mat-header-cell *matHeaderCellDef> Organization</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element?.orgName || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef> Action </th>
+                                            <td mat-cell *matCellDef="let element">
+
+                                                <div class="btn-action btn-action-centers">
+                                                    <div class="btn-act">
+                                                        <button mat-button type="button" matTooltip="Update Details" (click)="openUpdateProRefModal(element)">
+                                                            <span class="material-icons-outlined">
+                                                                mode_edit_outline
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="refrredTableColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: refrredTableColumns;"></tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!-- end view -->
+                        </div>
+                    </div>                   
+
+                </section>
+
+            </div>
+        </form>
+    </div>
+</div>

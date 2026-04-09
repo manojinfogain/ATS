@@ -1,0 +1,381 @@
+<form [formGroup]="updateEduDetailsForm" (ngSubmit)="submitForm(updateEduDetailsForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+        <div class="msg-educ" *ngIf="data?.isLeadershipOnboard && data?.educationList.length ==0">
+            <p class="higher-educ">  <span class="material-icons">
+                info
+                </span>Please add your higher education details first. </p>
+        </div>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+           
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Course Name</mat-label>
+                            <mat-select formControlName="courseId" required [disabled]="isCourseDisabled"
+                                (selectionChange)="getCourseId($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCourseId" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of degreeList | CourseIdFilter:searchInputCourse"
+                                    [value]="data?.DEGREE_ID">
+                                    {{data?.DEGREE_NAME}}
+                                </mat-option>
+                                <mat-option [value]="0">
+                                    Others
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="courseIdControl?.touched && courseIdControl?.invalid">
+                                <div *ngIf="courseIdControl?.errors?.required">
+                                    Course Name is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col" *ngIf="manualCourseReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Course Name</mat-label>
+                            <input matInput type="text" formControlName="ManualCourseName" [required]="manualCourseReq"
+                                disableInitialSpace alphaNumericForAdd>
+                            <!-- <mat-error *ngIf="ManualCourseName?.touched && ManualCourseName?.invalid">
+                                <div *ngIf="ManualCourseName?.errors?.required">
+                                    Course Name is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Attended From</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="dateFrom" required
+                                [max]="today" (dateInput)="changeDateStart($event)">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="dateFromControl?.touched && dateFromControl?.invalid">
+                                <div *ngIf="dateFromControl?.errors?.required">
+                                    Attended From Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Attended To</mat-label>
+                            <input matInput [matDatepicker]="picker2" readonly formControlName="dateTo" required
+                                [min]="dateFromControl?.value" (dateInput)="changeDateEnd($event)">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error *ngIf="dateToControl?.touched && dateToControl?.invalid">
+                                <div *ngIf="dateToControl?.errors?.required">
+                                    Attended To Date is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Year of Passing</mat-label>
+                            <mat-select formControlName="yearOfPassing" required
+                            (selectionChange)="getPassingYeear($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrlYop"
+                                        [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                        [clearSearchInput]="false" onlyNumber>
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let year of passoutYear | YopFilter:searchInputYop" [value]="year">
+                                    {{year}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="yearOfPassingControl?.touched && yearOfPassingControl?.invalid">
+                                <div *ngIf="yearOfPassingControl?.errors?.required">
+                                    Year of Passing is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Name of School/College</mat-label>
+                            <!-- <input matInput type="text" formControlName="collegeName" required> -->
+                            <mat-select formControlName="collegeName" required
+                                (selectionChange)="collegeSelect($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCollege" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of collegeList | CollegeNameFilter:searchInputClg"
+                                    [value]="data?.COLLEGE_ID">
+                                    {{data?.COLLEGE_NAME}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="collegeNameControl?.touched && collegeNameControl?.invalid">
+                                <div *ngIf="collegeNameControl?.errors?.required">
+                                    Name of College/Establishment is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="manualCollReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of School/College</mat-label>
+                            <input matInput type="text" formControlName="manualCollegeName" [required]="manualCollReq"
+                                disableInitialSpace alphaNumericForAdd>
+                            <mat-error *ngIf="manualCollegeNameControl?.touched && manualCollegeNameControl?.invalid">
+                                <div *ngIf="manualCollegeNameControl?.errors?.required">
+                                    Name of School/College is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Name of Board & University</mat-label>
+                            <mat-select formControlName="boardName" required
+                                (selectionChange)="universitySelect($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlUniversity" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of universityList | UniversityNameFilter:searchInputUniv"
+                                    [value]="data?.UNV_ID">
+                                    {{data?.UNV_NAME}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="boardNameControl?.touched && boardNameControl?.invalid">
+                                <div *ngIf="boardNameControl?.errors?.required">
+                                    Name of Board & University is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="manualUnivReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of Board & University</mat-label>
+                            <input matInput type="text" formControlName="manualUnivName" [required]="manualUnivReq"
+                                disableInitialSpace alphaNumericForAdd>
+                            <mat-error *ngIf="manualUnivNameControl?.touched && manualUnivNameControl?.invalid">
+                                <div *ngIf="manualUnivNameControl?.errors?.required">
+                                    Name of Board & University is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Subject/Specialization</mat-label>
+                            <mat-select formControlName="specialization" (selectionChange)="getSubjectId($event.value)"
+                                required>
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlSubject" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option
+                                    *ngFor="let subject of specializationList | SubjectFilter:searchInputSubject"
+                                    [value]="subject?.SUBJECT_ID">
+                                    {{subject?.SUBJECT_NAME}}</mat-option>
+
+                                <mat-option [value]="0">
+                                    Others
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="specializationControl?.touched && specializationControl?.invalid">
+                                <div *ngIf="specializationControl?.errors?.required">
+                                    Subject/Specialization is required.
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col" *ngIf="manualSubjectReq">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Subject/Specialization</mat-label>
+                            <input matInput type="text" formControlName="ManualSubjectName"
+                                [required]="manualSubjectReq" disableInitialSpace alphaNumericForAdd>
+                            <!-- <mat-error *ngIf="ManualCourseName?.touched && ManualCourseName?.invalid">
+                                <div *ngIf="ManualCourseName?.errors?.required">
+                                    Course Name is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Education Type</mat-label>
+                            <mat-select formControlName="educationType" required>
+                                <mat-option *ngFor="let data of eduTypeList" [value]="data?.Value">{{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Level</mat-label>
+                            <mat-select formControlName="level">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlLevel" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of levelList | LevelFilter:searchInputLevel"
+                                    [value]="data?.LEVEL_ID">{{data?.LEVEL_NAME}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Grade</mat-label>
+                            <mat-select formControlName="grade" (selectionChange)="gradeSelected($event)" required>
+                                <mat-option *ngFor="let data of eduGradeMaster" [value]="data?.value">{{data?.name}}
+                                </mat-option>
+                            </mat-select>
+                            <!-- <mat-error *ngIf="gradeControl?.touched && gradeControl?.invalid">
+                                <div *ngIf="gradeControl?.errors?.required">
+                                    Grade is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>{{gradeName}} Value</mat-label>
+                            <input matInput type="text" formControlName="gradePercent" required disableInitialSpace
+                                gradeValueDecimalNumber>
+                            <mat-hint align="end" class="mat-hint-pt-j mat-hint-pt-handle" *ngIf="gradeControl.value">
+                                <ng-container [ngSwitch]="gradeControl.value">
+                                    <ng-container *ngSwitchCase="'C'">
+                                        e.g.- (X.XX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'S'">
+                                        e.g.- (X.XX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'P'">
+                                        e.g.- (XX.XXXX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'T'">
+                                        e.g.- (XX.XX)
+                                    </ng-container>
+                                </ng-container>
+                            </mat-hint>
+                        </mat-form-field>
+
+                        <mat-error *ngIf="gradePercentControl?.touched && gradePercentControl?.invalid">
+                            <!-- <div *ngIf="gradePercentControl?.errors?.required">
+                                {{gradeName}} Value is required.
+                            </div> -->
+                            <div *ngIf="gradePercentControl?.invalid && !gradePercentControl?.errors?.required">
+                                Please enter {{gradeName}} Value in sepcified format.
+                                <ng-container [ngSwitch]="gradeControl.value">
+                                    <ng-container *ngSwitchCase="'C'">
+                                        e.g.- (X.XX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'S'">
+                                        e.g.- (X.XX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'P'">
+                                        e.g.- (XX.XXXX)
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'T'">
+                                        e.g.- (XX.XX)
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </mat-error>
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Sponsored</mat-label>
+                            <mat-select formControlName="sponsored">
+                                <mat-option *ngFor="let data of isSponsored" [value]="data?.value">{{data?.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Discipline</mat-label>
+                            <mat-select formControlName="discipline">
+                                <mat-option *ngFor="let data of disciplineList" [value]="data?.DISCIPLINE_ID">{{data?.DISCIPLINE_NAME}}</mat-option>                                
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Minor Fields</mat-label>
+                            <mat-select formControlName="minorFields">
+                                <mat-option *ngFor="let data of minorList" [value]="data?.DISCIPLINE_ID">{{data?.DISCIPLINE_NAME}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Major Fields</mat-label>
+                            <mat-select formControlName="majorFields">
+                                <mat-option *ngFor="let data of majorList" [value]="data?.DISCIPLINE_ID">{{data?.DISCIPLINE_NAME}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div> -->
+                    <!-- end col -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,88 @@
+<div class="declaration-border">
+  <div class="section-title">DECLARATION & AUTHORISATION</div>
+  <ul>
+    <li>
+      I certify that the statements made in this application are valid and complete to the best of my knowledge. I
+      understand that false or misleading information may result in termination of the agreement.
+    </li>
+    <li>
+      If upon investigations, any of this information is found to be incomplete or inaccurate, I understand that
+      agreement will be subject to dismissal at any time during my employment.
+    </li>
+    <li>
+      I hereby authorize <strong class="company-highlight">Infogain India Pvt. Ltd.</strong> and/or any of its subsidiaries or affiliates and any persons or
+      organizations acting on its behalf<br>
+      ( <span class="paragraphP">
+        <span class="span1">
+          <span class="span2">
+            {{'Securitas India Pvt. Ltd.'}}
+          </span>
+        </span>
+      </span> )
+      to verify the information presented on this application form and to procure an investigative report or consumer
+      report for that purpose.
+    </li>
+    <li>
+      I hereby grant authority for the bearer of this letter to access or be provided with full details of my previous
+      records. In addition, please provide any other pertinent information requested by the individual presenting this
+      authority.
+    </li>
+    <li>
+      I hereby release from liability all persons or entities requesting or supplying such information.
+    </li>
+    <li>
+      I am aware that no Money/fee/postage/ gift to be paid or given in goodwill to any one during the process of
+      verification and I have informed my family members as well regarding this.
+    </li>
+    <li>
+      I am aware that during the Address verification, no photographs or documents to be shared with verifier through
+      any medium (WhatsApp, Email, Etc.).
+    </li>
+  </ul><br><br>
+  <p>
+    I have read, understand, and by my signature consent to these statements.
+  </p>
+  <div class="signature-section">
+    <div class="signature-box">
+      <div class="signature-container">
+        <div class="label">Signature:</div>
+        <div class="action-area">
+          <button *ngIf="!signImage && !isFinalSumbit" type="button" class="btn btn-simple-ats"
+            (click)="signt(data)">
+            Insert Sign
+          </button>
+          <div class="sign-wrap" *ngIf="signImage">
+            <img [src]="signImage" />
+            <mat-icon *ngIf="!isFinalSumbit" matSuffix (click)="signt(data)">edit_note</mat-icon>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="date-container">
+        <div class="label">Date:</div>
+        <div class="signature-line"></div>
+      </div> -->
+      <div class="label-name-row2">
+      <div class="label">Date:</div>
+        <span class="paragraphP">
+          <span class="span1">
+            <span class="span2">
+              <b>{{addedDigitalLOAInfo?.ConsentGivenDate ? (addedDigitalLOAInfo?.ConsentGivenDate | date:'mediumDate') : (today | date:'mediumDate')}}</b>
+            </span>
+          </span>
+        </span>
+    </div>
+    </div>
+    <div class="label-name-row">
+      <div class="label">Name :</div>
+      <div>
+        <span class="paragraphP">
+          <span class="span1">
+            <span class="span2">
+              <b>{{candidatePersonalDetails?.CandidateName | uppercase}}</b>
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

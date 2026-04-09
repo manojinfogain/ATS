@@ -1,0 +1,223 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Current Address Details</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="can-view-wrap" *ngIf="isFinalSumbit">
+            <div class="can-list-view">
+                <h5>Name:</h5>
+                <p>{{addedCurrentAddressInfo?.CandidateName || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Address:</h5>
+                <p>{{addedCurrentAddressInfo?.Address || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Pin Code:</h5>
+                <p>{{addedCurrentAddressInfo?.PinCode || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Mobile Number:</h5>
+                <p>{{addedCurrentAddressInfo?.MobileNumber || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Alternate Contact Number:</h5>
+                <p>{{addedCurrentAddressInfo?.AlternateContactNumber || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Country:</h5>
+                <p>{{addedCurrentAddressInfo?.CountryName || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>State:</h5>
+                <p>{{addedCurrentAddressInfo?.State || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>City:</h5>
+                <p>{{addedCurrentAddressInfo?.City || '-'}}</p>
+            </div>
+            <div class="can-list-view">
+                <h5>Current Address Proof Document:</h5>
+                <p>{{addedCurrentAddressInfo?.DocumentTypeName || '-'}}</p>
+            </div>
+            <!-- <div class="can-list-view">
+                <h5>Document Name:</h5>
+                <p>{{addedCurrentAddressInfo?.DocumentName || '-'}}</p>
+            </div> -->
+            <div class="can-list-view">
+                <h5>Preview {{PreviewName}}:</h5>
+                <p>
+                    <button type="button" class="btn-ey-v" (click)="previewDocument(this.addedCurrentAddressInfo)">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                </p>
+            </div>
+        </div>
+        <!-- end -->
+        <div class="form-can-wrap" *ngIf="!isFinalSumbit">
+            <form [formGroup]="currentAddressDetailsForm">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Name</mat-label>
+                            <input matInput type="text" formControlName="CandidateName" maxlength="250"
+                                disableInitialSpace onlyAlphabets
+                                [readonly]="isFinalSumbit || candidatePersonalDetails?.CandidateName">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Address</mat-label>
+                            <input matInput type="text" formControlName="Address" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit || candidatePersonalDetails?.Address">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Pincode</mat-label>
+                            <input matInput type="text" formControlName="PinCode" maxlength="10"
+                                disableInitialSpace onlyNumber
+                                [readonly]="isFinalSumbit || candidatePersonalDetails?.postalCode">
+                            <!--  -->
+                            <div *ngIf="getControl('Pincode')?.errors?.minlength">
+                                <span class="error">Enter 6 digit pincode</span>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Country</mat-label>
+                            <mat-select formControlName="countryId">
+                                <mat-option *ngFor="let data of countryList" [value]="data?.Id">{{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <div class="form-on-col" *ngIf="!candidatePersonalDetails?.Country">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Country</mat-label>
+                            <mat-select formControlName="CountryId" (selectionChange)="getCountryId($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlCountry" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let list of countryList |CountryListFilter:searchInputLocation "
+                                    [value]="list?.id">
+                                    {{list?.country_name}}
+                                </mat-option>
+                                <mat-option [value]="0">
+                                    Others
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col" *ngIf="candidatePersonalDetails?.Country">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Country</mat-label>
+                            <input matInput placeholder="Country" [value]="countryName" readonly>
+                        </mat-form-field>
+                        <input type="hidden" formControlName="CountryId" required>
+                    </div>
+                    <!-- end col -->
+
+                    <!-- <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >State</mat-label>
+                            <mat-select formControlName="StateId">
+                                <mat-option *ngFor="let data of stateList" [value]="data?.id">{{data?.stateName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>State</mat-label>
+                            <input matInput type="text" formControlName="State" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit || candidatePersonalDetails?.state">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>City</mat-label>
+                            <input matInput type="text" formControlName="City" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit || candidatePersonalDetails?.city">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput type="text" formControlName="MobileNumber" minlength="10" maxlength="10"
+                                disableInitialSpace onlyNumber
+                                [readonly]="isFinalSumbit || candidatePersonalDetails?.CandidateName">
+                            <div *ngIf="getControl('MobileNumber')?.errors?.minlength">
+                                <span class="error">Enter 10 digit mobile number</span>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Alternate contact Number</mat-label>
+                            <input matInput formControlName="AlternateContactNumber" minlength="10" maxlength="10" disableInitialSpace
+                                onlyNumber [readonly]="isFinalSumbit || candidatePersonalDetails?.LandlineNumber">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns>Current Address Proof Document</mat-label>
+                            <mat-select formControlName="DocumentTypeId" (selectionChange)="onIdTypeChange($event)">
+                                <mat-option *ngFor="let data of idTypeList" [value]="data?.Id">{{data?.DocumentName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="pr-nxt-action" *ngIf="isDocumentAvailable">
+                        <div class="action-view-nms">
+
+                            <button mat-button type="button" class="btn-ey-vst"
+                                (click)="previewDocument(this.docDetails[0])">Preview {{PreviewName}} <span
+                                    class="material-icons-outlined">
+                                    preview
+                                </span></button>
+                        </div>
+                    </div>
+                    <div class="form-on-col" *ngIf="!isDocumentAvailable">
+
+                        <div class="ats-forms form-on-ats-fluid" [ngClass]="formClass">
+                            <div class="ats-form-col upload-file-ats-scr">
+                                <div class="upload-file-input-scr" [ngClass]="getControl('UploadDocument1').touched && getControl('UploadDocument1').invalid ? 'error-file-input':'suc'">
+                                    <label> Upload Document
+                                        <sup *ngIf="isFileReq">*</sup>
+                                    </label>
+                                    <input type="file" formControlName="UploadDocument1" (change)="fileUpload($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="ijp-justification-modal">
+    <form [formGroup]="formJustificationSubmit" (ngSubmit)="submitHandler(formJustificationSubmit)">
+        <div class="ats-modal-header ata-text-cap">
+            <!-- <h1>{{data?.title}} - ( {{data?.contractTypeName}} )</h1> -->
+            <h1>Explain Why You Are the Best Fit for This Position?</h1>
+            <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+        </div>
+        <div mat-dialog-content>
+            <div class="ats-modal-body ats-form-ui-enhance-font manage-talent-body">
+                <!-- <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div
+                        class="view-list-dt-wrap view-list-commit-date-talent view-list-dt-appr view-list-dt-rp box-shadow-c">
+                        <div class="view-list-bx">
+                            <h4>Candidate Name:</h4>
+                            <p>{{data?.partnerName || '-'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+                <div
+                    class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control" floatLabel="always">
+                            <mat-label appRemoveAriaOwns>Your Justification</mat-label>
+                            <textarea matInput formControlName="Justification"
+                                placeholder="Enter your justification here..."></textarea>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <div class="ats-modal-footer">
+                    <button type="submit" class="btn btn-infocon">
+                        Submit
+                    </button>
+                    <!-- <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+                </button> -->
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

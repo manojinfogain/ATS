@@ -1,0 +1,78 @@
+<div class="ats-auth-wrapper otp-ath-login"> 
+    <div class="auth-content-box">
+        <form [formGroup]="loginOtpForm" (ngSubmit)="submitForm(loginOtpForm)">
+
+            <div class="auth-box-card">
+                <div class="auth-box-headr header-otp parent-arrow-otp-login">
+                    <div class="btn-arrow-back-v" >
+                        <i class='fas fa-arrow-circle-left icon-bk' (click)="BacktoLoginPage()"
+                        matTooltip="Back To Login"></i>
+                    </div>
+                    <h3>Two Step Verification</h3>
+                </div>
+                
+                <div class="auth-box-body">
+                    <div class="ats-otp-wrap">
+                        <div class="sm-text welcms">
+                            <p class="p-can" *ngIf="isOtpSent">Enter the OTP sent to your registered email.
+                            </p>
+                        </div>
+                        <div class="sm-text">
+
+                            <p class="p-can1" *ngIf="isExpShow">OTP will be expire in <label class="timer-ui">
+                                    <span class="tm">{{expMM}}</span>
+                                    <span class="dot-t">:</span>
+                                    <span class="tm">{{expSS}}</span>
+                                </label> Minutes.</p>
+                            <p class="p-can1" *ngIf="!isExpShow && isResendShow">Your OTP has expired. Click 'Resend
+                                OTP' to receive a new one.</p>
+                        </div>
+
+                        <div class="auth-form-row">
+                            <div class="otp-wrapper">
+                                <div class="input-wrap" formGroupName="item" *ngIf="t.length != 0">
+                                    <ng-container *ngFor="let  items of t.controls; let i=index" [formGroupName]="i">
+                                        <input class="form-control" type="text" formControlName="otpInput" onlyNumber
+                                            class="form-control" maxlength="1" (keyup)="keyUpEvent($event, i)"
+                                            [ngClass]="{ error: t.controls[i].controls['otpInput'].touched && t.controls[i].controls['otpInput'].invalid || submit && t.controls[i].controls['otpInput'].invalid }">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sm-text">
+                            <p class="p-can1" *ngIf="isResendText"><strong>Didn't receive OTP!</strong>
+                                Resend OTP option will be visible in
+                                <label class="timer-ui">
+                                    <span class="tm">{{resendMM}}</span>
+                                    <span class="dot-t">:</span>
+                                    <span class="tm">{{resendSS}}</span>
+                                </label>
+                                minutes.
+                            </p>
+                            <!-- -->
+                            <div class="resend " *ngIf="!isResendText">
+                                <a  href="javascript:void(0)" (click)="resendOtp()">
+                                    Resend OTP</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end form row -->
+                </div>
+                <div class="auth-box-footer">
+                    <button type="submit" class="btn btn-infocon">Submit
+                        <i class="fa fa-save"></i>
+                    </button>
+                    <button type="button" class="btn btn-simple-ats" (click)="resetField()">Reset
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                    <!-- <button type="button" class="btn btn-simple-ats" (click)="BacktoLoginPage()"> Cancel
+                        <i class="fa fa-close"></i>
+                    </button> -->
+                </div>
+            </div>
+            <!-- end card -->
+        </form>
+    </div>
+</div>

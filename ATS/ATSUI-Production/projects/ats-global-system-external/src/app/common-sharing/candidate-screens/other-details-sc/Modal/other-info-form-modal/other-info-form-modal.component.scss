@@ -1,0 +1,26 @@
+sup{
+    color: red;
+    margin-top: 5px !important;
+}
+
+:host ::ng-deep mat-checkbox .mat-checkbox-layout {
+    display: unset !important;
+}
+
+.consent-error {
+    color: #ff0000c9;
+    border: solid 0.1px;
+    padding: 3px 9px;
+}
+
+.height-42 {
+    height: 42px;
+}
+
+.full-width-important {
+    width: 100% !important;
+}
+
+.width-200 {
+    width: 200px;
+}

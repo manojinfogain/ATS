@@ -1,0 +1,684 @@
+.ats-model-wrap {
+  width: 60vw !important;
+
+  .mat-dialog-container {
+    .mat-dialog-content {
+      max-height: 70vh;
+      min-height: 60vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    padding: 0px 0px;
+    overflow: hidden !important;
+
+    .ats-modal-header {
+      padding: 10px 10px;
+      border-bottom: solid 1px #ddd;
+      margin: 0px 0px;
+      position: relative;
+
+      h1 {
+        font-family: $font-bold;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #0a71b9;
+        text-transform: uppercase;
+        padding: 3px 3px;
+      }
+
+      h2 {
+        font-family: $font-bold;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #0a71b9;
+        text-transform: uppercase;
+        padding: 3px 3px;
+      }
+
+      h3 {
+        font-family: $font-bold;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #0a71b9;
+        padding: 3px 3px;
+      }
+
+      .btn-m-close {
+        outline: none;
+        border: none;
+        background: none;
+        position: absolute;
+        right: 17px;
+        top: 13px;
+        font-size: 16px;
+        color: #1f6a9f;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+          color: red;
+        }
+      }
+
+      &.ata-text-cap {
+        h1 {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .ats-modal-body {
+      padding: 15px 15px;
+    }
+
+    .ats-modal-footer {
+      padding: 10px 10px;
+      border-top: solid 1px #ddd;
+      margin: 0px 0px;
+
+      .btn-infocon {
+        &:focus {
+          // background: none;;
+          // border: none;
+          // box-shadow: none;
+        }
+      }
+    }
+  }
+
+  &.add-profile-popup {
+    .mat-dialog-container {
+
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+
+      }
+
+    }
+  }
+
+  &.schedule-interview {
+    width: 90%;
+  }
+
+  &.view-profile-popup {
+    width: 70vw !important;
+
+    .ats-modal-body {
+      padding: 2px 15px;
+    }
+
+    .ats-modal-footer {
+      padding: 0px 10px;
+    }
+
+    .table-mat-info td.mat-cell,
+    .table-mat-info td.mat-footer-cell,
+    .table-mat-info th.mat-header-cell {
+      // font-size: 0.8rem;
+      // padding: 2px 5px !important;
+    }
+  }
+
+  &.update-interview-feedback {
+    width: 75vw !important;
+  }
+
+  &.resh-interview-feedback {
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.candidate-connect-view-modal {
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.resh-interview-cencel {
+    width: 50vw !important;
+  }
+
+  &.talent-transfers {
+    width: 55vw !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.request-transfers-candidate {
+    width: 55vw !important;
+
+    .mat-dialog-content {
+      min-height: 25vh;
+    }
+  }
+
+  &.revoke-delegation-dialog {
+    width: 45vw !important;
+
+    .mat-dialog-content {
+      min-height: 25vh;
+    }
+  }
+
+  &.offer-generation-confirmation-modal {
+    width: 30vw !important;
+
+    .mat-dialog-content {
+      min-height: 12vh;
+    }
+  }
+
+  &.upd-int-modal {
+    width: 65vw !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.uplaod-doc-modal {
+    width: 40vw !important;
+
+    .mat-dialog-container {
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+          font-weight: normal;
+          font-family: $font-semiBold;
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.uplaod-doc-modal-l{
+    width: 50vw !important;
+  }
+
+  &.schedule-interview-modal {
+    width: 90vw !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.bgv-modal {
+    width: 500px !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.canidate-profil-picture-modal {
+    width: 360px !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+
+    &.canidate-profil-picture-multi {
+      width: 80vw !important;
+
+      .mat-dialog-content {
+        min-height: 20vh;
+      }
+    }
+  }
+
+
+  &.ats-model-up-ad {
+    width: 90vw !important;
+  }
+
+  &.otp-modal {
+    width: 500px !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+
+      .ats-otp-wrap {
+        p {
+          font-size: 13px;
+          margin: 0;
+
+        }
+      }
+    }
+  }
+
+  &.ats-model-talent-update {
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.ats-modal-unmap {
+    .mat-dialog-container {
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+
+      }
+
+    }
+
+    width:35vw !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+
+  &.unused-cskill-profile-poup {
+    width: 95vw !important;
+    max-width: 100vw !important;
+  }
+
+  &.talent-transfers-mod {
+    width: 500px !important;
+
+    .mat-dialog-content {
+      min-height: 20vh;
+
+      .ats-forms.ats-forms-horz .ats-form-col {
+        width: 100%;
+      }
+    }
+  }
+  &.doc-upload-onboard-mod {
+    width: 500px !important;
+
+    .mat-dialog-content {
+      min-height: 10vh;
+
+      .ats-forms.ats-forms-horz .ats-form-col {
+        width: 100%;
+      }
+    }
+  }
+  &.panel-report-popup {
+    width: 76vw !important;
+  }
+
+  &.ats-model-lg {
+    width: 90vw !important;
+    max-width: 98vw !important;
+  }
+
+  &.ats-model-full-screen {
+    width: 100vw !important;
+    max-width: 100vw !important;
+
+    .mat-dialog-container {
+
+      // .ats-modal-header{
+      //   background: #0e1460;
+      //   h1{
+      //     color: #fff;
+      //   }
+      // }
+      // .ats-modal-footer{
+      //   background: #0e1460;
+      // }
+      .mat-dialog-content {
+        max-height: calc(100vh - 94px);
+        height: calc(100vh - 94px);
+        min-height: 30vh;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  &.ats-msg-modal {
+    width: 60vw !important;
+
+    .ats-modal-header h1 {
+      text-transform: capitalize;
+    }
+
+    .mat-dialog-content {
+      min-height: 6vh;
+
+      .mat-list-base {
+        padding-top: 0;
+      }
+
+      .msg-list {
+        .mat-list-item {
+          height: auto;
+          border-bottom: solid 1px #ddd;
+          background: honeydew;
+          font-size: 14px;
+
+          .mat-list-icon {
+            color: green;
+          }
+
+          .mat-line-v {
+            padding: 7px 4px;
+          }
+
+          &.err {
+            background: #ffe9e9;
+
+            .mat-list-icon {
+              color: red;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.ats-header-text-cap {
+    .mat-dialog-container {
+
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+
+      }
+
+    }
+  }
+
+  &.confirmation-offer-m {
+    width: 500px !important;
+
+    .ats-modal-header h2 {
+      text-transform: none;
+    }
+
+    .mat-dialog-content {
+      min-height: 12vh;
+    }
+  }
+
+  &.add-family-modal {
+    .mat-dialog-container {
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+  &.add-signature-modal {
+    .mat-dialog-container {
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+  &.onboard-form-file-modal {
+    .mat-dialog-container {
+      .ats-modal-header {
+        h1 {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .mat-dialog-content {
+      min-height: 20vh;
+    }
+  }
+  &.onboard-consent-modal {
+    .mat-dialog-container {
+      .ats-modal-header {
+        h3 {
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .mat-dialog-content {
+      min-height: 20vh;
+      // .mat-checkbox-layout{
+      //   display: block !important;
+      //   white-space: normal !important;
+      // }
+    }
+  }
+}
+
+
+
+.list-popover-wrapper {
+  min-width: 145px;
+  max-width: 300px;
+  box-shadow: 0px 4px 4px #00000052;
+
+  .popover-body {
+    padding: 10px 10px;
+  }
+
+  .popover-wraps {
+    .popover-wrap-header {
+      border-bottom: solid 1px #ddd;
+      margin: -10px -10px 0px -10px;
+      padding: 4px 10px;
+
+      h4 {
+        font-size: 13px;
+        margin: 0px;
+        font-family: $font-semiBold;
+      }
+    }
+
+    .popover-wrap-body {
+      padding: 5px 5px 5px 5px;
+      max-height: 180px;
+      overflow: auto;
+
+    }
+  }
+}
+
+
+.ats-confirm {
+  .mat-header {
+    margin: -24px -24px 0px -24px;
+    background: #1f6a9f;
+    padding: 0px 24px;
+
+    h3 {
+      margin: 0px;
+      padding: 7px 0px;
+      color: #fff;
+      font-size: 14px;
+      font-family: $font-semiBold;
+      text-align: center;
+    }
+  }
+
+  .mat-dialog-content {
+    padding: 20px 20px 20px 20px !important;
+
+    p {
+      margin: 0px;
+      font-size: 14px;
+      text-align: center;
+      line-height: 19px;
+      font-family: $font-semiBold;
+
+      .u-name {
+        font-family: $font-semiBold;
+        color: #1f6a9f;
+      }
+    }
+  }
+
+  .mat-dialog-actions {
+    padding: 20px 0px !important;
+
+    .btn-simple-ats {
+      background: #dfdfdf;
+      border: solid 1px #dfdfdf;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.calender-overlay {
+  padding: 4px 0px !important;
+  align-items: normal !important;
+}
+
+.consent-full-screen-dialog {
+  width: 100vw !important;
+  .mat-dialog-container {
+    height: 100vh;
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+        background: #f5f5f5 !important
+  }
+
+  .consent-dialog-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .consent-dialog-header,
+  .consent-dialog-footer {
+    padding: 10px 15px;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     h3 {
+        font-family: $font-bold;
+        font-size: 0.9rem;
+        //font-weight: bold;
+        color: #0a71b9;
+        padding: 3px 3px;
+      }
+
+  }
+
+  .consent-dialog-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    .consent-pdf-wrapper{
+       width: 80%;
+       max-width:800px;
+       min-width: 680px;
+       margin: auto;
+      .consent-pdf-bx{
+        min-height: 100px;
+        background: #fff;
+        margin-bottom: 14px;
+        box-shadow: 0px 4px 4px #00000052;
+        padding: 1rem 2rem;
+        font-family: 'Calibri', sans-serif;
+        font-size: 14.5px;
+        .consent-pdf-header{
+          border-bottom: solid 4px #808080;
+          padding: 3px 0px;
+          .cons-log-info{
+            img{
+              max-width: 100%;
+                height: 76px;
+            }
+          }
+        }
+                .consent-pdf-bodycontent {
+                  padding: 1rem;
+        
+                  .page-Title {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                  }
+        
+                  .cons-pdf-des-bx {
+                    .page-sub-title {
+                      font-size: 16px;
+                      font-weight: bold;
+                      margin-bottom: 10px;
+                    }
+                    p{
+                      margin: 0;
+                      line-height: 1.5;
+                    }
+                    .data-collection-list{
+                      margin-left: 14px;
+                      li{
+                        line-height: 1.4;
+                         .sub-list{
+                          margin-left: 22px;
+                         }
+                      }
+                    
+                    }
+                    .signature-bbx{
+                     //   display: flex;
+                          background: #e0e0e0;
+                          padding: 12px;
+                          margin-top: 14px;
+                          border: solid 1px #9a8c8c;
+                      ul{
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        li{
+                          margin-bottom: 10px;
+                          font-size: 14px;
+                          line-height: 1.5;
+                        } 
+
+                      }
+                      .signature-bbx-l{
+                        width:70%;
+                        padding-right: 10px;
+                      }
+                      .signature-bbx-r{
+                        width: 30%;
+                        padding-left: 10px;
+                      }
+                    }
+                  }
+        }
+        .consent-pdf-footerr{
+          font-size: 12px;
+          text-align: left;
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+
+
+}

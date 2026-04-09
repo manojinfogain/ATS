@@ -1,0 +1,393 @@
+<div class="ats-modal-header">
+    <!-- N for new talent / U for update/ C for clone/ A for approve -->
+    <h1><span>{{data?.title}} </span>
+
+    </h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<form [formGroup]="submitJobCreateForm" (ngSubmit)="submitFormHandler(submitJobCreateForm)">
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="create-job-posting-section ats-form-ui-enhance-font">
+
+                <section class="dgm-track dgm-track-tc">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-body">
+
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font requsition-create-top-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                <ng-container>
+                                    <div *ngIf="talentDetailsList?.JoiningLocID == 21" [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Joining Location</mat-label>
+                                            <!-- <mat-select formControlName="joiningLocation" multiple [required]="true" (selectionChange)="onJoiningLocationChange($event)">
+                                            <mat-option *ngFor="let loc of joiningLocationList" [value]="loc.ID">
+                                                {{ loc.LocationName }}
+                                            </mat-option>
+                                            </mat-select> -->
+                                            <mat-select formControlName="joiningLocation" multiple (selectionChange)="onJoiningLocationChange($event)">
+                                                <mat-option *ngFor="let loc of joiningLocationList" [value]="loc.ID" [disabled]="
+                                                  submitJobCreateForm.get('joiningLocation').value.length >= 3 &&
+                                                  submitJobCreateForm.get('joiningLocation').value.indexOf(loc.ID) === -1
+                                                ">
+                                                    {{ loc.LocationName }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-hint align="end">
+                                            {{ getControl('joiningLocation').value?.length || 0 }}/3 selected
+                                            </mat-hint>
+                                            <mat-error *ngIf="getControl('joiningLocation').hasError('required') && (getControl('joiningLocation').touched || isSubmitForm)">
+                                            At least one location is required
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('joiningLocation').hasError('maxSelected')">
+                                            You can select up to 3 locations only.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Title</mat-label>
+                                            <input matInput formControlName="jobTitle" placeholder="Job Title" [required]="true" disableInitialSpace
+                                                maxlength="70">
+                                            <mat-hint align="end">{{getControl('jobTitle').value?.length || 0}}/70</mat-hint>
+                                            <mat-error *ngIf="getControl('jobTitle')?.errors?.required">
+                                                Job Title is required
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('jobTitle')?.errors?.maxlength">
+                                                Job Title cannot exceed 70 characters
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Salary Currency</mat-label>
+                                            <mat-select formControlName="salaryCurrency" [required]="true">
+                                                <mat-option *ngFor="let data of salaryCurrencyList" [value]="data?.Id">
+                                                    {{data?.Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('salaryCurrency')?.errors?.required">
+                                                Salary Currency is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <!-- For minSalary field -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Minimum Salary</mat-label>
+                                            <input matInput formControlName="minSalary" placeholder="Minimum Salary"
+                                                [required]="true" disableInitialSpace type="number">
+                                        <!-- </mat-form-field> -->
+                                            <mat-error *ngIf="getControl('minSalary')?.errors?.required">
+                                                Minimum Salary is required
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minSalary')?.errors?.min">
+                                                Minimum Salary should be at least
+                                                {{CURRENCY_VALIDATIONS[submitJobCreateForm.get('salaryCurrency').value]?.minValue
+                                                | number}}
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minSalary')?.errors?.max">
+                                                Minimum Salary should not exceed
+                                                {{CURRENCY_VALIDATIONS[submitJobCreateForm.get('salaryCurrency').value]?.maxValue
+                                                | number}}
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minSalary')?.errors?.pattern">
+                                                Only numeric values are allowed
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- For maxSalary field -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Maximum Salary</mat-label>
+                                            <input matInput formControlName="maxSalary" placeholder="Maximum Salary"
+                                                [required]="true" disableInitialSpace type="number">
+                                        </mat-form-field>
+                                            <mat-error *ngIf="(getControl('maxSalary')?.touched || getControl('maxSalary')?.dirty) && getControl('maxSalary')?.errors?.required">
+                                                Max Salary is required
+                                            </mat-error>
+                                            <mat-error *ngIf="(getControl('maxSalary')?.touched || getControl('maxSalary')?.dirty) && getControl('maxSalary')?.errors?.pattern && !getControl('maxSalary')?.errors?.required">
+                                                Only numeric values are allowed
+                                            </mat-error>
+                                            <mat-error *ngIf="(getControl('maxSalary')?.touched || getControl('maxSalary')?.dirty) && getControl('maxSalary')?.errors?.min && !getControl('maxSalary')?.errors?.required && !getControl('maxSalary')?.errors?.pattern">
+                                                Max Salary should be at least
+                                                {{CURRENCY_VALIDATIONS[submitJobCreateForm.get('salaryCurrency').value]?.minValue | number}}
+                                            </mat-error>
+                                            <mat-error *ngIf="(getControl('maxSalary')?.touched || getControl('maxSalary')?.dirty) && getControl('maxSalary')?.errors?.max && !getControl('maxSalary')?.errors?.required && !getControl('maxSalary')?.errors?.pattern && !getControl('maxSalary')?.errors?.min">
+                                                Max Salary should not exceed
+                                                {{CURRENCY_VALIDATIONS[submitJobCreateForm.get('salaryCurrency').value]?.maxValue | number}}
+                                            </mat-error>
+                                            <mat-error *ngIf="(getControl('maxSalary')?.touched || getControl('maxSalary')?.dirty) && getControl('maxSalary')?.errors?.invalidRange && !getControl('maxSalary')?.errors?.required && !getControl('maxSalary')?.errors?.pattern && !getControl('maxSalary')?.errors?.min && !getControl('maxSalary')?.errors?.max">
+                                                Max Salary must be greater than or equal to Min Salary
+                                            </mat-error>
+                                        <!-- </mat-form-field> -->
+                                    </div>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Show Salary</mat-label>
+                                            <mat-select formControlName="showSalary" [required]="true">
+                                                <mat-option [value]="'N'">No</mat-option>
+                                                <mat-option [value]="'Y'">Yes</mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('showSalary')?.errors?.required">
+                                                Show Salary is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Employment Type</mat-label>
+                                            <mat-select formControlName="employmentType" [required]="true">
+                                                <mat-option *ngFor="let data of employementTypelist" [value]="data?.Id">
+                                                    {{data?.Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('employmentType')?.errors?.required">
+                                                Employment Type is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Work Mode</mat-label>
+                                            <mat-select formControlName="workMode" [required]="true">
+                                                <mat-option *ngFor="let data of workModeList" [value]="data?.Id">
+                                                    {{data?.Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        <!-- </mat-form-field> -->
+                                            <mat-error *ngIf="getControl('workMode')?.errors?.required">
+                                                Work Mode is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Organisation Name</mat-label>
+                                            <mat-select formControlName="organisationName" [required]="true">
+                                                <mat-option *ngFor="let org of organisationList" [value]="org?.Id">
+                                                    {{ org?.Name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('organisationName')?.errors?.required">
+                                                Organisation is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Industry</mat-label>
+                                            <mat-select formControlName="industry" [required]="true">
+                                                <mat-option *ngFor="let industry of industryList" [value]="industry.Id">
+                                                    {{ industry.Name }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="getControl('industry')?.errors?.required">
+                                                Industry is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Minimum Work Experience</mat-label>
+                                            <input matInput formControlName="minWorkExperience"
+                                                placeholder="Minimum Work Experience" [required]="true"
+                                                disableInitialSpace type="number" min="1" max="30" >
+                                            <mat-error *ngIf="getControl('minWorkExperience')?.errors?.required">
+                                                Minimum Work Experience is required
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minWorkExperience')?.errors?.min">
+                                                Minimum experience should be at least 1 year
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minWorkExperience')?.errors?.max">
+                                                Minimum experience should not exceed 30 years
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('minWorkExperience')?.errors?.pattern">
+                                                Only numeric values are allowed
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance" class="place-from-control">
+                                            <mat-label appRemoveAriaOwns>Maximum Work Experience</mat-label>
+                                            <input matInput formControlName="maxWorkExperience"
+                                                placeholder="Maximum Work Experience" [required]="true"
+                                                disableInitialSpace type="number" min="1" max="30" >
+                                            <mat-error *ngIf="getControl('maxWorkExperience')?.errors?.required">
+                                                Maximum Work Experience is required
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('maxWorkExperience')?.errors?.min">
+                                                Maximum experience should be at least 1 year
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('maxWorkExperience')?.errors?.max">
+                                                Maximum experience should not exceed 30 years
+                                            </mat-error>
+                                            <mat-error *ngIf="getControl('maxWorkExperience')?.errors?.pattern">
+                                                Only numeric values are allowed
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <!-- Course Type Multi-Select -->
+                                    <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Course Type</mat-label>
+                                        <mat-select formControlName="courseType" multiple [required]="true" (selectionChange)="onCourseTypeChange($event)">
+                                        <mat-option *ngFor="let type of courseTypeList" [value]="type.Id">
+                                            {{type.Name}}
+                                        </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="getControl('courseType')?.errors?.required">
+                                        Course Type is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                    </div>
+
+                                    <!-- Qualification Multi-Select -->
+                                    <div [ngClass]="formClassCol">
+                                    <mat-form-field [appearance]="formAppearance">
+                                        <mat-label appRemoveAriaOwns>Qualification</mat-label>
+                                        <mat-select formControlName="qualificationByCourse" multiple  [required]="true">
+                                        <mat-option *ngFor="let qualification of filteredQualificationList" [value]="qualification.Id">
+                                            {{qualification.Name}}
+                                        </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="getControl('qualificationByCourse')?.errors?.required">
+                                        Qualification is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                    <div [ngClass]="formClassCol">
+                                        <mat-form-field [appearance]="formAppearance">
+                                            <mat-label appRemoveAriaOwns>Add Questions</mat-label>
+                                            <mat-select formControlName="addQuestions"
+                                                (selectionChange)="onAddQuestionsChange($event)">
+                                                <mat-option [value]="1">Yes</mat-option>
+                                                <mat-option [value]="2">No</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- end col -->
+                                </ng-container>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </section>
+                <section class="dgm-track">
+                    <div class="box-v-ats box-v-ats-form">
+                        <!-- <div class="box-v-header">
+                            <h4>Job Details</h4>
+                        </div> -->
+                        <div class="box-v-body">
+                            <div
+                                class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+
+                                <div class="form-on-col-job full-width-important">
+                                    <div class="editor">
+                                        <label class="lb-nx-title">Job Description: <label
+                                                class="req-field">*</label></label>
+                                        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                                        </ngx-editor-menu>
+                                        <ngx-editor [editor]="editor" formControlName="jobDescription"
+                                            [placeholder]="'Job Description *'">
+                                        </ngx-editor>
+
+                                        <div class="ngx-error"
+                                            *ngIf="getControl('jobDescription')?.touched && (getControl('jobDescription')?.invalid || editorLen.length < 1)">
+                                            <div
+                                                *ngIf="getControl('jobDescription')?.errors?.required || editorLen.length < 1">
+                                                <span class="error-text">Job Description is required</span>
+                                            </div>
+                                            <div *ngIf="getControl('jobDescription')?.errors?.minlength">
+                                                <span class="error-text">At least 1 character required</span>
+                                            </div>
+                                            <div *ngIf="getControl('jobDescription')?.errors?.maxlength">
+                                                <span class="error-text">Maximum 30000 characters allowed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="dgm-track" *ngIf="showQuestionsSection">
+                    <div class="box-v-ats box-v-ats-form">
+                        <div class="box-v-header">
+                        <h4>Please provide your questions below. You can add up to 10 questions.</h4>
+                        </div>
+                        <!-- Questions Section -->
+                        <div class="questions-section full-width">
+                        <div class="dyn-control-wrap">
+                            <!-- Error for duplicate questions -->
+                            <div class="ngx-error" *ngIf="questionsArray.errors?.duplicateQuestions && isSubmitForm">
+                            <span class="error-text">Questions must be unique. Please remove duplicates.</span>
+                            </div>
+                            <div class="dyn-control-wrap-body">
+                            <div class="form-dyn-table">
+                                <table class="table table-bordered table-hr-at">
+                                <tbody formGroupName="questions" *ngIf="questionsArray?.length != 0">
+                                    <tr *ngFor="let item of questionsArray.controls; let i = index" [formGroupName]="i">
+                                    <td class="fixed-inp-at">
+                                        <div class="ats-form-col txtarea-ans txtarea-ans-add"
+                                        [ngClass]="{ errorField: isSubmitForm && item.get('questionText').invalid }">
+                                        <textarea placeholder="Enter your Question" maxlength="100" disableInitialSpace
+                                            formControlName="questionText" class="txt-ani"></textarea>
+                                        <mat-hint align="end">{{ item.get('questionText').value?.length || 0 }}/100</mat-hint>
+                                        <mat-error *ngIf="item.get('questionText').touched && item.get('questionText').invalid">
+                                            <span *ngIf="item.get('questionText').errors?.required">Question is required</span>
+                                            <span *ngIf="item.get('questionText').errors?.maxlength">Maximum 100 characters allowed</span>
+                                        </mat-error>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-action btn-single delete-btn-q">
+                                        <div class="btn-act delete-questions">
+                                            <button mat-button type="button" matTooltip="Delete" (click)="removeQuestion(i)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                            <div class="add-action-btn-wrp text-right" *ngIf="questionsArray?.length < 10">
+                                <button mat-flat-button type="button" class="btn btn-infocon" (click)="addQuestionField()">
+                                <i class="fa fa-plus-square"></i> Add More Question
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="ats-modal-footer text-center">
+
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</form>

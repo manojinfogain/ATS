@@ -1,0 +1,116 @@
+<form [formGroup]="activateDormantTidForm" (ngSubmit)="activateTalentIdHandler(activateDormantTidForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}} - {{TalentData?.talent_id}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body ats-form-ui-enhance-font">
+            <div class="box-v-ats">
+                <div class="box-v-body">
+                    <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c view-list-dt-rp">
+                        <div class="view-list-bx">
+                            <h4>fullfillment Date:</h4>
+                            <p>{{(TalentData?.initial_fullfilment_date | date) || '-'}}</p>
+                        </div>
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Primary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter1|| '-'}}</p>
+                        </div>
+
+                        <!-- end -->
+                        <!-- end -->
+                        <div class="view-list-bx">
+                            <h4>Secondary Recruiter:</h4>
+                            <p>{{TalentData?.recruiter2|| '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Onboarding Date:</h4>
+                            <p>{{(data?.PlannedOnBoardingDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Planned Billing Start Date:</h4>
+                            <p>{{(data?.PlannedBillingStartDate | date) || '-'}}</p>
+                        </div>
+                        <div class="view-list-bx">
+                            <h4>Is Billable:</h4>
+                            <p *ngIf="TalentData?.IsBillable == 0">No</p>
+                            <p *ngIf="TalentData?.IsBillable == 1">Yes</p>
+                            <p *ngIf="TalentData?.IsBillable == null">-</p>
+                        </div>
+                        <!-- validate ends-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-up">
+                <div class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+
+           
+    
+                  
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Revised Planned Onboarding Date</mat-label>
+                            <input matInput [matDatepicker]="picker2"  (dateInput)="changeDate('input', $event)" [min]="minDate" formControlName="revisedOnbDate"
+                                readonly [min]="disablePastDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <!-- <mat-error
+                                *ngIf="getControl('fullfillmentDate')?.touched && getControl('fullfillmentDate')?.invalid">
+                                <div *ngIf="getControl('fullfillmentDate')?.errors.required">
+                                    fullfillment Date is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="ats-form-col" *ngIf="TalentData?.IsBillable == 1">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Revised Planned Billing Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker3"  [min]="minDate" formControlName="revisedBillingSDate"
+                                readonly [min]="minDatebilling" [required]="TalentData?.IsBillable == 1">
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                            <!-- <mat-error
+                                *ngIf="getControl('fullfillmentDate')?.touched && getControl('fullfillmentDate')?.invalid">
+                                <div *ngIf="getControl('fullfillmentDate')?.errors.required">
+                                    fullfillment Date is required.
+                                </div>
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+
+                    <div class="ats-form-col">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label>Reason For  Activation</mat-label>
+                            <mat-select formControlName="reasonToActivateId" required>
+                                            <mat-option *ngFor="let data of activatingReasonsList" [value]="data?.ID">
+                                                {{data?.Name}}
+                                            </mat-option>
+                                        </mat-select>
+                        </mat-form-field>
+                    </div>               
+    
+                </div> 
+            </div>
+
+          
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button class="btn btn-infocon">
+            Activate
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

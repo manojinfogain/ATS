@@ -1,0 +1,62 @@
+<div class="info-connect-right">
+   <div class="home-page-wrap">
+      <div class="row login-title">
+        <div class="col-md-12 col-sm-12 col-lg-12 ">
+          <app-breadcrumbs [showBreadCrumb]="false"></app-breadcrumbs>
+          <h2 class="user-title align-left">{{fullName}}</h2>
+        </div>
+      </div>
+      <div class="row card-ats-sec">
+        <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+          <div class="dash-count-wrapper">
+            <h2 class="mn-title">Total Positions</h2>
+            <div class="dash-count-sec">
+              <div class="dash-count-col">
+                <div class="count-show-d">
+                  <h4 class="link-vb" (click)="showAllPosition('T')">{{totalPositions}}</h4>
+                </div>
+              </div>
+              <!-- end -->
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
+        <div class="col-md-4 col-sm-6 col-lg-4 talent-dash-grid-col">
+          <div class="dash-count-wrapper">
+            <h2 class="mn-title">Positions In Progress</h2>
+            <div class="dash-count-sec">
+              <div class="dash-count-col">
+                <div class="count-show-d">
+                  <h4 class="link-vb" (click)="showAllPosition('I')">{{positionInProgress}} 
+                    <span>{{'('+inProgressPer+')'}}%</span>
+                  </h4>
+                </div>
+              </div>
+              <!-- end -->
+              <!-- end -->
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
+  
+        <div class="col-md-4  col-sm-6 col-lg-4 talent-dash-grid-col">
+          <div class="dash-count-wrapper">
+            <h2 class="mn-title">Positions Yet To Start</h2>
+            <div class="dash-count-sec">
+              <div class="dash-count-col">
+                <div class="count-show-d">
+                    <h4 class="link-vb" (click)="showAllPosition('Y')">{{positionYetToStart}} 
+                      <span>{{'('+yetToStartPer+')'}}%</span>
+                    </h4>
+                  </div>
+              </div>
+             <!-- end -->
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
+      </div>
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,71 @@
+<form [formGroup]="trainingFormGroup" (ngSubmit)="formSubmit(trainingFormGroup)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-m-sc">
+                <div class="form-on-ats" [ngClass]="formClass">
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of the Course</mat-label> 
+                            <input matInput type="text" formControlName="courseName" numericAndAlphabets disableInitialSpace
+                                maxlength="200">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="fromDate" readonly [max]="today">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="example-form-field" appearance="fill">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="toDate" readonly [min]="getControl('fromDate').value" [max]="today">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Name of the Institute/Organization</mat-label>
+                            <input matInput type="text" formControlName="instituteOrgName" numericAndAlphabets disableInitialSpace
+                                maxlength="200">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-on-col">
+                        <mat-form-field [appearance]="appearance">
+                            <mat-label>Whether certificate Awarded</mat-label>
+                            <textarea matInput formControlName="certificateAward" disableInitialSpace
+                                maxlength="250"></textarea>
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

@@ -1,0 +1,266 @@
+<div class="header-wrapper" *ngIf="isHeaderShow">
+    <div class="header-inner clearfix">
+      <!-- <div class="header-left  float-left">
+            <div class="logo-main">
+                <img src="{{LogoInfo}}" alt="">
+            </div>
+        </div> -->
+      <!-- end header right -->
+      <div class="header-right  float-right">
+        <div class="web-head-sec clearfix">
+          <div class="logo-main float-left">
+            <img src="{{LogoInfo}}" alt="" class="logo-desk">
+            <img src="{{LogoSmall}}" alt="" class="logo-mob">
+          </div>
+          <div class="web-title-sec float-left">
+            <h2> Global ATS</h2>
+          </div>
+          <!-- end web title> -->
+  
+          <div class="web-account-sec float-right clearfix">
+            <div class="block-inlines display-none" *ngIf="isHideSearch">
+  
+              <div class="header-search-wrap" (appClickOutside)="closeDropDown()">
+                <div class="header-search-input">
+                  <input class="form-control" #srhVal ngbTooltip="Search by Name/Email/Phone" placement="left"
+                    (blur)="onBlure($event)" (keyup)="validValue($event)" placeholder="Search by Name/Email/Phone"
+                    [formControl]="searchControl" name="srch-term" type="text">
+                  <button class="header-search-btn" type="button"><i class="fas fa-search"></i></button>
+                  <mat-progress-bar mode="query" *ngIf="IsDropdownLoader" class="dropdown-loader"></mat-progress-bar>
+                </div>
+  
+                <div class="search-list-dropdown valid-error" *ngIf="ifValidEnter">
+                  <label><span>{{srhVal.value}}</span> is not valid key. Please enter valid keyword.
+                    <mark>Only Alphabets, Numbers, Dot(.),At sign(@) and Underscore(_) allowed.</mark>
+                  </label>
+                </div>
+                <!-- end error sym -->
+                <div class="search-list-dropdown valid-error" *ngIf="ifLenth">
+                  <label>
+                    {{minMsg}}
+                  </label>
+                </div>
+                <div class="search-list-dropdown" *ngIf="isDropdownShow">
+                  <div class="search-list-inner" *ngIf="resultListData">
+                    <div class="search-list-header clearfix" *ngIf="resultListData.length >= 1">
+                      <div class="float-left">
+                        <h6>Candidate List</h6>
+                      </div>
+                      <div class="float-right"><label>Total Result: <span>{{resultListData.length}}</span></label></div>
+                    </div>
+                    <!-- end header -->
+                    <div class="search-list-body">
+                      <div class="record-not-found" *ngIf="resultListData.length == 0">
+                        <label><span>{{srhVal.value}}</span>is not available. Please enter valid keyword.</label>
+                      </div>
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let list of resultListData" (click)="openCandPopup(list)">
+                          <label><i _ngcontent-c1="" class="fas fa-user-tie"></i> <span>Name</span>:
+                            {{list?.candidateName}} </label>
+                          <label><i _ngcontent-c1="" class="fas fa-envelope"></i> <span>Email</span>:
+                            {{list?.candidateEmail}}</label>
+                        </li>
+                        <!-- <li class="list-group-item" *ngFor="let list of resultListData"><i class="fas fa-user-tie"></i> {{list?.candidateName}} ( <i class="fas fa-envelope"></i> {{list?.candidateEmail}} )</li> -->
+  
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- end dropdown -->
+              </div>
+              <!-- end search wrap -->
+            </div>
+            <!-- end inline -->
+            <div class="block-inlines">
+  
+              <div class="log-user-right">
+  
+                <div class="user-info-sec clearfix" ngbDropdown placement="bottom-right" *ngIf="hideMenu">
+  
+                  <span class="user-info">
+                    <!--<label class="user-name">
+                      {{(name?.length>15)? (name | slice:0:15)+'..':(name) }}
+                       {{nameUser}} 
+  
+                    </label>-->
+                    <!-- <label class="user-job-title">
+                                 ( {{profile}} )
+                              </label> -->
+                  </span>
+                  <span class="user-thumb" id="dropdownBasic1" ngbDropdownToggle>
+                    <!-- <img src="{{setProf}}" alt="image"> -->
+                    <i class="fa fa-bars"></i>
+                  </span>
+                  <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <li class="icon-arrow"></li>
+                    <li>
+                      <a href="javascript:void(0)">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span>
+                          {{userDataLog?.FullName}}
+                        </span>
+                      </a>
+                    </li>
+                    <!-- <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-question-circle"></i> Help</a>
+                              </li>
+                              <li>
+                                  <a href="javascript:void(0)">
+                                    <i class="fa fa-file"></i>User Doc</a>
+                                </li> -->
+                    <li>
+                      <a href="javascript:void(0)" (click)="logOut()">
+                        <i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- end log user -->
+            </div>
+            <!-- end inline -->
+          </div>
+          <!-- end web acccount -->
+  
+        </div>
+        <!-- end web head title -->
+  
+      </div>
+      <!-- end header right -->
+    </div>
+    <!-- end header inner -->
+  </div>
+  <!-- end header wrapper -->
+  
+  <div class="modal header-model-wrapper" [ngClass]="isPopCandidate == true ? 'show' : 'none' ">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="fas fa-search"></i> Search Result for <label>{{candidateData?.candidateName | titlecase}}</label></h4>
+          <button type="button" (click)="close()" class="close" data-dismiss="modal">
+            <span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="cand-info">
+            <div class="row row-eq-height">
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-user-tie"></i> Name:</span>
+                    <label>{{candidateData?.candidateName}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-envelope-open"></i> Email ID:</span>
+                    <label>{{candidateData?.candidateEmail}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-mobile-alt"></i> Mobile No:</span>
+                    <label>{{candidateData?.candidatePhone}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-handshake"></i> Panel:</span>
+                    <label>{{candidateData?.panelName == null ? 'N/A':candidateData?.panelName}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-info-circle"></i> Interview Mode:</span>
+                    <label>{{candidateData?.interview_mode?.mode}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-calendar-alt"></i> Interview Date:</span>
+                    <label>{{candidateData?.unixtime*1000 | date:'dd/MM/yyyy, h:mm a'}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-calendar-alt"></i> Joining Date Date:</span>
+                    <label>{{candidateData?.joining_unix_time*1000 | date:'dd/MM/yyyy'}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-door-open"></i> Candidate Status:</span>
+                    <label>{{candidateData?.candidateType?.statusName?.toLowerCase()}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+  
+              <div class="col-sm-4">
+                <div class="cand-box">
+                  <h4>
+                    <span><i class="fas fa-door-open"></i> Talent Id:</span>
+                    <label>{{candidateData?.talent_id}}</label>
+                  </h4>
+                </div>
+                <!-- end cand box -->
+              </div>
+              <!-- end colmn -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="close()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="data-loader app-loader" *ngIf="isAppLoader">
+    <div class="data-loader-inner">
+      <div>
+          <img src="{{LogoSmall}}" alt="" class="img-load">
+      </div>
+      <label>Please Wait ... ! Page Loading ...</label>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+  

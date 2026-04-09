@@ -1,0 +1,45 @@
+
+@page {
+    size: 1000px 1300px;
+    margin: 0;
+  }
+  
+@media print {
+    body {
+        overflow: initial !important;
+        background: #ffffff !important;
+    }
+
+    .day1-doc-main-wrapper .day1-doc-sec{
+        height: 95vh;
+        position: relative;
+
+        .formDay1-footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left:0
+        }
+    }
+}
+.h3-aln-tdec{
+    font-size: 20px;text-align: center;text-decoration: underline;
+}
+.ul-alpha-low{
+    list-style-type: lower-alpha;margin-left: 27px;
+}
+.ul-ml{
+    list-style-type: disc;margin-left: 5px;
+}
+.ul-ml-li{
+    margin-left: 35px;
+}
+.div-ml-p{
+    margin-left: 27px;
+}
+.div-h3-ft-tl{
+    font-size: 18px;text-align: center;
+}
+.div-h3-font{
+    font-size: 16px;
+}

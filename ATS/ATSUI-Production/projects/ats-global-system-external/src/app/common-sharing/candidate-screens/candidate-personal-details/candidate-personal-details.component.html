@@ -1,0 +1,601 @@
+<div class="can-temp-body">
+    <div class="can-temp-h">
+        <div class="can-temp-h-t">
+            <h4>Personal Details b</h4>
+        </div>
+        <div class="can-temp-h-t">
+            <div class="ul-action">
+                <ul>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end head -->
+    <div class="can-temp-b">
+        <div class="can-view-wrap" *ngIf="isFinalSumbit">
+            <div class="can-list-view">
+                <h5>First Name:</h5>
+                <p>
+                    {{candidatePersonalDetails?.FirstName || '-'}}
+                </p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Middle Name:</h5>
+                <p>
+                    {{candidatePersonalDetails?.MiddleName || '-'}}
+                </p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5> Last Name:</h5>
+                <p>
+                    {{candidatePersonalDetails?.LastName || '-'}}
+                </p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Father’s Name:</h5>
+                <p>{{candidatePersonalDetails?.FatherName || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Email:</h5>
+                <p>{{candidatePersonalDetails?.email || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Mobile Number:</h5>
+                <p>{{candidatePersonalDetails?.phone || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Alternate Number:</h5>
+                <p>{{candidatePersonalDetails?.LandlineNumber || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Date of Birth:</h5>
+                <p>
+                    {{(candidatePersonalDetails?.dob | date:'mediumDate')|| '-'}}
+                </p>
+
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Gender:</h5>
+                <p>{{candidatePersonalDetails?.Gender || '-'}}</p>
+            </div>
+            <!-- end -->
+            <!-- <div class="can-list-view">
+                <h5>Age:</h5>
+                <p>
+                    {{calculateAge(candidatePersonalDetails?.dob) || '-'}}
+                </p>
+
+            </div> -->
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Marital Status:</h5>
+                <p>{{candidatePersonalDetails?.maritalStatusName || '-'}}
+                    
+                </p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Nationality:</h5>
+                <p>{{candidatePersonalDetails?.NationalityName || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Total Experience:</h5>
+                <p>{{candidatePersonalDetails?.totalExp + ' Years ' +
+                    candidatePersonalDetails?.totalExpMonth + ' Months ' || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Relevant Experience:</h5>
+                <p>{{candidatePersonalDetails?.releventExp + ' Years ' +
+                    candidatePersonalDetails?.releventExpMonth + ' Months ' || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>IT Experience:</h5>
+                <p>{{candidatePersonalDetails?.ITExpYear + ' Years ' +
+                    candidatePersonalDetails?.ITExpMonth + ' Months ' || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Core Skill:</h5>
+                <p>{{candidatePersonalDetails?.skillName || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Secondary Skills:</h5>
+                <p>{{candidatePersonalDetails?.AddtionalSkillName || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Blood Group:</h5>
+                <p>{{candidatePersonalDetails?.BloodGroup}}
+
+                    <ng-container [ngSwitch]="candidatePersonalDetails?.BloodGroupRh">
+                        <ng-container *ngSwitchCase="'P'">Positive</ng-container>
+                        <ng-container *ngSwitchCase="'N'">Negative</ng-container>
+                        <ng-container *ngSwitchCase="'U'">Unknown</ng-container>
+                    </ng-container>
+                </p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Passport No.:</h5>
+                <p>{{candidatePersonalDetails?.PassportNo || '-'}}</p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Valid Visa:</h5>
+                <p>
+                    <ng-container [ngSwitch]="candidatePersonalDetails?.ValidVisa">
+                        <ng-container *ngSwitchCase="'Year'">Yes</ng-container>
+                        <ng-container *ngSwitchCase="'N'">No</ng-container>
+                        <ng-container *ngSwitchDefault>
+                                -
+                            </ng-container>
+                    </ng-container>
+                </p>
+            </div>
+            <!-- end -->
+
+            <div class="can-list-view">
+                <h5>Visa Valid Upto:</h5>
+                <p>{{(candidatePersonalDetails?.VisaValidUpto | date:'mediumDate') || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Onsite/Overseas Experience:</h5>
+                <p>{{candidatePersonalDetails?.OverseasExp || '-'}}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Present Address:</h5>
+                <p> {{candidatePersonalDetails?.AddressLine1?candidatePersonalDetails?.AddressLine1+',':'' }}
+                    {{candidatePersonalDetails?.AddressLine2?candidatePersonalDetails?.AddressLine2+',':''}}
+                    {{candidatePersonalDetails?.AddressLine3?candidatePersonalDetails?.AddressLine3 +',':''}}
+                    {{candidatePersonalDetails?.cr_city?candidatePersonalDetails?.cr_city  +',':''}}
+                    {{candidatePersonalDetails?.cr_state?candidatePersonalDetails?.cr_state +',':''}}
+                    {{candidatePersonalDetails?.cr_postalCode ?candidatePersonalDetails?.cr_postalCode +',':''}}
+                    {{candidatePersonalDetails?.cr_countryName?candidatePersonalDetails?.cr_countryName +'':'' }}
+                </p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Permanent Address:</h5>
+                <p>{{candidatePersonalDetails?.pr_addressLine1?candidatePersonalDetails?.pr_addressLine1+',':'' }}
+                    {{candidatePersonalDetails?.pr_addressLine2?candidatePersonalDetails?.pr_addressLine2+',':''}}
+                    {{candidatePersonalDetails?.pr_addressLine3?candidatePersonalDetails?.pr_addressLine3 +',':''}}
+                    {{candidatePersonalDetails?.pr_city?candidatePersonalDetails?.pr_city  +',':''}}
+                    {{candidatePersonalDetails?.pr_state?candidatePersonalDetails?.pr_state +',':''}}
+                    {{candidatePersonalDetails?.pr_postalCode ?candidatePersonalDetails?.pr_postalCode +',':''}}
+                    {{candidatePersonalDetails?.pr_countryName?candidatePersonalDetails?.pr_countryName +'':'' }}</p>
+            </div>
+            <!-- end -->
+            <div class="can-list-view">
+                <h5>Contact Address in Emergency:</h5>
+                <p>{{candidatePersonalDetails?.em_addressLine1?candidatePersonalDetails?.em_addressLine1+',':'' }}
+                    {{candidatePersonalDetails?.em_addressLine2?candidatePersonalDetails?.em_addressLine2+',':''}}
+                    {{candidatePersonalDetails?.em_addressLine3?candidatePersonalDetails?.em_addressLine3 +',':''}}
+                    {{candidatePersonalDetails?.em_city?candidatePersonalDetails?.em_city  +',':''}}
+                    {{candidatePersonalDetails?.em_state?candidatePersonalDetails?.em_state +',':''}}
+                    {{candidatePersonalDetails?.em_postalCode ?candidatePersonalDetails?.em_postalCode +',':''}}
+                    {{candidatePersonalDetails?.em_countryName?candidatePersonalDetails?.em_countryName +'':'' }}</p>
+            </div>
+            <!-- end -->
+        </div>
+        <!-- end -->
+        <div class="form-can-wrap" *ngIf="!isFinalSumbit">
+            <form [formGroup]="personalDetailsForm">
+                <div class="form-on-ats form-on-ats-horz-4" [ngClass]="formClass">
+                    <div class="form-on-col disable-pointer">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>First Name</mat-label>
+                            <input matInput type="text" formControlName="FirstName" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit" appCapitalizeWords>
+                        </mat-form-field>
+                        <!-- <mat-error *ngIf="getControl('FirstName').touched && getControl('FirstName').invalid">
+                        <div *ngIf="getControl('FirstName').errors.required">
+                            required
+                        </div>
+                    </mat-error> -->
+                        <!-- <mat-error>Please enter name.</mat-error> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col disable-pointer">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Middle Name</mat-label>
+                            <input matInput type="text" formControlName="MiddleName" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit" appCapitalizeWords>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col disable-pointer">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput type="text" formControlName="LastName" maxlength="250" disableInitialSpace
+                                onlyAlphabets [readonly]="isFinalSumbit" appCapitalizeWords>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Father’s Name</mat-label>
+                            <input matInput type="text" formControlName="FatherName" minlength="3" maxlength="250"
+                                disableInitialSpace onlyAlphabets [readonly]="isFinalSumbit" appCapitalizeWords>
+
+                        </mat-form-field>
+                        <mat-error class="mat-error-global"
+                            *ngIf="getControl('FatherName')?.touched && getControl('FatherName')?.invalid">
+                            <div *ngIf="getControl('FatherName')?.errors?.minlength">
+                                <span class="error-text">At least 3 characters</span>
+                            </div>
+                        </mat-error>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="Email" maxlength="250" readonly>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput type="text" formControlName="MobileNumber" minlength="10" maxlength="10"
+                                disableInitialSpace onlyNumber [readonly]="isFinalSumbit">
+                            <div *ngIf="getControl('MobileNumber')?.errors?.minlength">
+                                <span class="error">Enter 10 digit mobile number</span>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Alternate Number</mat-label>
+                            <input matInput type="text" formControlName="LandlineNumber" maxlength="20"
+                                disableInitialSpace onlyNumber [readonly]="isFinalSumbit">
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput placeholder="Date of Birth"
+                                [value]="candidatePersonalDetails?.dob"
+                                readonly>
+                        </mat-form-field>
+                        <input type="hidden" formControlName="dob">
+                        
+                        <!-- <mat-form-field appearance="outline" class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly formControlName="dob" [max]="maxDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>calendar_month
+                                </mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field> -->
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <!-- <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Gender</mat-label>
+                            <mat-select formControlName="candidateGender">
+                                <mat-option *ngFor="let data of genderList" [value]="data?.ID">{{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Gender</mat-label>
+                            <input matInput placeholder="Gender"
+                                [value]="candidatePersonalDetails?.Gender"
+                                readonly>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Marital Status</mat-label>
+                            <mat-select formControlName="MaritalStatus">
+                                <mat-option *ngFor="let data of maritalStatusList" [value]="data?.id">{{data?.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Nationality</mat-label>
+                            <mat-select formControlName="Nationality" (selectionChange)="getNationalityId($event.value)">
+                               
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlNationality" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                    </ngx-mat-select-search>
+                                  </mat-option>
+                                <mat-option *ngFor="let data of nationalityList | nationalityFilter:searchInputNationality" [value]="data?.ID">
+                                    {{data?.Nationality}}
+                                </mat-option>
+                                <!-- <mat-option [value]="0">
+                                        Others
+                                </mat-option> -->
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col" *ngIf="manualNatReq">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Nationality</mat-label>
+                            <input matInput type="text" formControlName="NationalityName" [required]="manualNatReq"
+                                disableInitialSpace onlyAlphabets>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Total Exp. (Year)</mat-label>
+                                        <input matInput placeholder="Total Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="TotalExpYear" onlyNumber expYear
+                                            matTooltip="Total Experience in Year">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Total Exp. (Month)</mat-label>
+                                        <input matInput placeholder="Total Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="TotalExpMonth" onlyNumber expMonth
+                                            matTooltip="Total Experience in Month">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Relevant Exp. (Year)</mat-label>
+                                        <input matInput placeholder="Relevant Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="RelevantExpyear" onlyNumber expYear
+                                            matTooltip="Relevant Experience in Year">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>Relevant Exp. (Month)</mat-label>
+                                        <input matInput placeholder="Relevant Exp." maxlength="2" disableInitialSpace
+                                            required formControlName="RelevantExpMonth" onlyNumber expMonth
+                                            matTooltip="Relevant Experience in Month">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>IT Exp. (Year)</mat-label>
+                                        <input matInput placeholder="IT Exp." maxlength="2" disableInitialSpace required
+                                            formControlName="ITExpyear" onlyNumber expYear
+                                            matTooltip="IT Experience in Year">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label>IT Exp. (Month)</mat-label>
+                                        <input matInput placeholder="IT Exp." maxlength="2" disableInitialSpace required
+                                            formControlName="ITExpMonth" onlyNumber expMonth
+                                            matTooltip="IT Experience in Month">
+                                    </mat-form-field>
+                                    <!-- validate ends-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Core Skill</mat-label>
+                            <input matInput type="text" [value]="candidatePersonalDetails?.skillName"
+                                 readonly disabled>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label appRemoveAriaOwns >Secondary Skills</mat-label>
+                            <mat-select formControlName="secondarySkill" multiple>
+                                 <mat-select-trigger>
+                                    {{getControl('secondarySkill')?.value ? triggerFuncAddlCandi(getControl('secondarySkill')?.value[0]) : ''}}
+                                    <span *ngIf="getControl('secondarySkill')?.value?.length > 1" class="example-additional-selection">
+                                      (+{{getControl('secondarySkill')?.value?.length - 1}} {{getControl('secondarySkill')?.value?.length === 2 ? 'other' : 'others'}})
+                                    </span>
+                                </mat-select-trigger>
+                                <mat-option>
+                                    <ngx-mat-select-search class="mat-selec-search-youxta"
+                                        [formControl]="FilterCtrlSkills" [noEntriesFoundLabel]="'No record Found'"
+                                        [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                    </ngx-mat-select-search>
+                                  </mat-option>
+                                <mat-option *ngFor="let data of skillsList | additionalSkillsFilter:searchInputSkills" [value]="data?.SkillId" >
+                                    {{data?.SKillName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds">
+                                <div class="exp-cols">
+                                    <div class="ats-radio-mat-flat">
+                                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                            <mat-label appRemoveAriaOwns >Blood Group</mat-label>
+                                            <mat-select formControlName="BloodGroup">
+                                                <mat-option *ngFor="let item of bloodGroupList"
+                                                    [value]="item?.value">{{item?.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                                        <mat-label appRemoveAriaOwns >RH</mat-label>
+                                        <mat-select formControlName="BloodGroupRh">
+                                            <mat-option *ngFor="let item of bloodGroupListRh"
+                                                [value]="item?.value">{{item?.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Passport No.</mat-label>
+                            <input matInput type="text" numericAndAlphabets formControlName="PassportNo" maxlength="20"
+                                disableInitialSpace>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+
+                    <!-- end col -->
+
+                    <div class="form-on-col">
+                        <div class="exp-section-control-main">
+                            <div class="exp-section-control-ds column-vis">
+                                <div class="exp-cols">
+                                    <div class="ats-radio-mat-flat">
+                                        <label class="lb-title">Valid Visa</label>
+                                        <mat-radio-group aria-label="Select an option" formControlName="ValidVisa"
+                                            (change)="validVisa($event)">
+                                            <mat-radio-button value="Y">Yes</mat-radio-button>
+                                            <mat-radio-button value="N">No</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+
+                                <div class="exp-cols">
+                                    <mat-form-field appearance="outline" class="ats-mat-form-field"
+                                        [appearance]="appearance">
+                                        <mat-label>Valid Upto</mat-label>
+                                        <input matInput [matDatepicker]="picker3" readonly
+                                            formControlName="VisaValidUpto">
+                                        <mat-datepicker-toggle matSuffix [for]="picker3">
+                                            <mat-icon matDatepickerToggleIcon>calendar_month
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Onsite/Overseas Experience</mat-label>
+                            <input matInput type="text" formControlName="OverseasExp" maxlength="500"
+                                disableInitialSpace>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+
+                    <div class="form-on-col add-textarea">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Present Address</mat-label>
+                            <textarea matInput formControlName="PresentAddress" readonly
+                                (click)="addUpdateAddress('C')"></textarea>
+                            <mat-icon matSuffix (click)="addUpdateAddress('C')">edit_note</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col add-textarea">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Permanent Address</mat-label>
+                            <textarea matInput formControlName="PermanentAddress" readonly
+                                (click)="addUpdateAddress('P')"></textarea>
+                            <mat-icon matSuffix (click)="addUpdateAddress('P')">edit_note</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <div class="form-on-col add-textarea">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Contact Address in Emergency</mat-label>
+                            <textarea matInput formControlName="ContactAddressEmr" readonly
+                                (click)="addUpdateAddress('E')"></textarea>
+                            <mat-icon matSuffix (click)="addUpdateAddress('E')">edit_note</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <!-- end col -->
+                    <!-- <div class="form-on-col">
+                        <mat-form-field class="ats-mat-form-field" [appearance]="appearance">
+                            <mat-label>Contact Address in Emergency</mat-label>
+                            <input matInput type="text" formControlName="ContactAddressEmr">
+                        </mat-form-field>
+                    </div> -->
+                    <!-- end col -->
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

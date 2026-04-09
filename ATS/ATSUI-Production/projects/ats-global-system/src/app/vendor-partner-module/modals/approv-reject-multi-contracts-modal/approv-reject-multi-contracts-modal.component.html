@@ -1,0 +1,60 @@
+<div class="ats-modal-header">
+    <h1>
+        <span *ngIf="this.data?.type == 'A'">Approve </span> 
+        <span *ngIf="this.data?.type == 'R'">Reject </span>
+        
+        All Selected Contracts 
+        <!-- - {{data?.PartnerName}} -->
+    </h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <form [formGroup]="approveMultiPartnerContractsForm"
+                (ngSubmit)="approveRejectMultiContractHandle(approveMultiPartnerContractsForm)">
+                <!-- <div class="header-s">
+                    <div class="left-s-av"></div>
+                    <div class="search-bars">
+                        <div class="filter-at-wrapper">
+                            <div class="s-fil">
+                            </div>
+                            <div class="s-fil">
+                                <div class="act-header-btn">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="table-data-scroll-pop ats-content-card-body   ats-form-ui-enhance-font">
+                    <div
+                        class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark ats-form-normal-font ">
+                        <div class="approve-reject-sec">
+                            <div class="ats-form-col block-area-last action-radio-wrp">
+                                <mat-form-field appearance="outline" [floatLabel]="'always'" class="place-from-control">
+                                    <mat-label>Remarks {{this.data?.type == 'A' ? '- (Optional)': ''}}</mat-label>
+                                    <textarea matInput placeholder="Enter Remark" formControlName="Remarks"
+                                        disableInitialSpace></textarea>  
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-content-card-footer">
+                    <button type="submit" class="btn btn-infocon">Submit
+                        <i class="fa fa-save"></i>
+                    </button>
+                    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="no-record-found text-filter-alert">
+    
+    <span *ngIf="searchedValue;else noResultFound">No Searched Result Found.</span>
+    <ng-template #noResultFound><span>No Record Available.</span></ng-template>
+</div>

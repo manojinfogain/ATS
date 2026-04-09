@@ -1,0 +1,64 @@
+<div class="int-panel-selection" *ngIf="!isMultiple">
+  <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+    <mat-label [appRemoveAriaOwns]="">{{title}}</mat-label>
+    <mat-select [formControl]="panelIdControl" [disableOptionCentering]="true" [required]="required"
+      (selectionChange)="getEmp($event)" [disabled]="disabled">
+      <mat-option>
+        <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+          [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder" [clearSearchInput]="false">
+
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let list of getAllEmp  | panelFilter:searchInput" [value]="list.empnewid">
+        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+      </mat-option>
+    </mat-select>
+    <!-- <mat-icon matSuffix (click)="$event.stopPropagation()">event_available</mat-icon>
+    <mat-hint align="end" class="vw-pnl-av">
+      <a href="javascript:void(0)" (click)="viewCalender()">View Interviewer Calender</a>
+    </mat-hint> -->
+  </mat-form-field>
+</div>
+
+<div class="int-panel-selection" *ngIf="isMultiple">
+  <mat-form-field [appearance]="formFieldAppearance" [floatLabel]="floatLabel">
+    <mat-label [appRemoveAriaOwns]="">{{title}}</mat-label>
+    <mat-select (openedChange)="closeDropDown()" [formControl]="panelIdControl" [disableOptionCentering]="true"
+      [required]="required" multiple (selectionChange)="getEmpMulti($event)">
+      <!-- <mat-select-trigger>
+        {{ getMultiSelectDisplayText() }}
+      </mat-select-trigger> -->
+      <!-- <mat-select-trigger>
+        {{multiSelectedVal?.length !== 0 ? multiSelectedVal[0]?.viewValue : ''}}
+            <span *ngIf="panelIdControl?.value?.length > 1 && showCount > 1" class="example-additional-selection">
+              (+{{showCount - 1}} {{panelIdControl?.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+
+      </mat-select-trigger> -->
+      <!-- <mat-select-trigger>
+        {{multiSelectedVal?.length !== 0 ? multiSelectedVal[0]?.viewValue : ''}}
+            <span *ngIf="panelIdControl?.value?.length > 1 && showCount > 1" class="example-additional-selection">
+              (+{{showCount - 1}} {{panelIdControl?.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+        <span> 45 Others</span>
+      </mat-select-trigger> -->
+           <!-- Custom trigger to show selected names and count -->
+      <mat-select-trigger>
+        <ng-container *ngIf="panelIdControl.value?.length > 0">
+          {{ getSelectedText() }}
+        </ng-container>
+      </mat-select-trigger>
+      <mat-option>
+        <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+          [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="placeholder" [clearSearchInput]="false">
+
+        </ngx-mat-select-search>
+      </mat-option>
+    
+      <mat-option *ngFor="let list of getAllEmp | panelFilter:searchInput" [value]="list.empnewid">
+        {{list?.fullName}}{{"("+ list.empnewid +")"}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+</div>

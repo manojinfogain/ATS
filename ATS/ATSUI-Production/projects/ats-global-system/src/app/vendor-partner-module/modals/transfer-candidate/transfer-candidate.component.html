@@ -1,0 +1,52 @@
+<form [formGroup]="formTransfer" (ngSubmit)="TransferTalent(formTransfer)">
+    <div class="ats-modal-header ata-text-cap">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz  ats-form-normal-font ats-forms-horz3 form-outline-ats ats-form-dark">
+                <div class="ats-form-col search-input">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label appRemoveAriaOwns >Talent ID</mat-label>
+                        <mat-select [disableOptionCentering]="true" required formControlName="toThId">
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta" [formControl]="FilterCtrl"
+                                    [noEntriesFoundLabel]="'No record Found'" [placeholderLabel]="'Search'"
+                                    [clearSearchInput]="false">
+
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let list of partnerList | talentPartner:searchInput"
+                                [value]="list.thid">
+                                {{list?.talent_id}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="getControl('toThId').touched && getControl('toThId').invalid">
+                            <div *ngIf="getControl('toThId').errors.required">
+                                Talent ID is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col">
+                    <mat-form-field appearance="outline">
+                        <textarea matInput placeholder="Remarks" maxlength="500" formControlName="remarksTransfer"
+                            disableInitialSpace></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+
+        </div>
+    </div>
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Submit
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

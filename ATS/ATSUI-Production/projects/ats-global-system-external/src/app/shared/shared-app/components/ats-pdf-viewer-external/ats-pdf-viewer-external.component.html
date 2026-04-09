@@ -1,0 +1,74 @@
+<div class="pdf-viewer-wrapper">
+  <!-- PDF Viewer Header/Toolbar -->
+  <div class="pdf-toolbar">
+    <div class="toolbar-left">
+      <!-- Toggle Sidebar -->
+      <button class="toolbar-btn" >
+        <!-- <i class="fa fa-bars"></i> -->
+      </button>
+
+      <!-- Zoom Out -->
+      <button class="toolbar-btn" (click)="zoomOut()" [disabled]="zoomLevel <= zoomLevels[0]" title="Zoom Out">
+        <i class="fa fa-search-minus"></i>
+      </button>
+
+      <!-- Zoom In -->
+      <button class="toolbar-btn" (click)="zoomIn()" [disabled]="zoomLevel >= zoomLevels[zoomLevels.length - 1]" title="Zoom In">
+        <i class="fa fa-search-plus"></i>
+      </button>
+
+      <!-- Zoom Level Dropdown -->
+      <select class="zoom-select" [value]="zoomLevel" (change)="onZoomChange($event)" title="Zoom Level">
+        <option *ngFor="let level of zoomLevels" [value]="level" [selected]="level === 100">{{ level }}%</option>
+      </select>
+
+      <!-- Fit to Page -->
+      <button class="toolbar-btn" (click)="fitToPage()" title="Fit to Page">
+        <i class="fa fa-expand"></i>
+      </button>
+
+      <!-- Print -->
+      <button class="toolbar-btn" (click)="print()" title="Print">
+        <i class="fa fa-print"></i>
+      </button>
+
+      <!-- Download -->
+      <button class="toolbar-btn" (click)="download()" title="Download">
+        <i class="fa fa-download"></i>
+      </button>
+    </div>
+
+    <div class="toolbar-right">
+      <!-- Page Navigation -->
+      <button class="toolbar-btn" (click)="firstPage()" [disabled]="currentPage === 1" title="First Page">
+        <i class="fa fa-angle-double-left"></i>
+      </button>
+
+      <button class="toolbar-btn" (click)="previousPage()" [disabled]="currentPage === 1" title="Previous Page">
+        <i class="fa fa-angle-left"></i>
+      </button>
+
+      <span class="page-info">{{ currentPage }} of {{ totalPages }}</span>
+
+      <button class="toolbar-btn" (click)="nextPage()" [disabled]="currentPage === totalPages" title="Next Page">
+        <i class="fa fa-angle-right"></i>
+      </button>
+
+      <button class="toolbar-btn" (click)="lastPage()" [disabled]="currentPage === totalPages" title="Last Page">
+        <i class="fa fa-angle-double-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- PDF Container with Overlays -->
+  <div class="pdf-content-wrapper">
+    <!-- PDF Container -->
+    <div class="pdf-container-att" #pdfContainer></div>
+
+    <div *ngIf="error" class="pdf-error-overlay">
+      <div class="error-content">
+        <i class="fa fa-exclamation-triangle"></i> {{ error }}
+      </div>
+    </div>
+  </div>
+</div>

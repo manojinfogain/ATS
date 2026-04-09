@@ -1,0 +1,268 @@
+<div class="ats-connect-left" [hidden]="!isHideSidebar" #sidebar (click)="$event.stopPropagation()">
+  <!-- [hidden]="!isHideSidebar"  #sidebar -->
+  <div class="ats-sidbar-wrap">
+    <div class="sidebar-header-ats">
+      <div class="at-m-title">
+        <label> <span class="ath">ATS</span> Menu</label>
+      </div>
+      <div class="at-act-nv menu-a">
+        <button type="button" matTooltip="Open Menu">
+          <span class="material-icons-outlined">
+            menu
+          </span>
+        </button>
+      </div>
+      <div class="at-act-nv menu-c">
+        <button type="button" matTooltip="Close Menu" (click)="closeMenu($event)">
+          <span class="material-icons-outlined">
+            disabled_by_default
+          </span>
+        </button>
+
+      </div>
+    </div>
+    <div class="ats-sidemenu">
+      <div class="ats-nav-wrap">
+        <mat-accordion>
+          <!---  Dashboard  --->
+
+          <!-- leadership employment form eaf  -->
+          
+          <!-- ends -->
+          <!-- *ngIf="IsDelegateRecruiter" -->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Employment Application Form"
+                  [matTooltipPosition]="TooltipPosition" [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up1">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/employment-application-form">
+                      Employment Application Form
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+           
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isUploadBgvDocEnable">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Upload BGV Documents" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up1">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/upload-bgv-documents">
+                      Update Background Verification Details
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul class="ats-submenu">
+
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-personal-information"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Personal Information
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-current-address-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                   Current Address Details
+                  </span>
+                </a>
+              </li>
+               <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-crc-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Criminal Through E-Court - <br>Permanent Address Details
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-highest-education-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                   Highest Education Details
+                  </span>
+                </a>
+              </li>
+               <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-current-employment-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Current Employment Details
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-previous-employment-one-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                   Previous Employment-1 Details
+                  </span>
+                </a>
+              </li>
+               <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-previous-employment-two-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    Previous Employment-2 Details
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-global-db-check-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                   Global Database Check Details
+                  </span>
+                </a>
+              </li>
+               <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-ofac-details"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                    OFAC Details
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="MenuHandler($event)" routerLink="/bgv-digital-loa"
+                  routerLinkActive="active" class="ats-nv-align">
+                  <span class="ats-nv-icon round-icon int-schedule"></span>
+                  <span class="ats-nv-link">
+                   Digital LOA
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+          <!-- end -->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isOnboardFormEnable">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Pre  Onboarding Form" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      dynamic_form
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/onboarding-form">
+                      Pre Onboarding Form
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isDay1FormEnable">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Day1 Form" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      view_list
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/day1-form">
+                      Day1 Form
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!-- *ngIf="isDay1FormEnable" -->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isAppointLetterEnable">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Appointment Letter Consent"
+                  [matTooltipPosition]="TooltipPosition" [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      assignment_return
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/appointment-letter-consent">
+                      Appointment Letter Consent
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- end -->
+          <!-- *ngIf="isDay1FormEnable" -->
+          <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active" *ngIf="isEnablePendingDocs">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Upload Pending Documents" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon round-icon icon-ats">
+                    <span class="material-icons-outlined">
+                      drive_file_move
+                    </span>
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title=""
+                      routerLink="/upload-pending-documents">
+                      Upload Pending Documents
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <!-- <mat-expansion-panel class="list-nav list-nav-hide" routerLinkActive="active">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label class="ats-nv-align" matTooltip="Day-1 Forms" [matTooltipPosition]="TooltipPosition"
+                  [matTooltipDisabled]="isToolTipDisable">
+                  <span class="ats-nv-icon square-icon partner-up1">
+                  </span>
+                  <span class="ats-nv-link">
+                    <a href="javascript:void(0)" (click)="MenuHandler($event)" title="" routerLink="/day1-form">
+                      Day-1 Form
+                    </a>
+                  </span>
+                </label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel> -->
+          <!-- end -->
+        </mat-accordion>
+      </div>
+
+
+    </div>
+  </div>
+</div>

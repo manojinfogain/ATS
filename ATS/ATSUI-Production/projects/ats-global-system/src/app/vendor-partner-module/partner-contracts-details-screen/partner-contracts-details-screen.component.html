@@ -1,0 +1,273 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header -->
+            <div class="content-body">
+                <mat-card>
+                    <div class="card">
+                        <div class="card-header  card-header-flex">
+                            <div class="ats-left-h"></div>
+                            <div class="erp-search-input ats-right-h">
+                                <div class="filter-at-wrapper">
+                                    <div class="s-fil">
+                                        <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                            [placeHolder]="'Search by Partner Name'" [searchServerSide]="true"
+                                            [isReset]="isResetSearch"></app-search-filter>
+                                    </div>
+                                    <div class="s-fil">
+                                        <div class="act-header-btn">
+                                            <ul>
+                                                <!-- <li>
+                                                   
+                                                </li> -->
+                                                <li>
+                                                    <button mat-button class="act-button" (click)="exportAsXLSX()"
+                                                        matTooltip="Download Excel">
+                                                        <i class="fas fa-file-download ex-icon"></i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <app-filter-sort (getSortFormData)="getSortData($event)"
+                                                        [form]="sortFormFilter" [isResetForm]="isResetFilter"
+                                                        [dateRange]="true" [dateRangeTitle]="'Contract Date'"
+                                                        [checkboxPendingWithMe]="isPendingWithHead" [PartnerContractsStatus]="true"
+                                                        [partnerContractStatusMulti]="true" [ContractType]="true"
+                                                        [contractTypeMulti]="true"
+                                                          [PartnerID]="true" [PartnerMulti]="true"></app-filter-sort>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- matrial Table -->
+                            <div class="table-scroll-bd">
+                                <table mat-table [dataSource]="contractList" class="table-mat-info">
+                                    <ng-container matColumnDef="select">
+                                        <!--  -->
+                                        <th mat-header-cell *matHeaderCellDef="let element" class="h-check all-select-cls">
+                                            <!-- *ngIf="element?.IsApprover === 'Y'"-->
+                                            <ng-container >
+                                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                    [checked]="selection.hasValue() && isAllSelected()"
+                                                    [disabled]="disableCheckbox">
+                                                </mat-checkbox>
+                                            </ng-container>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <!-- *ngIf="element?.StatusId =='1' -->
+                                            <ng-container *ngIf="element?.TagheadApprover == userData?.EmpNewId">
+                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                    (change)="$event ? selection.toggle(element) : null"
+                                                    [checked]="checkIfSelected(element)"
+                                                    [disabled]="element?.StatusId !='1' || element?.TagheadApprover != userData?.EmpNewId">
+                                                </mat-checkbox>
+                                            </ng-container>
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="PartnerName">
+                                        <th mat-header-cell *matHeaderCellDef>Partner Name</th>
+                                        <td mat-cell *matCellDef="let element"> {{element?.PartnerName || '-'}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Email Id</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.Email || '-'}}
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="ContractType">
+                                        <th mat-header-cell *matHeaderCellDef class="width-contract">
+                                            Contract Type</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.ContractType || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ContractAvailability">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            Contract <br>Availability</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                            {{element?.ContractAvailability === 'Y'?'Yes': element?.ContractAvailability
+                                            === 'N' ? 'No':'-' || '-' }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="startDate">
+                                        <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                                        <td mat-cell *matCellDef="let element" class="width-contract">
+                                            {{(element?.StartDate| date:'dd-MMM-yyyy') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="endDate">
+                                        <th mat-header-cell *matHeaderCellDef class="width-contract">End Date</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{(element?.EndDate| date:'dd-MMM-yyyy') || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="TagheadApproverName">
+                                        <th mat-header-cell *matHeaderCellDef>Approver Name </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.TagheadApproverName || '-'}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef>Remarks </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element?.Remarks || '-'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef>Contract Status </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div [ngSwitch]="true">
+                                                <div *ngSwitchCase="element?.StatusId =='1'">
+                                                    <button class="btn-status-dg schedule" type="button">
+
+                                                        {{element?.Status}}
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchCase="element?.StatusId =='3' || element?.StatusId =='5'">
+                                                    <button class="btn-status-dg rejects" type="button">
+
+                                                        {{element?.Status}}
+                                                    </button>
+                                                </div>
+                                                
+                                                <div *ngSwitchCase="element?.StatusId =='2' || element?.StatusId =='4'">
+                                                    <button class="btn-status-dg shortlisted" type="button">
+
+                                                        {{element?.Status}}
+                                                    </button>
+                                                </div>
+                                                <div *ngSwitchDefault>
+                                                    {{element?.Status || '-'}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="action-td">
+                                                <div class="btn-action btn-action-center btn-single">
+                                                    <ng-container>
+                                                        <!-- showing aprroval/update button when pending with tag head -->
+                                                        <!-- element?.statusId ==1 pending-->
+                                                        <div class="btn-act"
+                                                            *ngIf="element?.StatusId ==1 && element?.TagheadApprover == userData?.EmpNewId">
+                                                            <button mat-button type="button"
+                                                                matTooltip="Approve Contract"
+                                                                (click)="approveRejectContracModal(element, 'P')">
+                                                                <span class="material-icons-outlined">
+                                                                    fact_check
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="userData?.RoleId == 5">
+                                                        <!-- update contract details only approve status-->
+                                                        <div class="btn-act" *ngIf="element?.StatusId ==2">
+                                                            <button mat-button type="button"
+                                                                matTooltip="Update Contract Details"
+                                                                (click)="approveRejectContracModal(element, 'U')">
+                                                                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                        <!-- resend contract when status is rejected 3  -->
+                                                        <div class="btn-act" *ngIf="element?.StatusId ==3">
+                                                            <button mat-button type="button"
+                                                                matTooltip="Update Contracts Details - Resend for Approval"
+                                                                (click)="approveRejectContracModal(element, 'S')">
+                                                                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                                </table>
+                                <app-no-result-found [searchedValue]="searchInput" *ngIf="contractList.length === 0">
+                                </app-no-result-found>
+
+                            </div>
+                            <div class="partner-multi-contract-approval-sec" *ngIf="this.selection.selected.length >1">
+                                <!--  -->
+                                <ng-container>
+                                    <form [formGroup]="approveContractsForm">
+                                        <div class="apr-rej-wrapper">
+
+                                            <div class="btn-sec">
+                                                <button type="submit" class="btn btn-infocon"
+                                                    (click)="multiApproveRejectAllHandler(approveContractsForm, 'A')">
+                                                    Approve All
+                                                    <!-- <span class="material-icons-outlined">
+                                                            fact_check
+                                                        </span> -->
+                                                </button>
+                                                <button type="submit" class="btn btn-infocon"
+                                                    (click)="multiApproveRejectAllHandler(approveContractsForm, 'R')">
+                                                    Reject All
+                                                    <!-- <span class="material-icons-outlined">
+                                                            fact_check
+                                                        </span> -->
+                                                </button>
+                                                <button type="submit" class="btn btn-infocon" (click)="clearCheckbox()">
+                                                    Clear All
+                                                    <!-- <span class="material-icons-outlined">
+                                                            fact_check
+                                                        </span> -->
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </ng-container>
+
+                            </div>
+                            <div class="ats-paging-sec">
+                                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                                    [jumpFirstPage]="jumpFirstPage"
+                                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- end card sec -->
+                </mat-card>
+            </div>
+            <!-- end content body -->
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

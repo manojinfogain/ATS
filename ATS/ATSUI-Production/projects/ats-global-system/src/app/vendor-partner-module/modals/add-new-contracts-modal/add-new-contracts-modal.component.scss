@@ -1,0 +1,30 @@
+.contract-type-col {
+    // width: 300px !important;
+       width: 45.4% !important;
+}
+
+.table-data-scroll-pop {
+    overflow: hidden !important;
+}
+
+.approve-reject-sec.ng-star-inserted {
+    display: flex;
+    width: 100% !important;
+}
+
+.action-radio-wrp {
+    width: 49% !important;
+}
+
+.disable-pointer {
+    pointer-events: none !important;
+   
+    cursor: no-drop !important;
+  &:hover{
+    cursor: not-allowed !important;
+  }
+}
+
+.width-45-percent {
+    width: 45%;
+}

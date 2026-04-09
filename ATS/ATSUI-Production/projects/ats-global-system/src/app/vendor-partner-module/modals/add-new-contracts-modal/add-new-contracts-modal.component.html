@@ -1,0 +1,180 @@
+<div class="ats-modal-header">
+    <h1>
+        <span *ngIf="this.data?.type == 'N'">Add Contract for {{data?.PartnerName}} </span>
+        <span *ngIf="this.data?.type == 'P'">Approve/ Reject Contract - {{data?.ContractType}} </span>
+        <span *ngIf="this.data?.type == 'U'">Update Contract - {{data?.ContractType}} </span>
+        <span *ngIf="this.data?.type == 'S'">Update And Resend For Approval - {{data?.ContractType}} </span>
+    </h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <form [formGroup]="addPartnerContractsForm"
+                (ngSubmit)="addNewContractToPartnerHandle(addPartnerContractsForm)">
+                <!-- <div class="header-s">
+                    <div class="left-s-av"></div>
+                    <div class="search-bars">
+                        <div class="filter-at-wrapper">
+                            <div class="s-fil">
+                            </div>
+                            <div class="s-fil">
+                                <div class="act-header-btn">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="table-data-scroll-pop ats-content-card-body   ats-form-ui-enhance-font">
+                    <div
+                        class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark ats-form-normal-font ">
+                        <!-- <div class="partner-multi-contracts-sec">
+                           
+                            <app-partner-multi-contracts-fields [form]="addPartnerContractsForm" [data]="data"
+                                [isContractsNew]="true">
+                            </app-partner-multi-contracts-fields>
+                        </div> -->
+                        <div class="ats-form-col contract-type-col">
+                            <mat-form-field appearance="outline" class="place-from-control"
+                                [ngClass]="{'disable-pointer': isContractEndDateUpdate}">
+                                <mat-label appRemoveAriaOwns>Contract Type</mat-label>
+                                <mat-select [disableOptionCentering]="true" formControlName="ContractTypeID" required>
+                                    <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                        {{list?.ContractType}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="getControl('ContractTypeID').touched && getControl('ContractTypeID').invalid">
+                                    <div *ngIf="getControl('ContractTypeID').errors.required">
+                                        Contract Type is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+
+                        <!-- <div class="ats-form-col mat-radio-ats mat-radio-btn-ats contract-radio"
+                            [ngClass]="{'disable-pointer': this.data?.ContractAvailability =='Y' && readOnlyFields}">
+                            <label class="lb-title">Contract Availability <sup>*</sup> </label>
+                            <mat-radio-group aria-label="Select an option" (change)="contractHandler($event)"
+                                formControlName="ContractAvailability" required>
+                                <mat-radio-button value="Y">Yes</mat-radio-button>
+                                <mat-radio-button value="N" checked>No</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error
+                                *ngIf="getControl('ContractAvailability').touched && getControl('ContractAvailability').invalid">
+                                <div *ngIf="getControl('ContractAvailability').errors.required">
+                                    Required field.
+                                </div>
+                            </mat-error>
+                        </div> -->
+                        <!-- end col -->
+                        <div class="ats-form-col contract-type-col">
+                            <mat-form-field appearance="outline" class="place-from-control"
+                                [ngClass]="{'disable-pointer': isContractEndDateUpdate}">
+                                <mat-label appRemoveAriaOwns>Contract Availability</mat-label>
+                                <mat-select [disableOptionCentering]="true" formControlName="ContractAvailability"
+                                    required (selectionChange)="contractHandler($event)">
+                                    <mat-option [value]="'Y'">
+                                        Yes
+                                    </mat-option>
+                                    <mat-option [value]="'N'">
+                                        No
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="getControl('ContractAvailability').touched && getControl('ContractAvailability').invalid">
+                                    <div *ngIf="getControl('ContractAvailability').errors.required">
+                                        Contract availability is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="ats-form-col width-45-percent">
+                            <mat-form-field appearance="outline" class="place-from-control"
+                                [ngClass]="{'disable-pointer': isContractEndDateUpdate}">
+                                <mat-label>Contract Start Date</mat-label>
+                                <input matInput readonly [matDatepicker]="picker1"  formControlName="StartDate"
+                                    (dateInput)="changeDate('input', $event)" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar"
+                                            aria-hidden="true"></i></mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                                <mat-error *ngIf="getControl('StartDate').touched && getControl('StartDate').invalid">
+                                    <div *ngIf="getControl('StartDate').errors.required">
+                                        Start Date is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- end col -->
+                        <!--  -->
+                        <div class="ats-form-col width-45-percent">
+                            <mat-form-field appearance="outline" class="place-from-control">
+                                <mat-label>Contract End Date</mat-label>
+                                <input matInput readonly [matDatepicker]="picker2"  formControlName="EndDate"
+                                    [min]="minDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    <mat-icon matDatepickerToggleIcon><i class="fa fa-calendar"
+                                            aria-hidden="true"></i></mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error *ngIf="getControl('EndDate').touched && getControl('EndDate').invalid">
+                                    <div *ngIf="getControl('EndDate').errors.required">
+                                        End Date is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="approve-reject-sec" *ngIf="this.data?.type == 'P'">
+                            <div class="ats-form-col mat-radio-ats mat-radio-btn-ats action-radio-wrp">
+                                <!-- (change)="statusChange($event)" -->
+                                <label class="lb-title">Action<sup>*</sup> </label>
+                                <mat-radio-group aria-label="Select an option" (change)="statusChange($event)"
+                                    formControlName="status">
+                                    <mat-radio-button value="A">Approve</mat-radio-button>
+                                    <mat-radio-button value="R"> Decline </mat-radio-button>
+                                </mat-radio-group>
+                                <br>
+                                <mat-error *ngIf="getControl('status').touched && getControl('status').invalid">
+                                    <div *ngIf="getControl('status').errors.required">
+                                        Action is Required.
+                                    </div>
+                                </mat-error>
+                            </div>
+                            <div class="ats-form-col block-area-last action-radio-wrp">
+                                <mat-form-field appearance="outline" class="place-from-control">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput placeholder="Enter Remark" formControlName="Remarks"
+                                        disableInitialSpace></textarea>
+                                    <mat-error *ngIf="getControl('Remarks').touched && getControl('Remarks').invalid">
+                                        <div *ngIf="getControl('Remarks').errors.required">
+                                            Remarks is required.
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ats-content-card-footer">
+                    <button type="submit" class="btn btn-infocon">Submit
+                        <i class="fa fa-save"></i>
+                    </button>
+                    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

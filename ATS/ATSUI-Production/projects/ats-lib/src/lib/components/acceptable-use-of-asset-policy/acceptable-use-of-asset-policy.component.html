@@ -1,0 +1,1374 @@
+<div class="day1-doc-main-wrapper">
+  <section class="day1-doc-sec doc-prv-page1">
+    <div class="day1-doc-sec-inner">
+      <div class="infogain-logo-d mrg-doc-top margin-bottom-35">
+        <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+      </div>
+      <!-- end  -->
+      <div class="doc-page1-title margin-bottom-35">
+        <div class="bordered-padding-box">
+          <h2>Acceptable Use of Asset Policy</h2>
+        </div>
+      </div>
+      <div class="doc-page1-title mrg-doc-bottom">
+        <h3>Infogain Corporation</h3>
+      </div>
+
+      <div class="imp-dc-inf">
+        <p>
+          This is a controlled document. Unauthorized access, copying and replication are prohibited. This document must
+          not be copied in whole or part by any means, such actions are prohibited without the written authorization of Chief Information Security
+          Officer,
+          Infogain Corporation.
+        </p>
+      </div>
+    </div>
+
+  </section>
+  <!-- end section -->
+  <section class="day1-doc-sec revision-history-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <div class="accept-policy-content">
+
+        <div class="table-of-content-wrap">
+          <h5>Table of Contents</h5>
+          <ol>
+            <li>1. PURPOSE
+              <span class="pg-nos">3</span>
+            </li>
+            <li>2. SCOPE <span class="pg-nos">3</span>
+            </li>
+            <li>3. INTENDED AUDIENCE<span class="pg-nos">3</span></li>
+            <li>4. STATEMENT OF POLICY<span class="pg-nos">3</span></li>
+            <li>5. ACCEPTABLE USE OF ASSETS <span class="pg-nos">3</span></li>
+            <ol class="sec-ol">
+              <li>5.1. General Use and Ownership <span class="pg-nos">3</span></li>
+              <li>5.2. Internet Usagel <span class="pg-nos">4</span></li>
+              <ol>
+                <li>5.2.1. Accessing the internet <span class="pg-nos">4</span></li>
+                <li>5.2.2. Expectation of privacy <span class="pg-nos">5</span></li>
+                <li>5.2.3. File downloads and virus protection <span class="pg-nos">5</span></li>
+                <li>5.2.4. Monitoring of computer and internet usage <span class="pg-nos">5</span></li>
+                <li>5.2.5. Frivolous use <span class="pg-nos">6</span></li>
+              </ol>
+              <li>5.3. Laptop Security and Usage <span class="pg-nos">6</span></li>
+              <ol>
+                <li>5.3.1. Laptop Usage Policy & Declaration <span class="pg-nos">6</span></li>
+                <li>5.3.2. Physical security guidelines for laptop <span class="pg-nos">6</span></li>
+              </ol>
+
+              <li>5.4. Smart Phones/Tablet Usage <span class="pg-nos">7</span></li>
+              <li>5.5. Electronic Communication <span class="pg-nos">7</span></li>
+              <ol>
+                <li>5.5.1. Email Etiquettes <span class="pg-nos">8</span></li>
+                <li>5.5.2. Email Privacy <span class="pg-nos">8</span></li>
+              </ol>
+              <li>5.6. Social Media Usage <span class="pg-nos">9</span></li>
+              <ol>
+                <li>5.6.1. Terms and conditions of use <span class="pg-nos">9</span></li>
+                <li>5.6.2. Representing Infogain <span class="pg-nos">9</span></li>
+                <li>5.6.3. Personal blogs and posts <span class="pg-nos">10</span></li>
+              </ol>
+              <li>5.7. Software Usage <span class="pg-nos">11</span></li>
+              <li>5.8. Clear Desk and Clear Screen<span class="pg-nos">11</span></li>
+            </ol>
+            <li>6. ISO 27001:2022 REFERENCE
+              <span class="pg-nos">12</span>
+            </li>
+            <li>7. PRIVACY
+              <span class="pg-nos">12</span>
+            </li>
+            <li>8. ENFORCEMENT
+              <span class="pg-nos">12</span>
+            </li>
+            <li>9. SPECIAL SITUATIONS AND EXCEPTIONS
+              <span class="pg-nos">12</span>
+            </li>
+            <li>10. RELATED INFORMATION
+              <span class="pg-nos">12</span>
+            </li>
+            <li>11. FORMS AND TEMPLATES
+              <span class="pg-nos">12</span>
+            </li>
+            <li>12. DISCLAIMER
+              <span class="pg-nos">12</span>
+            </li>
+          </ol>
+        </div>
+
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page2"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <h2>1. PURPOSE</h2>
+          <p>The purpose of this policy is to make employees and external party users aware of the rules for the
+            acceptable use of assets associated with information and information processing. Guiding principles,
+            individual responsibility, intellectual property, use of personal equipment, internet and email usage,
+            instant messaging, social media, clear desk / clear screen, and working offsite are covered in this policy.
+          </p>
+          <h2>2. SCOPE </h2>
+          <p>This document provides guidelines for all employees to use the assets prudently that are associated
+            with information and information processing.
+          </p>
+          <h2>3. INTENDED AUDIENCE </h2>
+          <p>
+            This policy applies to all Infogain employees including third parties, who manage or have responsibility
+            for systems or data stored on systems within Infogain.
+          </p>
+          <h2>4. STATEMENT OF POLICY</h2>
+          <p>
+            Intentions for publishing an Acceptable Use Policy are not to impose restrictions that are contrary to
+            Infogain's established culture of openness, trust, and integrity. ISS department is committed to
+            protecting Infogain employees, partners, and the company from illegal or damaging actions by
+            individuals, either knowingly or unknowingly.
+          </p>
+
+          <h2>5. ACCEPTABLE USE OF ASSETS </h2>
+          <h3>5.1. General Use and Ownership</h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>Infogain shall be the sole owner of any information stored in company’s information processing
+                facilities and its protection shall be ensured by the users.
+              <p></li>
+              <li><p>
+                Theft, loss, or unauthorized disclosure of company’s proprietary information shall be promptly
+                reported to ISS/CISO Function/Admin department.
+              <p></li>
+              <li><p>
+                For security and network maintenance purposes, authorized system administrators of the
+                company shall always monitor equipment, systems and network traffic.
+              <p></li>
+              <li><p>
+                Infogain reserves the right to audit networks and systems on a periodic basis to ensure
+                compliance with policy.
+              <p></li>
+              <li><p>
+                User’s PC/laptop shall be protected from unauthorized access by locking screen before leaving
+                the system unattended.
+              <p></li>
+              <li><p>
+                User shall log-off from applications or network services, when no longer required.
+              <p></li>
+              <li><p>
+                User shall be solely responsible for all actions conducted using his/her user id and sharing of
+                passwords/RSA tokens.
+              <p></li>
+              <li><p>
+                Only licensed and authorized software shall be installed on the user’s desktop/laptop.
+              <p></li>
+              <li><p>
+                Computer printout of confidential documents shall be kept in a secure place and shall be
+                shredded before throwing into dustbin, if not useful.
+              <p></li>
+              <li><p>
+                User shall take utmost care while sharing data with other users in network to ensure that right
+                permission is given to right users.
+              <p></li>
+              <li><p>
+                User shall not share confidential documents in network.
+              <p></li>
+              <li><p>
+                User shall use strong/complex password to protect all sensitive business documents/individual
+                files stored on Laptops/desktops.
+              <p></li>
+              <li><p>
+                User shall not reveal account password to others or allow use of their account /asset by others.
+                This includes family and other household members when work is being done at home.
+              <p></li>
+              <li><p>
+                User shall use an official laptop for business purposes only and shall not be used by family or
+                friends.
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page3"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                User shall use extreme caution when opening e-mail attachments received from unknown
+                senders, which may contain malware.
+              <p></li>
+              <li><p>
+                User shall delete suspicious/unsolicited e-mails immediately. Continuous receipt of such emails
+                shall be reported to the Service Desk of ISS and CISO Function.
+              <p></li>
+              <li><p>
+                EMAIL and Internet facilities of the company shall be used as per Infogain’s Electronic
+                Communication policy.
+              <p></li>
+              <li><p>
+                User shall ask ISS department to do physical movement of PC or any other hardware
+                equipment.
+              <p></li>
+              <li><p>
+                User shall not install/uninstall any software on/from the organization’s computer without the
+                prior approval from ISS department and CISO Function.
+              <p></li>
+              <li><p>
+                Use of pirated software is absolutely prohibited on any computer system of the organization
+                and the media containing such software shall not be brought inside the organization’s premises.
+              <p></li>
+              <li><p>
+                User shall not share any official data/information to internal/external users for non-businessrelated
+                purpose.
+              <p></li>
+              <li><p>
+                User shall not make any changes to the hardware configuration of the PC.
+              <p></li>
+              <li><p>
+                Under no circumstances user shall not be engaged in any activity that is illegal under local or
+                national laws while utilizing Infogain-owned/leased IT and Communication resources.
+              <p></li>
+              <li><p>
+                Introduction of or experimenting with malicious programs into the network, desktop or server
+                (e.g., viruses, worms, Trojan horses, e-mail bombs, etc.) is strictly prohibited.
+              <p></li>
+              <li><p>
+                Making fraudulent offers of products, items, or services originating from any Infogain account
+                is strictly prohibited. Create, circulate, forward, distribute, store and/or download any material
+                or make any statements:
+                <div class="padding-left-35">
+                  <ul>
+                    <li><p>
+                      Which can cause offence to any person to whom it is addressed?
+                    <p></li>
+                    <li><p>
+                      Which can be considered to infringe the Company's Equal Opportunities Policy or be in
+                      any way discriminating or harassing (whether sexually, racially, or otherwise).
+                    <p></li>
+                    <li><p>
+                      Statements of a pornographic, sexual, or obscene nature, defamatory.
+                    <p></li>
+                    <li><p>
+                      Which may result in financial or legal liability, or which may damage the reputation of the
+                      Company, are highly prohibited using official assets. Any such instance will lead to
+                      necessary disciplinary action against the employee.
+                    <p></li>
+                  </ul>
+                </div>
+
+              <p></li>
+            </ul>
+
+          </div>
+          <h3>
+            5.2.Internet Usage
+          </h3>
+          <h3>
+            5.2.1. Accessing the internet
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Users are provided access to the Internet to assist them in the performance of their jobs. At any
+                time, at the request of management, Internet access may be revoked. IT may restrict access to
+                certain Internet sites that reduce network performance or are known or found to be
+                compromised with and by malware. INFOGAIN will use internet filters to block high-risk content
+                and deny access to any unwanted material or malware in support of the Acceptable Use Policy.
+              <p></li>
+              <li><p>
+                All software used to access the Internet must be part of the INFOGAIN standard software suite
+                or approved by IT. Such software must incorporate all vendor provided security patches.
+              <p></li>
+              <li><p>
+                Users accessing the Internet through a computer connected to INFOGAIN’s network must do
+                so through an approved Internet firewall or other security device. All software used to access
+                the Internet shall be configured to use a proxy or other means of managing or controlling.
+                Bypassing INFOGAIN’s network security, by accessing the Internet directly, is strictly
+                prohibited.
+              <p></li>
+              <li><p>
+                Users are prohibited from using INFOGAIN Internet access for unauthorized access to local
+                and remote computer systems, software piracy, illegal activities, the transmission of
+                threatening, obscene, or harassing materials, or personal solicitations.
+                All computer devices connected to INFOGAIN's network must have security software like antivirus,
+                anti-malware etc. installed on them while connecting to the internet/network.
+
+              <p></li>
+              <li><p>
+                User shall not use/access online storage accounts to store official or personal information.
+              <p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="4" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page4"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                User shall not use Internet Proxy Server other than provided by the organization as it is
+                prohibited.
+              <p></li>
+              <li><p>
+                User shall not download and share Mobile Codes and publish codes to any public
+                forum/unknown sources as it is considered a security violation.
+              <p></li>
+              <li><p>
+                User shall not misuse, disclose and alter customer or personnel information without
+                authorization.
+              <p></li>
+              <li><p>
+                User shall not deliberately point or hyper-link of company web sites to other Internet/WWW
+                sites whose content may be inconsistent with or in violation of the aims or policies of the
+                company.
+              <p></li>
+              <li><p>
+                Unauthorized copying of copyrighted material including, but not limited to, digitization and
+                distribution of photographs from magazines, books or other copyrighted sources, copyrighted
+                music, and the installation of any copyrighted S/W for which Infogain or the end user does not
+                have an active license is strictly prohibited. User shall not use Internet for illegal activity, to
+                access illegal materials, or to access materials that are obscene/ pornographic/ sexually explicit
+                material.
+              <p></li>
+              <li><p>
+                Port scanning or security scanning is expressly prohibited unless prior notification to system
+                administration is made and approved.
+              <p></li>
+              <li><p>
+                Executing any form of network monitoring which will intercept data not intended for the
+                employee's office network unless this activity is a part of the employee's normal job/duty.
+              <p></li>
+              <li><p>
+                Using any program/script/command, or sending messages of any kind, with the intent to
+                interfere with, or disable, a user's terminal session, via any means, locally or via the
+                Internet/Intranet/Extranet is not allowed.
+              <p></li>
+              <li><p>
+                User shall not carry personal mass storage devices in office premises.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.2.2. Expectation of privacy
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Users should have no expectation of privacy in anything they create, store, send, or receive
+                using INFOGAIN’s Internet access.
+              <p></li>
+              <li><p>
+                Users expressly waive any right of privacy in anything they create, store, send, or receive using
+                INFOGAIN’s Internet access.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.2.3. File downloads and virus protection
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Users are prohibited from downloading and installing software on their PC without proper
+                authorization from ISS. Technical controls may be utilized to limit the download and installation
+                of software.
+              <p></li>
+              <li><p>
+                Downloaded software may be used only in ways that conform to its license and copyrights.
+              <p></li>
+              <li><p>
+                All files downloaded from the Internet must be scanned for viruses using INFOGAIN approved
+                virus detection software. If a user suspects a file may be infected, he/she must notify ISS
+                immediately.
+              <p></li>
+              <li><p>
+                Users are prohibited from using the Internet to deliberately propagate any virus, worm, Trojan
+                Horse, trapdoor, or other malicious program.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.2.4. Monitoring of computer and internet usage
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                All user activity on INFOGAIN IT assets is subject to logging and review. INFOGAIN has the
+                right to monitor and log all aspects of its systems including, but not limited to, monitoring
+                Internet sites visited by users, monitoring chat and newsgroups, monitoring file downloads, and
+                all communications sent and received by users.
+              <p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="5" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page5"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <h3>
+            5.2.5. Frivolous use
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Computer resources are not unlimited. Network bandwidth and storage capacity have finite
+                limits, and all users connected to the network have a responsibility to conserve these
+                resources. As such, the user must not deliberately perform acts that waste computer resources
+                or unfairly monopolize resources to the exclusion of others. These acts include, but are not
+                limited to, spending excessive amounts of time on the Internet, playing games, engaging in
+                online chat groups, uploading, or downloading large files, accessing streaming audio and/or
+                video files, or otherwise creating unnecessary loads on network traffic associated with
+                nonbusiness-related uses of the Internet. Personal use, beyond incidental use of the Internet, may
+                be done only on break room PCs and only in compliance with this policy.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.3.Laptop Security and Usage
+          </h3>
+          <h3>
+            5.3.1. Laptop Usage Policy & Declaration
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Prior to handing over the laptop to the user, user needs to read & sign/acknowledge the Laptop
+                security Declaration cum undertaking form duly signed by ISS ISSUING AUTHORITY. This
+                shall be applicable for both Infogain provided, and client provided laptops.
+              <p></li>
+              <li><p>
+                Infogain laptops are provided to all Infogain employees.
+              <p></li>
+              <li><p>
+                Client provided laptops are being assigned to the respective employees and maintained the list
+                for the same by respective PM, except few specific clients as applicable.
+              <p></li>
+              <li><p>
+                User shall have prior approval from client to take laptop at home for work.
+              <p></li>
+              <li><p>
+                User shall regularly update the virus scan definitions.
+              <p></li>
+              <li><p>
+                Employee shall not bring personal laptop in the office.
+              <p></li>
+              <li><p>
+                User shall not install any potential malware software/firmware capable of exposing official data
+                in devices used by the user.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.3.2. Physical security guidelines for laptop
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Asset list of all company and client provided laptops (which are assigned through ISS) shall be
+                maintained by ISS department.
+              <p></li>
+              <li><p>
+                Laptops shall not be left unattended in public places. Keep your laptop close and be particularly
+                vigilant when passing through airport security.
+              <p></li>
+              <li><p>
+                Personal laptops are strictly prohibited in the premises.
+              <p></li>
+              <li><p>
+                In addition to the above guidelines utmost care should be taken while handling the client
+                provided laptops.
+              <p></li>
+              <li><p>
+                Laptop users shall always carry laptops with them before leaving the office. Leaving the laptops
+                in the employee’s personal drawers or anywhere else is strictly prohibited, as an exception,
+                only in case as required by the client, laptops are kept inside the drawer with proper lock & key.
+              <p></li>
+              <li><p>
+                The employee shall be fully accountable for theft, loss or damage of the property.
+              <p></li>
+              <li><p>
+                The employee shall be liable to replace or pay an amount of Rs. 10,000 to the organization in
+                case of theft, loss, or damage to the property. Employee’s Immediate Reporting Manager, the
+                practice Director & the president shall also be liable to pay Rs. 5000 each in such incidents.
+                The organization retains the right to deduct the same from the salary in case of such an event.
+              <p></li>
+              <li><p>
+                The Incident can occur in two ways: -
+                <div class="padding-left-35">
+                  <ul>
+                    <li><p>
+                      Laptop stolen from office premises
+                    <p></li>
+                    <li><p>
+                      Laptop stolen outside the premises
+                    <p></li>
+                  </ul>
+                </div>
+                <h3>
+                  Laptop Stolen from office premises
+                </h3>
+                <div class="padding-left-35">
+                  <p>
+                    If the laptop is stolen from office premises following steps shall be taken:
+                  </p>
+                  <ul>
+                    <li><p>
+                      Employee shall inform their respective PM, ISS, CISO Function, HR and Admin department.
+                      Accordingly respective employee/PM/RM shall file it as a Security Incident on CISO Function
+                      Infogain service helpdesk.
+                    <p></li>
+                    <li><p>
+                      The immediate F.I.R shall be done by the employee within 24 hours.
+                    <p></li>
+                  </ul>
+                </div>
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="6" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page6"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                <div class="padding-left-35">
+                  <ul>
+                    <li><p>
+                      The Security spocs from Administration, HR, ISS and CISO Function will investigate by first
+                      viewing the CCTV footage. (CCTV is installed at various entry & exit points and passage
+                      area).
+                    <p></li>
+                    <li><p>
+                      The detailed questionnaire session will be done with the respective employee to identify
+                      series of events and conduct Root Cause Analysis on the incident.
+                    <p></li>
+                    <li><p>
+                      Infogain has the right to ask questions from any suspected employee/support staff as per
+                      the CCTV footage and employees questionnaire session.
+                      If after investigation anybody found guilty a disciplinary action will be taken by the
+                      management, up to and including termination of employment.
+                    <p></li>
+                  </ul>
+                </div>
+                <h3>
+                  Laptop Stolen Outside office premises:
+                </h3>
+                <p>
+                  If the laptop is stolen outside the office premises, the employee shall immediately file F.I.R and
+                  inform their respective PM, ISS, CISO Function, and Admin department within 24 hours.
+                  Information security incident should also be raised on CISO Function Infogain service helpdesk
+                  accordingly. The F.I.R copy to be submitted to the ISS, CISO Function, Admin & Finance
+                  department as a proof.
+                </p>
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.4.Smart Phones/Tablet Usage
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Users shall use only official smart phone/tablet for accessing company’s information processing
+                facilities.
+              <p></li>
+              <li><p>
+                User shall not connect these devices to a PC/Laptop without having up-to-date malware
+                protection software.
+              <p></li>
+              <li><p>
+                Users shall be cautious about the merging of personal and official email accounts on their
+                devices. All official communication shall be done through official email system only while using
+                these devices.
+              <p></li>
+              <li><p>
+                User shall not be allowed to use “jailbreak” (iPhone) or install any software/firmware on
+                company/client provided phones/tablet.
+              <p></li>
+              <li><p>
+                User shall not attempt to connect their smart phones intentionally/unintentionally to their
+                systems and transfer any kind of official data.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.5.Electronic Communication
+          </h3>
+          <p>
+            To adhere to the electronic communication policy of Infogain :
+          </p>
+          <p><b>Employee shall:</b></p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Utilize only those forms of electronic communication resources for which they are authorized.
+              <p></li>
+              <li><p>
+                Get approval of the owner of the email group first to send mail to an entire distribution list.
+              <p></li>
+              <li><p>
+                Use Infogain Email for business purpose only.
+              <p></li>
+              <li><p>
+                Use an appropriate subject line that conveys the clear message about the mail content.
+              <p></li>
+              <li><p>
+                If user receives an unexpected mail (Phishing email) from external domain, he/she has to report
+                it to ISS/CISO Function.
+              <p></li>
+            </ul>
+          </div>
+          <p>
+            <b>
+              Employee shall not:
+            </b>
+          </p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Provide access to any authorized or unauthorized users by sharing logon ids and Passwords
+                as it is strictly prohibited.
+              <p></li>
+              <li><p>
+                Access information by any unauthorized means, such as imitating another system deliberately,
+                impersonating another user or other person or misuse of legal user credentials (usernames,
+                passwords, etc.
+              <p></li>
+              <li><p>
+                Transmit copyrighted software or information through the Company’s electronic systems.
+              <p></li>
+              <li><p>
+                Copy information originated by others and re-post it without acknowledging the original source,
+                even if the content is modified.
+              <p></li>
+              <li><p>
+                Send or forward emails containing libelous, defamatory, offensive, racist or obscene remarks.
+                If you receive an e-mail of this nature, you must promptly notify your supervisor.
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="7" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page7"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Users shall use only official smart phone/tablet for accessing company’s information processing
+                facilities.
+              <p></li>
+              <li><p>
+                User shall not connect these devices to a PC/Laptop without having up-to-date malware
+                protection software.
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.5.1. Email Etiquettes
+          </h3>
+          <p>
+            Employee shall:
+          </p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Be formal.
+              <p></li>
+              <li><p>
+                Keep messages brief and to the point.
+              <p></li>
+              <li><p>
+                Use sentence case while sending/replying to email.
+              <p></li>
+              <li><p>
+                Use BCC to send messages to a large distribution list as recipients won't have to see a huge
+                list of names.
+              <p></li>
+              <li><p>
+                Use the subject field to indicate content and purpose.
+              <p></li>
+              <li><p>
+                Use a signature at the end of message that includes contact information.
+              <p></li>
+              <li><p>
+                Summarize long discussions.
+              <p></li>
+              <li><p>
+                Avoid using emoticons, if required then use sparingly so that it doesn't appear unprofessional.
+              <p></li>
+              <li><p>
+                Mail on the below mentioned department Email-IDs only, in case of grievance related to any
+                particular department.
+              <p></li>
+            </ul>
+            <div class="riv-table dif-locst">
+            <table>
+                <tr>
+                  <th>
+                    Department
+                  </th>
+                  <th>
+                    Email-ID
+                  </th>
+                </tr>
+                <tr>
+                  <td>ADMIN</td>
+                  <td>AdminDept@infogain.com</td>
+                </tr>
+                <tr>
+                  <td>HR</td>
+                  <td>HR.GDC@infogain.com</td>
+                </tr>
+                <tr>
+                  <td>ISS</td>
+                  <td>ISS@infogain.com</td>
+                </tr>
+                <tr>
+                  <td>Finance</td>
+                  <td>FinanceGDC@infogain.com</td>
+                </tr>
+                <tr>
+                  <td>IPAG</td>
+                  <td>IPAG@infogain.com</td>
+                </tr>
+            </table>
+            </div>
+          </div>
+          <p>
+            Employee shall not:
+          </p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Use e-mail as an excuse to avoid personal contact in an effort to avoid an uncomfortable
+                situation or to cover up a mistake.
+              <p></li>
+              <li><p>
+                Send chain mails, virus warnings, junk mail, Religious, political, or business solicitations to
+                anyone.
+              <p></li>
+              <li><p>
+                Use abbreviations in business mail.
+              <p></li>
+            </ul>
+            <p>
+              Users shall not be allowed to share Company / Client confidential information to external domains.
+            </p>
+          </div>
+          <h3>
+            5.5.2. E-mail Privacy
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                At any time without prior notice, the Company reserves the right to examine any/all email, files,
+                folders, or other information stored on media belonging to the Company. Users shall have no
+                expectations of privacy in this regard. Infogain management may disclose contents of e-mail
+                either internally or to external parties, where necessary, for a legitimate business reason,
+                without further permission of the associate. Infogain management will reserve the right to
+                inspect and review any data maintained in its e-mail system without prior consent of, or
+                notification to, the associate.
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="8" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page8"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <h3>
+            5.6.Social Media Usage
+          </h3>
+          <h3>
+            5.6.1. Terms and conditions of use
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                All requests for a INFOGAIN Official’s use of external social media, on behalf of INFOGAIN,
+                must be submitted to the Senior Management Team. INFOGAIN may allow access to select
+                pre-approved social media websites. INFOGAIN Officials may only access these sites in a
+                manner consistent with INFOGAIN’s security protocols and INFOGAIN Officials may not
+                circumvent ISS Security protocols to access social media sites.
+              <p></li>
+              <li><p>
+                If an INFOGAIN employee/associate/official becomes aware of any possible confidential
+                information disclosure on any of social media platforms, then they shall report the same to CISO
+                immediately.
+              <p></li>
+              <li><p>
+                The passwords for the INFOGAIN official social media accounts should be complex and based
+                on secure password policy. The passwords should be changed at a regular or pre-defined time
+                interval.
+              <p></li>
+              <li><p>
+                Use of personal social media accounts and user IDs, for INFOGAIN use, is prohibited.
+              <p></li>
+              <li><p>
+                Use of INFOGAIN social media user IDs, for personal use, is prohibited. Use of INFOGAIN
+                email addresses to register on social networks, blogs, or other online tools utilized for personal
+                use is prohibited. Examples of prohibited use of company User IDs include:
+              <p></li>
+              <li><p>
+                Downloading and installing plug-ins or helper applications such as those that try to access the
+                INFOGAIN e-mail directory
+              <p></li>
+              <li><p>
+                Joining groups using a company user ID for personal reasons
+              <p></li>
+              <li><p>
+                Adding personal friends to a INFOGAIN Official’s friends list
+              <p></li>
+              <li><p>
+                INFOGAIN Officials are to acknowledge they have reviewed the social media service’s Terms
+                of Service (TOS) or Terms of User (TOU), as applicable. Links for sites are below
+              <p></li>
+            </ul>
+            <p>Facebook: https://www.facebook.com/terms.php
+            </p>
+            <p>
+              LinkedIn: http://www.linkedin.com/static?key=user_agreement
+            </p>
+            <p>Twitter: http://twitter.com/tos</p>
+            <p>
+              YouTube: http://www.youtube.com/t/terms
+            </p>
+          </div>
+          <h3>5.6.2. Representing Infogain</h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                INFOGAIN Senior Management will designate a person or team to manage and respond to
+                social media issues concerning INFOGAIN and will determine who will have the authority to
+                contribute content. This person(s)’s responsibilities will include, but are not limited to:
+                <div class="padding-left-35">
+                  <ul>
+                    <li><p>
+                      Managing social media tools and channels.
+                    <p></li>
+                    <li><p>Responding to questions internally and externally about social media sites.
+                    <p></li>
+                    <li><p>
+                      Addressing problems/providing direction for staff if a user becomes threatening, abusive,
+                      or harassing.
+                    <p></li>
+                    <li><p>
+                      Suggesting changes to this INFOGAIN social media policy when warranted.
+                    <p></li>
+                    <li><p>
+                      Working with other staff to make sure opportunities aren’t overlooked in marketing
+                      INFOGAIN services; and
+                    <p></li>
+                    <li><p>
+                      Training staff to ensure they understand how to use INFOGAIN’s social media program.
+                    <p></li>
+                  </ul>
+                </div>
+              <p></li>
+              <li><p>
+                INFOGAIN will take the necessary steps to make sure the content complies with applicable
+                laws and regulations.
+              <p></li>
+              <li><p>
+                All INFOGAIN Officials who participate in social media, on behalf of INFOGAIN, are expected
+                to represent INFOGAIN in a professional manner. Failure to do so could have a negative impact
+                on INFOGAIN and could jeopardize INFOGAIN Official’s ability to participate in social media in
+                the future.
+              <p></li>
+              <li><p>
+                INFOGAIN owns all authorized social media and networking content. INFOGAIN Officials are
+                prohibited from taking, saving, or sending any INFOGAIN content distributed via social media
+                while employed, separated, serving on the Board of Directors, or terminated by INFOGAIN.
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="9" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page9"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                New technologies and social networking tools continually evolve. As new tools emerge, this
+                policy will be updated to reflect the changes.
+              <p></li>
+              <li><p>
+                Platforms for online collaboration are fundamentally changing the work environment and
+                offering new ways to engage with members and the community. Guiding principles for
+                participating in social media should be followed.
+                <div class="padding-left-35">
+                  <ul>
+                    <li><p>
+                      Post meaningful, respectful comments and refrain from remarks that are off-topic or
+                      offensive.
+                    <p></li>
+                    <li><p>
+                      Reply to comments quickly when a response is appropriate.
+                    <p></li>
+                    <li><p>
+                      Know and follow the state and federal laws that always protect member confidentiality.
+                    <p></li>
+                    <li><p>
+                      Protect proprietary information and confidentiality.
+                    <p></li>
+                    <li><p>
+                      When disagreeing with others’ opinions, keep it professional.
+                    <p></li>
+                    <li><p>
+                      Know the INFOGAIN Code of Conduct and apply the standards and principles in social
+                      computing.
+                    <p></li>
+                  </ul>
+                </div>
+
+              <p></li>
+            </ul>
+          </div>
+          <h3>
+            5.6.3. Personal blogs and posts
+          </h3>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                INFOGAIN takes no position on a INFOGAIN Official ‘s decision to start or maintain a blog or
+                personal website or to participate in other online social media activities outside of work.
+                INFOGAIN Officials, identifying themselves as a INFOGAIN Official on a social network, should
+                ensure their profile and related content is consistent with how they and INFOGAIN wish for
+                them to present themselves. This includes what the INFOGAIN Official writes about
+                himself/herself and the type of photos he/she publishes.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials must not reveal proprietary information and must be cautious about posting
+                exaggerations, obscenities, or other characterizations that could invite litigation.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials must not make public reference to any INFOGAIN related cash or security
+                procedures.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials who comment on any INFOGAIN business or policy issue must clearly
+                identify themselves as a INFOGAIN Official in their blog or posting and include a disclaimer that
+                the views are their own and not those of INFOGAIN. When generating content that deals with
+                INFOGAIN or individuals associated with INFOGAIN, INFOGAIN Officials should use a
+                disclaimer such as “The postings on this site are my own and do not necessarily reflect the
+                views of INFOGAIN”.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials must not use social media websites to harass, threaten, discriminate
+                against, disparage, or defame any other INFOGAIN Officials, members, vendors, INFOGAIN
+                products, services, or business philosophy.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials are prohibited from disclosing confidential, proprietary, or otherwise
+                sensitive business or personal information related to INFOGAIN or any of its INFOGAIN
+                Officials, vendors, or members. INFOGAIN Officials are also prohibited from disclosing any
+                confidential, proprietary, or otherwise sensitive business or personal information that could
+                identify another INFOGAIN Official, vendor, or member without that individual’s prior
+                authorization.
+              <p></li>
+              <li><p>
+                INFOGAIN Officials should not take any action via social media websites or personal blogs that
+                would harm, or is likely to harm, the reputation of INFOGAIN or any INFOGAIN Officials,
+                members, or vendors.
+              <p></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="10" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page10"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <h3>
+            5.7.Software Usage
+          </h3>
+          <p>
+            ISS Team is owner of overall management of software licenses and shall install all permitted/approved
+            software based on their license availability only after approval from PM/CISO/Director.
+            Infogain employees are assigned computer systems to be used for Infogain & client’s business
+            requirements, will agree to the following terms and conditions for the use of software:
+          </p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                All software must be purchased or acquired through the Company’s Infrastructure Systems
+                Support (ISS) Department, including authorization, and obtaining the necessary licenses for
+                such software. This practice will also ensure software purchased is on the Company's list of
+                supported software, purchased only from reputable, authorized resellers or direct from the
+                manufacturer, and includes original user material such as documentation and license
+                agreements.
+              <p></li>
+              <li><p>
+                The installation of software, including client supplied, free and/or open-source software, without
+                the approval and assistance of the ISS Department is prohibited. Most of this software (even
+                the free versions) are made available based on licensing conditions which allow the product
+                company to audit the software user’s organization for software usage, therefore the
+                downloading and installation of software via the Internet is strictly prohibited without the
+                approval and assistance of the Company’s ISS Department.
+              <p></li>
+              <li><p>
+                Software obtained via the Internet can contain viruses, therefore the downloading and
+                installation of software via the Internet is strictly prohibited without the approval and assistance
+                of the Company’s ISS Department. The downloading of any software, material, music, movies,
+                and other copyrighted content from Internet site are strictly prohibited.
+              <p></li>
+              <li><p>
+                Employees are prohibited from installing any games, utilities, screen savers, wallpaper, or other
+                personal software on Infogain provided laptop or desktop.
+              <p></li>
+              <li><p>
+                According to applicable copyright law and Infogain Zero Tolerance Security Policy, persons
+                involved in the illegal use or reproduction of software can be subject to strict disciplinary action
+                including civil damages/ criminal penalties/ imprisonment and warning/ suspension/ termination
+                respectively. The Company does not condone the illegal duplication of software. Employees
+                shall not make, acquire, or use unauthorized copies of computer software.
+              <p></li>
+              <li><p>
+                All software use should be limited to official Company business.
+              <p></li>
+              <li><p>
+                The Company will conduct software audit, on random basis, as a part of ISMS audit. The
+                purpose of such an audit is to ensure software license compliance by employees. Full
+                cooperation of all employees is required during such audits.
+              <p></li>
+            </ul>
+
+
+          </div>
+          <p>
+            To ensure proper support levels, ensure compatibility with other applications, minimize potential
+            software conflicts and plan for future collaborative efforts the Company had set forth certain software
+            standards. Such software can be made available to all employees based on appropriate manager or
+            budgetary approval (If needed).
+          </p>
+          <h3>
+            5.8.Clear Desk and Clear Screen
+          </h3>
+          <p>As part of clear desk and clear screen policy, user should take care of the below mentioned guidelines:</p>
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                Lock away all sensitive and confidential information in cabinets or pedestals when the desk is
+                unattended for an extended period. For e.g. when away for meetings, at lunchtimes or
+                overnight.
+              <p></li>
+              <li><p>
+                Clean your workspace at the end of each workday.
+              <p></li>
+              <li><p>
+                Log off your workstations when unattended.
+              <p></li>
+              <li><p>
+                Sensitive or critical business information, e.g. on paper or on electronic storage media, is locked
+                away when not required, especially when the office is vacated.
+              <p></li>
+              <li><p>
+                All documents containing sensitive or classified information printed on dedicated or shared
+                printers should be collected immediately.
+              <p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="11" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page11"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+
+  <section class="day1-doc-sec">
+    <div class="day1-doc-sec-inner">
+      <div class="formDay1-header">
+        <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+      </div>
+      <!-- end header -->
+      <!-- end header -->
+      <div class="doc-custom-digital-ui">
+        <div class="content-inner-secv">
+          <div class="padding-left-35">
+            <ul>
+              <li><p>
+                No sensitive information shall be lying scattered on tables or other places (fax machine,
+                photocopy area, etc.). In case the documents are found unattended, the same is shredded by
+                the security personnel.
+              <p></li>
+              <li><p>
+                All disposal of sensitive information (include proposals, all confidential documents, pricing
+                information, salary information, operations performance, and other strategic information, etc.)
+                should be done by shredding the documents.
+              <p></li>
+              <li><p>
+                Use of recycling bins for sensitive documents when no longer needed.
+              <p></li>
+            </ul>
+          </div>
+          <h2>
+            6. ISO 27001:2022 Reference
+          </h2>
+          <p>
+            A.5.17, A.7.7, A.7.10, A.7.14, A.8.1, A.8.7, A.8.19.
+          </p>
+          <h2>
+            7. Privacy
+          </h2>
+          <p>
+            The organization can monitor the use of its IT systems and the data on it at any time. This may include
+            (except where precluded by local privacy laws) examination of the content stored within the email and
+            data files of any user, and examination of the access history of any users.
+          </p>
+          <p>
+            The organization reserves the right to regularly audit networks and systems to ensure compliance with
+            this policy.
+          </p>
+          <p>
+            The organization shall, in conducting such monitoring activities, use all reasonable endeavors to comply
+            with regulatory guidelines and to respect its employee’s privacy.
+          </p>
+          <h2>
+            8. Enforcement
+          </h2>
+          <p>
+            Any employee found violating this policy shall be subject to disciplinary action including termination of
+            employment.
+          </p>
+          <h2>
+            9. Special Situations and Exceptions
+          </h2>
+          <p>
+            If Infogain’s top management, Indian government, or any other relevant regulatory body or bodies norms
+            overwrites Infogain’s Acceptable Use of Assets Policy at a particular point in time.
+          </p>
+          <h2>
+            10. Related Information
+          </h2>
+          <p>
+            For additional information you can refer:
+          </p>
+          <p>
+            All the Infogain’s Policies<a> https://isms.infogain.com/isms/</a>
+          </p>
+          <h2>
+            11. Forms And Templates
+          </h2>
+          <p>
+            Form/s if needed can be found <a>https://isms.infogain.com/isms/</a>
+          </p>
+          <h2>
+            12. Disclaimer
+          </h2>
+          <p><b><u>Company's Absolute Right to Alter or Abolish the Policy</u></b></p>
+          <p>The Management has the right to review, modify and rescind this policy at any given point of time.</p>
+        </div>
+      </div>
+      <div class="formDay1-footer">
+        <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="12" [pageTotal]="pageTotal"
+          [candidatePersonalDetails]="candidatePersonalDetails" [isSignEditable]="Day1FormData?.isEditable"
+          (getLatestSignature)="getLatestSignature($event)" [signimagesrc]="this.CandidateSignatureModel?.page12"
+          [CandidateSignatureModel]="CandidateSignatureModel" [isVisisbleSign]="true">
+        </lib-pdf-footer-day1>
+      </div>
+      <!-- end footer -->
+    </div>
+    <!-- end inner -->
+
+  </section>
+  <!-- end section -->
+</div>

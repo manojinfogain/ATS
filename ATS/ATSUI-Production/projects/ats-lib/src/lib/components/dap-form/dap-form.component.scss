@@ -1,0 +1,21 @@
+.paragraphP {
+    border-bottom: 1px solid black;
+    text-align: justify;
+  
+    .span1 {
+      display: inline-block;
+      margin-bottom: -1px;
+    }
+  
+    .span2 {
+      border-bottom: 1px solid black;
+    }
+  }
+
+.text-align-center {
+  text-align: center;
+}
+
+.padding-bottom-300 {
+  padding-bottom: 300px;
+}

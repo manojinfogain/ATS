@@ -1,0 +1,93 @@
+<form>
+  <div class="ats-modal-header ata-text-cap">
+    <h1>Available Resources</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <div class="ats-modal-body">
+   <div class="table-data-scroll-pop min-height-200">
+    <table mat-table [dataSource]="dataResource" class="table-mat-info">
+
+  <!-- EmpID Column -->
+  <ng-container matColumnDef="EmpID">
+    <th mat-header-cell *matHeaderCellDef> Employee ID </th>
+    <td mat-cell *matCellDef="let element"> {{element?.EmpID}} </td>
+  </ng-container>
+    <!-- EmployeeName Column -->
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef> Employee Name </th>
+    <td mat-cell *matCellDef="let element"> {{element?.Employee_Name}} </td>
+  </ng-container>
+
+  <!-- TotalExperience Column -->
+  <ng-container matColumnDef="TotalExperience">
+    <th mat-header-cell *matHeaderCellDef>Employee Experience </th>
+    <td mat-cell *matCellDef="let element"> {{element?.TotalExperience}} </td>
+  </ng-container>
+
+  <!-- Grade Column -->
+  <ng-container matColumnDef="Grade">
+    <th mat-header-cell *matHeaderCellDef> Employee Grade </th>
+    <td mat-cell *matCellDef="let element"> {{element?.Grade}} </td>
+  </ng-container>
+
+  <!-- EmployeePrimarySkill Column -->
+  <ng-container matColumnDef="EmployeePrimarySkill">
+    <th mat-header-cell *matHeaderCellDef> Employee Primary Skill </th>
+    <td mat-cell *matCellDef="let element"> {{element?.EmployeePrimarySkill}} </td>
+  </ng-container>
+
+  <!-- EmployeeSecondarySkill Column -->
+  <ng-container matColumnDef="EmployeeSecondarySkill">
+    <th mat-header-cell *matHeaderCellDef> Sub Skills </th>
+    <td mat-cell *matCellDef="let element"> {{element?.EmployeeSecondarySkill}} </td>
+  </ng-container>
+
+  <!-- EmployeeLocation Column -->
+  <ng-container matColumnDef="EmployeeLocation">
+    <th mat-header-cell *matHeaderCellDef> Location </th>
+    <td mat-cell *matCellDef="let element"> {{element?.EmployeeLocation}} </td>
+  </ng-container>
+
+  <!-- Th_ID Column -->
+  <ng-container matColumnDef="Th_ID">
+    <th mat-header-cell *matHeaderCellDef> Talent ID </th>
+    <td mat-cell *matCellDef="let element"> {{element?.Th_ID}} </td>
+  </ng-container>
+
+  <!-- DemandMandatorySkill Column -->
+   <ng-container matColumnDef="DemandPrimarySkill">
+    <th mat-header-cell *matHeaderCellDef> Talent Primary Skill </th>
+    <td mat-cell *matCellDef="let element"> {{element?.DemandPrimarySkill}} </td>
+  </ng-container>
+  <ng-container matColumnDef="DemandMandatorySkill">
+    <th mat-header-cell *matHeaderCellDef> Talent Mandatory Skill </th>
+    <td mat-cell *matCellDef="let element"> {{element?.DemandMandatorySkill}} </td>
+  </ng-container>
+   <ng-container matColumnDef="DemandExperience">
+    <th mat-header-cell *matHeaderCellDef> Talent Experience</th>
+    <td mat-cell *matCellDef="let element"> {{element?.DemandExperience}} </td>
+  </ng-container>
+   <ng-container matColumnDef="DemandGrade">
+    <th mat-header-cell *matHeaderCellDef> Talent Grade</th>
+    <td mat-cell *matCellDef="let element"> {{element?.DemandGrade}} </td>
+  </ng-container>
+
+  <!-- Header and Row -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+  </div>
+
+
+    </div>
+  </div>
+  <div class="ats-modal-footer text-center">
+    <button type="button" class="btn btn-simple-ats" (click)="closeModal()">
+      Close
+    </button>
+  </div>
+</form>

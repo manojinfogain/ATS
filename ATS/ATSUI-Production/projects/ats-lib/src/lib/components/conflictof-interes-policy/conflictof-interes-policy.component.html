@@ -1,0 +1,424 @@
+<div class="day1-doc-main-wrapper">
+    <div class="day1-doc-main-wrapper">
+        <section class="day1-doc-sec doc-prv-page1">
+            <div class="day1-doc-sec-inner">
+                <div class="infogain-logo-d mrg-doc-b mrg-doc-t">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt="" />
+                </div>
+                <!-- end  -->
+                <div class="doc-page1-title mrg-doc-b text-align-center">
+                    <h3 class="border-title-f">Conflict of Interest <br>
+                        Policy
+                    </h3>
+                </div>
+                <div class="doc-page1-title doc-page1-title-com anti-corp-title mrg-doc-b">
+                    <h3>Infogain Corporation</h3>
+                    <p>485, Alberto Way</p>
+                    <p>Suite 100, Los Gatos</p>
+                    <p>CA 95032, USA</p>
+                </div>
+                <div class="doc-page1-title doc-page1-title-can mrg-cand-name-r">
+                    <h3>Employee Name : {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}}</h3>
+                </div>
+                <div class="imp-dc-inf">
+                    <p>
+                        This is a controlled document. Unauthorized access, copying and replication are prohibited. This
+                        document must not
+                        be copied in whole or part by any means, without the written authorization of Global HR Head, Infogain Corporation.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+        <!-- end section -->
+        <section class="day1-doc-sec revision-history-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <div class="accept-policy-content">
+                    <h4><b>REVISION HISTORY</b></h4><br>
+                    <div class="riv-table">
+                        <table>
+                            <tr>
+                                <th>Version
+                                    No.</th>
+                                <th>Release Date</th>
+                                <th>Author</th>
+                                <th>Details of Changes</th>
+                                <th>Reviewed By</th>
+                                <th>Approved By
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>1.0</td>
+                                <td>3rd October, 2022</td>
+                                <td>HR</td>
+                                <td>New Policy-Global</td>
+                                <td>Head-Sustainability</td>
+                                <td>CFO & CPO
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="formDay1-footer">
+                    <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2"
+                        [pageTotal]="pageTotal"></lib-pdf-footer-day1> -->
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="2" [isSignEditable]="Day1FormData?.isEditable"
+                        [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page2"
+                        [CandidateSignatureModel]="CandidateSignatureModel"
+                        [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec revision-history-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <div class="accept-policy-content">
+
+                    <div class="table-of-content">
+                        <h5><u>Table of Contents</u></h5>
+                        <ol>
+                            <li>PURPOSE
+                                <span class="pg-nos">4</span>
+                            </li>
+                            <li>INTENDED AUDIENCE <span class="pg-nos">4</span>
+                            </li>
+                            <!-- <li>ABBREVIATIONS, ACRONYMS AND DEFINITIONS <span class="pg-nos">1</span></li> -->
+                            <li class="menu-subs">DESCRIPTION <span class="pg-nos">4</span>
+                                <ol class="sec-ol">
+                                    <li> Conflict of Interest Include <span class="pg-nos">4</span></li>
+                                    <li>Action to be taken when faced with a Conflict-of-Interest situation <span class="pg-nos">4</span></li>
+                                    <li>Do’s & Don’ts <span class="pg-nos">5</span></li>
+                                    <li>Violations of the Conflicts of Interest Policy <span class="pg-nos">5</span></li>
+                                </ol></li>
+                            
+                            <li>DISCLAIMER
+                                <span class="pg-nos">5</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+                <div class="formDay1-footer">
+                    <!-- <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3"
+                        [pageTotal]="pageTotal"></lib-pdf-footer-day1> -->
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="3" [isSignEditable]="Day1FormData?.isEditable"
+                        [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page3"
+                        [CandidateSignatureModel]="CandidateSignatureModel"
+                        [isVisisbleSign]="true">
+                    </lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <h2>1. PURPOSE</h2>
+                        <p>This policy aims to provide guidance to avoid conflict of interest which arises when
+                            employees personal
+                            interests—be they financial or other interests, employees own interests, or those of someone
+                            with whom
+                            employee have a close relationship—actually influence, potentially influence, or may be
+                            perceived to
+                            influence, the objective exercise of employees professional duties and responsibilities.
+                        </p>
+                        <h2>2. INTENDED AUDIENCE </h2>
+                        <p>
+                            This policy is applicable to all directors, officers, employees, agents, representatives,
+                            and other associated
+                            persons of the Company (collectively “Company Personnel”).
+
+                        </p>
+                        <br>
+
+
+                        <h2>3. DESCRIPTION </h2>
+                        <h3>3.1. Conflict of Interest Include:</h3>
+                        <ul class="ul-common list-disc-ml-27">
+                            <li> When you have, or any person with whom you have a close relationship has, a close
+                                relationship with:
+                                (I) a board member or an employee of Infogain and/or (II) a board member, owner,
+                                partner, employee,
+                                trustee or consultant of an organization that receives services from Infogain, or
+                                provides services to
+                                Infogain, or competes with services provided by Infogain. </li>
+                            <li>When you are a board member of any organization that conducts business that may, or may
+                                not,
+                                compete with Infogain’s business interests.</li>
+                            <li> When you have a second job or an alternative business or participate in other
+                                activities that may
+                                conflict with the performance of your duties for Infogain.
+                            </li>
+                            <li>When you have, or any person with whom you have a close relationship has, an ownership
+                                or equity
+                                interest greater than 5% in an organization that is providing services to Infogain or
+                                receiving services
+                                from Infogain.</li>
+                            <li>
+                                When you are involved in activities or are facing a situation that is not covered under
+                                any of the above
+                                categories but which you think might be, or might be perceived as, a conflict of
+                                interest with respect to
+                                Infogain
+                            </li>
+                            <li>
+                                When hiring your family members/close relationships in your reporting hierarchy. Any
+                                such scenarios
+                                must be approved in advance by HR.
+                            </li>
+                        </ul>
+                        <br>
+                        <p>
+                            “<strong>Close relationship” refers to:</strong> (I) any person in the employee’s immediate
+                            or extended family by virtue of
+                            birth, adoption, or marriage; or (II) any person with whom the employee has a close personal
+                            relationship.
+                            “Close relationship” would include spouse, partner, parents, children, siblings, in-laws,
+                            grandparents,
+                            grandchildren, stepparents, step-children, half-siblings, cousins, uncles, aunts and
+                            friends.
+                        </p>
+                        <br>
+                        <br>
+                        <p>
+                            <strong>“Board member” refers to</strong> a member of the governing board of an organization
+                            who is either elected or
+                            appointed as per prevailing laws or articles/by laws of Infogain, and who has powers and
+                            duties relating to
+                            management or administration, to make important company policy decisions.
+                        </p>
+
+                        <h3>3.2. Action to be taken when faced with a Conflict-of-Interest situation
+                        </h3>
+                        <p>
+                            All Infogain employees have a duty of transparency concerning conflicts of interest; making
+                            a declaration about
+                            such conflicts is in their best professional interest. When an employee is faced with an
+                            actual, potential, or
+                            perceived conflict of interest, they must promptly inform Infogain, to obtain a written
+                            decision on how to
+                            proceed. The purpose of this declaration is to take an ethical decision by clarifying the
+                            situation, thus ensuring
+                            the continuity of business in accordance with Infogain interests.
+                        </p>
+
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="4" [isSignEditable]="Day1FormData?.isEditable"
+                        [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page4"
+                    [CandidateSignatureModel]="CandidateSignatureModel"
+                    [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+
+                        <ul class="ul-common list-disc-ml-27">
+                            <li>Declarations should be made before engaging in conduct or acquiring a particular
+                                interest, that may
+                                be questionable. </li>
+                            <li>All Infogain team managers have an additional duty to prevent and detect any conflicts
+                                of interest of
+                                employees who report to them, and they must therefore educate and inform these employees
+                                to
+                                declare conflicts of interest. </li>
+                            <li> The decision taken by Infogain is communicated to the employee through email, and the
+                                employee
+                                must acknowledge receipt of the decision, and commit to adhering to the decision. </li>
+
+                        </ul>
+                        <br>
+                        <h3>3.1.DO’S AND DON’TS
+                        </h3>
+                        <ul class="ul-common list-disc-ml-27">
+                            <li>Always inform Infogain of an actual, potential, or perceived conflict of interest. There
+                                is nothing wrong
+                                with being confronted with a conflict of interest; what matters is to be aware of it and
+                                declare it. </li>
+                            <li>Do conduct your relationship with customers, suppliers, subcontractors, and business
+                                partners free
+                                from conflicts of interest and in a professional, impartial, and objective manner. </li>
+                            <li>Do not invest in a supplier, customer, competitor, consulting company, or any business
+                                partner if the
+                                nature of the investments might affect a business decision. </li>
+                            <li>Do not participate in the hiring, supervision, management, or career planning of anyone
+                                with whom
+                                you have a close relationship or anyone in a close relationship with a person with whom
+                                you have a
+                                close relationship. </li>
+                            <li>Do not participate in the hiring, supervision, management, or career planning of anyone
+                                who has a
+                                close relationship with your line management. </li>
+                            <li>
+                                As professional situations evolve, pay attention to potential conflicts of interest that
+                                may arise from a
+                                new position held by you or someone with whom you have a close relationship.
+                            </li>
+
+                        </ul>
+                        <h3>Unless you have prior approval from Infogain</h3>
+                        <ul class="ul-common list-disc-ml-27">
+                            <li>
+                                Do not take a second job or start or participate in an alternative business (for example
+                                a consulting or
+                                freelance assignment), even if it is in compliance with your employment agreement, where
+                                your other
+                                employer is a direct or indirect competitor, supplier, customer, business partner, or a
+                                charitable
+                                beneficiary of Infogain.
+                            </li>
+                            <li>
+                                Do not deal directly with a customer, supplier, subcontractor, business partner, or a
+                                charitable
+                                beneficiary, if you have, or someone with whom you have a close relationship has, an
+                                interest in such
+                                third parties (for example, for an investment, employment, or a directorship).
+                            </li>
+                            <li>
+                                As every conflict-of-interest situation is unique, make sure you declare it, even if a similar conflict-of-interest situation has been approved for you or your colleague in the past.
+
+                            </li>
+                        </ul>
+
+                        <h3>3.2.Violations of the Conflicts of Interest Policy</h3>
+                        <ul class="ul-common list-disc-ml-27">
+                            <li>
+                                If Infogain has reasonable cause to believe an employee, Officer, or Board Member has failed to 
+                                disclose actual or possible conflicts of interest, it shall inform such person of the basis for such belief 
+                                and afford such person an opportunity to explain the alleged failure to disclose.
+                            </li>
+                            <li>
+                                If, after hearing such a person's response and after making further investigation as warranted by the 
+                                circumstances, the Infogain determines that the person has failed to disclose an actual or possible 
+                                conflict of interest, it shall take appropriate disciplinary and corrective action.
+                            </li>
+                        </ul>
+
+                        <!-- <h2>4. DISCLAIMER</h2>
+                        <p>
+                            The Management has the right to review, modify and rescind this policy at any given point of time.
+                        </p> -->
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="5" [isSignEditable]="Day1FormData?.isEditable"
+                        [pageTotal]="pageTotal" [candidatePersonalDetails]="candidatePersonalDetails"                        
+                        (getLatestSignature)="getLatestSignature($event)"  [signimagesrc]="this.CandidateSignatureModel?.page5"
+                        [CandidateSignatureModel]="CandidateSignatureModel"
+                        [isVisisbleSign]="true"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+
+        </section>
+        <!-- end section -->
+
+        <section class="day1-doc-sec">
+            <div class="day1-doc-sec-inner">
+                <div class="formDay1-header">
+                    <lib-pdf-header-day1 [formId]="formId" [rightTextHeader]="rightTextHeader"></lib-pdf-header-day1>
+                </div>
+                <!-- end header -->
+                <!-- end header -->
+                <div class="doc-custom-digital-ui">
+                    <div class="content-inner-secv">
+                        <h2>4. DISCLAIMER</h2>
+                        <p>
+                            The Management has the right to review, modify and rescind this policy at any given point of time.
+                        </p>
+                        <br>
+                        <br>
+                        <div class="form-card-wrapper day1-form-inc">
+                            <div class="table-o-at padding-bottom-300">
+    
+                                <table class="table ">
+                                    <tbody>
+                                        <tr>
+                                            <td class="title-tb">Employee Name</td>
+                                            <td>: {{(candidatePersonalDetails?.FirstName ? candidatePersonalDetails?.FirstName : '')+' '+(candidatePersonalDetails?.MiddleName ? candidatePersonalDetails?.MiddleName : '')+' '+(candidatePersonalDetails?.LastName ? candidatePersonalDetails?.LastName : '')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Employee Code </td>
+                                            <td>: {{(candidatePersonalDetails?.EmployeeId ? candidatePersonalDetails?.EmployeeId : '')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Date </td>
+                                            <td>: {{todayDate | date:'dd-MMM-YYYY'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title-tb">Signature </td>
+                                            <td>:
+                                                <!-- pending with candidate || referred back by recruiter -->
+                                                <button *ngIf="!this.CandidateSignatureModel?.page6 && Day1FormData?.isEditable"
+                                                    type="button" class="btn btn-simple-ats" (click)="signFinal(data)">
+                                                    Insert Sign
+                                                </button>
+                                                <div class="sign-wrap" *ngIf="this.CandidateSignatureModel?.page6">
+                                                    <img [src]="this.CandidateSignatureModel?.page6" class="sign-img-b" />
+                                                    <!-- <mat-icon *ngIf="Day1FormData?.isEditable" matSuffix
+                                                        
+                                                        (click)="signUpdate(data)">edit_note</mat-icon> -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="formDay1-footer">
+                    <lib-pdf-footer-day1 [leftText]="leftText" [formId]="formId" [page]="6"
+                        [pageTotal]="pageTotal"
+                    [isVisisbleSign]="false"></lib-pdf-footer-day1>
+                </div>
+                <!-- end footer -->
+            </div>
+            <!-- end inner -->
+    
+        </section>
+        <!-- end section -->
+    </div>

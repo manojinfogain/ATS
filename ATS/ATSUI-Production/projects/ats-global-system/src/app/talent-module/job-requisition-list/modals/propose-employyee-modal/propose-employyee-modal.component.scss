@@ -1,0 +1,38 @@
+.form-appr{
+    margin-top: 10px;
+}
+
+.box-v-ats {
+    padding-bottom: 0px !important;
+}
+
+.widthProEnd{
+    width: 300px !important;
+    white-space: pre-wrap !important;
+}
+.ats-forms.ats-forms-horz4 .ats-form-col {
+    width: 29% !important;
+}
+.ats-forms.ats-forms-horz3 .ats-form-col {
+    width: 41.3% !important;
+    margin-bottom: -10px !important;
+}
+
+.slider-exp-control {
+    border: solid #55cbf3 1.2px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-top: 2px;
+    .ngx-slider {
+        height: 0 !important;
+        margin: 9px 0 14px !important;
+        .ngx-slider-pointer {
+            background: #0db9f0 !important;
+        }
+    }
+}
+
+.max-height-200 {
+    max-height: 200px;
+}
+

@@ -1,0 +1,249 @@
+<form [formGroup]="sodexoForm" (ngSubmit)="submitSodexoForm(sodexoForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper">
+                <div class="form-logo">
+                    <img src="assets/images//logo/logo-head.png" alt="" />
+                </div>
+
+                <p>
+                    Whether you want to avail Sodexo Benefit <br>
+                    <mat-radio-group *ngIf="data?.isEditable" aria-label="Select an option" formControlName="SudexoBenefit"  (change)="selectIsSodexo($event?.value)">
+                        <mat-radio-button value="Y">Yes</mat-radio-button>
+                        <mat-radio-button value="N" class="margin-left-10">NO</mat-radio-button>
+                    </mat-radio-group>
+                    <ng-container *ngIf="!data?.isEditable">
+                        {{this?.data?.SudexoBenefit == 'Y' ? 'Yes' : 'No'}}
+                    </ng-container>
+                    <br>
+                    <Strong>Name:
+                        <span class="paragraphP">
+                            <span class="span1">
+                                <span class="span2">
+                                    {{(data?.candidatePersonalDetails?.FirstName ?
+                                    data?.candidatePersonalDetails?.FirstName : '')+'
+                                    '+(data?.candidatePersonalDetails?.MiddleName ?
+                                    data?.candidatePersonalDetails?.MiddleName : '')+'
+                                    '+(data?.candidatePersonalDetails?.LastName ?
+                                    data?.candidatePersonalDetails?.LastName : '')}}
+                                </span>
+                            </span>
+                        </span>
+                    </Strong>
+                    <br>
+                    <Strong *ngIf="data?.candidatePersonalDetails?.divisionid == 7">Employee Code:
+                        <span class="paragraphP">
+                            <span class="span1">
+                                <span class="span2">
+                                    {{'-'}}
+                                </span>
+                            </span>
+                        </span>
+                    </Strong>
+                    <br>
+
+                    To,<br>
+                    The HR Department,<br>
+                    <ng-container *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                        <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 1 || data?.candidatePersonalDetails?.JoiningLocationID == 2 || data?.candidatePersonalDetails?.JoiningLocationID == 4 || data?.candidatePersonalDetails?.JoiningLocationID == 5">                            
+                            {{data?.candidatePersonalDetails?.JoiningLocationID == 2 ? 'Infogain Solutions Pvt. Ltd.' : 'Infogain India Pvt. Ltd.'}}<br>
+                        </ng-container>
+                        <ng-container *ngIf="data?.candidatePersonalDetails?.JoiningLocationID == 16">                            
+                            {{'Infogain Software Solutions Private Limited'}}<br>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="data?.candidatePersonalDetails?.divisionid == 7">
+                        {{'Infogain Software Solutions Private Limited'}}<br>
+                    </ng-container>
+                    
+                    {{joinLocAddr}}.<br><br>
+
+                    I
+                    <span class="paragraphP">
+                        <span class="span1">
+                            <span class="span2">
+                                {{(data?.candidatePersonalDetails?.FirstName ?
+                                data?.candidatePersonalDetails?.FirstName : '')+'
+                                '+(data?.candidatePersonalDetails?.MiddleName ?
+                                data?.candidatePersonalDetails?.MiddleName : '')+'
+                                '+(data?.candidatePersonalDetails?.LastName ?
+                                data?.candidatePersonalDetails?.LastName : '')}}
+                            </span>
+                        </span>
+                    </span>
+                    want to avail Sodexo Benefit from the salary as mentioned below.
+
+                </p>
+
+                <div class="table-o-at">
+                    <!-- <form [formGroup]="pendingDocForm"> -->
+
+                    <mat-radio-group *ngIf="data?.isEditable" aria-label="Select an option" formControlName="SudexoAmount">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Amount To be Availed For</th>
+                                    <th>
+                                        Yes/No<span *ngIf="getControl('SudexoBenefit')?.value == 'Y'" class="mand-sign">*</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                                    <td class="title-tb">
+                                        <div class="form-u-ct">
+                                            1.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        1500
+                                    </td>
+                                    <td>
+                                        <mat-radio-button value="1500">Yes</mat-radio-button>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                                    <td class="title-tb">
+                                        <div class="form-u-ct">
+                                            2.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        2500
+                                    </td>
+                                    <td>
+                                        <mat-radio-button value="2500">Yes</mat-radio-button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="title-tb">
+                                        <div class="form-u-ct">
+                                            
+                                        {{data?.candidatePersonalDetails?.divisionid == 1 ? '3.' : '1.'}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        3000
+                                    </td>
+                                    <td>
+                                        <mat-radio-button value="3000">Yes</mat-radio-button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </mat-radio-group>
+                    <table class="table table-bordered" *ngIf="!data?.isEditable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Amount To be Availed For</th>
+                                <th>
+                                    Yes/No
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                                <td class="title-tb">
+                                    <div class="form-u-ct">
+                                        1.
+                                    </div>
+                                </td>
+                                <td>
+                                    1500
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="!data?.isEditable ">
+                                        {{this?.data?.SudexoAmount.toString() === '1500' ? 'Yes' : 'No'}}
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 1">
+                                <td class="title-tb">
+                                    <div class="form-u-ct">
+                                        2.
+                                    </div>
+                                </td>
+                                <td>
+                                    2500
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="!data?.isEditable ">
+                                        
+                                        {{this?.data?.SudexoAmount.toString() === '2500' ? 'Yes' : 'No'}}
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">
+                                    <div class="form-u-ct">
+                                        {{data?.candidatePersonalDetails?.divisionid == 1 ? '3.' : '1.'}}
+                                    </div>
+                                </td>
+                                <td>
+                                    3000
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="!data?.isEditable ">
+                                        
+                                        {{this?.data?.SudexoAmount.toString() === '3000' ? 'Yes' : 'No'}}
+                                    </ng-container>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <p *ngIf="data?.candidatePersonalDetails?.divisionid == 7">
+                    If yes, please share number Linked with Paytm:
+                    <input type="text" class="ctrl-onb" formControlName="paytmNumberForSodexo" maxlength="10" disableInitialSpace mobNumber [readonly]="data?.isEditable === false">
+                </p><br>
+                <div class="table-o-at">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <td class="title-tb">Employee Signature </td>
+                                <td>:
+                                    <button *ngIf="!signImage && data?.isEditable" type="button" class="btn btn-simple-ats"
+                                        (click)="signt(data)">
+                                        Insert Sign
+                                    </button>
+                                    <div class="sign-wrap" *ngIf="signImage">
+                                        <img [src]="signImage" />
+                                        <mat-icon *ngIf="data?.isEditable" matSuffix class="margin-left-300" (click)="signt(data)">edit_note
+                                        </mat-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Date </td>
+                                <td>: {{todayDate | date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Place</td>
+                                <td>: {{data?.candidatePersonalDetails?.JoiningLocation || '-'}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

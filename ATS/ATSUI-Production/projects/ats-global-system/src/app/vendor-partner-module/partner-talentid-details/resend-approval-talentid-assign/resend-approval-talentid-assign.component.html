@@ -1,0 +1,189 @@
+<form [formGroup]="assignTalentForm" (ngSubmit)="submitForm(assignTalentForm)">
+    <div class="ats-modal-header">
+        <h1>{{this.data?.title}} </h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="ats-forms ats-forms-horz ats-forms-horz3 form-outline-ats ats-form-dark">
+                <div class="ats-form-col">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Talent Id </mat-label>
+                        <input matInput placeholder="Talent Id" maxlength="250" formControlName="thid" disableInitialSpace
+                        required readonly>
+
+                    </mat-form-field>
+                    <!-- <div class="error-outside-control">
+                        <app-talent-id-control-all [isShowSearchIcon]="false"
+                            [talentIdControl]="getControl('thid')" [formFieldAppearance]="'outline'"
+                            [required]="true"></app-talent-id-control-all>
+                        <div class="mt-error-ats"
+                            *ngIf="getControl('thid').touched && getControl('thid').invalid">
+                            <span *ngIf="getControl('thid').errors.required">
+                                Talent Id is required.
+                            </span>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label appRemoveAriaOwns >Contract Type </mat-label>
+                        <mat-select [disableOptionCentering]="true" required
+                            formControlName="candidateType" multiple (selectionChange)="getcontractTypeID($event)" >
+                            <!-- <div class="select-all">
+                                <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                              </div> -->
+                            <mat-option *ngFor="let list of contactList" [value]="list.ID">
+                                {{list?.ContractType}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="getControl('candidateType').touched && getControl('candidateType').invalid">
+                            <div *ngIf="getControl('candidateType').errors.required">
+                                Contract Type is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+
+                <div class="ats-form-col">
+                    <div class="error-outside-control">
+                        <app-partner-list-control [formFieldAppearance]="'outline'"
+                            [parentIdControl]="getControl('PartnerIDs')" [required]="true"
+                             (getDataIdPartner)="getDataIdsPartners($event)"
+                            (getPartnerList)="getPartnerList($event)" [contractTypeID]="contractTypeID"  [partnerStatus]="'4'"></app-partner-list-control>
+                        <div class="mt-error-ats"
+                            *ngIf="getControl('PartnerIDs').touched && getControl('PartnerIDs').invalid">
+                            <span *ngIf="getControl('PartnerIDs').errors.required">
+                                Partner is required.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col">
+                    <div class="error-outside-control">
+                        <mat-form-field appearance="outline" class="place-from-control">
+                            <mat-label appRemoveAriaOwns >Reason For Assign</mat-label>
+                            <mat-select formControlName="reasonid" required>
+                                <mat-option *ngFor="let data of reasonForAssingList"
+                                    [value]="data?.ReasonId">
+                                    {{data?.Reason}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="mt-error-ats"
+                            *ngIf="getControl('reasonid').touched && getControl('reasonid').invalid">
+                            <span *ngIf="getControl('reasonid').errors.required">
+                                Reason for assign is required.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col" *ngIf="isLocationUS">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label appRemoveAriaOwns >Salary Type</mat-label>
+                        <mat-select formControlName="SalaryType" (selectionChange)="selectSalaryType($event)">
+                            <mat-option *ngFor="let data of salaryTypeList" [value]="data.id">
+                                {{data?.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- validate -->
+                    <mat-error *ngIf="getControl('SalaryType')?.touched && getControl('SalaryType')?.invalid">
+                        <div *ngIf="getControl('SalaryType')?.errors.required">
+                            Salary Type is required.
+                        </div>
+                    </mat-error>
+
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col"  *ngIf="isLocationUS">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>{{BasePayLabel}}</mat-label>
+                        <input matInput placeholder={{BasePayLabel}} maxlength="10" disableInitialSpace
+                            formControlName="basePay" onlyDecimalNumber >
+                            <mat-icon matPrefix>attach_money</mat-icon>
+                        <mat-hint align="end" class="mat-hint-pt-j">{{getControl('basePay').value |
+                            convertToWord:2}}</mat-hint>
+                    </mat-form-field>
+                    <mat-error *ngIf="getControl('basePay').touched && getControl('basePay').invalid">
+                        <div *ngIf="getControl('basePay').errors.required">
+                            {{BasePayLabel}} is required.
+                        </div>
+                    </mat-error>
+                </div>
+                <!-- end col -->
+                <div class="ats-form-col"  *ngIf="isLocationUS">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label appRemoveAriaOwns >Working Remote Status</mat-label>
+                        <mat-select [disableOptionCentering]="true" required
+                            formControlName="workingRemoteStatus">
+                            <mat-option *ngFor="let list of remoteStatusList"
+                                [value]="list?.ID">{{list?.RemoteStatus}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="getControl('workingRemoteStatus').touched && getControl('workingRemoteStatus').invalid">
+                        <div *ngIf="getControl('workingRemoteStatus').errors.required">
+                            Working Remote Status is required.
+                        </div>
+                    </mat-error>
+                </div>
+                <!-- end col -->
+                <!-- end col -->
+                <div class="ats-form-col">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label appRemoveAriaOwns >{{isLocationUS?'TAG Lead Approver':'TAG Lead Approver'}}</mat-label>
+                        <mat-select formControlName="TAGLeadID" required>
+                            <mat-option>
+                                <ngx-mat-select-search class="mat-selec-search-youxta"
+                                    [formControl]="FilterCtrlTAG" [noEntriesFoundLabel]="'No record Found'"
+                                    [placeholderLabel]="'Search'" [clearSearchInput]="false">
+
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let list of tagHeadList | panelFilter:searchInput"
+                                [value]="list.empnewid">
+                                {{list?.fullName}}{{"("+ list.empnewid +")"}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- validate -->
+                        <mat-error
+                            *ngIf="getControl('TAGLeadID')?.touched && getControl('TAGLeadID')?.invalid">
+                            <div *ngIf="getControl('TAGLeadID')?.errors.required">
+                                {{isLocationUS?'TAG Lead Approver':'TAG Lead Approver'}} is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <!-- end col -->
+              
+                <div class="ats-form-col">
+                    <mat-form-field appearance="outline" class="place-from-control">
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput placeholder="Enter Remark" formControlName="Remarks"
+                            disableInitialSpace></textarea>
+
+                    </mat-form-field>
+                </div>
+                <!-- end col -->
+            </div>
+        </div>
+    </div>
+
+    <div class="ats-modal-footer">
+        <button type="submit" class="btn btn-infocon">
+            Update
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

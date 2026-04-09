@@ -1,0 +1,78 @@
+<div class="info-connect-right">
+    <div class="page-content-wrapper">
+        <div class="page-container-inner">
+            <div class="page-container-header clearfix">
+                <div class="page-title-left float-left">
+                    <app-breadcrumbs></app-breadcrumbs>
+                </div>
+                <div class="search-input float-left">
+                </div>
+                <!-- end search field -->
+            </div>
+            <!-- end content header  -->
+            <div class="content-body" *ngIf="isRejectFormVisible">
+                <form [formGroup]="rejectActionForm">
+                    <div class="ats-content-card">
+                        <div class="ats-content-card-body">
+                            
+                            <div class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                                <div class="ats-form-col">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Reason Category</mat-label>
+                                        <mat-select formControlName="reasonCategory"
+                                            (selectionChange)="getReasonCategId($event)">
+                                            <mat-option *ngFor="let data of reasonCategList" [value]="data?.CateID">
+                                                {{data?.Category}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- *ngIf="isRejectTalent" -->
+                                <div class="ats-form-col" >
+                                    <mat-form-field appearance="outline">
+                                        <mat-label appRemoveAriaOwns >Sub Reason</mat-label>
+                                        <mat-select formControlName="subReason"
+                                            [disabled]="!getControl('reasonCategory').valid">
+                                            <mat-option *ngFor="let data of reasonList" [value]="data?.SubCateID">
+                                                {{data?.SubCategory}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="ats-form-col">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Remarks</mat-label>
+                                        <input matInput placeholder="remarks" maxlength="250" disableInitialSpace
+                                         >
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="ats-form-col action-wrapper remark-wrap">
+                                    <mat-form-field appearance="outline" class="place-from-control">
+                                        <mat-label>Remarks</mat-label>
+                                        <textarea matInput placeholder="Remarks" maxlength="500" disableInitialSpace
+                                            formControlName="remarks"></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <!-- end -->
+        
+                            </div>
+                        </div>
+                        <div class="ats-content-card-footer">
+                          <button type="button" (click)="submitApprove(rejectActionForm)" class="btn btn-infocon">Submit
+                              <i class="fa fa-save"></i>
+                          </button>
+                         
+                        </div>
+                      
+                    </div>
+                  </form>
+            </div>
+            <!-- end content body -->
+
+        </div>
+        <!-- end inner container -->
+
+    </div>
+    <!-- end page content wrapper -->
+</div>
+<!-- end right wrapper -->

@@ -1,0 +1,194 @@
+<div class="ats-modal-header">
+    <h1>{{data.title}} - {{data?.CTHID}}</h1>
+    <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+</div>
+<div mat-dialog-content>
+    <div class="ats-modal-body ats-form-ui-enhance-font">
+        <!-- <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Candidate Details</h4>
+            </div>
+            <div class="box-v-body">
+                <div class="view-list-dt-wrap view-list-dt-appr box-shadow-c">
+                    <div class="view-list-bx">
+                        <h4>Candidate Name:</h4>
+                        <p>{{offerAprDt?.Name || '-'}}</p>
+                    </div>
+                    <div class="view-list-bx">
+                        <h4>Candidate Email:</h4>
+                        <p>{{offerAprDt?.email || '-'}}</p>
+                    </div>
+                  
+                </div>
+            </div>
+        </div> -->
+        <!-- end -->
+        <div class="box-v-ats">
+            <div class="box-v-header">
+                <h4>Select Candidate</h4>
+            </div>
+
+            <div class="form-appr">
+                <form [formGroup]="employeeReferForm">
+                    <div
+                        class="ats-forms ats-forms-horz ats-form-normal-font ats-forms-horz4 form-outline-ats ats-form-dark">
+                        <div class="ats-form-col">
+                            <app-skill-set [panelIdControl]="getControl('primarySkill')" [title]="'Skill'"
+                                [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+                                [isMultiple]="true" (getSkillIdOutput)="getPriSkillId($event)">
+                            </app-skill-set>
+                             <mat-error *ngIf="getControl('primarySkill').touched && getControl('primarySkill').invalid">
+                                <div *ngIf="getControl('primarySkill').errors?.required">
+                                   Please Select candidate skills.
+                                </div>                               
+                            </mat-error>
+                        </div>
+                        <div class="ats-form-col">
+                            <app-departments-control [panelIdControl]="getControl('department')" [title]="'Department'"
+                                [formFieldAppearance]="'outline'" [floatLabel]="'always'" [isAllOption]="true"
+                                [isMultiple]="true" (getDataSource)="getDepartmentId($event)">
+                            </app-departments-control>
+                        </div>
+                        <div class="ats-form-col">
+                            <div class="slider-exp-control" matTooltip="Select Experience">
+                                <ngx-slider (userChangeEnd)="expControlUpdate($event)" formControlName="experince"
+                                    [options]="optionsExp"></ngx-slider>
+                            </div>
+                        </div>
+                        <div class="ats-form-col" >
+                            <div class="show-only-name-wrap">
+                                <div class="names-only">
+                                    <label class="label-heading">Experience ( Yrs. )</label>
+                                    <p>{{expData?.value || '0'}} -  {{expData?.highValue || '30'}}  </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ats-form-col">
+                            <app-talent-employees-refer-control [IdControl]="getControl('referEmployees')"
+                                [title]="'Employee List'" [isMultiple]="true" [floatLabel]="'always'"
+                                [filterSkill]="filterSkill" [filterMinExp]="filterMinExp" [filterMaxExp]="filterMaxExp"
+                               [filterdeparment]="filterdeparment" [formFieldAppearance]="formAppearance" (getDataSource)="getreferEmployeeId($event)"
+                                (getDataEmpList)="getReferEmpList($event)" (getUncheckedId)="getUncheckedId($event)"
+                                [isProposeEmp]="true" [isDisableEmpDropdown]="isDisableEmpDropdown" >
+                            </app-talent-employees-refer-control> 
+                            <!-- <mat-error *ngIf="getControl('referEmployees').touched && getControl('referEmployees').invalid">
+                                <div *ngIf="getControl('referEmployees').errors?.required">
+                                   Please Select a Candidate.
+                                </div>                               
+                            </mat-error> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end -->
+        </div>
+
+        <!-- section -->
+        <div class="box-v-ats" *ngIf="currentSelectedEmployeeList?.length">
+            <div class="box-v-header">
+                <h4> Selected Candidate List</h4>
+            </div>
+
+            <!-- <div class="form-appr">
+                  
+            </div>  -->
+            <div class="box-v-body table-body">
+                <div class="apr-list aprover-dt-list max-height-200">
+                    <table mat-table [dataSource]="currentSelectedEmployeeList" class="table-mat-info">
+                        <ng-container matColumnDef="srNo">
+                            <th mat-header-cell *matHeaderCellDef>S. No</th>
+                            <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="empName">
+                            <th mat-header-cell *matHeaderCellDef>Emp Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.EmployeeName || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="empId">
+                            <th mat-header-cell *matHeaderCellDef>Emp ID</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.EmpId || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="designation">
+                            <th mat-header-cell *matHeaderCellDef>Designation</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Designation || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="experience">
+                            <th mat-header-cell *matHeaderCellDef>Experience </th>
+                            <td mat-cell *matCellDef="let element"> {{element?.TotalExperinceYear || '-'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Grade">
+                            <th mat-header-cell *matHeaderCellDef>Grade</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.Grade || '-'}}</td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="project">
+                            <th mat-header-cell *matHeaderCellDef>Project Name ( Project End Date )</th>
+                            <td mat-cell *matCellDef="let element" class="widthProEnd">
+                                <ng-container *ngIf="element?.ProjectName">
+                                    <ng-container *ngFor="let item of element?.ProjectName.split('|')">
+                                        {{item}} <br>
+                                    </ng-container>
+                                </ng-container>
+                               
+                            </td>
+                        </ng-container> -->
+                        <ng-container matColumnDef="AccountName">
+                            <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.AccountName || '-'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="skills">
+                            <th mat-header-cell *matHeaderCellDef>Skill Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.SkillName || '-'}}</td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="Location">
+                            <th mat-header-cell *matHeaderCellDef>Location</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.LocationName || '-'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="action" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef><i class="fas fa-edit"></i> Action</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                                <div class="btn-action btn-action-centerz">
+                                    <!-- delete
+                                *ngIf="element?.SubStatusID == 1 && userData?.otherRoles?.IsWMG =='Y'"-->
+                                    <div class="btn-act">
+                                        <button mat-button type="button" matTooltip="delete"
+                                            (click)="deleteCurrentEmp(element)">
+                                            <!-- <span class="material-icons-outlined">
+                                      check
+                                    </span> -->
+                                            <span class="material-icons-outlined">
+                                                delete
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <!-- ends -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"
+                            [ngClass]="{'trActive':row?.isActive != 1}"></tr>
+                    </table>
+                    <app-no-result-found [searchedValue]="searchInput"
+                        *ngIf="currentSelectedEmployeeList?.length === 0 || currentSelectedEmployeeList?.length === null">
+                    </app-no-result-found>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <button type="button" class="btn btn-infocon" (click)="submitReferFormHandler(employeeReferForm)">
+            Propose
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="resetFilterHandler()">Reset Filters
+        </button>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>

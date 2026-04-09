@@ -1,0 +1,90 @@
+<div class="ats-modal-header">
+    <h1>{{'History of Talent ID'}} - {{data?.CTHID}}</h1>
+    <button class="btn-m-close" (click)="onNoClick()"><i class="fa fa-times"></i></button>
+    <mat-progress-bar mode="query" class="res-progress" *ngIf="isloader"></mat-progress-bar>
+</div>
+<div mat-dialog-content>
+
+    <div class="ats-modal-body">
+        <div class="profile-list-wrapper">
+            <div class="header-s">
+                <div class="left-s-av"></div>
+                <div class="search-bars">
+                    <div class="filter-at-wrapper">
+                        <div class="s-fil">
+                        </div>
+                        <div class="s-fil">
+                            <div class="act-header-btn">
+                                <ul>
+                                    <li class="dash-dnld-icon">
+                                        <a href="javascript:void(0)"
+                                            [ngClass]="{'disable-dowlnd-btn': talentHistoryList?.length === 0}"
+                                            (click)="exportAsXLSX()">
+                                            <span class="material-icons-outlined" matTooltip="Download History">
+                                                download
+
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-data-scroll-pop min-height-200">
+                <table mat-table [dataSource]="talentHistoryList" class="table-mat-info" id="exportTable">
+                    <ng-container matColumnDef="srNo">
+                        <th mat-header-cell *matHeaderCellDef>S. No</th>
+                        <td mat-cell *matCellDef="let element; let i=index" class="text-center"> {{i+1}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="modifiedOn">
+                        <th mat-header-cell *matHeaderCellDef>Modified On</th>
+                        <td mat-cell *matCellDef="let element">
+                             <!-- {{element?.MODIFIED_ON ? (element?.MODIFIED_ON | date:'d MMM y') : '-'}} -->
+                           
+                            {{element?.MODIFIED_ON ? (element?.MODIFIED_ON | date: 'MMM d, y, h:mm a') : '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="modifiedBy">
+                        <th mat-header-cell *matHeaderCellDef>Modified By</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.MODIFIED_BY || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.SUB_STATUS_NAME || '-'}}</td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="wmgCommitDate">
+                        <th mat-header-cell *matHeaderCellDef>WMG Commit <br> Date</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.WMG_commit_date ? (element?.WMG_commit_date | date:'d MMM y') : 'NA'}}
+                        </td>
+                    </ng-container>
+                    
+                    
+                    <ng-container matColumnDef="TAGCommitDate">
+                        <th mat-header-cell *matHeaderCellDef>TAG Commit <br> Date</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.TAG_commit_date ? (element?.TAG_commit_date | date:'d MMM y') : 'NA'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Remarks">
+                        <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.TAG_Remark || '-'}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                    *ngIf="talentHistoryList?.length === 0"></app-no-result-found>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="ats-modal-footer">
+      <app-custom-paginator [total]="paginationData?.Total" (sendPagingData)="getPagingData($event)"
+        [pageSizeOptions]="pazeOption" [pageSize]="pazeSize"></app-custom-paginator>
+    </div>  -->

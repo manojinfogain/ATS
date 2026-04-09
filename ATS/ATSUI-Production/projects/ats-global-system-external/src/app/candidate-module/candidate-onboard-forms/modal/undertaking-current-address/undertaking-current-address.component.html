@@ -1,0 +1,95 @@
+<form [formGroup]="currAddUndertakingForm" (ngSubmit)="submitCurrAddUndertakingForm(currAddUndertakingForm)">
+    <div class="ats-modal-header">
+        <h1>{{data?.title}}</h1>
+        <button class="btn-m-close" type="button" (click)="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div mat-dialog-content>
+        <div class="ats-modal-body">
+            <div class="form-card-wrapper">
+
+                <!-- <h3 class="line-h">Undertaking For Current Address Proof</h3> -->
+                <div class="form-logo">
+                    <img src="assets-lib/images/logo/Infogain-logo.png" alt=""/>
+                </div>
+                <p>
+                    I
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{fullName}}
+                            </span>
+                        </span>
+                    </span>            
+                    <!-- <input type="text" class="ctrl-onb text-align-center" formControlName="candidateName" readonly>  -->
+                    certify that I am currently living in a temporary accommodation & my current address is as mentioned
+                    below. As soon as I will find a permanent accommodation I will provide the address proof for the
+                    same.
+                    <br>
+                    <span class="paragraphP">
+                        <span class= "span1">
+                            <span class= "span2">
+                                  {{addressLine1+','+addressLine2}}
+                            </span>
+                        </span>
+                    </span>  
+                    <br>
+                    <!-- <input type="text" class="ctrl-onb full-width" formControlName="addressLine1" readonly><br> -->
+                    <!-- <input type="text" class="ctrl-onb full-width" formControlName="addressLine2" readonly> -->
+                    The information provided above is true to the best of my knowledge & I hold the responsibility for
+                    any discrepancy in the same.
+                </p>
+
+                <div class="table-o-at">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <td class="title-tb">Employee Name</td>
+                                <td>: 
+                                    <!-- {{(data?.candidatePersonalDetails?.FirstName ? data?.candidatePersonalDetails?.FirstName : '')+' '+(data?.candidatePersonalDetails?.MiddleName ? data?.candidatePersonalDetails?.MiddleName : '')+' '+(data?.candidatePersonalDetails?.LastName ? data?.candidatePersonalDetails?.LastName : '')}} -->
+                                    {{fullName}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="data?.candidatePersonalDetails?.divisionid == 2 || data?.candidatePersonalDetails?.divisionid == 7">
+                                <td class="title-tb">Employee Code</td>
+                                <td>: {{(data?.candidatePersonalDetails?.EmployeeCode ? data?.candidatePersonalDetails?.EmployeeCode : '-')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">Employee signature </td>
+                                <td>:
+                                    <button *ngIf="!signImage && data?.isEditable" type="button" class="btn btn-simple-ats"
+                                        (click)="signt(data)">
+                                        Insert Sign
+                                    </button>
+                                    <div class="sign-wrap" *ngIf="signImage">
+                                        <img [src]="signImage" />
+                                        <mat-icon *ngIf="data?.isEditable" matSuffix class="margin-left-300" (click)="signt(data)">edit_note</mat-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="title-tb">Date </td>
+                                <td>: {{todayDate | date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="title-tb">H.R. Signature</td>
+                                <td>: </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ats-modal-footer text-center">
+        <ng-container *ngIf="data?.isEditable">
+            <button type="submit" class="btn btn-infocon">
+                {{data?.Status == 'D' ? 'Update' : 'Save'}}
+            </button>
+        </ng-container>
+        <button type="button" class="btn btn-simple-ats" (click)="closeModal()">Cancel
+        </button>
+    </div>
+</form>

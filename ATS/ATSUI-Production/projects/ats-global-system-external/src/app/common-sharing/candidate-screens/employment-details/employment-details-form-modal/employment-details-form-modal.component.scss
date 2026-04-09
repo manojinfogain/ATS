@@ -1,0 +1,38 @@
+.duration-date{
+    text-align: center;
+    margin: 0 !important;
+}
+
+.descript-col{
+    width: 50% !important;
+}
+
+.mat-error {
+    /* font-size: 0.7rem; */
+    margin-top: 2px !important;
+    span {
+        font-size: 10px;
+       // font-weight: 600;
+    }
+}
+
+.hint-wrap {
+    /* display: flex; */
+    margin-top: 2px !important;
+}
+
+.mat-hint-pt-j{
+    margin-bottom: 10px !important;
+}
+
+.new-cls{
+    display: flex;
+}
+.till-date-chkbx{
+    width: 50%;
+    padding-left: 25px;
+    padding-top: 6px
+}
+.wd{
+    width: 50%;
+}

@@ -1,0 +1,294 @@
+<mat-card>
+    <div class="card">
+        <div class="card-header  card-header-flex">
+            <div class="ats-left-h">
+
+            </div>
+            <div class="erp-search-input ats-right-h">
+                <div class="filter-at-wrapper">
+                    <div class="not-eligiblle" *ngIf="ijpJobViewListEligibl?.IsEligibleForIJP==0">
+                        <p class="text">You are not eligible for any below IJP(s)</p>
+                    </div>
+                    <div class="s-fil">
+                        <div class="act-header-btn criteria-class">
+                            <ul>
+                                <li>
+                                    <app-search-filter (sendKeyValue)="getSearchValueKey($event)"
+                                        matTooltip="Search By Talent ID"
+                                        [placeHolder]="'Search By Talent ID'" [searchServerSide]="true"
+                                        [isReset]="isResetSearch"></app-search-filter>
+                                </li>
+
+                                <li (click)="viewPolicy()" matTooltip="Internal Job Posting Policy">
+                                    <a href="javascript:void(0)">
+                                        <span class="material-icons-outlined">
+                                            policy
+                                        </span>
+                                    </a>
+                                    <label class="icon-label">IJP Policy </label>
+                                </li>
+                                <li>
+                                    <button mat-button
+                                        popoverClass="password-suggestion password-suggestion-for criteria-popup-main"
+                                        placement="left top" [ngbPopover]="popContent"
+                                        [autoClose]="true" container="body" matTooltip="Criteria">
+                                        <span class="material-icons-outlined help-icon">
+                                            help
+                                        </span>
+                                        <label class="icon-label">
+                                            Who can apply
+                                        </label>
+                                    </button>
+                                </li>
+                                <li>
+                                    <app-filter-sort (getSortFormData)="getSortData($event)"
+                                        [form]="sortFormFilter" [account]="true" [accountMulti]="true"
+                                        [companyLocation]="true" [LocationMulti]="true"
+                                        [AppliedListCheckBoxIjp]="true"
+                                        [appliedIjpTitle]="'Opportunities in Infogain'" [prSkill]="true"
+                                        [skillMulti]="true" [grade]="true" [gradeMulti]="true"
+                                        [gradeIds]="[203, 219,220,205,206,207,208]" [ijpStatus]="true"
+                                        [ijpStatusMulti]="true" [screenType]="'I'" [isPractice]="true"
+                                        [practiceMulti]="true"
+                                        [isNumberSliderRange]="true"></app-filter-sort>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Material Table -->
+            <div class="table-scroll-bd">
+                <table mat-table [dataSource]="ijpJobViewList" class="table-mat-info">
+                    <ng-container matColumnDef="Location">
+                        <th mat-header-cell *matHeaderCellDef>Location</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.locationName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RequisitionId">
+                        <th mat-header-cell *matHeaderCellDef> Requisition ID</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.TalentId || '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="ijpName">
+                        <th mat-header-cell *matHeaderCellDef> IJP Name</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="div-ijp" *ngIf="element?.ijpName">
+                                {{(element?.ijpName?.length>50) ? (element?.ijpName | slice:0:50)+'...'
+                                : (element?.ijpName)}}
+                                <mat-chip class="more-btns more-btns-ls"
+                                    *ngIf="element?.ijpName.length > 50"
+                                    popoverClass="list-popover-wrapper"
+                                    (click)="openPop(element?.ijpName,'IJP Name')"
+                                    [ngbPopover]="popContent1" container="body"><span>More...
+                                    </span></mat-chip>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ijpDesignation">
+                        <th mat-header-cell *matHeaderCellDef> Designation</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element.IJPdesignation || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="PrimarySkill">
+                        <th class="cid-col-width" mat-header-cell *matHeaderCellDef>
+                            Primary Skill </th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.skillName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="subSkillName">
+                        <th mat-header-cell *matHeaderCellDef>Sub Skill</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element.subSkillName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="jobDescrip">
+                        <th mat-header-cell *matHeaderCellDef>Job Description</th>
+                        <td mat-cell *matCellDef="let element;">
+                            <div class="div-ijp">
+                                {{(element?.jobDesc.length>50) ? (element?.jobDesc | slice:0:50)+'...' :
+                                (element?.jobDesc)}}
+                                <mat-chip class="more-btns more-btns-ls"
+                                    *ngIf="element?.jobDesc.length > 50"
+                                    popoverClass="list-popover-wrapper"
+                                    (click)="openPop(element?.jobDesc,'Job Description')"
+                                    [ngbPopover]="popContent1" container="body"><span>More...
+                                    </span></mat-chip>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="exp">
+                        <th mat-header-cell *matHeaderCellDef>Experience</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.expRange || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="GradeName">
+                        <th mat-header-cell *matHeaderCellDef>Grade</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.GradeName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdBy">
+                        <th mat-header-cell *matHeaderCellDef>Created By</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.creator || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="projName">
+                        <th mat-header-cell *matHeaderCellDef>Project Name</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.projName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="profielMatchPerchant">
+                        <th mat-header-cell *matHeaderCellDef>Profile Match %</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.FitmentPercentage ? element?.FitmentPercentage + '%' : '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="accountName">
+                        <th mat-header-cell *matHeaderCellDef>Account Name</th>
+                        <td mat-cell *matCellDef="let element;">
+                            {{element?.accountName || '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>IJP Status
+                            <br>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <ng-container [ngSwitch]="element?.AppliedStatusId">
+                                <ng-container *ngSwitchCase="0">
+                                    <button class="btn-status-dg rejects " type="button">
+                                        {{element?.AppliedStatusName}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="1">
+                                    <button class="btn-status-dg schedule" type="button">
+                                        {{element?.AppliedStatusName}}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="2">
+                                    <ng-container [ngSwitch]="element?.ProposalStatusId">
+                                        <ng-container *ngSwitchCase="0">
+                                            <button class="btn-status-dg rejects " type="button">
+                                                {{element?.AppliedStatusName}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="1">
+                                            <button class="btn-status-dg schedule" type="button">
+                                                {{element?.AppliedStatusName}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            <button class="btn-status-dg shortlisted" type="button">
+                                                {{element?.AppliedStatusName}}
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            {{element?.AppliedStatusName || '-'}}
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    {{element?.AppliedStatusName || '-'}}
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef ><i class="fas fa-edit"></i> Action</th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <div class="btn-action btn-action-centerz">
+                                <div class="btn-act">
+                                    <button mat-button type="button"
+                                        [disabled]="element?.IsIJPApplied ==1"
+                                        matTooltip="Click to Apply" (click)="confirmApply(element)">
+                                        <span class="material-icons-outlined">
+                                            business_center
+                                        </span>
+                                    </button>
+                                </div>
+                                <!-- 0 for reject / 1 for applied / 2 for in process -->
+                                <div class="btn-act" *ngIf="element?.AppliedStatusId == 0 || element?.AppliedStatusId == 1 || element?.AppliedStatusId == 2">
+                                    <button mat-button type="button" matTooltip="My Application Details"
+                                        (click)="myAppliedDetailsModal(element)">
+                                        <span class="material-icons-outlined">
+                                            visibility
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="btn-act">
+                                    <button mat-button type="button" matTooltip="View Talent ID Details"
+                                        (click)="viweTalentFullDetailsModal(element)">
+                                        <span class="material-icons-outlined">
+                                            preview
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index"></tr>
+                </table>
+                <app-no-result-found [searchedValue]="searchInput"
+                    *ngIf="ijpJobViewList?.length === 0 || ijpJobViewList?.length === null">
+                </app-no-result-found>
+            </div>
+
+            <div class="ats-paging-sec">
+                <app-custom-paginator #paginatorRef [total]="paginationData?.Total"
+                    (sendPagingData)="getPagingData($event)"></app-custom-paginator>
+            </div>
+        </div>
+
+    </div>
+
+    <ng-template #popContent1>
+        <div class="popover-wraps">
+            <div class="popover-wrap-header">
+                <h4>{{title}}</h4>
+            </div>
+            <div class="popover-wrap-body">
+                <div class="list-chip">
+                    <div [innerHTML]="IJPDetails" class="white-space-pre-wrap"></div>
+                </div>
+            </div>
+        </div>
+        <div class="pass-term">
+        </div>
+    </ng-template>
+    
+    <!-- Popup for info -->
+    <ng-template #popContent>
+        <div class="pass-term">
+            <h4 class="criteria-heading">
+                Eligible Criteria to apply for Opportunity:
+            </h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" [ngClass]="{ 'act': true }">
+                    <span class="material-icons icon-pg icon-pg-ok">check_circle </span>
+                    Employee currently on corporate pool.
+                </li>
+                <li class="list-group-item" [ngClass]="{ 'act': true }">
+                    <span class="material-icons icon-pg icon-pg-error"> highlight_off </span>
+                    <span class="material-icons icon-pg icon-pg-ok">check_circle </span>
+                    Employee who are in a same account from last 18 Months (Rotation).
+                </li>
+                <li class="list-group-item" [ngClass]="{ 'act': true }">
+                    <span class="material-icons icon-pg icon-pg-error"> highlight_off </span>
+                    <span class="material-icons icon-pg icon-pg-ok">check_circle </span>
+                    Employees confirmed for transition.
+                </li>
+            </ul>
+        </div>
+    </ng-template>
+</mat-card>
